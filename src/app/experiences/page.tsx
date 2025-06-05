@@ -45,7 +45,7 @@ interface FeaturedExperience {
   duration: string;
   pricePerPerson: string;
   bookingDetails: string;
-  bookLink: string;
+  // bookLink is now derived dynamically
 }
 
 interface CurateRecommendation {
@@ -84,7 +84,6 @@ const featuredExperiences: FeaturedExperience[] = [
     duration: 'Approx. 2 hours',
     pricePerPerson: 'LKR 3,500',
     bookingDetails: 'Advance Booking Required',
-    bookLink: '/contact?subject=Inquiry: Tea Factory Tour',
   },
   {
     id: 'sapphire-trail',
@@ -95,7 +94,6 @@ const featuredExperiences: FeaturedExperience[] = [
     duration: 'Approx. 3 hours',
     pricePerPerson: 'LKR 5,000',
     bookingDetails: 'Advance Booking Required',
-    bookLink: '/contact?subject=Inquiry: Sapphire Trail',
   },
   {
     id: 'waterfall-hike',
@@ -106,7 +104,6 @@ const featuredExperiences: FeaturedExperience[] = [
     duration: 'Approx. 4 hours',
     pricePerPerson: 'LKR 4,000',
     bookingDetails: 'Subject to Weather Conditions',
-    bookLink: '/contact?subject=Inquiry: Waterfall Hike',
   },
   {
     id: 'cultural-dance',
@@ -117,7 +114,6 @@ const featuredExperiences: FeaturedExperience[] = [
     duration: '1 hour',
     pricePerPerson: 'Complimentary for guests',
     bookingDetails: 'Every Friday Evening',
-    bookLink: '/contact?subject=Inquiry: Cultural Dance',
   },
   {
     id: 'sunrise-yoga',
@@ -128,7 +124,6 @@ const featuredExperiences: FeaturedExperience[] = [
     duration: '1 hour',
     pricePerPerson: 'LKR 1,500',
     bookingDetails: 'Daily, book in advance',
-    bookLink: '/contact?subject=Inquiry: Sunrise Yoga',
   },
   {
     id: 'kids-club',
@@ -139,7 +134,6 @@ const featuredExperiences: FeaturedExperience[] = [
     duration: 'Flexible hours',
     pricePerPerson: 'LKR 2,000 per child/day',
     bookingDetails: 'Ages 4-12',
-    bookLink: '/contact?subject=Inquiry: Kids Discovery Club',
   },
 ];
 
@@ -230,7 +224,7 @@ export default function ExperiencesPage() {
                     <div className="flex items-center"><CalendarCheck className="w-3.5 h-3.5 mr-1.5 text-primary" /> {exp.bookingDetails}</div>
                   </div>
                   <Button asChild className="w-full mt-auto bg-primary text-primary-foreground hover:bg-primary/90 rounded-md">
-                    <Link href={exp.bookLink}>Book This Experience</Link>
+                    <Link href={`/experiences/book/${exp.id}`}>Book This Experience</Link>
                   </Button>
                 </CardContent>
               </Card>

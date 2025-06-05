@@ -1,4 +1,6 @@
 
+import type { LucideIcon } from 'lucide-react';
+
 export interface Room {
   id: string;
   name: string;
@@ -65,3 +67,33 @@ export interface BreadcrumbItem {
   label: string;
   href?: string;
 }
+
+export interface GalleryImageItem {
+  src: string;
+  alt: string;
+  hint: string;
+}
+
+export interface ExperienceDetailItem {
+  icon: LucideIcon;
+  label: string;
+  value: string;
+}
+export interface ExperienceDetail {
+  id: string; // Should match an ID from featuredExperiences
+  pageTitle: string; // e.g., "Book Your Cultural Dance Performance"
+  heroImageUrl: string;
+  heroImageHint: string;
+  overviewTitle: string;
+  overviewContent: string;
+  highlightsContent: string;
+  details: ExperienceDetailItem[];
+  galleryImages: GalleryImageItem[];
+  // Fields for the form defaults, if any specific to experience
+  defaultAdults?: number;
+  defaultChildren?: number;
+  pricePerAdult?: number; // Optional: for dynamic pricing display
+  pricePerChild?: number; // Optional: for dynamic pricing display
+}
+
+    
