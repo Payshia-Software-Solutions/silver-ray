@@ -77,7 +77,7 @@ const experienceCategories: ExperienceCategory[] = [
 const featuredExperiences: FeaturedExperience[] = [
   {
     id: 'tea-tour',
-    imageUrl: 'https://placehold.co/600x400.png',
+    imageUrl: 'https://images.unsplash.com/photo-1579765338032-9f6b3614ff07?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHx0ZWElMjBwbGFudGF0aW9uJTIwdG91cnxlbnwwfHx8fDE3NDkxNDUzMjV8MA&ixlib=rb-4.1.0&q=80&w=1080',
     imageHint: 'tea plantation tour',
     title: 'Tea Factory Tour',
     description: 'Visit a famous tea factory and get an experience of how tea is processed.',
@@ -87,7 +87,7 @@ const featuredExperiences: FeaturedExperience[] = [
   },
   {
     id: 'sapphire-trail',
-    imageUrl: 'https://placehold.co/600x400.png',
+    imageUrl: 'https://images.unsplash.com/photo-1521106581851-da5b6457f674?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8Z2VtJTIwbWluZSUyMGNhdmV8ZW58MHx8fHwxNzQ5MTQ1MzI1fDA&ixlib=rb-4.1.0&q=80&w=1080',
     imageHint: 'gem mine cave',
     title: 'Sapphire Trail Exploration',
     description: 'Journey into the heart of a gem mine. Witness the traditional mining process.',
@@ -97,7 +97,7 @@ const featuredExperiences: FeaturedExperience[] = [
   },
   {
     id: 'waterfall-hike',
-    imageUrl: 'https://placehold.co/600x400.png',
+    imageUrl: 'https://images.unsplash.com/photo-1498866363999-1afe374cb87f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHx3YXRlcmZhbGwlMjBoaWtpbmclMjBuYXR1cmV8ZW58MHx8fHwxNzQ5MTQ1MzI1fDA&ixlib=rb-4.1.0&q=80&w=1080',
     imageHint: 'waterfall hiking nature',
     title: 'Guided Waterfall Hike',
     description: 'Trek through lush rainforests to discover hidden waterfalls with our expert local guide.',
@@ -107,7 +107,7 @@ const featuredExperiences: FeaturedExperience[] = [
   },
   {
     id: 'cultural-dance',
-    imageUrl: 'https://placehold.co/600x400.png',
+    imageUrl: 'https://images.unsplash.com/photo-1486591978090-58e619d37fe7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8Y3VsdHVyYWwlMjBkYW5jZSUyMHBlcmZvcm1hbmNlfGVufDB8fHx8MTc0OTE0NTMyNnww&ixlib=rb-4.1.0&q=80&w=1080',
     imageHint: 'cultural dance performance',
     title: 'Cultural Dance Performance',
     description: 'Be mesmerized by a live showcase of Sri Lankan dance, music, and traditional costumes.',
@@ -117,7 +117,7 @@ const featuredExperiences: FeaturedExperience[] = [
   },
   {
     id: 'sunrise-yoga',
-    imageUrl: 'https://placehold.co/600x400.png',
+    imageUrl: 'https://images.unsplash.com/photo-1447452001602-7090c7ab2db3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxzdW5yaXNlJTIweW9nYSUyMHNlc3Npb258ZW58MHx8fHwxNzQ5MTQ1MzI1fDA&ixlib=rb-4.1.0&q=80&w=1080',
     imageHint: 'sunrise yoga session',
     title: 'Sunrise Yoga Session',
     description: 'Start the day with a guided yoga class in our tranquil gardens, suitable for all levels.',
@@ -127,7 +127,7 @@ const featuredExperiences: FeaturedExperience[] = [
   },
   {
     id: 'kids-club',
-    imageUrl: 'https://placehold.co/600x400.png',
+    imageUrl: 'https://images.unsplash.com/photo-1519340241574-2cec6aef0c01?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxraWRzJTIwY2x1YiUyMGFjdGl2aXRpZXN8ZW58MHx8fHwxNzQ5MTQ1MzI2fDA&ixlib=rb-4.1.0&q=80&w=1080',
     imageHint: 'kids club activities',
     title: "Kids' Discovery Club",
     description: 'A safe, supervised environment where children create, learn, and make new friends.',
