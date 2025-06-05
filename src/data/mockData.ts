@@ -11,9 +11,9 @@ export const mockRooms: Room[] = [
     imageUrl: 'https://images.unsplash.com/photo-1557733686-3f8641465d21?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxkZWx1eGUlMjByb29tJTIwc2NlbmljJTIwdmlld3xlbnwwfHx8fDE3NDkxNDQ4MTN8MA&ixlib=rb-4.1.0&q=80&w=1080',
     imageHint: 'deluxe room scenic view',
     images: [
-      'https://placehold.co/1200x800.png',
-      'https://placehold.co/600x400.png',
-      'https://placehold.co/600x400.png',
+      'https://images.unsplash.com/photo-1562663464-36b958487cd6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxkZWx1eGUlMjByb29tJTIwaW50ZXJpb3IlMjBkZXRhaWx8ZW58MHx8fHwxNzQ5MTQ1NzU3fDA&ixlib=rb-4.1.0&q=80&w=1080', // New Image 1
+      'https://images.unsplash.com/photo-1471476730017-8169d050fa19?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxkZWx1eGUlMjByb29tJTIwaW50ZXJpb3IlMjBkZXRhaWx8ZW58MHx8fHwxNzQ5MTQ1NzU3fDA&ixlib=rb-4.1.0&q=80&w=1080', // New Image 2
+      'https://images.unsplash.com/photo-1559294094-ef9682194038?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxkZWx1eGUlMjByb29tJTIwaW50ZXJpb3IlMjBkZXRhaWx8ZW58MHx8fHwxNzQ5MTQ1NzU3fDA&ixlib=rb-4.1.0&q=80&w=1080', // New Image 3
     ],
     amenities: ['King-size Bed', 'High-speed Wi-Fi', 'Smart TV', 'Rain Shower', 'Nespresso Machine', 'Private Balcony', 'Luxury Linens', 'Climate Control', 'In-room Safe', 'Air Conditioning', 'Mini Bar', 'Flat-screen TV', 'Work Desk'],
     capacity: 2,
@@ -24,7 +24,7 @@ export const mockRooms: Room[] = [
     features: ['City View', 'Work Desk'],
     viewType: 'Stunning Cityscape Overlook',
     enhanceYourStay: ['Executive Lounge Access', 'Complimentary Newspaper'],
-    roomLayoutImageUrl: 'https://placehold.co/600x300.png',
+    roomLayoutImageUrl: 'https://images.unsplash.com/photo-1562601553-b67e9e26f364?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxmbG9vciUyMHBsYW58ZW58MHx8fHwxNzQ5MTQ1NjQxfDA&ixlib=rb-4.1.0&q=80&w=1080', // New Layout Image
   },
   {
     id: 'ocean-suite',
