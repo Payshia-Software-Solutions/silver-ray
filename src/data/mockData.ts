@@ -1,3 +1,4 @@
+
 import type { Room, Testimonial } from '@/types';
 
 export const mockRooms: Room[] = [
@@ -7,7 +8,7 @@ export const mockRooms: Room[] = [
     description: 'Spacious room with a king-size bed and stunning city views.',
     longDescription: 'Our Deluxe King Room offers a luxurious retreat with a plush king-size bed, elegant furnishings, and panoramic city views. Enjoy modern amenities including a large flat-screen TV, minibar, and a spa-like bathroom. Perfect for couples or solo travelers seeking comfort and style.',
     pricePerNight: 250,
-    imageUrl: 'https://placehold.co/600x400.png',
+    imageUrl: 'https://placehold.co/600x450.png',
     images: [
       'https://placehold.co/1200x800.png',
       'https://placehold.co/600x400.png',
@@ -27,7 +28,7 @@ export const mockRooms: Room[] = [
     description: 'Expansive suite with a private balcony overlooking the ocean.',
     longDescription: 'Indulge in our Ocean View Suite, featuring a separate living area, a king-size bed, and a private balcony with breathtaking ocean views. This suite is equipped with premium amenities, a Nespresso machine, and a luxurious bathroom with a soaking tub. Ideal for a romantic getaway or an extended stay.',
     pricePerNight: 450,
-    imageUrl: 'https://placehold.co/600x400.png',
+    imageUrl: 'https://placehold.co/600x450.png',
     images: [
       'https://placehold.co/1200x800.png',
       'https://placehold.co/600x400.png',
@@ -47,7 +48,7 @@ export const mockRooms: Room[] = [
     description: 'Comfortable room with two queen beds, perfect for families.',
     longDescription: 'Our Family Garden Room is designed for comfort and convenience, offering two queen beds and easy access to our lush gardens. Amenities include a smart TV with streaming services, a spacious bathroom, and a small seating area. A great choice for families looking for a relaxing stay.',
     pricePerNight: 320,
-    imageUrl: 'https://placehold.co/600x400.png',
+    imageUrl: 'https://placehold.co/600x450.png',
     images: [
       'https://placehold.co/1200x800.png',
       'https://placehold.co/600x400.png',
@@ -67,7 +68,7 @@ export const mockRooms: Room[] = [
     description: 'Ultimate luxury with a private pool and dedicated butler service.',
     longDescription: 'Experience unparalleled opulence in our Presidential Villa. This exclusive villa boasts multiple bedrooms, a spacious living and dining area, a fully equipped kitchen, a private infinity pool, and dedicated butler service. Every detail is curated for an extraordinary stay.',
     pricePerNight: 1500,
-    imageUrl: 'https://placehold.co/600x400.png',
+    imageUrl: 'https://placehold.co/600x450.png',
     images: [
       'https://placehold.co/1200x800.png',
       'https://placehold.co/600x400.png',
@@ -81,13 +82,71 @@ export const mockRooms: Room[] = [
     category: 'Villa',
     rating: 5.0,
     features: ['Private Pool', 'Butler Service', 'Oceanfront', 'Full Kitchen']
+  },
+  {
+    id: 'junior-suite',
+    name: 'Junior Suite',
+    description: 'A cozy suite offering comfort and partial sea views.',
+    longDescription: 'The Junior Suite provides a perfect blend of comfort and value, featuring a queen bed, a comfortable seating area, and partial sea views. It includes essential amenities and is ideal for solo travelers or couples.',
+    pricePerNight: 300,
+    imageUrl: 'https://placehold.co/600x450.png',
+    images: [
+      'https://placehold.co/1200x800.png',
+      'https://placehold.co/600x400.png',
+    ],
+    amenities: ['Queen Bed', 'Partial Sea View', 'WiFi', 'Air Conditioning', 'Mini Bar'],
+    capacity: 2,
+    beds: '1 Queen Bed',
+    size: '35 sqm',
+    category: 'Suite',
+    rating: 4.5,
+    features: ['Partial Sea View']
+  },
+  {
+    id: 'superior-room',
+    name: 'Superior Room',
+    description: 'Well-appointed room with large windows and city skyline views.',
+    longDescription: 'Our Superior Room offers a bright and airy space with large windows showcasing the city skyline. It features a comfortable king bed (or two twin beds on request) and modern decor.',
+    pricePerNight: 280,
+    imageUrl: 'https://placehold.co/600x450.png',
+    images: [
+      'https://placehold.co/1200x800.png',
+      'https://placehold.co/600x400.png',
+    ],
+    amenities: ['King Bed or 2 Twin Beds', 'City Skyline View', 'WiFi', 'Air Conditioning'],
+    capacity: 2,
+    beds: '1 King or 2 Twins',
+    size: '38 sqm',
+    category: 'Deluxe',
+    rating: 4.7,
+    features: ['City Skyline View', 'Large Windows']
+  },
+  {
+    id: 'premium-suite',
+    name: 'Premium Suite',
+    description: 'Elegant suite with breathtaking panoramic ocean views.',
+    longDescription: 'The Premium Suite is an epitome of luxury, offering expansive space, elegant furnishings, a separate living room, and a large balcony with panoramic ocean views. Perfect for those seeking an exclusive and memorable stay.',
+    pricePerNight: 650,
+    imageUrl: 'https://placehold.co/600x450.png',
+    images: [
+      'https://placehold.co/1200x800.png',
+      'https://placehold.co/600x400.png',
+      'https://placehold.co/600x400.png',
+    ],
+    amenities: ['King Bed', 'Panoramic Ocean View', 'Large Balcony', 'WiFi', 'Living Room', 'Premium Minibar'],
+    capacity: 2,
+    beds: '1 King Bed',
+    size: '85 sqm',
+    category: 'Suite',
+    rating: 4.9,
+    features: ['Panoramic Ocean View', 'Large Balcony', 'Separate Living Room']
   }
 ];
 
 export const mockTestimonials: Testimonial[] = [
   {
     id: 't1',
-    quote: "LuxeStay exceeded all our expectations! The service was impeccable, the rooms were stunning, and the views were breathtaking. We can't wait to come back.",
+    quote: "Grand Silver Ray exceeded all our expectations! The service was impeccable, the rooms were stunning, and the views were breathtaking. We can't wait to come back.",
     name: 'Alice Johnson',
     location: 'New York, USA',
     avatarUrl: 'https://placehold.co/100x100.png',
