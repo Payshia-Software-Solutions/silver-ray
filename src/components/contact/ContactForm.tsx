@@ -1,3 +1,4 @@
+
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -15,6 +16,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/hooks/use-toast";
+import { Send } from "lucide-react"; // Added Send icon
 
 const contactFormSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters."),
@@ -48,16 +50,16 @@ export function ContactForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <FormField
             control={form.control}
             name="name"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Full Name</FormLabel>
+                <FormLabel>Name</FormLabel>
                 <FormControl>
-                  <Input placeholder="John Doe" {...field} />
+                  <Input placeholder="Your full name" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -68,9 +70,9 @@ export function ContactForm() {
             name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Email Address</FormLabel>
+                <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input type="email" placeholder="john.doe@example.com" {...field} />
+                  <Input type="email" placeholder="Your email address" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -82,9 +84,9 @@ export function ContactForm() {
           name="subject"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Subject (Optional)</FormLabel>
+              <FormLabel>Subject</FormLabel>
               <FormControl>
-                <Input placeholder="Inquiry about booking" {...field} />
+                <Input placeholder="Subject of your message" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -97,14 +99,14 @@ export function ContactForm() {
             <FormItem>
               <FormLabel>Message</FormLabel>
               <FormControl>
-                <Textarea placeholder="Your message..." className="min-h-[150px]" {...field} />
+                <Textarea placeholder="Type your message here..." className="min-h-[120px]" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-        <Button type="submit" size="lg" className="font-body text-lg transform hover:scale-105 transition-transform duration-300">
-          Send Message
+        <Button type="submit" size="lg" className="w-full font-body text-base">
+          <Send className="mr-2 h-4 w-4" /> Send Message
         </Button>
       </form>
     </Form>
