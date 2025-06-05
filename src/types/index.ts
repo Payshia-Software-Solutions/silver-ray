@@ -8,6 +8,7 @@ export interface Room {
   longDescription: string;
   pricePerNight: number;
   imageUrl: string;
+  imageHint?: string; // Added this line
   images: string[];
   amenities: string[];
   capacity: number; // e.g., 2 adults, 1 child

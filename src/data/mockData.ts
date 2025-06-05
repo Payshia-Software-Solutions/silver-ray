@@ -8,7 +8,8 @@ export const mockRooms: Room[] = [
     description: 'Spacious room with a king-size bed and stunning city views.',
     longDescription: 'Our Deluxe King Room offers a luxurious retreat with a plush king-size bed, elegant furnishings, and panoramic city views. Enjoy modern amenities including a large flat-screen TV, minibar, and a spa-like bathroom. Perfect for couples or solo travelers seeking comfort and style. Located in Hatorspura, Grand Silver Ray features a garden, shared lounge and free Wifi. There is a restaurant serving Chinese cuisine, and free private parking is available. The hotel will provide guests with air-conditioned rooms offering a desk, a kettle, a fridge, a minibar, a safety deposit box, a flat-screen TV, a teerner and a private bathroom with a bidet. All units include a wardrobe.',
     pricePerNight: 250,
-    imageUrl: 'https://placehold.co/600x450.png',
+    imageUrl: 'https://images.unsplash.com/photo-1557733686-3f8641465d21?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxkZWx1eGUlMjByb29tJTIwc2NlbmljJTIwdmlld3xlbnwwfHx8fDE3NDkxNDQ4MTN8MA&ixlib=rb-4.1.0&q=80&w=1080',
+    imageHint: 'deluxe room scenic view',
     images: [
       'https://placehold.co/1200x800.png',
       'https://placehold.co/600x400.png',
@@ -31,7 +32,8 @@ export const mockRooms: Room[] = [
     description: 'Expansive suite with a private balcony overlooking the ocean.',
     longDescription: 'Indulge in our Ocean View Suite, featuring a separate living area, a king-size bed, and a private balcony with breathtaking ocean views. This suite is equipped with premium amenities, a Nespresso machine, and a luxurious bathroom with a soaking tub. Ideal for a romantic getaway or an extended stay.',
     pricePerNight: 450,
-    imageUrl: 'https://placehold.co/600x450.png',
+    imageUrl: 'https://images.unsplash.com/photo-1455792244736-3ed96c3d7f7e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxzdWl0ZSUyMHJvb20lMjBzY2VuaWMlMjB2aWV3fGVufDB8fHx8MTc0OTE0NDgxMnww&ixlib=rb-4.1.0&q=80&w=1080',
+    imageHint: 'suite room scenic view',
     images: [
       'https://placehold.co/1200x800.png',
       'https://placehold.co/600x400.png',
@@ -54,7 +56,8 @@ export const mockRooms: Room[] = [
     description: 'Comfortable room with two queen beds, perfect for families.',
     longDescription: 'Our Family Garden Room is designed for comfort and convenience, offering two queen beds and easy access to our lush gardens. Amenities include a smart TV with streaming services, a spacious bathroom, and a small seating area. A great choice for families looking for a relaxing stay.',
     pricePerNight: 320,
-    imageUrl: 'https://placehold.co/600x450.png',
+    imageUrl: 'https://images.unsplash.com/photo-1536494126589-29fadf0d7e3c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxzdGFuZGFyZCUyMHJvb20lMjBzY2VuaWMlMjB2aWV3fGVufDB8fHx8MTc0OTE0NDgxM3ww&ixlib=rb-4.1.0&q=80&w=1080',
+    imageHint: 'standard room scenic view',
     images: [
       'https://placehold.co/1200x800.png',
       'https://placehold.co/600x400.png',
@@ -77,7 +80,8 @@ export const mockRooms: Room[] = [
     description: 'Ultimate luxury with a private pool and dedicated butler service.',
     longDescription: 'Experience unparalleled opulence in our Presidential Villa. This exclusive villa boasts multiple bedrooms, a spacious living and dining area, a fully equipped kitchen, a private infinity pool, and dedicated butler service. Every detail is curated for an extraordinary stay.',
     pricePerNight: 1500,
-    imageUrl: 'https://placehold.co/600x450.png',
+    imageUrl: 'https://images.unsplash.com/photo-1467043153537-a4fba2cd39ef?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHx2aWxsYSUyMHJvb20lMjBzY2VuaWMlMjB2aWV3fGVufDB8fHx8MTc0OTE0NDgxMnww&ixlib=rb-4.1.0&q=80&w=1080',
+    imageHint: 'villa room scenic view',
     images: [
       'https://placehold.co/1200x800.png',
       'https://placehold.co/600x400.png',
@@ -101,7 +105,8 @@ export const mockRooms: Room[] = [
     description: 'A cozy suite offering comfort and partial sea views.',
     longDescription: 'The Junior Suite provides a perfect blend of comfort and value, featuring a queen bed, a comfortable seating area, and partial sea views. It includes essential amenities and is ideal for solo travelers or couples seeking a stylish urban escape.',
     pricePerNight: 300,
-    imageUrl: 'https://placehold.co/600x450.png',
+    imageUrl: 'https://images.unsplash.com/photo-1506377295352-e3154d43ea9e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxzdWl0ZSUyMHJvb20lMjBzY2VuaWMlMjB2aWV3fGVufDB8fHx8MTc0OTE0NDgxMnww&ixlib=rb-4.1.0&q=80&w=1080',
+    imageHint: 'suite room scenic view',
     images: [
       'https://placehold.co/1200x800.png',
       'https://placehold.co/600x400.png',
@@ -123,7 +128,8 @@ export const mockRooms: Room[] = [
     description: 'Well-appointed room with large windows and city skyline views.',
     longDescription: 'Our Superior Room offers a bright and airy space with large windows showcasing the city skyline. It features a comfortable king bed (or two twin beds on request) and modern decor, providing a serene environment for your stay.',
     pricePerNight: 280,
-    imageUrl: 'https://placehold.co/600x450.png',
+    imageUrl: 'https://images.unsplash.com/photo-1536494126589-29fadf0d7e3c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxkZWx1eGUlMjByb29tJTIwc2NlbmljJTIwdmlld3xlbnwwfHx8fDE3NDkxNDQ4MTN8MA&ixlib=rb-4.1.0&q=80&w=1080',
+    imageHint: 'deluxe room scenic view',
     images: [
       'https://placehold.co/1200x800.png',
       'https://placehold.co/600x400.png',
@@ -145,7 +151,8 @@ export const mockRooms: Room[] = [
     description: 'Elegant suite with breathtaking panoramic ocean views.',
     longDescription: 'The Premium Suite is an epitome of luxury, offering expansive space, elegant furnishings, a separate living room, and a large balcony with panoramic ocean views. Perfect for those seeking an exclusive and memorable stay with ample room to relax and entertain.',
     pricePerNight: 650,
-    imageUrl: 'https://placehold.co/600x450.png',
+    imageUrl: 'https://images.unsplash.com/photo-1455792244736-3ed96c3d7f7e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxzdWl0ZSUyMHJvb20lMjBzY2VuaWMlMjB2aWV3fGVufDB8fHx8MTc0OTE0NDgxMnww&ixlib=rb-4.1.0&q=80&w=1080',
+    imageHint: 'suite room scenic view',
     images: [
       'https://placehold.co/1200x800.png',
       'https://placehold.co/600x400.png',
@@ -190,4 +197,3 @@ export const mockTestimonials: Testimonial[] = [
     rating: 4,
   },
 ];
-

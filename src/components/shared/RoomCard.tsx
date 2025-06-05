@@ -17,7 +17,7 @@ export function RoomCard({ room }: RoomCardProps) {
         <NextImage
           src={room.imageUrl}
           alt={`Image of ${room.name}`}
-          data-ai-hint={`${room.category.toLowerCase()} room scenic view`}
+          data-ai-hint={room.imageHint || `${room.category.toLowerCase()} room scenic view`}
           fill
           className="object-cover"
         />
