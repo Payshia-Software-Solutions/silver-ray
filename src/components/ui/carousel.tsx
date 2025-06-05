@@ -1,3 +1,4 @@
+
 "use client"
 
 import * as React from "react"
@@ -43,55 +44,63 @@ const Carousel = React.forwardRef<
     },
     ref
   ) => {
-    const [emblaRef, emblaApi] = React.useState<any>(null) // Simplified EmblaCarouselType
-    const [canScrollPrev, setCanScrollPrev] = React.useState(false)
-    const [canScrollNext, setCanScrollNext] = React.useState(false)
+    const [emblaApi, setEmblaApi] = React.useState<any>(null); // Correctly store the API object
+    const emblaNodeRef = React.useRef<HTMLDivElement | null>(null); // Ref for the scrollable container
+
+    const [canScrollPrev, setCanScrollPrev] = React.useState(false);
+    const [canScrollNext, setCanScrollNext] = React.useState(false);
 
     const onSelect = React.useCallback(() => {
-      if (!emblaApi) return
-      setCanScrollPrev(emblaApi.canScrollPrev())
-      setCanScrollNext(emblaApi.canScrollNext())
-    }, [emblaApi])
+      if (!emblaApi) return;
+      setCanScrollPrev(emblaApi.canScrollPrev());
+      setCanScrollNext(emblaApi.canScrollNext());
+    }, [emblaApi]);
 
     const scrollPrev = React.useCallback(() => {
-      emblaApi?.scrollPrev()
-    }, [emblaApi])
+      emblaApi?.scrollPrev();
+    }, [emblaApi]);
 
     const scrollNext = React.useCallback(() => {
-      emblaApi?.scrollNext()
-    }, [emblaApi])
+      emblaApi?.scrollNext();
+    }, [emblaApi]);
 
     React.useEffect(() => {
-      if (!emblaApi) return
-      onSelect()
-      emblaApi.on("select", onSelect)
-      emblaApi.on("reInit", onSelect)
+      // Mock emblaApi for basic functionality if real Embla is not intended to be used
+      const mockApiInstance = {
+          canScrollPrev: () => true,
+          canScrollNext: () => true,
+          scrollPrev: () => console.log("Mock: scrollPrev triggered"),
+          scrollNext: () => console.log("Mock: scrollNext triggered"),
+          on: (event: string, callback: Function) => console.log(`Mock: listener for ${event} added`),
+          off: (event: string, callback: Function) => console.log(`Mock: listener for ${event} removed`),
+          reInit: () => console.log("Mock: reInit triggered"),
+      };
+      setEmblaApi(mockApiInstance);
+    }, [setEmblaApi]);
+
+
+    React.useEffect(() => {
+      if (!emblaApi) return;
+      
+      onSelect(); // Initial check
+      
+      // Attach event listeners using the API (mocked or real)
+      emblaApi.on("select", onSelect);
+      emblaApi.on("reInit", onSelect);
+      
       return () => {
-        emblaApi.off("select", onSelect)
-        emblaApi.off("reInit", onSelect)
-      }
-    }, [emblaApi, onSelect])
-
-    // This is a simplified setup. A real Embla setup would be more complex.
-    // We're mocking the ref and API for basic functionality.
-    React.useEffect(() => {
-        // Mock emblaApi for basic functionality if not using real Embla
-        if (typeof window !== "undefined" && !(window as any).EmblaCarousel) {
-             const mockApi = {
-                canScrollPrev: () => true,
-                canScrollNext: () => true,
-                scrollPrev: () => console.log("Mock scrollPrev"),
-                scrollNext: () => console.log("Mock scrollNext"),
-                on: () => {},
-                off: () => {},
-                reInit: () => {},
-             };
-            setEmblaRef(() => (node: any) => { /* Mock ref assignment */});
-            (emblaApi as any) = mockApi; // Assign to emblaApi directly
-            setCanScrollPrev(mockApi.canScrollPrev());
-            setCanScrollNext(mockApi.canScrollNext());
+        // Clean up event listeners
+        if (emblaApi && typeof emblaApi.off === 'function') {
+            emblaApi.off("select", onSelect);
+            emblaApi.off("reInit", onSelect);
         }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+      };
+    }, [emblaApi, onSelect]);
+
+    const emblaRefCallback = React.useCallback((node: HTMLDivElement) => {
+        emblaNodeRef.current = node;
+        // If we were using real Embla, its initialization might use this ref
+        // For the mock, this ref is available if needed by mock logic.
     }, []);
 
 
@@ -106,7 +115,7 @@ const Carousel = React.forwardRef<
         }}
       >
         <div
-          ref={ref}
+          ref={ref} // Forwarded ref for the top-level div
           className={cn(
             "relative",
             orientation === "horizontal" ? " " : " ",
@@ -116,7 +125,7 @@ const Carousel = React.forwardRef<
           aria-roledescription="carousel"
           {...props}
         >
-            <div ref={emblaRef as React.Ref<HTMLDivElement>} className="overflow-hidden">
+            <div ref={emblaRefCallback} className="overflow-hidden">
                  {children}
             </div>
         </div>
@@ -133,7 +142,7 @@ const CarouselContent = React.forwardRef<
   const { orientation } = useCarousel()
 
   return (
-    <div className="overflow-hidden">
+    <div className="overflow-hidden"> {/* This div was missing in the previous structure, added for consistency with emblaRef target */}
       <div
         ref={ref}
         className={cn(
@@ -161,7 +170,7 @@ const CarouselItem = React.forwardRef<
       aria-roledescription="slide"
       className={cn(
         "min-w-0 shrink-0 grow-0 basis-full",
-        orientation === "horizontal" ? "pl-4" : "pt-4", // Adjust spacing as needed
+        orientation === "horizontal" ? "pl-4" : "pt-4", 
         className
       )}
       {...props}
@@ -184,9 +193,9 @@ const CarouselPrevious = React.forwardRef<
       className={cn(
         "absolute h-8 w-8 rounded-full",
         orientation === "horizontal"
-          ? "-left-12 top-1/2 -translate-y-1/2"
+          ? "-left-12 top-1/2 -translate-y-1/2" // Default ShadCN position
           : "-top-12 left-1/2 -translate-x-1/2 rotate-90",
-        className
+        className // Allow overriding class for custom positioning if needed
       )}
       disabled={!canScrollPrev}
       onClick={scrollPrev}
@@ -213,9 +222,9 @@ const CarouselNext = React.forwardRef<
       className={cn(
         "absolute h-8 w-8 rounded-full",
         orientation === "horizontal"
-          ? "-right-12 top-1/2 -translate-y-1/2"
+          ? "-right-12 top-1/2 -translate-y-1/2" // Default ShadCN position
           : "-bottom-12 left-1/2 -translate-x-1/2 rotate-90",
-        className
+        className // Allow overriding class for custom positioning if needed
       )}
       disabled={!canScrollNext}
       onClick={scrollNext}
