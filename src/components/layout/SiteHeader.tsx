@@ -1,3 +1,4 @@
+
 "use client";
 
 import Link from 'next/link';
@@ -8,9 +9,11 @@ import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
 
 const navLinks = [
-  { href: '/', label: 'Home' },
   { href: '/rooms', label: 'Rooms' },
-  { href: '/booking', label: 'Booking' },
+  { href: '/dining', label: 'Dining' },
+  { href: '/events', label: 'Events' },
+  { href: '/experiences', label: 'Experiences' },
+  { href: '/gallery', label: 'Gallery' },
   { href: '/contact', label: 'Contact' },
 ];
 
@@ -41,7 +44,7 @@ export function SiteHeader() {
       <div className="container mx-auto flex h-20 items-center justify-between px-4 sm:px-6 lg:px-8">
         <Link href="/" className="flex items-center space-x-2 transition-opacity hover:opacity-80">
           <Hotel className="h-8 w-8 text-primary" />
-          <span className="font-headline text-3xl font-bold text-foreground">LuxeStay</span>
+          <span className="font-headline text-3xl font-bold text-foreground">Grand Silver Ray</span>
         </Link>
 
         <nav className="hidden md:flex items-center space-x-6">
@@ -57,7 +60,7 @@ export function SiteHeader() {
               {link.label}
             </Link>
           ))}
-          <Button asChild size="lg" className="font-body">
+          <Button asChild size="lg" className="font-body rounded-full">
             <Link href="/booking">Book Now</Link>
           </Button>
         </nav>
@@ -80,7 +83,7 @@ export function SiteHeader() {
           <div className="flex h-20 items-center justify-between px-4 sm:px-6 lg:px-8 border-b">
              <Link href="/" className="flex items-center space-x-2">
                 <Hotel className="h-8 w-8 text-primary" />
-                <span className="font-headline text-3xl font-bold text-foreground">LuxeStay</span>
+                <span className="font-headline text-3xl font-bold text-foreground">Grand Silver Ray</span>
             </Link>
             <Button
                 variant="ghost"
@@ -105,7 +108,7 @@ export function SiteHeader() {
                 {link.label}
               </Link>
             ))}
-            <Button asChild size="lg" className="font-body text-xl px-8 py-6" onClick={() => setIsMobileMenuOpen(false)}>
+            <Button asChild size="lg" className="font-body text-xl px-8 py-6 rounded-full" onClick={() => setIsMobileMenuOpen(false)}>
               <Link href="/booking">Book Now</Link>
             </Button>
           </nav>

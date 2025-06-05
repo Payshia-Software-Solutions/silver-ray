@@ -1,3 +1,4 @@
+
 import type { Metadata } from 'next';
 import './globals.css';
 import { SiteHeader } from '@/components/layout/SiteHeader';
@@ -6,11 +7,11 @@ import { Toaster } from "@/components/ui/toaster";
 
 export const metadata: Metadata = {
   title: {
-    default: 'LuxeStay | Luxury Hotel & Resort',
-    template: '%s | LuxeStay',
+    default: 'Grand Silver Ray | Luxury Hotel & Resort',
+    template: '%s | Grand Silver Ray',
   },
-  description: 'Experience unparalleled luxury and comfort at LuxeStay. Book your dream getaway today at the finest resort.',
-  keywords: ['luxury hotel', 'resort', 'booking', 'vacation', 'travel', 'LuxeStay'],
+  description: 'Experience unparalleled luxury and comfort at Grand Silver Ray. Book your dream getaway today at the finest resort.',
+  keywords: ['luxury hotel', 'resort', 'dining', 'events', 'experiences', 'gallery', 'booking', 'vacation', 'travel', 'Grand Silver Ray'],
 };
 
 export default function RootLayout({
