@@ -177,7 +177,7 @@ export const mockTestimonials: Testimonial[] = [
     quote: "Grand Silver Ray exceeded all our expectations! The service was impeccable, the rooms were stunning, and the views were breathtaking. We can't wait to come back.",
     name: 'Alice Johnson',
     location: 'New York, USA',
-    avatarUrl: 'https://placehold.co/100x100.png',
+    avatarUrl: 'https://images.unsplash.com/photo-1740989475605-355ada18c3fb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxwZXJzb24lMjBhdmF0YXJ8ZW58MHx8fHwxNzQ5MTQ1OTA0fDA&ixlib=rb-4.1.0&q=80&w=1080',
     rating: 5,
   },
   {
@@ -185,7 +185,7 @@ export const mockTestimonials: Testimonial[] = [
     quote: 'A truly luxurious experience. From the moment we arrived, we felt pampered. The attention to detail is incredible. Highly recommend for a special occasion.',
     name: 'David & Sarah Miller',
     location: 'London, UK',
-    avatarUrl: 'https://placehold.co/100x100.png',
+    avatarUrl: 'https://images.unsplash.com/photo-1621410441706-2604c30b3d0a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxwZXJzb24lMjBhdmF0YXJ8ZW58MHx8fHwxNzQ5MTQ1OTA0fDA&ixlib=rb-4.1.0&q=80&w=1080',
     rating: 5,
   },
   {
@@ -193,7 +193,7 @@ export const mockTestimonials: Testimonial[] = [
     quote: 'Beautiful hotel with amazing amenities. The staff were friendly and always helpful. The food at the restaurant was also top-notch. A perfect getaway!',
     name: 'Maria Rodriguez',
     location: 'Madrid, Spain',
-    avatarUrl: 'https://placehold.co/100x100.png',
+    avatarUrl: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxwZXJzb24lMjBhdmF0YXJ8ZW58MHx8fHwxNzQ5MTQ1OTA0fDA&ixlib=rb-4.1.0&q=80&w=1080',
     rating: 4,
   },
 ];
