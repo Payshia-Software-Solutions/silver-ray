@@ -18,7 +18,7 @@ const diningVenues: VenueProps[] = [
     description: 'Elegant dining crafted to symphony taste buds.',
     imageUrl: 'https://placehold.co/600x400.png',
     imageHint: 'elegant restaurant interior',
-    viewMoreLink: '/contact?subject=Inquiry+Main+Restaurant',
+    viewMoreLink: '/dining/menu/main-restaurant',
   },
   {
     id: 'cafe-101',
@@ -26,7 +26,7 @@ const diningVenues: VenueProps[] = [
     description: 'Authentic, traditional dishes in a relaxed atmosphere.',
     imageUrl: 'https://placehold.co/600x400.png',
     imageHint: 'cozy cafe ambiance',
-    viewMoreLink: '/contact?subject=Inquiry+Cafe+101',
+    viewMoreLink: '/dining/menu/cafe-101',
   },
   {
     id: 'indian-restaurant',
@@ -34,7 +34,7 @@ const diningVenues: VenueProps[] = [
     description: 'Traditional Indian flavors brought to life.',
     imageUrl: 'https://placehold.co/600x400.png',
     imageHint: 'indian cuisine presentation',
-    viewMoreLink: '/contact?subject=Inquiry+Indian+Restaurant',
+    viewMoreLink: '/dining/menu/indian-restaurant',
   },
 ];
 

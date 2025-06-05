@@ -1,3 +1,4 @@
+
 export interface Room {
   id: string;
   name: string;
@@ -27,3 +28,40 @@ export interface Testimonial {
   rating: number; // 1-5
 }
 
+export interface DietaryIndicator {
+  type: 'vegetarian' | 'vegan' | 'gluten-free' | 'spicy' | 'nuts';
+  label: string;
+  color: string; // Tailwind color class e.g., 'bg-green-500'
+}
+
+export interface MenuItemType {
+  id: string;
+  name: string;
+  description: string;
+  price: string; // e.g., "LKR 2,500"
+  imageUrl: string;
+  imageHint: string;
+  dietaryIndicators?: DietaryIndicator[];
+  isChefSpecial?: boolean;
+  tags?: string[]; // e.g., "Popular", "New" - could be displayed as badges
+}
+
+export interface MenuCategoryType {
+  id: string;
+  name: string; // e.g., "Breakfast", "Starters / Appetizers"
+  items: MenuItemType[];
+}
+
+export interface RestaurantMenuType {
+  venueId: string; // Corresponds to VenueProps.id from dining page
+  venueName: string;
+  venueDescription?: string;
+  heroImageUrl: string;
+  heroImageHint: string;
+  categories: MenuCategoryType[];
+}
+
+export interface BreadcrumbItem {
+  label: string;
+  href?: string;
+}
