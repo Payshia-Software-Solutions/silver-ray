@@ -15,7 +15,11 @@ const galleryImages = [
   { src: "https://placehold.co/600x400.png", alt: "Beachfront Scenery", hint: "beach sunset" },
   { src: "https://placehold.co/600x400.png", alt: "Spa Serenity", hint: "spa massage" },
   { src: "https://placehold.co/600x400.png", alt: "Lobby Grandeur", hint: "hotel lobby" },
-  { src: "https://placehold.co/600x400.png", alt: "Event Hall", hint: "event setup" },
+  { src: "https://placehold.co/600x400.png", alt: "Event Hall Setup", hint: "event setup" },
+  { src: "https://placehold.co/600x400.png", alt: "Fitness Center", hint: "gym fitness" },
+  { src: "https://placehold.co/600x400.png", alt: "Hotel Bar & Lounge", hint: "bar lounge" },
+  { src: "https://placehold.co/600x400.png", alt: "Manicured Hotel Gardens", hint: "hotel garden" },
+  { src: "https://placehold.co/600x400.png", alt: "Kids Play Area", hint: "kids play" },
 ];
 
 export default function GalleryPage() {
@@ -49,3 +53,4 @@ export default function GalleryPage() {
     </div>
   );
 }
+
