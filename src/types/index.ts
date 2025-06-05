@@ -13,6 +13,9 @@ export interface Room {
   category: 'Standard' | 'Deluxe' | 'Suite' | 'Villa';
   rating?: number; // 1-5 stars
   features?: string[]; // e.g., "Ocean View", "Balcony"
+  viewType?: string; // e.g., "Oceanfront and the lush green mountains"
+  enhanceYourStay?: string[]; // e.g., ["Close to the Spa", "Ideal for Honeymooners"]
+  roomLayoutImageUrl?: string; // URL for the floor plan image
 }
 
 export interface Testimonial {
@@ -23,3 +26,4 @@ export interface Testimonial {
   avatarUrl?: string;
   rating: number; // 1-5
 }
+
