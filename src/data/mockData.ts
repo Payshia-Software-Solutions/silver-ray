@@ -35,9 +35,9 @@ export const mockRooms: Room[] = [
     imageUrl: 'https://images.unsplash.com/photo-1455792244736-3ed96c3d7f7e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxzdWl0ZSUyMHJvb20lMjBzY2VuaWMlMjB2aWV3fGVufDB8fHx8MTc0OTE0NDgxMnww&ixlib=rb-4.1.0&q=80&w=1080',
     imageHint: 'suite room scenic view',
     images: [
-      'https://placehold.co/1200x800.png',
-      'https://placehold.co/600x400.png',
-      'https://placehold.co/600x400.png',
+      'https://images.unsplash.com/photo-1532323544230-7191fd51bc1b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxzdWl0ZSUyMHJvb20lMjBpbnRlcmlvciUyMGRldGFpbHxlbnwwfHx8fDE3NDkxNDU2NDF8MA&ixlib=rb-4.1.0&q=80&w=1080',
+      'https://images.unsplash.com/photo-1488813340362-2a31b5522ebe?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxzdWl0ZSUyMHJvb20lMjBpbnRlcmlvciUyMGRldGFpbHxlbnwwfHx8fDE3NDkxNDU2NDF8MA&ixlib=rb-4.1.0&q=80&w=1080',
+      'https://images.unsplash.com/photo-1514053026555-49ce8886ae41?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxzdWl0ZSUyMHJvb20lMjBpbnRlcmlvciUyMGRldGFpbHxlbnwwfHx8fDE3NDkxNDU2NDF8MA&ixlib=rb-4.1.0&q=80&w=1080',
     ],
     amenities: ['King Bed', 'Ocean View', 'Private Balcony', 'WiFi', 'Air Conditioning', 'Nespresso Machine', 'Soaking Tub', 'Living Area'],
     capacity: 3,
@@ -48,7 +48,7 @@ export const mockRooms: Room[] = [
     features: ['Ocean View', 'Private Balcony', 'Living Area'],
     viewType: 'Panoramic Ocean Horizon',
     enhanceYourStay: ['Private Butler Service', 'Champagne on Arrival', 'Priority Restaurant Bookings'],
-    roomLayoutImageUrl: 'https://placehold.co/600x300.png',
+    roomLayoutImageUrl: 'https://images.unsplash.com/photo-1608303588026-884930af2559?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxmbG9vciUyMHBsYW58ZW58MHx8fHwxNzQ5MTQ1NjQxfDA&ixlib=rb-4.1.0&q=80&w=1080',
   },
   {
     id: 'family-room',
@@ -197,3 +197,4 @@ export const mockTestimonials: Testimonial[] = [
     rating: 4,
   },
 ];
+
