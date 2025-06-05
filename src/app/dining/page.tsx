@@ -1,76 +1,106 @@
 
 import type { Metadata } from 'next';
-import NextImage from 'next/image';
-import { Button } from '@/components/ui/button';
-import Link from 'next/link';
+import { DiningHero } from '@/components/dining/DiningHero';
+import { VenueCard, type VenueProps } from '@/components/dining/VenueCard';
+import { DishCard, type DishProps } from '@/components/dining/DishCard';
+import { ReservationSection } from '@/components/dining/ReservationSection';
+import { InfoBar } from '@/components/dining/InfoBar';
 
 export const metadata: Metadata = {
-  title: 'Dining',
-  description: 'Explore culinary delights at Grand Silver Ray. Exquisite dining options await you.',
+  title: 'Culinary Experiences',
+  description: 'Discover unforgettable flavors and exquisite settings at Grand Silver Ray Hotel. Explore our celebrated restaurants and bars.',
 };
+
+const diningVenues: VenueProps[] = [
+  {
+    id: 'main-restaurant',
+    name: 'Main Restaurant',
+    description: 'Elegant dining crafted to symphony taste buds.',
+    imageUrl: 'https://placehold.co/600x400.png',
+    imageHint: 'elegant restaurant interior',
+    viewMoreLink: '/contact?subject=Inquiry+Main+Restaurant',
+  },
+  {
+    id: 'cafe-101',
+    name: 'Cafe 101',
+    description: 'Authentic, traditional dishes in a relaxed atmosphere.',
+    imageUrl: 'https://placehold.co/600x400.png',
+    imageHint: 'cozy cafe ambiance',
+    viewMoreLink: '/contact?subject=Inquiry+Cafe+101',
+  },
+  {
+    id: 'indian-restaurant',
+    name: 'Indian Restaurant',
+    description: 'Traditional Indian flavors brought to life.',
+    imageUrl: 'https://placehold.co/600x400.png',
+    imageHint: 'indian cuisine presentation',
+    viewMoreLink: '/contact?subject=Inquiry+Indian+Restaurant',
+  },
+];
+
+const signatureDishes: DishProps[] = [
+  {
+    id: 'seared-salmon',
+    name: 'Seared Salmon with Lemon Beurre Blanc',
+    description: 'Perfectly cooked salmon, market vegetables, and a silky lemon butter sauce.',
+    imageUrl: 'https://placehold.co/600x400.png',
+    imageHint: 'seared salmon dish gourmet',
+  },
+  {
+    id: 'molten-lava-cake',
+    name: 'Molten Chocolate Lava Cake',
+    description: 'Rich chocolate cake with a warm, gooey center, garnished with gold leaf and fresh berries.',
+    imageUrl: 'https://placehold.co/600x400.png',
+    imageHint: 'chocolate lava cake dessert',
+  },
+  {
+    id: 'prime-ribeye',
+    name: 'Prime Ribeye with Truffle Mash',
+    description: 'Juicy ribeye steak, truffle-infused mashed potatoes, and seasonal vegetables.',
+    imageUrl: 'https://placehold.co/600x400.png',
+    imageHint: 'ribeye steak meal',
+  },
+];
 
 export default function DiningPage() {
   return (
-    <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
-      <div className="text-center mb-12">
-        <h1 className="font-headline text-4xl sm:text-5xl font-bold mb-4">
-          Dining at Grand Silver Ray
-        </h1>
-        <p className="font-body text-lg text-muted-foreground max-w-2xl mx-auto">
-          Discover our exquisite restaurants and bars, offering a range of culinary experiences designed to delight your senses.
-        </p>
-      </div>
+    <div className="bg-background">
+      <DiningHero />
 
-      <div className="grid md:grid-cols-2 gap-8 items-center mb-16">
-        <div>
-          <NextImage 
-            src="https://placehold.co/600x400.png" 
-            alt="Elegant dining room" 
-            data-ai-hint="restaurant interior" 
-            width={600} 
-            height={400} 
-            className="rounded-lg shadow-xl object-cover w-full h-auto"
-          />
+      <section className="py-16 lg:py-24">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="font-headline text-3xl sm:text-4xl font-bold mb-3">Our Dining Venues</h2>
+            <p className="font-body text-lg text-muted-foreground max-w-xl mx-auto">
+              From lavish buffets to rooftop cocktails, each venue offers a unique ambiance and culinary experiences to delight every palate.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {diningVenues.map((venue) => (
+              <VenueCard key={venue.id} {...venue} />
+            ))}
+          </div>
         </div>
-        <div className="font-body">
-          <h2 className="font-headline text-3xl font-semibold mb-4">The Signature Restaurant</h2>
-          <p className="text-muted-foreground mb-3">
-            Indulge in a world-class fine dining experience at The Signature Restaurant. Our chefs craft innovative dishes using the freshest local ingredients, paired with an extensive wine list.
-          </p>
-          <p className="text-muted-foreground mb-6">
-            Open daily for dinner. Reservations highly recommended.
-          </p>
-          <Button asChild>
-            <Link href="/contact?subject=Dining+Reservation">Make a Reservation</Link>
-          </Button>
-        </div>
-      </div>
+      </section>
 
-      <div className="grid md:grid-cols-2 gap-8 items-center">
-        <div className="font-body md:order-2">
-          <h2 className="font-headline text-3xl font-semibold mb-4">The Terrace Cafe</h2>
-          <p className="text-muted-foreground mb-3">
-            Enjoy casual all-day dining at The Terrace Cafe. With stunning views and a relaxed atmosphere, it's the perfect spot for breakfast, lunch, or a light snack.
-          </p>
-          <p className="text-muted-foreground mb-6">
-            Open daily from morning till evening. Walk-ins welcome.
-          </p>
-           <Button variant="outline">View Menu</Button>
+      <section className="py-16 lg:py-24 bg-secondary/20">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="font-headline text-3xl sm:text-4xl font-bold mb-3">Chef's Signature Dishes</h2>
+            <p className="font-body text-lg text-muted-foreground max-w-xl mx-auto">
+              Indulge in our chef's most celebrated creations and seasonal specialties, crafted with passion and the finest ingredients.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {signatureDishes.map((dish) => (
+              <DishCard key={dish.id} {...dish} />
+            ))}
+          </div>
         </div>
-        <div className="md:order-1">
-           <NextImage 
-            src="https://placehold.co/600x400.png" 
-            alt="Sunny terrace cafe" 
-            data-ai-hint="cafe terrace" 
-            width={600} 
-            height={400} 
-            className="rounded-lg shadow-xl object-cover w-full h-auto"
-          />
-        </div>
-      </div>
-       <div className="text-center mt-16">
-          <p className="font-body text-lg text-muted-foreground">More dining options coming soon. Stay tuned!</p>
-      </div>
+      </section>
+      
+      <ReservationSection />
+      <InfoBar />
     </div>
   );
 }
