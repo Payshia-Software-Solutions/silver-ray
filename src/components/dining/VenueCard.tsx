@@ -36,7 +36,7 @@ export function VenueCard({ name, description, imageUrl, imageHint, viewMoreLink
         </p>
         <Button asChild variant="ghost" className="font-body text-sm text-primary hover:text-primary/80 p-0 justify-start h-auto group mt-auto">
           <Link href={viewMoreLink}>
-            View More 
+            View Menu 
             <ArrowRight className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1" />
           </Link>
         </Button>
@@ -44,3 +44,4 @@ export function VenueCard({ name, description, imageUrl, imageHint, viewMoreLink
     </Card>
   );
 }
+
