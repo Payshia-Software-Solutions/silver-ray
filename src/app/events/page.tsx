@@ -26,7 +26,7 @@ export default function EventsPage() {
         <div className="grid md:grid-cols-2 gap-8 items-center">
           <div>
             <NextImage 
-              src="https://placehold.co/600x400.png" 
+              src="https://images.unsplash.com/photo-1524824267900-2fa9cbf7a506?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxiYWxscm9vbSUyMGV2ZW50fGVufDB8fHx8MTc0OTE0NTI0Nnww&ixlib=rb-4.1.0&q=80&w=1080" 
               alt="Elegant ballroom setup for an event" 
               data-ai-hint="ballroom event"
               width={600} 
@@ -66,7 +66,7 @@ export default function EventsPage() {
           </div>
           <div className="md:order-1">
              <NextImage 
-              src="https://placehold.co/600x400.png" 
+              src="https://images.unsplash.com/flagged/photo-1576485436509-a7d286952b65?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxjb25mZXJlbmNlJTIwcm9vbXxlbnwwfHx8fDE3NDkxNDUyNDZ8MA&ixlib=rb-4.1.0&q=80&w=1080" 
               alt="Modern conference room" 
               data-ai-hint="conference room"
               width={600} 
