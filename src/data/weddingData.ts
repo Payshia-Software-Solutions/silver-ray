@@ -1,6 +1,8 @@
 
 import type { LucideIcon } from 'lucide-react';
-import { Users, Image as ImageIcon, Sun, Mic, Disc, Speaker, Utensils, BedDouble, Flower2, Camera, Music, Gift, Wine, Trees, Waves, MapPin } from 'lucide-react';
+import { Users, Image as ImageIcon, Sun, Mic, Disc, Speaker, Utensils, BedDouble, Flower2, Camera, Music, Gift, Wine, Trees, Waves, MapPin, ClipboardCheck, Hotel } from 'lucide-react';
+import type { Testimonial } from '@/types';
+
 
 export interface WeddingFeature {
   icon: LucideIcon;
@@ -28,6 +30,12 @@ export interface WeddingPackage {
   iconImageUrl?: string; // Optional: if you have specific images for package icons
   imageHint: string;
   inclusions: WeddingPackageInclusion[];
+}
+
+export interface WeddingService {
+  icon: LucideIcon;
+  title: string;
+  description: string;
 }
 
 export const weddingVenues: WeddingVenue[] = [
@@ -77,8 +85,8 @@ export const weddingPackages: WeddingPackage[] = [
     id: 'classic-elegance',
     name: 'Classic Elegance Package',
     price: 'LKR 800,000',
-    icon: Gift, // Placeholder icon
-    iconImageUrl: 'https://placehold.co/100x100/EADDCA/A57C57.png?text=CE', // Placeholder, initials CE
+    icon: Gift, 
+    iconImageUrl: 'https://placehold.co/100x100/EADDCA/A57C57.png?text=CE', 
     imageHint: 'classic wedding gift',
     inclusions: [
       { icon: Utensils, text: 'Buffet Catering (100 guests)' },
@@ -92,7 +100,7 @@ export const weddingPackages: WeddingPackage[] = [
     name: 'Romantic Dream Package',
     price: 'LKR 1,200,000',
     icon: Flower2,
-    iconImageUrl: 'https://placehold.co/100x100/F7D9E3/D170A2.png?text=RD', // Placeholder, initials RD
+    iconImageUrl: 'https://placehold.co/100x100/F7D9E3/D170A2.png?text=RD', 
     imageHint: 'romantic wedding flowers',
     inclusions: [
       { icon: Utensils, text: 'Plated Dinner (80 guests)' },
@@ -106,7 +114,7 @@ export const weddingPackages: WeddingPackage[] = [
     name: 'Luxury Affair Package',
     price: 'LKR 2,000,000',
     icon: Wine,
-    iconImageUrl: 'https://placehold.co/100x100/D4AF37/8C6D2F.png?text=LA', // Placeholder, initials LA
+    iconImageUrl: 'https://placehold.co/100x100/D4AF37/8C6D2F.png?text=LA', 
     imageHint: 'luxury wedding champagne',
     inclusions: [
       { icon: Utensils, text: 'Gourmet Menu (150 guests)' },
@@ -120,7 +128,7 @@ export const weddingPackages: WeddingPackage[] = [
     name: 'Intimate Gathering Package',
     price: 'LKR 500,000',
     icon: Users,
-    iconImageUrl: 'https://placehold.co/100x100/A2D2FF/5E86C1.png?text=IG', // Placeholder, initials IG
+    iconImageUrl: 'https://placehold.co/100x100/A2D2FF/5E86C1.png?text=IG', 
     imageHint: 'intimate wedding couple',
     inclusions: [
       { icon: Utensils, text: 'Cocktail Menu (50 guests)' },
@@ -128,5 +136,47 @@ export const weddingPackages: WeddingPackage[] = [
       { icon: Flower2, text: 'Elegant Minimalist Decor' },
       { icon: Music, text: 'Background Music System' },
     ],
+  },
+];
+
+export const weddingServices: WeddingService[] = [
+  {
+    icon: Utensils,
+    title: 'Custom Catering',
+    description: 'Exquisite menus tailored to your taste, from lavish buffets to fine dining, crafted by our acclaimed chefs.',
+  },
+  {
+    icon: Flower2,
+    title: 'Elegant Decor',
+    description: 'From floral arrangements to lighting, our creative team brings your vision to life with bespoke decor solutions.',
+  },
+  {
+    icon: ClipboardCheck,
+    title: 'Event Planning',
+    description: 'Our experienced event planners ensure every detail is perfect, from the initial consultation to your big day.',
+  },
+  {
+    icon: BedDouble, // Using BedDouble for guest accommodation
+    title: 'Guest Accommodation',
+    description: 'Luxurious rooms and suites for your guests, with special wedding rates and personalized amenities.',
+  },
+];
+
+export const weddingTestimonials: Testimonial[] = [
+  {
+    id: 'wt1',
+    quote: "We couldn't have imagined a more magical setting for our big day. The team at Silver Ray made every moment seamless and special. The venue was breathtaking, the food delicious, and the service flawless!",
+    name: 'Nimali & Suraj P.',
+    location: 'Colombo, Sri Lanka',
+    avatarUrl: 'https://placehold.co/100x100.png?text=NS',
+    rating: 5,
+  },
+  {
+    id: 'wt2',
+    quote: "The Garden Terrace was the perfect backdrop for our sunset vows. The service, flowers, and attention to detail were beyond our expectations. Thank you, Silver Ray, for making our dream wedding come true!",
+    name: 'Karen & Mark D.',
+    location: 'Sydney, Australia',
+    avatarUrl: 'https://placehold.co/100x100.png?text=KM',
+    rating: 5,
   },
 ];

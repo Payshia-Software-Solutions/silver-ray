@@ -5,8 +5,9 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { WeddingVenueCard } from '@/components/weddings/WeddingVenueCard';
 import { WeddingPackageCard } from '@/components/weddings/WeddingPackageCard';
-import { weddingVenues, weddingPackages } from '@/data/weddingData';
-import { ChevronRight } from 'lucide-react';
+import { weddingVenues, weddingPackages, weddingServices, weddingTestimonials } from '@/data/weddingData';
+import { TestimonialCard } from '@/components/shared/TestimonialCard';
+import { Utensils, Flower2, ClipboardCheck, BedDouble as GuestAccommodationIcon } from 'lucide-react'; // Renamed BedDouble to avoid conflict
 
 export const metadata: Metadata = {
   title: 'Weddings at Grand Silver Ray',
@@ -77,20 +78,60 @@ export default function WeddingsPage() {
         </div>
       </section>
 
-      <section className="py-16 lg:py-24">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h2 className="font-headline text-3xl sm:text-4xl font-bold mb-4">Ready to Start Planning?</h2>
-            <p className="font-body text-lg text-muted-foreground max-w-xl mx-auto mb-8">
-                Our dedicated wedding specialists are here to guide you every step of the way. Contact us today to begin your journey.
+      <section className="py-16 lg:py-24 bg-background">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="font-headline text-3xl sm:text-4xl font-bold mb-3">Our Wedding Services</h2>
+            <p className="font-body text-lg text-muted-foreground max-w-xl mx-auto">
+              Comprehensive services to make your wedding planning effortless and enjoyable.
             </p>
-            <Button asChild size="lg" className="font-body text-lg group">
-              <Link href="/contact?subject=Wedding+Consultation">
-                Contact Our Wedding Team
-                <ChevronRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform duration-300" />
-              </Link>
-            </Button>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 text-center">
+            {weddingServices.map((service) => (
+              <div key={service.title} className="flex flex-col items-center p-6 bg-card rounded-xl shadow-lg hover:shadow-xl transition-shadow">
+                <div className="p-4 bg-primary/10 rounded-full mb-4 inline-flex">
+                  <service.icon className="w-8 h-8 text-primary" />
+                </div>
+                <h3 className="font-headline text-xl font-semibold mb-2">{service.title}</h3>
+                <p className="font-body text-sm text-muted-foreground leading-relaxed">
+                  {service.description}
+                </p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
+
+      <section className="py-16 lg:py-24 bg-secondary/20">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="font-headline text-3xl sm:text-4xl font-bold mb-3">Love Stories at Silver Ray</h2>
+            <p className="font-body text-lg text-muted-foreground max-w-xl mx-auto">
+              Hear from couples who celebrated their special day with us.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+            {weddingTestimonials.map((testimonial) => (
+              <TestimonialCard key={testimonial.id} testimonial={testimonial} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="py-16 lg:py-24 bg-primary/5">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="font-headline text-3xl sm:text-4xl font-bold mb-4 text-primary-foreground/90">
+            Ready to Begin Your Forever?
+          </h2>
+          <p className="font-body text-lg text-primary-foreground/80 mb-8 max-w-xl mx-auto">
+            Let our expert team help you craft the wedding of your dreams. Share your vision, and we'll bring it to life.
+          </p>
+          <Button asChild size="lg" className="font-body text-lg px-8 py-3 bg-accent text-accent-foreground hover:bg-accent/90 transform hover:scale-105 transition-transform duration-300 rounded-md">
+            <Link href="/contact?subject=Wedding+Consultation+Inquiry">Contact Our Wedding Team</Link>
+          </Button>
+        </div>
+      </section>
+   
     </div>
   );
 }
