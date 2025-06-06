@@ -43,7 +43,7 @@ export const weddingVenues: WeddingVenue[] = [
     id: 'grand-ballroom',
     name: 'The Grand Ballroom',
     description: 'An opulent space with soaring ceilings, sparkling chandeliers, and a versatile layout. Perfect for lavish celebrations and formal receptions.',
-    imageUrl: 'https://placehold.co/600x400.png',
+    imageUrl: 'https://images.unsplash.com/photo-1517456363055-5d162a453d6d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxncmFuZCUyMGJhbGxyb29tJTIwd2VkZGluZ3xlbnwwfHx8fDE3NDkxOTI0MjN8MA&ixlib=rb-4.1.0&q=80&w=1080',
     imageHint: 'grand ballroom wedding',
     features: [
       { icon: Users, text: 'Capacity: 300 guests' },
@@ -56,7 +56,7 @@ export const weddingVenues: WeddingVenue[] = [
     id: 'garden-terrace',
     name: 'The Garden Terrace',
     description: 'Exchange vows amidst lush greenery and blooming florals. Our open-air terrace offers an intimate and romantic setting under the stars.',
-    imageUrl: 'https://placehold.co/600x400.png',
+    imageUrl: 'https://images.unsplash.com/photo-1525258946800-98cfd641d0de?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxnYXJkZW4lMjB3ZWRkaW5nJTIwdGVycmFjZXxlbnwwfHx8fDE3NDkxOTI0MjN8MA&ixlib=rb-4.1.0&q=80&w=1080',
     imageHint: 'garden wedding terrace',
     features: [
       { icon: Users, text: 'Capacity: 100 guests' },
@@ -69,7 +69,7 @@ export const weddingVenues: WeddingVenue[] = [
     id: 'emerald-lounge',
     name: 'Emerald Lounge',
     description: 'A chic, contemporary space ideal for smaller gatherings, cocktail hours, or pre-wedding events. Features stylish decor and a relaxed ambiance.',
-    imageUrl: 'https://placehold.co/600x400.png',
+    imageUrl: 'https://images.unsplash.com/photo-1618107071432-a6579169dfc1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxsb3VuZ2UlMjB3ZWRkaW5nJTIwcmVjZXB0aW9ufGVufDB8fHx8MTc0OTE5MjQyM3ww&ixlib=rb-4.1.0&q=80&w=1080',
     imageHint: 'lounge wedding reception',
     features: [
       { icon: Users, text: 'Capacity: 60 guests' },
@@ -180,3 +180,4 @@ export const weddingTestimonials: Testimonial[] = [
     rating: 5,
   },
 ];
+
