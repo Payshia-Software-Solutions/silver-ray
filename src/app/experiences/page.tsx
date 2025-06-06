@@ -59,8 +59,8 @@ interface CurateRecommendation {
 
 interface NearbyAttraction {
   id: string;
-  imageUrl: string; // Will not be used in the new design for this section, but kept for data structure consistency
-  imageHint: string; // Same as above
+  imageUrl: string; 
+  imageHint: string; 
   title: string;
   distance: string;
   icon?: LucideIcon;
@@ -233,8 +233,8 @@ export default function ExperiencesPage() {
         </div>
       </section>
 
-      {/* Curate Your Journey Section */}
-      <section id="curate-journey" className="py-16 lg:py-20 scroll-mt-20">
+      {/* Curate Your Journey Section - Desktop Only */}
+      <section id="curate-journey" className="py-16 lg:py-20 scroll-mt-20 hidden md:block">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="font-headline text-3xl sm:text-4xl font-bold text-center mb-4">Curate Your Journey</h2>
           <p className="font-body text-lg text-muted-foreground text-center mb-10 max-w-xl mx-auto">
@@ -271,16 +271,48 @@ export default function ExperiencesPage() {
         </div>
       </section>
 
-      {/* Explore Nearby Attractions Section */}
-      <section className="py-16 lg:py-20 bg-secondary/20">
+      {/* Explore Nearby Attractions Section - Desktop Card View */}
+      <section className="py-16 lg:py-20 bg-secondary/20 hidden md:block">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="font-headline text-3xl sm:text-4xl font-bold text-center mb-16">Explore Nearby Attractions</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6 gap-x-6 gap-y-10 items-start">
+            {nearbyAttractions.map((attraction) => (
+              <div key={attraction.id} className="flex flex-col items-center text-center group">
+                {attraction.icon && <attraction.icon className="w-8 h-8 text-primary mb-2 transition-colors group-hover:text-primary/80" />}
+                <h3 className="font-headline text-lg font-semibold text-foreground mb-0.5 transition-colors group-hover:text-primary">
+                  {attraction.title}
+                </h3>
+                <p className="font-body text-xs text-muted-foreground mb-4">{attraction.distance}</p>
+                <Link 
+                  href={`/contact?subject=Inquiry about ${attraction.title}`} 
+                  className="block w-full aspect-[3/4] rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1"
+                >
+                  <div className="relative w-full h-full">
+                    <NextImage
+                      src={attraction.imageUrl}
+                      alt={attraction.title}
+                      data-ai-hint={attraction.imageHint}
+                      fill
+                      className="object-cover transition-transform duration-300 group-hover:scale-105"
+                    />
+                  </div>
+                </Link>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Explore Nearby Attractions Section - Mobile List View */}
+      <section className="py-16 md:hidden bg-secondary/20">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="font-headline text-3xl sm:text-4xl font-bold text-center mb-12">Explore Nearby Attractions</h2>
           <div className="max-w-lg mx-auto grid grid-cols-1 gap-y-6">
             {nearbyAttractions.map((attraction) => (
               <Link 
                 href={`/contact?subject=Inquiry about ${attraction.title}`} 
-                key={attraction.id} 
-                className="flex items-center space-x-4 group p-2 -m-2 rounded-lg hover:bg-secondary/40 transition-colors"
+                key={`mobile-${attraction.id}`} 
+                className="flex items-center space-x-4 group p-3 -m-3 rounded-lg hover:bg-secondary/40 transition-colors"
               >
                 {attraction.icon && <attraction.icon className="w-10 h-10 text-primary flex-shrink-0" />}
                 <div>
@@ -295,5 +327,4 @@ export default function ExperiencesPage() {
     </div>
   );
 }
-
     
