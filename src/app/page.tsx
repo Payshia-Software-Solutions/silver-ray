@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import { HeroSection } from '@/components/home/HeroSection';
 import { FeaturedRoomsSection } from '@/components/home/FeaturedRoomsSection';
 import { TestimonialsSection } from '@/components/home/TestimonialsSection';
+import { LatestOffersSection } from '@/components/home/LatestOffersSection';
 import { CtaBanner } from '@/components/home/CtaBanner';
 
 export const metadata: Metadata = {
@@ -16,6 +17,7 @@ export default function HomePage() {
       <HeroSection />
       <FeaturedRoomsSection />
       <TestimonialsSection />
+      <LatestOffersSection />
       <CtaBanner />
     </>
   );
