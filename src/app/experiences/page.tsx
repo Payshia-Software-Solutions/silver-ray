@@ -7,18 +7,18 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Checkbox } from '@/components/ui/checkbox';
 import {
   HeartPulse, // Wellness & Spa
-  MountainSnow, // Adventure & Nature
-  Palette, // Cultural Immersion
+  MountainSnow, // Adventure & Nature, Sunrise Peak
+  Palette, // Cultural Immersion, Heritage Museum
   ChefHat, // Culinary Classes
   ToyBrick, // Kids Activities
   Clock,
   Users, // Using Users for price per person icon as per design
   CalendarCheck,
   MapPin,
-  Utensils,
-  Leaf,
-  Wind,
-  Ship,
+  Utensils, // Food Enthusiasm?, Local Market new
+  Leaf, // Emerald Forest
+  Waves, // Crystal Falls new
+  Landmark, // Ancient Temple new
   Sparkles
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
@@ -59,8 +59,8 @@ interface CurateRecommendation {
 
 interface NearbyAttraction {
   id: string;
-  imageUrl: string;
-  imageHint: string;
+  imageUrl: string; // Will not be used in the new design for this section, but kept for data structure consistency
+  imageHint: string; // Same as above
   title: string;
   distance: string;
   icon?: LucideIcon;
@@ -143,12 +143,12 @@ const curateRecommendations: CurateRecommendation[] = [
 ];
 
 const nearbyAttractions: NearbyAttraction[] = [
-  { id: 'crystal-falls', imageUrl: 'https://images.unsplash.com/photo-1519582149095-fe7d19b2a3d2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8d2F0ZXJmYWxsJTIwbmF0dXJlfGVufDB8fHx8MTc0OTE0NTQzMXww&ixlib=rb-4.1.0&q=80&w=1080', imageHint: 'waterfall nature', title: 'Crystal Falls', distance: '2 km from hotel', icon: Wind },
-  { id: 'emerald-forest', imageUrl: 'https://images.unsplash.com/photo-1640354065652-64832d9ba672?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxmb3Jlc3QlMjByZXNlcnZlJTIwdHJhaWx8ZW58MHx8fHwxNzQ5MTQ1NDMxfDA&ixlib=rb-4.1.0&q=80&w=1080', imageHint: 'forest reserve trail', title: 'Emerald Forest Reserve', distance: '4.5 km from hotel', icon: Leaf },
+  { id: 'crystal-falls', imageUrl: 'https://images.unsplash.com/photo-1519582149095-fe7d19b2a3d2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8d2F0ZXJmYWxsJTIwbmF0dXJlfGVufDB8fHx8MTc0OTE0NTQzMXww&ixlib=rb-4.1.0&q=80&w=1080', imageHint: 'waterfall nature', title: 'Crystal Falls', distance: '2.1 km from hotel', icon: Waves },
+  { id: 'emerald-forest', imageUrl: 'https://images.unsplash.com/photo-1640354065652-64832d9ba672?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxmb3Jlc3QlMjByZXNlcnZlJTIwdHJhaWx8ZW58MHx8fHwxNzQ5MTQ1NDMxfDA&ixlib=rb-4.1.0&q=80&w=1080', imageHint: 'forest reserve trail', title: 'Emerald Forest Reserve', distance: '4.3 km from hotel', icon: Leaf },
   { id: 'heritage-museum', imageUrl: 'https://images.unsplash.com/photo-1743881188980-4de44e2bba56?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxtdXNldW0lMjBoaXN0b3JpY2FsJTIwYnVpbGRpbmd8ZW58MHx8fHwxNzQ5MTQ1NDMxfDA&ixlib=rb-4.1.0&q=80&w=1080', imageHint: 'museum historical building', title: 'Heritage Museum', distance: '1.8 km from hotel', icon: Palette },
-  { id: 'sunrise-peak', imageUrl: 'https://images.unsplash.com/photo-1466854076813-4aa9ac0fc347?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxtb3VudGFpbiUyMHBlYWslMjBzdW5yaXNlfGVufDB8fHx8MTc0OTE0NTQzMXww&ixlib=rb-4.1.0&q=80&w=1080', imageHint: 'mountain peak sunrise', title: 'Sunrise Peak', distance: '5.7 km from hotel', icon: MountainSnow },
-  { id: 'local-market', imageUrl: 'https://images.unsplash.com/photo-1533264533981-8aead62802fd?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxsb2NhbCUyMG1hcmtldCUyMHN0YWxsc3xlbnwwfHx8fDE3NDkxNDU0MzF8MA&ixlib=rb-4.1.0&q=80&w=1080', imageHint: 'local market stalls', title: 'Local Market', distance: '1.2 km from hotel', icon: Users },
-  { id: 'ancient-temple', imageUrl: 'https://images.unsplash.com/photo-1730758070932-0ad2926af54c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8YW5jaWVudCUyMHRlbXBsZSUyMHJ1aW5zfGVufDB8fHx8MTc0OTE0NTQzMXww&ixlib=rb-4.1.0&q=80&w=1080', imageHint: 'ancient temple ruins', title: 'Ancient Temple', distance: '3 km from hotel', icon: Ship },
+  { id: 'sunrise-peak', imageUrl: 'https://images.unsplash.com/photo-1466854076813-4aa9ac0fc347?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxtb3VudGFpbiUyMHBlYWslMjBzdW5yaXNlfGVufDB8fHx8MTc0OTE0NTQzMXww&ixlib=rb-4.1.0&q=80&w=1080', imageHint: 'mountain peak sunrise', title: 'Sunrise Peak', distance: '6.7 km from hotel', icon: MountainSnow },
+  { id: 'local-market', imageUrl: 'https://images.unsplash.com/photo-1533264533981-8aead62802fd?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxsb2NhbCUyMG1hcmtldCUyMHN0YWxsc3xlbnwwfHx8fDE3NDkxNDU0MzF8MA&ixlib=rb-4.1.0&q=80&w=1080', imageHint: 'local market stalls', title: 'Local Market', distance: '0.9 km from hotel', icon: Utensils },
+  { id: 'ancient-temple', imageUrl: 'https://images.unsplash.com/photo-1730758070932-0ad2926af54c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8YW5jaWVudCUyMHRlbXBsZSUyMHJ1aW5zfGVufDB8fHx8MTc0OTE0NTQzMXww&ixlib=rb-4.1.0&q=80&w=1080', imageHint: 'ancient temple ruins', title: 'Ancient Temple', distance: '3.0 km from hotel', icon: Landmark },
 ];
 
 
@@ -275,23 +275,18 @@ export default function ExperiencesPage() {
       <section className="py-16 lg:py-20 bg-secondary/20">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="font-headline text-3xl sm:text-4xl font-bold text-center mb-12">Explore Nearby Attractions</h2>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-x-4 gap-y-6">
+          <div className="max-w-lg mx-auto grid grid-cols-1 gap-y-6">
             {nearbyAttractions.map((attraction) => (
-              <Link href={`/contact?subject=Inquiry about ${attraction.title}`} key={attraction.id} className="group text-center">
-                <Card className="overflow-hidden rounded-lg shadow-md group-hover:shadow-xl transition-shadow duration-300 mb-3">
-                  <div className="relative aspect-[4/3]">
-                    <NextImage
-                      src={attraction.imageUrl}
-                      alt={attraction.title}
-                      data-ai-hint={attraction.imageHint}
-                      fill
-                      className="object-cover transition-transform duration-300 group-hover:scale-105"
-                    />
-                  </div>
-                </Card>
-                {attraction.icon && <attraction.icon className="w-4 h-4 text-primary inline-block mr-1.5 mb-0.5" />}
-                <h3 className="font-headline text-sm font-semibold group-hover:text-primary transition-colors">{attraction.title}</h3>
-                <p className="font-body text-xs text-muted-foreground">{attraction.distance}</p>
+              <Link 
+                href={`/contact?subject=Inquiry about ${attraction.title}`} 
+                key={attraction.id} 
+                className="flex items-center space-x-4 group p-2 -m-2 rounded-lg hover:bg-secondary/40 transition-colors"
+              >
+                {attraction.icon && <attraction.icon className="w-10 h-10 text-primary flex-shrink-0" />}
+                <div>
+                  <h3 className="font-headline text-lg font-semibold text-foreground group-hover:text-primary transition-colors">{attraction.title}</h3>
+                  <p className="font-body text-sm text-muted-foreground">{attraction.distance}</p>
+                </div>
               </Link>
             ))}
           </div>
