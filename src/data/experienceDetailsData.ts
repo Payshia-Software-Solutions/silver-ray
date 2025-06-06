@@ -32,7 +32,7 @@ export const allExperienceDetails: ExperienceDetail[] = [
   {
     id: 'tea-tour',
     pageTitle: 'Book Your Tea Factory Tour',
-    heroImageUrl: 'https://placehold.co/1920x500.png',
+    heroImageUrl: 'https://images.unsplash.com/photo-1470087167738-6aa485ff65dc?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHx0ZWElMjBwbGFudGF0aW9uJTIwbGFuZHNjYXBlfGVufDB8fHx8MTc0OTE4OTk1Mnww&ixlib=rb-4.1.0&q=80&w=1080',
     heroImageHint: 'tea plantation landscape',
     overviewTitle: 'Tea Factory Tour - Overview',
     overviewContent: "Delve into the world of Ceylon tea with a guided tour of a historic tea factory. Learn about the journey of the tea leaf from plant to cup, witness traditional processing methods, and enjoy a tasting session of exquisite local teas. This immersive experience offers a fascinating glimpse into Sri Lanka's rich tea heritage.",
@@ -47,9 +47,9 @@ export const allExperienceDetails: ExperienceDetail[] = [
       { icon: MapPin, label: 'Meeting Point', value: 'Tea Factory Reception' },
     ],
     galleryImages: [
-      { src: 'https://placehold.co/300x200.png', alt: 'Tea pickers in a field', hint: 'tea picking workers' },
-      { src: 'https://placehold.co/300x200.png', alt: 'Tea processing machinery', hint: 'tea factory machines' },
-      { src: 'https://placehold.co/300x200.png', alt: 'Tea tasting setup', hint: 'tea cups tasting' },
+      { src: 'https://images.unsplash.com/photo-1523920290228-4f321a939b4c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHx0ZWElMjBwaWNraW5nJTIwd29ya2Vyc3xlbnwwfHx8fDE3NDkxODk5NTJ8MA&ixlib=rb-4.1.0&q=80&w=1080', alt: 'Tea pickers in a field', hint: 'tea picking workers' },
+      { src: 'https://images.unsplash.com/photo-1563822249366-3efb23b8e0c9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHx0ZWElMjBmYWN0b3J5JTIwbWFjaGluZXN8ZW58MHx8fHwxNzQ5MTg5OTUyfDA&ixlib=rb-4.1.0&q=80&w=1080', alt: 'Tea processing machinery', hint: 'tea factory machines' },
+      { src: 'https://images.unsplash.com/photo-1498804103079-a6351b050096?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHx0ZWElMjBjdXBzJTIwdGFzdGluZ3xlbnwwfHx8fDE3NDkxODk5NTJ8MA&ixlib=rb-4.1.0&q=80&w=1080', alt: 'Tea tasting setup', hint: 'tea cups tasting' },
     ],
     defaultAdults: 2,
     pricePerAdult: 3500,
