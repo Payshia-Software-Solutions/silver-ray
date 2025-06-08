@@ -1,4 +1,6 @@
 
+"use client";
+
 import type { Metadata } from 'next';
 import {
   Sidebar,
@@ -17,10 +19,8 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
 
-export const metadata: Metadata = {
-  title: 'Admin Dashboard | Grand Silver Ray',
-  description: 'Admin panel for Grand Silver Ray Hotel.',
-};
+// Metadata cannot be exported from a Client Component.
+// Individual admin pages (e.g., /admin/page.tsx) should define their own metadata.
 
 export default function AdminLayout({
   children,
