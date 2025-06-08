@@ -271,7 +271,7 @@ export default function ExperiencesPage() {
         </div>
       </section>
 
-      {/* Explore Nearby Attractions Section - Desktop Card View */}
+      {/* Explore test Nearby Attractions Section - Desktop Card View */}
       <section className="py-16 lg:py-20 bg-secondary/20 hidden md:block">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="font-headline text-3xl sm:text-4xl font-bold text-center mb-16">Explore Nearby Attractions</h2>
