@@ -14,7 +14,7 @@ import {
   SidebarMenuButton,
 } from '@/components/ui/sidebar';
 import Link from 'next/link';
-import { LayoutDashboard, BedDouble, Briefcase, CalendarHeart } from 'lucide-react';
+import { LayoutDashboard, BedDouble, Briefcase, CalendarHeart, List, MapPin, Package, ClipboardList } from 'lucide-react';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
@@ -62,28 +62,32 @@ export default function AdminLayout({
                 <AccordionContent className="pt-1 pb-0 pl-4 mt-1 space-y-1">
                     <SidebarMenuItem className="p-0">
                       <SidebarMenuButton asChild tooltip="Wedding Overview" size="sm" variant="ghost" className="w-full justify-start h-8 px-2" isActive={pathname === '/admin/weddings'}>
-                        <Link href="/admin/weddings">
+                        <Link href="/admin/weddings" className="flex items-center gap-2">
+                          <List className="h-3.5 w-3.5" />
                           <span className="text-xs">Overview</span>
                         </Link>
                       </SidebarMenuButton>
                     </SidebarMenuItem>
                     <SidebarMenuItem className="p-0">
                       <SidebarMenuButton asChild tooltip="Manage Venues" size="sm" variant="ghost" className="w-full justify-start h-8 px-2" isActive={pathname === '/admin/weddings/venues'}>
-                        <Link href="/admin/weddings/venues">
+                        <Link href="/admin/weddings/venues" className="flex items-center gap-2">
+                          <MapPin className="h-3.5 w-3.5" />
                           <span className="text-xs">Venues</span>
                         </Link>
                       </SidebarMenuButton>
                     </SidebarMenuItem>
                     <SidebarMenuItem className="p-0">
                       <SidebarMenuButton asChild tooltip="Manage Packages" size="sm" variant="ghost" className="w-full justify-start h-8 px-2" isActive={pathname === '/admin/weddings/packages'}>
-                        <Link href="/admin/weddings/packages">
+                        <Link href="/admin/weddings/packages" className="flex items-center gap-2">
+                          <Package className="h-3.5 w-3.5" />
                           <span className="text-xs">Packages</span>
                         </Link>
                       </SidebarMenuButton>
                     </SidebarMenuItem>
                     <SidebarMenuItem className="p-0">
                       <SidebarMenuButton asChild tooltip="Manage Services" size="sm" variant="ghost" className="w-full justify-start h-8 px-2" isActive={pathname === '/admin/weddings/services'}>
-                        <Link href="/admin/weddings/services">
+                        <Link href="/admin/weddings/services" className="flex items-center gap-2">
+                          <ClipboardList className="h-3.5 w-3.5" />
                           <span className="text-xs">Services</span>
                         </Link>
                       </SidebarMenuButton>
