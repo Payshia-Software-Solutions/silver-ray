@@ -11,9 +11,11 @@ import {
   SidebarMenuItem,
   SidebarMenuButton,
 } from '@/components/ui/sidebar';
-// Toaster removed, it's in RootLayout
 import Link from 'next/link';
-import { LayoutDashboard, BedDouble, Briefcase, CalendarHeart, Settings } from 'lucide-react';
+import { LayoutDashboard, BedDouble, Briefcase, CalendarHeart } from 'lucide-react';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
+import { usePathname } from 'next/navigation';
+import { cn } from '@/lib/utils';
 
 export const metadata: Metadata = {
   title: 'Admin Dashboard | Grand Silver Ray',
@@ -25,8 +27,8 @@ export default function AdminLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // Removed <html>, <head>, <body> tags and globals.css import
-  // Font links and body class are inherited from RootLayout
+  const pathname = usePathname();
+
   return (
     <SidebarProvider defaultOpen>
       <Sidebar>
@@ -38,23 +40,60 @@ export default function AdminLayout({
         <SidebarContent>
           <SidebarMenu>
             <SidebarMenuItem>
-              <SidebarMenuButton asChild tooltip="Dashboard">
+              <SidebarMenuButton asChild tooltip="Dashboard" isActive={pathname === '/admin'}>
                 <Link href="/admin">
                   <LayoutDashboard />
                   <span>Dashboard</span>
                 </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>
+
+            <Accordion type="single" collapsible className="w-full px-2">
+              <AccordionItem value="weddings" className="border-none">
+                <AccordionTrigger className={cn(
+                  "flex items-center justify-between w-full p-2 text-sm rounded-md hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 focus-visible:ring-sidebar-ring outline-none font-medium hover:no-underline",
+                  pathname.startsWith('/admin/weddings') && "bg-sidebar-accent text-sidebar-accent-foreground"
+                )}>
+                  <div className="flex items-center gap-2">
+                    <CalendarHeart className="h-5 w-5" />
+                    <span className="font-body">Weddings</span>
+                  </div>
+                </AccordionTrigger>
+                <AccordionContent className="pt-1 pb-0 pl-4 mt-1 space-y-1">
+                    <SidebarMenuItem className="p-0">
+                      <SidebarMenuButton asChild tooltip="Wedding Overview" size="sm" variant="ghost" className="w-full justify-start h-8 px-2" isActive={pathname === '/admin/weddings'}>
+                        <Link href="/admin/weddings">
+                          <span className="text-xs">Overview</span>
+                        </Link>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                    <SidebarMenuItem className="p-0">
+                      <SidebarMenuButton asChild tooltip="Manage Venues" size="sm" variant="ghost" className="w-full justify-start h-8 px-2" isActive={pathname === '/admin/weddings/venues'}>
+                        <Link href="/admin/weddings/venues">
+                          <span className="text-xs">Venues</span>
+                        </Link>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                    <SidebarMenuItem className="p-0">
+                      <SidebarMenuButton asChild tooltip="Manage Packages" size="sm" variant="ghost" className="w-full justify-start h-8 px-2" isActive={pathname === '/admin/weddings/packages'}>
+                        <Link href="/admin/weddings/packages">
+                          <span className="text-xs">Packages</span>
+                        </Link>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                    <SidebarMenuItem className="p-0">
+                      <SidebarMenuButton asChild tooltip="Manage Services" size="sm" variant="ghost" className="w-full justify-start h-8 px-2" isActive={pathname === '/admin/weddings/services'}>
+                        <Link href="/admin/weddings/services">
+                          <span className="text-xs">Services</span>
+                        </Link>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
+
             <SidebarMenuItem>
-              <SidebarMenuButton asChild tooltip="Wedding Management">
-                <Link href="/admin/weddings">
-                  <CalendarHeart />
-                  <span>Weddings</span>
-                </Link>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-            <SidebarMenuItem>
-              <SidebarMenuButton asChild tooltip="Room Management">
+              <SidebarMenuButton asChild tooltip="Room Management" isActive={pathname.startsWith('/admin/rooms')}>
                 <Link href="/admin/rooms">
                   <BedDouble />
                   <span>Rooms</span>
@@ -62,29 +101,25 @@ export default function AdminLayout({
               </SidebarMenuButton>
             </SidebarMenuItem>
             <SidebarMenuItem>
-              <SidebarMenuButton asChild tooltip="Booking Management">
+              <SidebarMenuButton asChild tooltip="Booking Management" isActive={pathname.startsWith('/admin/bookings')}>
                 <Link href="/admin/bookings">
                   <Briefcase />
                   <span>Bookings</span>
                 </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>
-             {/* Add more admin links here later e.g. Settings */}
           </SidebarMenu>
         </SidebarContent>
-         {/* You can add a SidebarFooter here if needed */}
       </Sidebar>
       <SidebarInset>
         <header className="flex items-center justify-between p-4 border-b bg-background">
           <SidebarTrigger />
           <h1 className="font-headline text-xl font-semibold">Grand Silver Ray Admin</h1>
-          {/* Potentially add user profile/logout button here */}
         </header>
         <main className="p-4 md:p-6 lg:p-8">
           {children}
         </main>
       </SidebarInset>
-      {/* Toaster removed from here, it is in RootLayout */}
     </SidebarProvider>
   );
 }
