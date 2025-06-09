@@ -1,6 +1,6 @@
 
 import type { LucideIcon } from 'lucide-react';
-import { Users, Image as ImageIcon, Sun, Mic, Disc, Speaker, Utensils, BedDouble, Flower2, Camera, Music, Gift, Wine, Trees, Waves, MapPin, ClipboardCheck, Hotel, Sparkles, ListChecks, Wrench, CheckCircle } from 'lucide-react';
+import { Users, Image as ImageIcon, Sun, Mic, Disc, Speaker, Utensils, BedDouble, Flower2, Camera, Music, Gift, Wine, Trees, Waves, MapPin, ClipboardCheck, Hotel, Sparkles, ListChecks, Wrench, CheckCircle, Leaf, Guitar, Cake } from 'lucide-react';
 import type { Testimonial } from '@/types';
 
 
@@ -59,7 +59,7 @@ export const weddingServices: WeddingServiceDisplayInfo[] = [
     description: 'Our experienced event planners ensure every detail is perfect, from the initial consultation to your big day.',
   },
   {
-    icon: BedDouble, 
+    icon: BedDouble,
     title: 'Guest Accommodation',
     description: 'Luxurious rooms and suites for your guests, with special wedding rates and personalized amenities.',
   },
@@ -71,9 +71,9 @@ export interface ManageableWeddingService {
   id: string;
   name: string;
   description: string;
-  price?: string; 
-  iconImageUrl?: string; 
-  imageHint?: string;   
+  price?: string;
+  iconImageUrl?: string;
+  imageHint?: string;
   defaultIcon?: LucideIcon; // For display in table if no image
 }
 
@@ -162,9 +162,9 @@ export const weddingPackages: WeddingPackage[] = [
     name: 'Classic Elegance Package',
     shortDescription: 'Experience a timeless wedding celebration with our Classic Elegance package. Every detail is meticulously crafted to create an unforgettable day that reflects your unique love story.',
     price: 'LKR 800,000',
-    icon: Gift, 
-    iconImageUrl: 'https://placehold.co/100x100/EADDCA/A57C57.png?text=CE', 
-    heroImage: 'https://placehold.co/1920x700.png',
+    icon: Gift,
+    iconImageUrl: 'https://placehold.co/100x100/EADDCA/A57C57.png?text=CE',
+    heroImage: 'https://placehold.co/1920x700/EADDCA/A57C57.png?text=Classic+Elegance',
     heroImageHint: 'elegant wedding setup',
     imageHint: 'classic wedding gift',
     inclusions: [
@@ -186,8 +186,8 @@ export const weddingPackages: WeddingPackage[] = [
     shortDescription: 'Our Romantic Dream package offers an enchanting experience. Focus on romance with premium services and beautiful settings.',
     price: 'LKR 1,200,000',
     icon: Flower2,
-    iconImageUrl: 'https://placehold.co/100x100/F7D9E3/D170A2.png?text=RD', 
-    heroImage: 'https://placehold.co/1920x700.png',
+    iconImageUrl: 'https://placehold.co/100x100/F7D9E3/D170A2.png?text=RD',
+    heroImage: 'https://placehold.co/1920x700/F7D9E3/D170A2.png?text=Romantic+Dream',
     heroImageHint: 'romantic wedding decor',
     imageHint: 'romantic wedding flowers',
     inclusions: [
@@ -210,8 +210,8 @@ export const weddingPackages: WeddingPackage[] = [
     shortDescription: 'Indulge in the ultimate luxury wedding. This all-inclusive package provides top-tier services and an unforgettable experience.',
     price: 'LKR 2,000,000',
     icon: Wine,
-    iconImageUrl: 'https://placehold.co/100x100/D4AF37/8C6D2F.png?text=LA', 
-    heroImage: 'https://placehold.co/1920x700.png',
+    iconImageUrl: 'https://placehold.co/100x100/D4AF37/8C6D2F.png?text=LA',
+    heroImage: 'https://placehold.co/1920x700/D4AF37/8C6D2F.png?text=Luxury+Affair',
     heroImageHint: 'luxury wedding reception',
     imageHint: 'luxury wedding champagne',
     inclusions: [
@@ -235,8 +235,8 @@ export const weddingPackages: WeddingPackage[] = [
     shortDescription: 'Perfect for smaller weddings, our Intimate Gathering package ensures a beautiful and personal celebration.',
     price: 'LKR 500,000',
     icon: Users,
-    iconImageUrl: 'https://placehold.co/100x100/A2D2FF/5E86C1.png?text=IG', 
-    heroImage: 'https://placehold.co/1920x700.png',
+    iconImageUrl: 'https://placehold.co/100x100/A2D2FF/5E86C1.png?text=IG',
+    heroImage: 'https://placehold.co/1920x700/A2D2FF/5E86C1.png?text=Intimate+Gathering',
     heroImageHint: 'intimate wedding dinner',
     imageHint: 'intimate wedding couple',
     inclusions: [
@@ -278,3 +278,42 @@ export { Wrench as DefaultServiceIcon, CheckCircle };
 export const getWeddingPackageById = (id: string): WeddingPackage | undefined => {
   return weddingPackages.find(pkg => pkg.id === id);
 };
+
+export interface WeddingAddon {
+  id: string;
+  icon: LucideIcon;
+  name: string;
+  description: string;
+  price: string;
+}
+
+export const premiumWeddingAddons: WeddingAddon[] = [
+  {
+    id: 'addon-florals',
+    icon: Leaf,
+    name: 'Premiere Florals',
+    description: 'Bespoke bouquets & venue decor.',
+    price: 'LKR 75,000',
+  },
+  {
+    id: 'addon-live-music',
+    icon: Guitar,
+    name: 'Live Musician',
+    description: 'Solo artist or string quartet.',
+    price: 'LKR 60,000',
+  },
+  {
+    id: 'addon-custom-cake',
+    icon: Cake,
+    name: 'Custom Wedding Cake',
+    description: 'Multi-tiered designer wedding cake.',
+    price: 'LKR 40,000',
+  },
+  {
+    id: 'addon-photo-booth',
+    icon: Camera,
+    name: 'Photo Booth',
+    description: 'Fun props & instant prints for guests.',
+    price: 'LKR 35,000',
+  },
+];

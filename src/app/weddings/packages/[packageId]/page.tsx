@@ -4,7 +4,7 @@ import NextImage from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
-import { getWeddingPackageById, weddingPackages, WeddingPackageInclusion } from '@/data/weddingData';
+import { getWeddingPackageById, weddingPackages, WeddingPackageInclusion, premiumWeddingAddons } from '@/data/weddingData';
 import type { WeddingPackage } from '@/data/weddingData';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -12,6 +12,7 @@ import { Breadcrumbs } from '@/components/shared/Breadcrumbs';
 import type { BreadcrumbItem } from '@/types';
 import { CheckCircle, Utensils, Flower2, Camera, Music, BedDouble, Sparkles, Users, ClipboardCheck, Disc } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
+import { WeddingAddonCard } from '@/components/weddings/WeddingAddonCard';
 
 type Props = {
   params: { packageId: string };
@@ -77,7 +78,7 @@ export default function WeddingPackageDetailPage({ params }: Props) {
     { icon: Camera, label: 'Photography' },
     { icon: Users, label: 'Guest Experience' },
   ];
-  
+
   // Group inclusions by category based on icon
   const inclusionGroups: InclusionGroup[] = [
     { title: 'Premium Catering', icon: Utensils, items: [] },
@@ -160,7 +161,7 @@ export default function WeddingPackageDetailPage({ params }: Props) {
         </section>
 
         {/* What's Included Section */}
-        <section>
+        <section className="mb-12 md:mb-16">
           <h2 className="font-headline text-3xl sm:text-4xl font-bold text-center mb-10 md:mb-12">
             What&apos;s Included
           </h2>
@@ -187,7 +188,21 @@ export default function WeddingPackageDetailPage({ params }: Props) {
             ))}
           </div>
         </section>
-        
+
+        {/* Premium Add-ons Section */}
+        {premiumWeddingAddons.length > 0 && (
+          <section className="mb-12 md:mb-16 py-12 bg-secondary/10 rounded-xl">
+            <h2 className="font-headline text-3xl sm:text-4xl font-bold text-center mb-10 md:mb-12 text-primary">
+              Premium Add-ons
+            </h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-8 px-6">
+              {premiumWeddingAddons.map((addon) => (
+                <WeddingAddonCard key={addon.id} addon={addon} packageName={pkg.name} />
+              ))}
+            </div>
+          </section>
+        )}
+
         {/* CTA Section */}
         <section className="mt-16 md:mt-24 text-center py-12 bg-primary/10 rounded-xl">
             <h3 className="font-headline text-2xl sm:text-3xl font-bold mb-4 text-primary">
