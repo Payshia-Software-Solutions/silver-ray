@@ -1,6 +1,6 @@
 
 import type { LucideIcon } from 'lucide-react';
-import { Users, Image as ImageIcon, Sun, Mic, Disc, Speaker, Utensils, BedDouble, Flower2, Camera, Music, Gift, Wine, Trees, Waves, MapPin, ClipboardCheck, Hotel, Sparkles, ListChecks, Wrench } from 'lucide-react';
+import { Users, Image as ImageIcon, Sun, Mic, Disc, Speaker, Utensils, BedDouble, Flower2, Camera, Music, Gift, Wine, Trees, Waves, MapPin, ClipboardCheck, Hotel, Sparkles, ListChecks, Wrench, CheckCircle } from 'lucide-react';
 import type { Testimonial } from '@/types';
 
 
@@ -30,6 +30,9 @@ export interface WeddingPackage {
   iconImageUrl?: string; // Optional: if you have specific images for package icons
   imageHint: string;
   inclusions: WeddingPackageInclusion[];
+  shortDescription?: string; // Added for overview section
+  heroImage?: string; // Optional: specific hero image for package page
+  heroImageHint?: string; // Hint for hero image
 }
 
 // This is the existing structure for the public wedding page
@@ -157,57 +160,95 @@ export const weddingPackages: WeddingPackage[] = [
   {
     id: 'classic-elegance',
     name: 'Classic Elegance Package',
+    shortDescription: 'Experience a timeless wedding celebration with our Classic Elegance package. Every detail is meticulously crafted to create an unforgettable day that reflects your unique love story.',
     price: 'LKR 800,000',
     icon: Gift, 
     iconImageUrl: 'https://placehold.co/100x100/EADDCA/A57C57.png?text=CE', 
+    heroImage: 'https://placehold.co/1920x700.png',
+    heroImageHint: 'elegant wedding setup',
     imageHint: 'classic wedding gift',
     inclusions: [
       { icon: Utensils, text: 'Buffet Catering (100 guests)' },
+      { icon: Utensils, text: 'Welcome drinks for guests' },
+      { icon: Flower2, text: 'Standard Floral Decorations for Venue' },
+      { icon: Flower2, text: 'Bridal Bouquet & Groom Boutonniere' },
+      { icon: Camera, text: '4-Hour Photography Coverage' },
+      { icon: Camera, text: 'Online Photo Gallery' },
+      { icon: Music, text: 'Background Music System for Ceremony' },
       { icon: BedDouble, text: 'Bridal Suite (1 Night)' },
-      { icon: Flower2, text: 'Standard Floral Decorations' },
-      { icon: Camera, text: '4-Hour Photography' },
+      { icon: ClipboardCheck, text: 'Dedicated Wedding Coordinator' },
+      { icon: Sparkles, text: 'Standard Ceremony Setup' },
     ],
   },
   {
     id: 'romantic-dream',
     name: 'Romantic Dream Package',
+    shortDescription: 'Our Romantic Dream package offers an enchanting experience. Focus on romance with premium services and beautiful settings.',
     price: 'LKR 1,200,000',
     icon: Flower2,
     iconImageUrl: 'https://placehold.co/100x100/F7D9E3/D170A2.png?text=RD', 
+    heroImage: 'https://placehold.co/1920x700.png',
+    heroImageHint: 'romantic wedding decor',
     imageHint: 'romantic wedding flowers',
     inclusions: [
       { icon: Utensils, text: 'Plated Dinner (80 guests)' },
-      { icon: BedDouble, text: 'Honeymoon Suite (1 Night)' },
+      { icon: Utensils, text: 'Custom Wedding Cake' },
       { icon: Flower2, text: 'Premium Floral Arrangements' },
+      { icon: Flower2, text: 'Ceremony Arch & Aisle Decor' },
+      { icon: Camera, text: '6-Hour Photography & Basic Videography' },
       { icon: Music, text: 'Live Band or DJ (3 hours)' },
+      { icon: Music, text: 'Professional Sound System' },
+      { icon: BedDouble, text: 'Honeymoon Suite (1 Night with breakfast)' },
+      { icon: BedDouble, text: 'Special turndown service' },
+      { icon: ClipboardCheck, text: 'Full Wedding Planning Assistance' },
+      { icon: Sparkles, text: 'Enhanced Ceremony Setup with Draping' },
     ],
   },
   {
     id: 'luxury-affair',
     name: 'Luxury Affair Package',
+    shortDescription: 'Indulge in the ultimate luxury wedding. This all-inclusive package provides top-tier services and an unforgettable experience.',
     price: 'LKR 2,000,000',
     icon: Wine,
     iconImageUrl: 'https://placehold.co/100x100/D4AF37/8C6D2F.png?text=LA', 
+    heroImage: 'https://placehold.co/1920x700.png',
+    heroImageHint: 'luxury wedding reception',
     imageHint: 'luxury wedding champagne',
     inclusions: [
-      { icon: Utensils, text: 'Gourmet Menu (150 guests)' },
-      { icon: BedDouble, text: 'Presidential Suite (2 Nights)' },
-      { icon: Flower2, text: 'Custom Designer Decor' },
-      { icon: Camera, text: 'Full-Day Videography & Photography' },
+      { icon: Utensils, text: 'Gourmet Menu & Live Cooking Stations (150 guests)' },
+      { icon: Utensils, text: 'Champagne Toast & Premium Bar Service' },
+      { icon: Flower2, text: 'Custom Designer Decor & Theming' },
+      { icon: Flower2, text: 'Luxury Centerpieces and Linens' },
+      { icon: Camera, text: 'Full-Day Videography & Photography (2 photographers)' },
+      { icon: Camera, text: 'Drone Coverage & Cinematic Wedding Film' },
+      { icon: Music, text: 'Premium DJ, Live Band, and MC Services' },
+      { icon: Music, text: 'Advanced Lighting and Effects' },
+      { icon: BedDouble, text: 'Presidential Suite (2 Nights with all meals)' },
+      { icon: BedDouble, text: 'Guest Accommodation Discounts (10 rooms)' },
+      { icon: ClipboardCheck, text: 'End-to-End Wedding Management' },
+      { icon: Sparkles, text: 'Grand Ceremony Setup with Custom Stage' },
     ],
   },
   {
     id: 'intimate-gathering',
     name: 'Intimate Gathering Package',
+    shortDescription: 'Perfect for smaller weddings, our Intimate Gathering package ensures a beautiful and personal celebration.',
     price: 'LKR 500,000',
     icon: Users,
     iconImageUrl: 'https://placehold.co/100x100/A2D2FF/5E86C1.png?text=IG', 
+    heroImage: 'https://placehold.co/1920x700.png',
+    heroImageHint: 'intimate wedding dinner',
     imageHint: 'intimate wedding couple',
     inclusions: [
-      { icon: Utensils, text: 'Cocktail Menu (50 guests)' },
-      { icon: BedDouble, text: 'Deluxe Room (1 Night)' },
+      { icon: Utensils, text: 'Cocktail Menu & Canapés (50 guests)' },
+      { icon: Utensils, text: 'Sparkling Wine for Toasting' },
       { icon: Flower2, text: 'Elegant Minimalist Decor' },
-      { icon: Music, text: 'Background Music System' },
+      { icon: Flower2, text: 'Bridal Bouquet and Groom Boutonniere' },
+      { icon: Camera, text: '3-Hour Photography Session' },
+      { icon: Music, text: 'Curated Background Music System' },
+      { icon: BedDouble, text: 'Deluxe Room (1 Night)' },
+      { icon: ClipboardCheck, text: 'On-the-day Wedding Coordinator' },
+      { icon: Sparkles, text: 'Simple & Elegant Ceremony Setup' },
     ],
   },
 ];
@@ -232,4 +273,8 @@ export const weddingTestimonials: Testimonial[] = [
   },
 ];
 
-export { Wrench as DefaultServiceIcon }; // Exporting a default icon for services
+export { Wrench as DefaultServiceIcon, CheckCircle };
+
+export const getWeddingPackageById = (id: string): WeddingPackage | undefined => {
+  return weddingPackages.find(pkg => pkg.id === id);
+};
