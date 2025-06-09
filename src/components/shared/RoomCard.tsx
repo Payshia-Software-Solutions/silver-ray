@@ -13,7 +13,7 @@ interface RoomCardProps {
 
 export function RoomCard({ room }: RoomCardProps) {
   return (
-    <Card className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col h-full rounded-lg bg-card">
+    <Card className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col h-full rounded-2xl bg-card">
       <CardHeader className="p-0 relative aspect-[4/3]">
         <NextImage
           src={room.imageUrl}
@@ -74,7 +74,7 @@ export function RoomCard({ room }: RoomCardProps) {
         </div>
       </CardContent>
       <CardFooter className="p-4 sm:p-6 pt-0 mt-auto">
-        <Button asChild className="w-full font-body text-sm bg-primary text-primary-foreground hover:bg-primary/90 transition-transform duration-300 hover:scale-105">
+        <Button asChild className="w-full rounded-full font-body text-sm bg-primary text-primary-foreground hover:bg-primary/90 transition-transform duration-300 hover:scale-105">
           <Link href={`/rooms/${room.id}`}>View Details</Link>
         </Button>
       </CardFooter>
