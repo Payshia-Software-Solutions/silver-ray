@@ -1,6 +1,6 @@
 
 import type { LucideIcon } from 'lucide-react';
-import { Users, Image as ImageIcon, Sun, Mic, Disc, Speaker, Utensils, BedDouble, Flower2, Camera, Music, Gift, Wine, Trees, Waves, MapPin, ClipboardCheck, Hotel } from 'lucide-react';
+import { Users, Image as ImageIcon, Sun, Mic, Disc, Speaker, Utensils, BedDouble, Flower2, Camera, Music, Gift, Wine, Trees, Waves, MapPin, ClipboardCheck, Hotel, Sparkles, ListChecks, Wrench } from 'lucide-react';
 import type { Testimonial } from '@/types';
 
 
@@ -32,11 +32,84 @@ export interface WeddingPackage {
   inclusions: WeddingPackageInclusion[];
 }
 
-export interface WeddingService {
+// This is the existing structure for the public wedding page
+export interface WeddingServiceDisplayInfo {
   icon: LucideIcon;
   title: string;
   description: string;
 }
+
+export const weddingServices: WeddingServiceDisplayInfo[] = [
+  {
+    icon: Utensils,
+    title: 'Custom Catering',
+    description: 'Exquisite menus tailored to your taste, from lavish buffets to fine dining, crafted by our acclaimed chefs.',
+  },
+  {
+    icon: Flower2,
+    title: 'Elegant Decor',
+    description: 'From floral arrangements to lighting, our creative team brings your vision to life with bespoke decor solutions.',
+  },
+  {
+    icon: ClipboardCheck,
+    title: 'Event Planning',
+    description: 'Our experienced event planners ensure every detail is perfect, from the initial consultation to your big day.',
+  },
+  {
+    icon: BedDouble, 
+    title: 'Guest Accommodation',
+    description: 'Luxurious rooms and suites for your guests, with special wedding rates and personalized amenities.',
+  },
+];
+
+
+// New structure for manageable wedding services in the admin panel
+export interface ManageableWeddingService {
+  id: string;
+  name: string;
+  description: string;
+  price?: string; 
+  iconImageUrl?: string; 
+  imageHint?: string;   
+  defaultIcon?: LucideIcon; // For display in table if no image
+}
+
+export const initialManageableWeddingServices: ManageableWeddingService[] = [
+  {
+    id: 'service-catering-premium',
+    name: 'Premium Catering Package',
+    description: 'Full-service catering including a 5-course meal, dessert bar, and premium beverages for up to 150 guests.',
+    price: 'LKR 750,000',
+    iconImageUrl: 'https://placehold.co/100x100/FFE0B2/A1887F.png?text=CT',
+    imageHint: 'catering food setup',
+    defaultIcon: Utensils,
+  },
+  {
+    id: 'service-decor-luxury',
+    name: 'Luxury Floral & Decor',
+    description: 'Bespoke floral arrangements, themed venue decoration, ambient lighting, and custom centerpieces.',
+    price: 'LKR 400,000',
+    iconImageUrl: 'https://placehold.co/100x100/C8E6C9/66BB6A.png?text=DC',
+    imageHint: 'floral wedding decor',
+    defaultIcon: Flower2,
+  },
+  {
+    id: 'service-photo-video-full',
+    name: 'Full Day Photo & Video',
+    description: 'Comprehensive photography and videography coverage from preparations to the end of the reception, including drone shots.',
+    price: 'LKR 300,000',
+    defaultIcon: Camera,
+  },
+  {
+    id: 'service-music-dj-live',
+    name: 'DJ & Live Music Combo',
+    description: 'Professional DJ services for the reception and a live acoustic band for the ceremony and cocktail hour.',
+    price: 'LKR 200,000',
+    imageHint: 'dj music setup',
+    defaultIcon: Music,
+  },
+];
+
 
 export const weddingVenues: WeddingVenue[] = [
   {
@@ -139,28 +212,6 @@ export const weddingPackages: WeddingPackage[] = [
   },
 ];
 
-export const weddingServices: WeddingService[] = [
-  {
-    icon: Utensils,
-    title: 'Custom Catering',
-    description: 'Exquisite menus tailored to your taste, from lavish buffets to fine dining, crafted by our acclaimed chefs.',
-  },
-  {
-    icon: Flower2,
-    title: 'Elegant Decor',
-    description: 'From floral arrangements to lighting, our creative team brings your vision to life with bespoke decor solutions.',
-  },
-  {
-    icon: ClipboardCheck,
-    title: 'Event Planning',
-    description: 'Our experienced event planners ensure every detail is perfect, from the initial consultation to your big day.',
-  },
-  {
-    icon: BedDouble, // Using BedDouble for guest accommodation
-    title: 'Guest Accommodation',
-    description: 'Luxurious rooms and suites for your guests, with special wedding rates and personalized amenities.',
-  },
-];
 
 export const weddingTestimonials: Testimonial[] = [
   {
@@ -181,3 +232,4 @@ export const weddingTestimonials: Testimonial[] = [
   },
 ];
 
+export { Wrench as DefaultServiceIcon }; // Exporting a default icon for services
