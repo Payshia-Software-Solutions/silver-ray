@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { RoomCard } from '@/components/shared/RoomCard';
 import { mockRooms } from '@/data/mockData';
 import { ChevronRight } from 'lucide-react';
+import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
 
 export function FeaturedRoomsSection() {
   const featuredRooms = mockRooms.slice(0, 3); // Display first 3 rooms
@@ -19,7 +20,34 @@ export function FeaturedRoomsSection() {
           </p>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+        {/* Mobile Carousel */}
+        <div className="md:hidden mb-12">
+          <Carousel
+            opts={{
+              align: "start",
+              loop: featuredRooms.length > 2, // Loop if more than 2 rooms to make sense for a carousel
+            }}
+            className="w-full max-w-md mx-auto" // Adjust width as needed
+          >
+            <CarouselContent className="-ml-4">
+              {featuredRooms.map((room) => (
+                <CarouselItem key={room.id} className="pl-4 basis-full sm:basis-4/5">
+                  <div className="p-1 h-full">
+                    <RoomCard room={room} />
+                  </div>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            {/* Add CarouselPrevious and CarouselNext if buttons are desired on mobile */}
+            {/* 
+            <CarouselPrevious className="absolute left-0 top-1/2 -translate-y-1/2 z-10" />
+            <CarouselNext className="absolute right-0 top-1/2 -translate-y-1/2 z-10" />
+            */}
+          </Carousel>
+        </div>
+
+        {/* Desktop Grid */}
+        <div className="hidden md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
           {featuredRooms.map((room) => (
             <RoomCard key={room.id} room={room} />
           ))}
