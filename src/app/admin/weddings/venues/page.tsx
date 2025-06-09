@@ -1,10 +1,10 @@
 
 'use client';
 
-import type { Metadata } from 'next';
+// import type { Metadata } from 'next'; // Metadata cannot be used in client components
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { PlusCircle, Pencil, Trash2 } from 'lucide-react';
+import { PlusCircle, Pencil, Trash2, ListChecks } from 'lucide-react'; // Added ListChecks
 import {
   Table,
   TableHeader,
@@ -26,13 +26,6 @@ import { useToast } from '@/components/ui/use-toast';
 import type { WeddingVenueFormData } from '@/components/admin/weddings/WeddingVenueFormDialog';
 
 
-// Metadata should be defined in a server component if possible, or not at all in client components.
-// For now, removing it from here. If needed, can be added to a parent server layout.
-// export const metadata: Metadata = {
-// title: 'Manage Wedding Venues',
-// description: 'Admin tools for wedding venue management at Grand Silver Ray.',
-// };
-
 export default function ManageWeddingVenuesPage() {
   const [venues, setVenues] = useState<WeddingVenue[]>([]);
   const [isFormDialogOpen, setIsFormDialogOpen] = useState(false);
@@ -42,7 +35,6 @@ export default function ManageWeddingVenuesPage() {
   const { toast } = useToast();
 
   useEffect(() => {
-    // In a real app, you might fetch this data
     setVenues(initialWeddingVenues);
   }, []);
 
@@ -81,14 +73,18 @@ export default function ManageWeddingVenuesPage() {
   };
 
   const handleFormSubmit = (data: WeddingVenueFormData) => {
+    const newFeatures = data.features 
+      ? data.features.map(f => ({ icon: ListChecks, text: f.text })) 
+      : [];
+
     if (dialogMode === 'add') {
       const newVenue: WeddingVenue = {
-        id: `venue-${Date.now()}`, // Simple unique ID
+        id: `venue-${Date.now()}`, 
         name: data.name,
         description: data.description,
-        imageUrl: data.imageUrl || 'https://placehold.co/600x400.png', // Default placeholder
+        imageUrl: data.imageUrl || 'https://placehold.co/600x400.png',
         imageHint: data.imageHint || 'venue image',
-        features: currentVenue?.features || [], // Preserve existing features if any, or default for new
+        features: newFeatures,
       };
       setVenues([...venues, newVenue]);
       toast({
@@ -96,12 +92,13 @@ export default function ManageWeddingVenuesPage() {
         description: `"${newVenue.name}" has been successfully added.`,
       });
     } else if (dialogMode === 'edit' && currentVenue) {
-      const updatedVenue = {
+      const updatedVenue: WeddingVenue = {
         ...currentVenue,
         name: data.name,
         description: data.description,
         imageUrl: data.imageUrl || currentVenue.imageUrl,
         imageHint: data.imageHint || currentVenue.imageHint,
+        features: newFeatures.length > 0 ? newFeatures : currentVenue.features, // Update features or keep existing if none submitted
       };
       setVenues(venues.map((v) => (v.id === currentVenue.id ? updatedVenue : v)));
       toast({
@@ -134,19 +131,19 @@ export default function ManageWeddingVenuesPage() {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead className="w-[250px]">Venue Name</TableHead>
-                <TableHead>Description</TableHead>
-                <TableHead className="w-[150px] text-right">Actions</TableHead>
+                <TableHead className="w-[200px] sm:w-[250px]">Venue Name</TableHead>
+                <TableHead className="hidden sm:table-cell">Description</TableHead>
+                <TableHead className="w-[100px] sm:w-[150px] text-right">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {venues.map((venue) => (
                 <TableRow key={venue.id}>
                   <TableCell className="font-medium">{venue.name}</TableCell>
-                  <TableCell className="text-sm text-muted-foreground">
+                  <TableCell className="text-sm text-muted-foreground hidden sm:table-cell">
                     {truncateDescription(venue.description)}
                   </TableCell>
-                  <TableCell className="text-right space-x-2">
+                  <TableCell className="text-right space-x-1 sm:space-x-2">
                     <Tooltip>
                       <TooltipTrigger asChild>
                         <Button variant="outline" size="icon" className="h-8 w-8" onClick={() => handleEditVenue(venue)}>
