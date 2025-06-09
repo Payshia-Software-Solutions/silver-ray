@@ -10,7 +10,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Breadcrumbs } from '@/components/shared/Breadcrumbs';
 import type { BreadcrumbItem } from '@/types';
-import { CheckCircle, Utensils, Flower2, Camera, Music, BedDouble, Sparkles, Users, ClipboardCheck } from 'lucide-react';
+import { CheckCircle, Utensils, Flower2, Camera, Music, BedDouble, Sparkles, Users, ClipboardCheck, Disc } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 
 type Props = {
@@ -129,7 +129,7 @@ export default function WeddingPackageDetailPage({ params }: Props) {
             Your Dream Wedding Begins Here
           </p>
           <Button asChild size="lg" className="font-body text-lg px-8 py-3 bg-primary/90 hover:bg-primary text-primary-foreground transform hover:scale-105 transition-transform duration-300 rounded-md">
-            <Link href="/contact?subject=Wedding Package Inquiry: {pkg.name}">Book This Package</Link>
+            <Link href={`/contact?subject=Wedding Package Inquiry: ${pkg.name}`}>Book This Package</Link>
           </Button>
         </div>
       </section>
