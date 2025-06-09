@@ -1,9 +1,11 @@
 
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
-import { PlusCircle, Pencil, Trash2, Hotel, CheckCircle2, MinusCircle } from 'lucide-react';
+import { Input } from '@/components/ui/input';
+import { Badge } from '@/components/ui/badge';
+import { PlusCircle, Pencil, Trash2, Hotel, CheckCircle2, MinusCircle, Search } from 'lucide-react';
 import {
   Table,
   TableHeader,
@@ -19,16 +21,11 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
-import { mockRooms, type Room } from '@/data/mockData'; // Assuming Room type is also exported from mockData
+import { mockRooms, type Room } from '@/data/mockData'; 
 import { RoomFormDialog, type RoomFormData } from '@/components/admin/rooms/RoomFormDialog';
 import { useToast } from '@/components/ui/use-toast';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 
-// Metadata cannot be used in client components - should be in a parent layout or removed.
-// export const metadata: Metadata = {
-//   title: 'Manage Rooms',
-//   description: 'Admin tools for room management.',
-// };
 
 export default function ManageRoomsPage() {
   const [rooms, setRooms] = useState<Room[]>([]);
@@ -36,36 +33,50 @@ export default function ManageRoomsPage() {
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [currentRoom, setCurrentRoom] = useState<Room | null>(null);
   const [dialogMode, setDialogMode] = useState<'add' | 'edit'>('add');
+  const [searchTerm, setSearchTerm] = useState('');
   const { toast } = useToast();
 
   useEffect(() => {
     setRooms(mockRooms);
   }, []);
 
-  // Dummy data for stats - replace with API calls later
-  const roomStats = [
-    {
-      title: 'Total Rooms',
-      count: rooms.length,
-      description: 'All rooms in the hotel.',
-      icon: Hotel,
-      color: 'text-blue-500',
-    },
-    {
-      title: 'Available Rooms',
-      count: rooms.filter(room => room.category !== 'Booked').length, // Dummy logic
-      description: 'Rooms ready for booking.',
-      icon: CheckCircle2,
-      color: 'text-green-500',
-    },
-    {
-      title: 'Booked Rooms',
-      count: rooms.filter(room => room.category === 'Booked').length, // Dummy logic
-      description: 'Currently occupied or reserved.',
-      icon: MinusCircle,
-      color: 'text-red-500',
-    },
-  ];
+  const roomStats = useMemo(() => {
+    const total = rooms.length;
+    const booked = rooms.filter(room => room.category === 'Booked').length; // Assuming 'Booked' category means booked status
+    const available = total - booked;
+    return [
+      {
+        title: 'Total Rooms',
+        count: total,
+        description: 'All rooms in the hotel.',
+        icon: Hotel,
+        color: 'text-blue-500',
+      },
+      {
+        title: 'Available Rooms',
+        count: available,
+        description: 'Rooms ready for booking.',
+        icon: CheckCircle2,
+        color: 'text-green-500',
+      },
+      {
+        title: 'Booked Rooms',
+        count: booked,
+        description: 'Currently occupied or reserved.',
+        icon: MinusCircle,
+        color: 'text-red-500',
+      },
+    ];
+  }, [rooms]);
+  
+  const filteredRooms = useMemo(() => {
+    if (!searchTerm) return rooms;
+    return rooms.filter(room => 
+      room.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      room.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (room.category === 'Booked' ? 'booked' : 'available').includes(searchTerm.toLowerCase())
+    );
+  }, [rooms, searchTerm]);
 
   const handleAddRoom = () => {
     setCurrentRoom(null);
@@ -106,17 +117,17 @@ export default function ManageRoomsPage() {
         pricePerNight: parseFloat(data.pricePerNight) || 0,
         imageUrl: data.imageUrl || 'https://placehold.co/600x400.png',
         imageHint: data.imageHint,
-        images: data.imageUrl ? [data.imageUrl] : ['https://placehold.co/600x400.png'], // Simplified for form
+        images: data.imageUrl ? [data.imageUrl] : ['https://placehold.co/600x400.png'], 
         amenities: data.amenities?.map(a => a.text) || [],
         capacity: parseInt(data.capacity) || 1,
         beds: data.beds,
         size: data.size,
-        category: data.category as Room['category'], // Cast as form uses string
+        category: data.category as Room['category'], 
         viewType: data.viewType,
         roomLayoutImageUrl: data.roomLayoutImageUrl,
         enhanceYourStay: data.enhanceYourStay?.map(e => e.text) || [],
-        rating: 0, // Default rating for new rooms
-        features: [], // Default features for new rooms
+        rating: 0, 
+        features: [], 
       };
       setRooms([...rooms, newRoom]);
       toast({
@@ -169,7 +180,6 @@ export default function ManageRoomsPage() {
           </Button>
         </div>
 
-        {/* Room Statistics Section */}
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {roomStats.map((stat) => (
             <Card key={stat.title}>
@@ -189,55 +199,75 @@ export default function ManageRoomsPage() {
           ))}
         </div>
         
+        <div className="mb-4 relative">
+            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+            <Input
+              type="search"
+              placeholder="Filter rooms by name, category, or status..."
+              className="pl-8 w-full sm:w-[300px] md:w-[400px]"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+        </div>
+
         <div className="bg-card p-0 rounded-lg shadow-md overflow-hidden border">
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead className="w-[200px] sm:w-[250px]">Room Name</TableHead>
+                <TableHead className="w-[150px] sm:w-[200px]">Room Name</TableHead>
                 <TableHead className="hidden md:table-cell">Category</TableHead>
+                <TableHead>Status</TableHead>
                 <TableHead className="hidden sm:table-cell">Price/Night</TableHead>
                 <TableHead className="hidden lg:table-cell">Capacity</TableHead>
-                <TableHead className="w-[100px] sm:w-[150px] text-right">Actions</TableHead>
+                <TableHead className="w-[100px] sm:w-[120px] text-right">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {rooms.map((room) => (
-                <TableRow key={room.id}>
-                  <TableCell className="font-medium">{room.name}</TableCell>
-                  <TableCell className="text-sm text-muted-foreground hidden md:table-cell">{room.category}</TableCell>
-                  <TableCell className="text-sm text-muted-foreground hidden sm:table-cell">${room.pricePerNight}</TableCell>
-                  <TableCell className="text-sm text-muted-foreground hidden lg:table-cell">{room.capacity}</TableCell>
-                  <TableCell className="text-right space-x-1 sm:space-x-2">
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <Button variant="outline" size="icon" className="h-8 w-8" onClick={() => handleEditRoom(room)}>
-                          <Pencil className="h-4 w-4" />
-                          <span className="sr-only">Edit Room</span>
-                        </Button>
-                      </TooltipTrigger>
-                      <TooltipContent>
-                        <p>Edit Room</p>
-                      </TooltipContent>
-                    </Tooltip>
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <Button variant="outline" size="icon" className="h-8 w-8 border-destructive/50 text-destructive hover:bg-destructive/10 hover:text-destructive" onClick={() => handleDeleteRoom(room)}>
-                          <Trash2 className="h-4 w-4" />
-                          <span className="sr-only">Delete Room</span>
-                        </Button>
-                      </TooltipTrigger>
-                      <TooltipContent>
-                        <p>Delete Room</p>
-                      </TooltipContent>
-                    </Tooltip>
-                  </TableCell>
-                </TableRow>
-              ))}
+              {filteredRooms.map((room) => {
+                const isBooked = room.category === 'Booked'; // Example logic
+                return (
+                  <TableRow key={room.id}>
+                    <TableCell className="font-medium">{room.name}</TableCell>
+                    <TableCell className="text-sm text-muted-foreground hidden md:table-cell">{room.category}</TableCell>
+                    <TableCell>
+                      <Badge variant={isBooked ? 'destructive' : 'default'} className={isBooked ? 'bg-red-100 text-red-700 border-red-300 hover:bg-red-200' : 'bg-green-100 text-green-700 border-green-300 hover:bg-green-200'}>
+                        {isBooked ? 'Booked' : 'Available'}
+                      </Badge>
+                    </TableCell>
+                    <TableCell className="text-sm text-muted-foreground hidden sm:table-cell">${room.pricePerNight}</TableCell>
+                    <TableCell className="text-sm text-muted-foreground hidden lg:table-cell">{room.capacity}</TableCell>
+                    <TableCell className="text-right space-x-1 sm:space-x-2">
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <Button variant="outline" size="icon" className="h-8 w-8" onClick={() => handleEditRoom(room)}>
+                            <Pencil className="h-4 w-4" />
+                            <span className="sr-only">Edit Room</span>
+                          </Button>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p>Edit Room</p>
+                        </TooltipContent>
+                      </Tooltip>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <Button variant="outline" size="icon" className="h-8 w-8 border-destructive/50 text-destructive hover:bg-destructive/10 hover:text-destructive" onClick={() => handleDeleteRoom(room)}>
+                            <Trash2 className="h-4 w-4" />
+                            <span className="sr-only">Delete Room</span>
+                          </Button>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p>Delete Room</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
             </TableBody>
           </Table>
-          {rooms.length === 0 && (
+          {filteredRooms.length === 0 && (
             <div className="text-center p-8 text-muted-foreground font-body">
-              No rooms found. Click "Add New Room" to get started.
+              {searchTerm ? 'No rooms match your filter.' : 'No rooms found. Click "Add New Room" to get started.'}
             </div>
           )}
         </div>
@@ -271,3 +301,5 @@ export default function ManageRoomsPage() {
     </TooltipProvider>
   );
 }
+
+    
