@@ -5,7 +5,7 @@ import { useState, useEffect, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
-import { PlusCircle, Search, Eye, Trash2, CalendarDays, CheckCircle, Clock, DollarSign, Bell, User } from 'lucide-react';
+import { PlusCircle, Search, Eye, Trash2, CalendarDays, CheckCircle, Clock, DollarSign, Bell, User, Pencil } from 'lucide-react';
 import {
   Table,
   TableHeader,
@@ -22,13 +22,12 @@ import {
 } from '@/components/ui/tooltip';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
 import { mockBookings, type Booking, type BookingStatus, type PaymentStatus } from '@/data/bookingData'; 
-import { mockRooms } from '@/data/mockData';
-import { BookingFormDialog, type BookingFormData } from '@/components/admin/bookings/BookingFormDialog';
 import { BookingDetailDialog } from '@/components/admin/bookings/BookingDetailDialog';
 import { useToast } from '@/components/ui/use-toast';
 import { format } from 'date-fns';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import Link from 'next/link';
 
 
 const StatCard = ({ title, value, icon: Icon, iconBgColor }: { title: string, value: string, icon: React.ElementType, iconBgColor: string }) => (
@@ -48,11 +47,9 @@ const StatCard = ({ title, value, icon: Icon, iconBgColor }: { title: string, va
 
 export default function ManageBookingsPage() {
   const [bookingsList, setBookingsList] = useState<Booking[]>([]);
-  const [isFormOpen, setIsFormOpen] = useState(false);
   const [isDetailOpen, setIsDetailOpen] = useState(false);
   const [isCancelAlertOpen, setIsCancelAlertOpen] = useState(false);
   const [selectedBooking, setSelectedBooking] = useState<Booking | null>(null);
-  const [dialogMode, setDialogMode] = useState<'add' | 'edit'>('add');
   const [searchTerm, setSearchTerm] = useState('');
   const { toast } = useToast();
 
@@ -90,18 +87,6 @@ export default function ManageBookingsPage() {
       default: return { className: 'bg-gray-100 text-gray-700 border-gray-200' };
     }
   };
-  
-  const handleAddBooking = () => {
-    setSelectedBooking(null);
-    setDialogMode('add');
-    setIsFormOpen(true);
-  };
-
-  const handleEditBooking = (booking: Booking) => {
-    setSelectedBooking(booking);
-    setDialogMode('edit');
-    setIsFormOpen(true);
-  };
 
   const handleViewDetails = (booking: Booking) => {
     setSelectedBooking(booking);
@@ -126,42 +111,6 @@ export default function ManageBookingsPage() {
     setIsCancelAlertOpen(false);
     setSelectedBooking(null);
   };
-
-  const handleFormSubmit = (data: BookingFormData) => {
-    const room = mockRooms.find(r => r.id === data.roomId);
-    if (!room) {
-        toast({ title: 'Error', description: 'Selected room not found.', variant: 'destructive'});
-        return;
-    }
-
-    if (dialogMode === 'add') {
-      const newBooking: Booking = {
-        id: `BK${Date.now().toString().slice(-4)}`,
-        ...data,
-        guestAvatar: 'https://placehold.co/40x40.png?text=N',
-        roomName: room.name,
-        roomNumber: `Room ${Math.floor(Math.random() * 200) + 100}`,
-        paymentStatus: 'Pending',
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      };
-      setBookingsList(prev => [...prev, newBooking]);
-      toast({ title: 'Booking Added', description: `New booking for ${data.guestFirstName} ${data.guestLastName} created.` });
-    } else if (dialogMode === 'edit' && selectedBooking) {
-      const updatedBooking: Booking = {
-        ...selectedBooking,
-        ...data,
-        roomName: room.name,
-        paymentStatus: data.totalPrice > selectedBooking.totalPrice ? 'Pending' : selectedBooking.paymentStatus,
-        updatedAt: new Date(),
-      };
-      setBookingsList(bookingsList.map(b => (b.id === selectedBooking.id ? updatedBooking : b)));
-      toast({ title: 'Booking Updated', description: `Booking ID "${selectedBooking.id}" updated.` });
-    }
-    setIsFormOpen(false);
-    setSelectedBooking(null);
-  };
-
 
   return (
     <TooltipProvider>
@@ -207,8 +156,10 @@ export default function ManageBookingsPage() {
                 />
             </div>
             <Input type="text" placeholder="mm/dd/yyyy" className="w-full sm:w-auto" onFocus={(e) => e.target.type = 'date'} onBlur={(e) => e.target.type='text'}/>
-            <Button onClick={handleAddBooking} className="w-full sm:w-auto bg-primary hover:bg-primary/90 whitespace-nowrap">
+            <Button asChild className="w-full sm:w-auto bg-primary hover:bg-primary/90 whitespace-nowrap">
+              <Link href="/admin/bookings/add">
                 <PlusCircle className="mr-2 h-4 w-4" /> Add New Booking
+              </Link>
             </Button>
         </div>
 
@@ -272,6 +223,17 @@ export default function ManageBookingsPage() {
                         </TooltipTrigger>
                         <TooltipContent><p>View Details</p></TooltipContent>
                       </Tooltip>
+                       <Tooltip>
+                        <TooltipTrigger asChild>
+                           <Button asChild variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground hover:text-primary">
+                              <Link href={`/admin/bookings/edit/${booking.id}`}>
+                                <Pencil className="h-4 w-4" />
+                                <span className="sr-only">Edit Booking</span>
+                              </Link>
+                            </Button>
+                        </TooltipTrigger>
+                        <TooltipContent><p>Edit Booking</p></TooltipContent>
+                      </Tooltip>
                       <Tooltip>
                         <TooltipTrigger asChild>
                           <Button 
@@ -309,14 +271,6 @@ export default function ManageBookingsPage() {
           </div>
         </div>
       </div>
-
-      <BookingFormDialog
-        isOpen={isFormOpen}
-        onOpenChange={setIsFormOpen}
-        onSubmit={handleFormSubmit}
-        initialData={selectedBooking}
-        mode={dialogMode}
-      />
 
       <BookingDetailDialog
         isOpen={isDetailOpen}

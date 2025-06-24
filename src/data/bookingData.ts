@@ -3,6 +3,9 @@ import type { Room, mockRooms } from '@/data/mockData';
 
 export type BookingStatus = 'Pending' | 'Confirmed' | 'Cancelled' | 'Checked-in' | 'Checked-out' | 'No-Show';
 export type PaymentStatus = 'Paid' | 'Pending' | 'Refunded';
+export type PaymentMethod = 'Credit Card' | 'Bank Transfer' | 'Cash' | 'Online';
+export type BookingSource = 'Online' | 'Phone' | 'Walk-in' | 'Agent';
+
 
 export interface Booking {
   id: string;
@@ -11,16 +14,28 @@ export interface Booking {
   guestEmail: string;
   guestPhone?: string;
   guestAvatar?: string;
+  address?: string;
+  
   roomId: string;
   roomName: string;
   roomNumber: string;
+
   checkInDate: Date;
   checkOutDate: Date;
   numGuests: number;
+  children: number;
+
   status: BookingStatus;
-  paymentStatus: PaymentStatus;
+  
   totalPrice: number;
+  amountPaid: number;
+  paymentStatus: PaymentStatus;
+  paymentMethod?: PaymentMethod;
+  discountCode?: string;
+
   specialRequests?: string;
+  bookingSource?: BookingSource;
+
   createdAt: Date;
   updatedAt: Date;
 }
@@ -43,16 +58,21 @@ export const mockBookings: Booking[] = [
     guestEmail: 'john.smith@example.com',
     guestAvatar: 'https://placehold.co/40x40.png?text=JS',
     guestPhone: '123-456-7890',
+    address: '123 Main St, Anytown, USA',
     roomId: 'deluxe-king',
     roomName: 'Deluxe Suite',
     roomNumber: 'Room 205',
     checkInDate: new Date(2025, 5, 15),
     checkOutDate: new Date(2025, 5, 18),
     numGuests: 2,
+    children: 0,
     status: 'Confirmed',
     paymentStatus: 'Paid',
+    paymentMethod: 'Credit Card',
     totalPrice: 24500,
+    amountPaid: 24500,
     specialRequests: 'Late check-in around 10 PM.',
+    bookingSource: 'Online',
     createdAt: new Date(new Date().setDate(today.getDate() - 5)),
     updatedAt: new Date(new Date().setDate(today.getDate() - 1)),
   },
@@ -62,15 +82,20 @@ export const mockBookings: Booking[] = [
     guestLastName: 'Davis',
     guestEmail: 'emily.davis@example.com',
     guestAvatar: 'https://placehold.co/40x40.png?text=ED',
+    address: '456 Oak Ave, Anytown, USA',
     roomId: 'ocean-suite',
     roomName: 'Standard Room',
     roomNumber: 'Room 102',
     checkInDate: new Date(2025, 7, 20),
     checkOutDate: new Date(2025, 7, 22),
     numGuests: 1,
+    children: 0,
     status: 'Pending',
     paymentStatus: 'Pending',
+    paymentMethod: 'Online',
     totalPrice: 24500,
+    amountPaid: 0,
+    bookingSource: 'Phone',
     createdAt: new Date(new Date().setDate(today.getDate() - 2)),
     updatedAt: new Date(new Date().setDate(today.getDate() - 2)),
   },
@@ -81,16 +106,21 @@ export const mockBookings: Booking[] = [
     guestEmail: 'robert.b@example.com',
     guestAvatar: 'https://placehold.co/40x40.png?text=RB',
     guestPhone: '555-123-4567',
+    address: '789 Pine Ln, Anytown, USA',
     roomId: 'family-room',
     roomName: 'Family Garden Room',
     roomNumber: 'Room 110',
     checkInDate: new Date(new Date().setDate(today.getDate() + 10)),
     checkOutDate: new Date(new Date().setDate(today.getDate() + 14)),
-    numGuests: 4,
+    numGuests: 2,
+    children: 2,
     status: 'Confirmed',
     paymentStatus: 'Paid',
+    paymentMethod: 'Bank Transfer',
     totalPrice: 32000,
+    amountPaid: 32000,
     specialRequests: 'Need a crib for an infant.',
+    bookingSource: 'Walk-in',
     createdAt: new Date(new Date().setDate(today.getDate() - 10)),
     updatedAt: new Date(new Date().setDate(today.getDate() - 3)),
   },
@@ -106,9 +136,13 @@ export const mockBookings: Booking[] = [
     checkInDate: new Date(new Date().setDate(today.getDate() - 10)),
     checkOutDate: new Date(new Date().setDate(today.getDate() - 6)),
     numGuests: 2,
+    children: 0,
     status: 'Checked-out',
     paymentStatus: 'Paid',
+    paymentMethod: 'Credit Card',
     totalPrice: 150000,
+    amountPaid: 150000,
+    bookingSource: 'Agent',
     createdAt: new Date(new Date().setDate(today.getDate() - 20)),
     updatedAt: new Date(new Date().setDate(today.getDate() - 6)),
   },
@@ -124,9 +158,12 @@ export const mockBookings: Booking[] = [
     checkInDate: new Date(new Date().setDate(today.getDate() - 3)),
     checkOutDate: dayAfterTomorrow,
     numGuests: 2,
+    children: 1,
     status: 'Checked-in',
     paymentStatus: 'Paid',
+    paymentMethod: 'Credit Card',
     totalPrice: 25000,
+    amountPaid: 25000,
     createdAt: new Date(new Date().setDate(today.getDate() - 7)),
     updatedAt: new Date(new Date().setDate(today.getDate() - 3)),
   },
@@ -142,10 +179,14 @@ export const mockBookings: Booking[] = [
     checkInDate: nextWeek,
     checkOutDate: dayAfterNextWeek,
     numGuests: 2,
+    children: 0,
     status: 'Cancelled',
     paymentStatus: 'Refunded',
+    paymentMethod: 'Online',
     totalPrice: 45000,
+    amountPaid: 45000,
     specialRequests: 'Anniversary celebration.',
+    bookingSource: 'Online',
     createdAt: new Date(new Date().setDate(today.getDate() - 4)),
     updatedAt: new Date(new Date().setDate(today.getDate() - 1)),
   },
