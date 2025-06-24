@@ -241,27 +241,48 @@ export function RoomDetailForm({ mode, initialData, onDelete }: RoomDetailFormPr
         </Card>
 
         <div className="bg-card p-4 rounded-lg shadow-sm flex justify-end items-center gap-4">
-            {mode === 'edit' && (
-                <AlertDialog>
-                    <AlertDialogTrigger asChild>
-                        <Button type="button" variant="destructive" className="mr-auto">Delete Room</Button>
-                    </AlertDialogTrigger>
-                    <AlertDialogContent>
-                        <AlertDialogHeader><AlertDialogTitle>Are you sure you want to delete this room?</AlertDialogTitle><AlertDialogDescription>This action cannot be undone and will permanently remove the room from the system.</AlertDialogDescription></AlertDialogHeader>
-                        <AlertDialogFooter>
-                            <AlertDialogCancel>Cancel</AlertDialogCancel>
-                            <AlertDialogAction onClick={onDelete} className="bg-destructive hover:bg-destructive/90">Confirm Delete</AlertDialogAction>
-                        </AlertDialogFooter>
-                    </AlertDialogContent>
-                </AlertDialog>
-            )}
-            <Button type="button" variant="outline" onClick={() => router.push('/admin/rooms')}>Cancel</Button>
-            <Button type="submit">
-                {mode === 'add' ? 'Create New Room' : 'Save Changes'}
-            </Button>
+          {mode === 'edit' && (
+              <AlertDialog>
+                  <AlertDialogTrigger asChild>
+                      <Button type="button" variant="destructive" className="mr-auto">Delete Room</Button>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                      <AlertDialogHeader className="text-center">
+                        <AlertDialogTitle className="text-xl font-bold">Do you want to Delete this Room?</AlertDialogTitle>
+                        <AlertDialogDescription className="text-red-500 font-semibold text-lg py-2">
+                            Room "{initialData?.name}"
+                        </AlertDialogDescription>
+                      </AlertDialogHeader>
+                      <AlertDialogFooter className="sm:justify-center gap-2">
+                          <AlertDialogCancel>Cancel</AlertDialogCancel>
+                          <AlertDialogAction onClick={onDelete} className="bg-red-600 hover:bg-red-700">
+                              Delete
+                          </AlertDialogAction>
+                      </AlertDialogFooter>
+                  </AlertDialogContent>
+              </AlertDialog>
+          )}
+          <Button type="button" variant="outline" onClick={() => router.push('/admin/rooms')}>Cancel</Button>
+          <AlertDialog>
+              <AlertDialogTrigger asChild>
+                  <Button type="button">
+                      {mode === 'add' ? 'Create New Room' : 'Save Changes'}
+                  </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                  <AlertDialogHeader className="text-center">
+                      <AlertDialogTitle className="text-xl font-bold">Do you want to {mode === 'add' ? 'Create' : 'Update'} this Room?</AlertDialogTitle>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter className="sm:justify-center gap-2">
+                      <AlertDialogCancel>Cancel</AlertDialogCancel>
+                      <AlertDialogAction onClick={form.handleSubmit(onSubmit)}>
+                          Save Changes
+                      </AlertDialogAction>
+                  </AlertDialogFooter>
+              </AlertDialogContent>
+          </AlertDialog>
         </div>
       </form>
     </Form>
   );
 }
-
