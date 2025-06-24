@@ -1,7 +1,8 @@
 
-import type { Room, mockRooms } from '@/data/mockData'; // Assuming mockRooms is exported for room names
+import type { Room, mockRooms } from '@/data/mockData';
 
 export type BookingStatus = 'Pending' | 'Confirmed' | 'Cancelled' | 'Checked-in' | 'Checked-out' | 'No-Show';
+export type PaymentStatus = 'Paid' | 'Pending' | 'Refunded';
 
 export interface Booking {
   id: string;
@@ -9,12 +10,15 @@ export interface Booking {
   guestLastName: string;
   guestEmail: string;
   guestPhone?: string;
+  guestAvatar?: string;
   roomId: string;
-  roomName: string; // Denormalized for easier display
+  roomName: string;
+  roomNumber: string;
   checkInDate: Date;
   checkOutDate: Date;
   numGuests: number;
   status: BookingStatus;
+  paymentStatus: PaymentStatus;
   totalPrice: number;
   specialRequests?: string;
   createdAt: Date;
@@ -22,110 +26,128 @@ export interface Booking {
 }
 
 const today = new Date();
-const tomorrow = new Date(today);
+const tomorrow = new Date();
 tomorrow.setDate(today.getDate() + 1);
-const dayAfterTomorrow = new Date(today);
+const dayAfterTomorrow = new Date();
 dayAfterTomorrow.setDate(today.getDate() + 2);
-const nextWeek = new Date(today);
+const nextWeek = new Date();
 nextWeek.setDate(today.getDate() + 7);
-const dayAfterNextWeek = new Date(today);
+const dayAfterNextWeek = new Date();
 dayAfterNextWeek.setDate(today.getDate() + 8);
 
 export const mockBookings: Booking[] = [
   {
     id: 'BK001',
     guestFirstName: 'John',
-    guestLastName: 'Doe',
-    guestEmail: 'john.doe@example.com',
+    guestLastName: 'Smith',
+    guestEmail: 'john.smith@example.com',
+    guestAvatar: 'https://placehold.co/40x40.png?text=JS',
     guestPhone: '123-456-7890',
     roomId: 'deluxe-king',
-    roomName: 'Deluxe King Room',
-    checkInDate: today,
-    checkOutDate: tomorrow,
+    roomName: 'Deluxe Suite',
+    roomNumber: 'Room 205',
+    checkInDate: new Date(2025, 5, 15),
+    checkOutDate: new Date(2025, 5, 18),
     numGuests: 2,
     status: 'Confirmed',
-    totalPrice: 250,
+    paymentStatus: 'Paid',
+    totalPrice: 24500,
     specialRequests: 'Late check-in around 10 PM.',
-    createdAt: new Date(today.setDate(today.getDate() - 5)),
-    updatedAt: new Date(today.setDate(today.getDate() - 1)),
+    createdAt: new Date(new Date().setDate(today.getDate() - 5)),
+    updatedAt: new Date(new Date().setDate(today.getDate() - 1)),
   },
   {
     id: 'BK002',
-    guestFirstName: 'Alice',
-    guestLastName: 'Smith',
-    guestEmail: 'alice.smith@example.com',
+    guestFirstName: 'Emily',
+    guestLastName: 'Davis',
+    guestEmail: 'emily.davis@example.com',
+    guestAvatar: 'https://placehold.co/40x40.png?text=ED',
     roomId: 'ocean-suite',
-    roomName: 'Ocean View Suite',
-    checkInDate: dayAfterTomorrow,
-    checkOutDate: nextWeek,
+    roomName: 'Standard Room',
+    roomNumber: 'Room 102',
+    checkInDate: new Date(2025, 7, 20),
+    checkOutDate: new Date(2025, 7, 22),
     numGuests: 1,
     status: 'Pending',
-    totalPrice: 450 * (nextWeek.getTime() - dayAfterTomorrow.getTime()) / (1000 * 3600 * 24), // price * nights
-    createdAt: new Date(today.setDate(today.getDate() - 2)),
-    updatedAt: new Date(today.setDate(today.getDate() - 2)),
+    paymentStatus: 'Pending',
+    totalPrice: 24500,
+    createdAt: new Date(new Date().setDate(today.getDate() - 2)),
+    updatedAt: new Date(new Date().setDate(today.getDate() - 2)),
   },
-  {
+    {
     id: 'BK003',
     guestFirstName: 'Robert',
     guestLastName: 'Brown',
     guestEmail: 'robert.b@example.com',
+    guestAvatar: 'https://placehold.co/40x40.png?text=RB',
     guestPhone: '555-123-4567',
     roomId: 'family-room',
     roomName: 'Family Garden Room',
-    checkInDate: new Date(today.setDate(today.getDate() + 10)),
-    checkOutDate: new Date(today.setDate(today.getDate() + 14)),
+    roomNumber: 'Room 110',
+    checkInDate: new Date(new Date().setDate(today.getDate() + 10)),
+    checkOutDate: new Date(new Date().setDate(today.getDate() + 14)),
     numGuests: 4,
     status: 'Confirmed',
-    totalPrice: 320 * 4,
+    paymentStatus: 'Paid',
+    totalPrice: 32000,
     specialRequests: 'Need a crib for an infant.',
-    createdAt: new Date(today.setDate(today.getDate() - 10)),
-    updatedAt: new Date(today.setDate(today.getDate() - 3)),
+    createdAt: new Date(new Date().setDate(today.getDate() - 10)),
+    updatedAt: new Date(new Date().setDate(today.getDate() - 3)),
   },
   {
     id: 'BK004',
-    guestFirstName: 'Emily',
-    guestLastName: 'Jones',
-    guestEmail: 'emily.jones@example.com',
+    guestFirstName: 'Jessica',
+    guestLastName: 'Wilson',
+    guestEmail: 'jessica.w@example.com',
+    guestAvatar: 'https://placehold.co/40x40.png?text=JW',
     roomId: 'presidential-villa',
     roomName: 'Presidential Villa',
-    checkInDate: new Date(2024, 6, 1), // Example past date
-    checkOutDate: new Date(2024, 6, 5),
+    roomNumber: 'Villa 1',
+    checkInDate: new Date(new Date().setDate(today.getDate() - 10)),
+    checkOutDate: new Date(new Date().setDate(today.getDate() - 6)),
     numGuests: 2,
     status: 'Checked-out',
-    totalPrice: 1500 * 4,
-    createdAt: new Date(2024, 5, 20),
-    updatedAt: new Date(2024, 6, 5),
+    paymentStatus: 'Paid',
+    totalPrice: 150000,
+    createdAt: new Date(new Date().setDate(today.getDate() - 20)),
+    updatedAt: new Date(new Date().setDate(today.getDate() - 6)),
   },
   {
     id: 'BK005',
     guestFirstName: 'Michael',
-    guestLastName: 'Wilson',
-    guestEmail: 'michael.w@example.com',
+    guestLastName: 'Johnson',
+    guestEmail: 'michael.j@example.com',
+    guestAvatar: 'https://placehold.co/40x40.png?text=MJ',
     roomId: 'deluxe-king',
     roomName: 'Deluxe King Room',
-    checkInDate: new Date(today.setDate(today.getDate() - 3)), // Ongoing stay
+    roomNumber: 'Room 301',
+    checkInDate: new Date(new Date().setDate(today.getDate() - 3)),
     checkOutDate: dayAfterTomorrow,
     numGuests: 2,
     status: 'Checked-in',
-    totalPrice: 250 * ((dayAfterTomorrow.getTime() - (new Date(today.setDate(today.getDate() - 3))).getTime()) / (1000 * 3600 * 24)),
-    createdAt: new Date(today.setDate(today.getDate() - 7)),
-    updatedAt: new Date(today.setDate(today.getDate() - 3)),
+    paymentStatus: 'Paid',
+    totalPrice: 25000,
+    createdAt: new Date(new Date().setDate(today.getDate() - 7)),
+    updatedAt: new Date(new Date().setDate(today.getDate() - 3)),
   },
     {
     id: 'BK006',
     guestFirstName: 'Sarah',
     guestLastName: 'Davis',
-    guestEmail: 'sarah.d@example.com',
+    guestEmail: 'sarah.davis@example.com',
+    guestAvatar: 'https://placehold.co/40x40.png?text=SD',
     roomId: 'ocean-suite',
     roomName: 'Ocean View Suite',
+    roomNumber: 'Room 405',
     checkInDate: nextWeek,
     checkOutDate: dayAfterNextWeek,
     numGuests: 2,
     status: 'Cancelled',
-    totalPrice: 450 * ((dayAfterNextWeek.getTime() - nextWeek.getTime()) / (1000 * 3600 * 24)),
+    paymentStatus: 'Refunded',
+    totalPrice: 45000,
     specialRequests: 'Anniversary celebration.',
-    createdAt: new Date(today.setDate(today.getDate() - 4)),
-    updatedAt: new Date(today.setDate(today.getDate() - 1)),
+    createdAt: new Date(new Date().setDate(today.getDate() - 4)),
+    updatedAt: new Date(new Date().setDate(today.getDate() - 1)),
   },
 ];
 
