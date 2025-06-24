@@ -29,7 +29,7 @@ import { toast } from '@/components/ui/use-toast';
 import type { Room } from '@/data/mockData';
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { Info, Users, DollarSign, CheckSquare, Image as ImageIcon, Plus, Minus } from 'lucide-react';
+import { Info, Users, DollarSign, CheckSquare, Image as ImageIcon, Plus, Minus, Trash2, CheckCircle } from 'lucide-react';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 
 
@@ -110,13 +110,32 @@ export function RoomDetailForm({ mode, initialData, onDelete }: RoomDetailFormPr
   }, [mode, initialData, form]);
 
   const onSubmit = (data: RoomDetailFormValues) => {
-    console.log(data);
+    const isUpdate = mode === 'edit';
     toast({
-      title: mode === 'add' ? 'Room Created' : 'Room Updated',
-      description: `Room ${data.descriptiveTitle} has been successfully ${mode === 'add' ? 'created' : 'updated'}.`,
+      description: (
+        <div className="p-2 bg-blue-100 rounded-full">
+          <CheckCircle className="w-6 h-6 text-blue-600" />
+        </div>
+      ),
+      title: `Successfully ${isUpdate ? 'Updated' : 'Created'} Room ${data.roomNumber} !`,
     });
     router.push('/admin/rooms');
   };
+  
+  const handleDelete = () => {
+    if (onDelete) {
+        onDelete();
+        toast({
+            variant: "destructive",
+            description: (
+              <div className="p-2 bg-red-100 rounded-full">
+                <Trash2 className="w-6 h-6 text-red-600" />
+              </div>
+            ),
+            title: `Successfully Deleted Room "${initialData?.name}" !`,
+        });
+    }
+  }
 
     const NumberStepper = ({ name, label }: { name: "adults" | "children", label: string }) => (
         <FormField
@@ -255,7 +274,7 @@ export function RoomDetailForm({ mode, initialData, onDelete }: RoomDetailFormPr
                       </AlertDialogHeader>
                       <AlertDialogFooter className="sm:justify-center gap-2">
                           <AlertDialogCancel>Cancel</AlertDialogCancel>
-                          <AlertDialogAction onClick={onDelete} className="bg-red-600 hover:bg-red-700">
+                          <AlertDialogAction onClick={handleDelete} className="bg-red-600 hover:bg-red-700">
                               Delete
                           </AlertDialogAction>
                       </AlertDialogFooter>
