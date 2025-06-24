@@ -22,19 +22,16 @@ import {
 } from '@/components/ui/tooltip';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
 import { mockRooms, type Room } from '@/data/mockData'; 
-import { RoomFormDialog, type RoomFormData } from '@/components/admin/rooms/RoomFormDialog';
 import { useToast } from '@/components/ui/use-toast';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import Link from 'next/link';
 
 // Helper function to determine status and badge variant
 const getRoomStatus = (room: Room): { text: string; variant: 'default' | 'destructive' | 'outline' | 'secondary'; className: string } => {
-  // Example logic: If category is 'Booked', it's booked.
-  // If category is 'Villa', let's say it's 'Under Maintenance' for demo.
-  // Otherwise, it's 'Available'.
-  if (room.category === 'Booked') { // Assuming 'Booked' is a category for booked rooms
+  if (room.category === 'Booked') { // Assuming 'Booked' is a category for demo
     return { text: 'Booked', variant: 'destructive', className: 'bg-red-100 text-red-700 border-red-300 hover:bg-red-200' };
   }
-  if (room.id === 'presidential-villa') { // Let's make presidential villa under maintenance for example
+  if (room.id === 'presidential-villa') { 
     return { text: 'Under Maintenance', variant: 'outline', className: 'bg-yellow-100 text-yellow-700 border-yellow-300 hover:bg-yellow-200' };
   }
   return { text: 'Available', variant: 'default', className: 'bg-green-100 text-green-700 border-green-300 hover:bg-green-200' };
@@ -43,20 +40,17 @@ const getRoomStatus = (room: Room): { text: string; variant: 'default' | 'destru
 
 export default function ManageRoomsPage() {
   const [rooms, setRooms] = useState<Room[]>([]);
-  const [isFormDialogOpen, setIsFormDialogOpen] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [currentRoom, setCurrentRoom] = useState<Room | null>(null);
-  const [dialogMode, setDialogMode] = useState<'add' | 'edit'>('add');
   const [searchTerm, setSearchTerm] = useState('');
   const { toast } = useToast();
 
   useEffect(() => {
-    // Initialize rooms with a status property for filtering
     const roomsWithStatus = mockRooms.map(room => ({
       ...room,
       statusText: getRoomStatus(room).text.toLowerCase()
     }));
-    setRooms(roomsWithStatus as any); // Cast to any if statusText is not in Room type
+    setRooms(roomsWithStatus as any); 
   }, []);
 
   const roomStats = useMemo(() => {
@@ -93,22 +87,11 @@ export default function ManageRoomsPage() {
     return rooms.filter(room => 
       room.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       room.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      (room.id && room.id.toLowerCase().includes(searchTerm.toLowerCase())) || // Search by room number (id)
+      (room.id && room.id.toLowerCase().includes(searchTerm.toLowerCase())) ||
       getRoomStatus(room).text.toLowerCase().includes(searchTerm.toLowerCase())
     );
   }, [rooms, searchTerm]);
 
-  const handleAddRoom = () => {
-    setCurrentRoom(null);
-    setDialogMode('add');
-    setIsFormDialogOpen(true);
-  };
-
-  const handleEditRoom = (room: Room) => {
-    setCurrentRoom(room);
-    setDialogMode('edit');
-    setIsFormDialogOpen(true);
-  };
 
   const handleDeleteRoom = (room: Room) => {
     setCurrentRoom(room);
@@ -116,7 +99,6 @@ export default function ManageRoomsPage() {
   };
 
   const handleViewRoom = (room: Room) => {
-    // For now, just log to console. In a real app, this might navigate to a detail page or open a modal.
     console.log("View room:", room);
     toast({
       title: 'View Room',
@@ -136,63 +118,7 @@ export default function ManageRoomsPage() {
     setCurrentRoom(null);
   };
 
-  const handleFormSubmit = (data: RoomFormData) => {
-    if (dialogMode === 'add') {
-      const newRoom: Room = {
-        id: `room-${Date.now()}`, // Simple ID generation
-        name: data.name,
-        description: data.description,
-        longDescription: data.longDescription,
-        pricePerNight: parseFloat(data.pricePerNight) || 0,
-        imageUrl: data.imageUrl || 'https://placehold.co/600x400.png',
-        imageHint: data.imageHint,
-        images: data.imageUrl ? [data.imageUrl] : ['https://placehold.co/600x400.png'], 
-        amenities: data.amenities?.map(a => a.text) || [],
-        capacity: parseInt(data.capacity) || 1,
-        beds: data.beds,
-        size: data.size,
-        category: data.category as Room['category'], 
-        viewType: data.viewType,
-        roomLayoutImageUrl: data.roomLayoutImageUrl,
-        enhanceYourStay: data.enhanceYourStay?.map(e => e.text) || [],
-        rating: 0, 
-        features: [], 
-      };
-      setRooms(prevRooms => [...prevRooms, { ...newRoom, statusText: getRoomStatus(newRoom).text.toLowerCase() } as any]);
-      toast({
-        title: 'Room Added',
-        description: `"${newRoom.name}" has been successfully added.`,
-      });
-    } else if (dialogMode === 'edit' && currentRoom) {
-      const updatedRoom: Room = {
-        ...currentRoom,
-        name: data.name,
-        description: data.description,
-        longDescription: data.longDescription,
-        pricePerNight: parseFloat(data.pricePerNight) || currentRoom.pricePerNight,
-        imageUrl: data.imageUrl || currentRoom.imageUrl,
-        imageHint: data.imageHint || currentRoom.imageHint,
-        images: data.imageUrl ? [data.imageUrl] : currentRoom.images,
-        amenities: data.amenities ? data.amenities.map(a => a.text) : currentRoom.amenities,
-        capacity: parseInt(data.capacity) || currentRoom.capacity,
-        beds: data.beds,
-        size: data.size,
-        category: data.category as Room['category'],
-        viewType: data.viewType,
-        roomLayoutImageUrl: data.roomLayoutImageUrl,
-        enhanceYourStay: data.enhanceYourStay ? data.enhanceYourStay.map(e => e.text) : currentRoom.enhanceYourStay,
-      };
-      setRooms(rooms.map((r) => (r.id === currentRoom.id ? { ...updatedRoom, statusText: getRoomStatus(updatedRoom).text.toLowerCase() } as any : r)));
-      toast({
-        title: 'Room Updated',
-        description: `"${updatedRoom.name}" has been successfully updated.`,
-      });
-    }
-    setIsFormDialogOpen(false);
-    setCurrentRoom(null);
-  };
-
-  const currentDisplayedCount = filteredRooms.length; // Simplified for now, full pagination is complex
+  const currentDisplayedCount = filteredRooms.length;
   const totalRooms = rooms.length;
 
   return (
@@ -207,7 +133,6 @@ export default function ManageRoomsPage() {
           </p>
         </div>
 
-        {/* Stats Cards */}
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {roomStats.map((stat) => (
             <Card key={stat.title}>
@@ -227,7 +152,6 @@ export default function ManageRoomsPage() {
           ))}
         </div>
         
-        {/* Top Control Bar: Search and Buttons */}
         <div className="flex flex-col md:flex-row justify-between items-center gap-4 my-6 p-4 bg-card rounded-lg shadow">
           <div className="relative w-full md:w-1/2 lg:w-1/3">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -243,13 +167,14 @@ export default function ManageRoomsPage() {
             <Button variant="outline">
               <Settings className="mr-2 h-4 w-4" /> Manage Types
             </Button>
-            <Button onClick={handleAddRoom} className="bg-primary hover:bg-primary/90">
-              <PlusCircle className="mr-2 h-4 w-4" /> Add New Room
+            <Button asChild className="bg-primary hover:bg-primary/90">
+              <Link href="/admin/rooms/add">
+                <PlusCircle className="mr-2 h-4 w-4" /> Add New Room
+              </Link>
             </Button>
           </div>
         </div>
 
-        {/* Rooms Table */}
         <div className="bg-card rounded-lg shadow overflow-hidden border">
           <Table>
             <TableHeader>
@@ -288,10 +213,12 @@ export default function ManageRoomsPage() {
                       </Tooltip>
                       <Tooltip>
                         <TooltipTrigger asChild>
-                          <Button variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground hover:text-primary" onClick={() => handleEditRoom(room)}>
-                            <Pencil className="h-4 w-4" />
-                            <span className="sr-only">Edit Room</span>
-                          </Button>
+                           <Button asChild variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground hover:text-primary">
+                              <Link href={`/admin/rooms/edit/${room.id}`}>
+                                <Pencil className="h-4 w-4" />
+                                <span className="sr-only">Edit Room</span>
+                              </Link>
+                            </Button>
                         </TooltipTrigger>
                         <TooltipContent><p>Edit Room</p></TooltipContent>
                       </Tooltip>
@@ -317,7 +244,6 @@ export default function ManageRoomsPage() {
           )}
         </div>
         
-        {/* Pagination Placeholder */}
         <div className="flex items-center justify-between py-4 text-sm text-muted-foreground">
           <div>
             Showing 1 to {Math.min(10, currentDisplayedCount)} of {totalRooms} rooms
@@ -329,16 +255,7 @@ export default function ManageRoomsPage() {
             <Button variant="outline" size="sm" disabled={totalRooms <= 10}>Next</Button>
           </div>
         </div>
-
       </div>
-
-      <RoomFormDialog
-        isOpen={isFormDialogOpen}
-        onOpenChange={setIsFormDialogOpen}
-        onSubmit={handleFormSubmit}
-        initialData={dialogMode === 'edit' ? currentRoom : null}
-        mode={dialogMode}
-      />
 
       <AlertDialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
         <AlertDialogContent>
