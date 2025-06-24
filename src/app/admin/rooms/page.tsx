@@ -20,11 +20,11 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
 import { mockRooms, type Room } from '@/data/mockData'; 
 import { useToast } from '@/components/ui/use-toast';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import Link from 'next/link';
+import { ConfirmationDialog } from '@/components/shared/ConfirmationDialog';
 
 // Helper function to determine status and badge variant
 const getRoomStatus = (room: Room): { text: string; variant: 'default' | 'destructive' | 'outline' | 'secondary'; className: string } => {
@@ -114,8 +114,6 @@ export default function ManageRoomsPage() {
         description: `"${currentRoom.name}" has been successfully deleted.`,
       });
     }
-    setIsDeleteDialogOpen(false);
-    setCurrentRoom(null);
   };
 
   const currentDisplayedCount = filteredRooms.length;
@@ -257,23 +255,20 @@ export default function ManageRoomsPage() {
         </div>
       </div>
 
-      <AlertDialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Are you sure?</AlertDialogTitle>
-            <AlertDialogDescription>
-              This action cannot be undone. This will permanently delete the room
-              "{currentRoom?.name}".
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel onClick={() => setCurrentRoom(null)}>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={confirmDelete} className="bg-destructive hover:bg-destructive/90">
-              Delete
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+      <ConfirmationDialog
+        isOpen={isDeleteDialogOpen}
+        onOpenChange={(isOpen) => {
+          setIsDeleteDialogOpen(isOpen);
+          if (!isOpen) {
+            setCurrentRoom(null);
+          }
+        }}
+        onConfirm={confirmDelete}
+        title="Do you want to Delete this Room?"
+        description={currentRoom ? `"${currentRoom.name}"` : ''}
+        confirmText="Delete"
+        cancelText="Cancel"
+      />
     </TooltipProvider>
   );
 }

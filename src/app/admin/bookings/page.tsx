@@ -20,7 +20,6 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
 import { mockBookings, type Booking, type BookingStatus, type PaymentStatus } from '@/data/bookingData'; 
 import { BookingDetailDialog } from '@/components/admin/bookings/BookingDetailDialog';
 import { useToast } from '@/components/ui/use-toast';
@@ -28,6 +27,7 @@ import { format } from 'date-fns';
 import { Card, CardContent } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import Link from 'next/link';
+import { ConfirmationDialog } from '@/components/shared/ConfirmationDialog';
 
 
 const StatCard = ({ title, value, icon: Icon, iconBgColor }: { title: string, value: string, icon: React.ElementType, iconBgColor: string }) => (
@@ -108,8 +108,6 @@ export default function ManageBookingsPage() {
         description: `Booking ID "${selectedBooking.id}" has been cancelled.`,
       });
     }
-    setIsCancelAlertOpen(false);
-    setSelectedBooking(null);
   };
 
   return (
@@ -278,22 +276,20 @@ export default function ManageBookingsPage() {
         booking={selectedBooking}
       />
 
-      <AlertDialog open={isCancelAlertOpen} onOpenChange={setIsCancelAlertOpen}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Confirm Cancellation</AlertDialogTitle>
-            <AlertDialogDescription>
-              Are you sure you want to cancel booking ID "{selectedBooking?.id}"? This will mark the booking as cancelled and cannot be undone easily.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel onClick={() => setSelectedBooking(null)}>Keep Booking</AlertDialogCancel>
-            <AlertDialogAction onClick={confirmCancelBooking} className="bg-destructive hover:bg-destructive/90">
-              Confirm Cancellation
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+      <ConfirmationDialog
+        isOpen={isCancelAlertOpen}
+        onOpenChange={(isOpen) => {
+          setIsCancelAlertOpen(isOpen);
+          if (!isOpen) {
+            setSelectedBooking(null);
+          }
+        }}
+        onConfirm={confirmCancelBooking}
+        title="Do you want to Cancel this Booking?"
+        description={selectedBooking ? `${selectedBooking.id}` : ''}
+        confirmText="Cancel"
+        cancelText="Go Back"
+      />
     </TooltipProvider>
   );
 }
