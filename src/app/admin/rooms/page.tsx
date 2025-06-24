@@ -110,8 +110,13 @@ export default function ManageRoomsPage() {
     if (currentRoom) {
       setRooms(rooms.filter((r) => r.id !== currentRoom.id));
       toast({
-        title: 'Room Deleted',
-        description: `"${currentRoom.name}" has been successfully deleted.`,
+        variant: "destructive",
+        description: (
+          <div className="p-2 bg-red-100 rounded-full">
+            <Trash2 className="w-6 h-6 text-red-600" />
+          </div>
+        ),
+        title: `Successfully Deleted "${currentRoom.name}" !`,
       });
     }
   };

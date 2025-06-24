@@ -186,8 +186,12 @@ export default function EditBookingPage({ params }: { params: { bookingId: strin
 
   const onSubmit = (data: EditBookingFormValues) => {
     toast({
-      title: "Booking Updated",
-      description: `Booking for ${data.fullName} has been successfully updated.`,
+      description: (
+        <div className="p-2 bg-blue-100 rounded-full">
+          <CheckCircle className="w-6 h-6 text-blue-600" />
+        </div>
+      ),
+      title: `Successfully Updated Booking for ${data.fullName} !`,
     });
     console.log(data);
     // In a real app, you would navigate back or show a success state

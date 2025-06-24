@@ -104,8 +104,13 @@ export default function ManageBookingsPage() {
         b.id === selectedBooking.id ? { ...b, status: 'Cancelled', paymentStatus: 'Refunded', updatedAt: new Date() } : b
       ));
       toast({
-        title: 'Booking Cancelled',
-        description: `Booking ID "${selectedBooking.id}" has been cancelled.`,
+        variant: 'destructive',
+        description: (
+          <div className="p-2 bg-red-100 rounded-full">
+              <Trash2 className="w-6 h-6 text-red-600" />
+          </div>
+        ),
+        title: `Successfully Cancelled ${selectedBooking.id} !`,
       });
     }
   };

@@ -25,7 +25,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
-import { toast } from '@/components/ui/use-toast';
+import { useToast } from '@/components/ui/use-toast';
 import type { Room } from '@/data/mockData';
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
@@ -74,6 +74,7 @@ interface RoomDetailFormProps {
 
 export function RoomDetailForm({ mode, initialData, onDelete }: RoomDetailFormProps) {
   const router = useRouter();
+  const { toast } = useToast();
 
   const form = useForm<RoomDetailFormValues>({
     resolver: zodResolver(roomFormSchema),
