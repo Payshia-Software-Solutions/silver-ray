@@ -37,6 +37,7 @@ import { cn } from '@/lib/utils';
 import type { Booking, BookingStatus, PaymentStatus, BookingSource } from '@/data/bookingData';
 import { getBookingById } from "@/data/bookingData";
 import { Breadcrumbs } from "@/components/shared/Breadcrumbs";
+import { ConfirmationDialog } from '@/components/shared/ConfirmationDialog';
 
 // Schema for the form fields
 const editBookingSchema = z.object({
@@ -150,6 +151,7 @@ export default function EditBookingPage({ params }: { params: { bookingId: strin
   const { toast } = useToast();
   const router = useRouter();
   const [booking, setBooking] = useState<Booking | null>(null);
+  const [isConfirmOpen, setIsConfirmOpen] = useState(false);
 
   const form = useForm<EditBookingFormValues>({
     resolver: zodResolver(editBookingSchema),
@@ -215,7 +217,7 @@ export default function EditBookingPage({ params }: { params: { bookingId: strin
             <Breadcrumbs items={breadcrumbItems} />
             <div className="flex items-center gap-2">
                 <Button type="button" variant="outline" onClick={() => router.back()}>Cancel</Button>
-                <Button type="submit"><Save className="mr-2 h-4 w-4" /> Save Changes</Button>
+                <Button type="button" onClick={() => setIsConfirmOpen(true)}><Save className="mr-2 h-4 w-4" /> Save Changes</Button>
             </div>
         </div>
         
@@ -307,8 +309,15 @@ export default function EditBookingPage({ params }: { params: { bookingId: strin
             </div>
         </div>
       </form>
+      <ConfirmationDialog
+        isOpen={isConfirmOpen}
+        onOpenChange={setIsConfirmOpen}
+        onConfirm={form.handleSubmit(onSubmit)}
+        title="Do you want to Update this Booking?"
+        confirmText="Save Changes"
+        cancelText="Cancel"
+        variant="default"
+      />
     </Form>
   );
 }
-
-    
