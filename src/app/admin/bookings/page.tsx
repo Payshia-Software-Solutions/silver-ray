@@ -48,7 +48,7 @@ const StatCard = ({ title, value, icon: Icon, iconBgColor }: { title: string, va
 export default function ManageBookingsPage() {
   const [bookingsList, setBookingsList] = useState<Booking[]>([]);
   const [isDetailOpen, setIsDetailOpen] = useState(false);
-  const [isCancelAlertOpen, setIsCancelAlertOpen] = useState(false);
+  const [isDeleteAlertOpen, setIsDeleteAlertOpen] = useState(false);
   const [selectedBooking, setSelectedBooking] = useState<Booking | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const { toast } = useToast();
@@ -93,16 +93,14 @@ export default function ManageBookingsPage() {
     setIsDetailOpen(true);
   };
 
-  const handleCancelBookingPrompt = (booking: Booking) => {
+  const handleDeleteBookingPrompt = (booking: Booking) => {
     setSelectedBooking(booking);
-    setIsCancelAlertOpen(true);
+    setIsDeleteAlertOpen(true);
   };
 
-  const confirmCancelBooking = () => {
+  const confirmDeleteBooking = () => {
     if (selectedBooking) {
-      setBookingsList(bookingsList.map(b => 
-        b.id === selectedBooking.id ? { ...b, status: 'Cancelled', paymentStatus: 'Refunded', updatedAt: new Date() } : b
-      ));
+      setBookingsList(bookingsList.filter(b => b.id !== selectedBooking.id));
       toast({
         variant: 'destructive',
         description: (
@@ -110,7 +108,7 @@ export default function ManageBookingsPage() {
               <Trash2 className="w-6 h-6 text-red-600" />
           </div>
         ),
-        title: `Successfully Cancelled ${selectedBooking.id} !`,
+        title: `Successfully Deleted Booking ${selectedBooking.id} !`,
       });
     }
   };
@@ -243,13 +241,13 @@ export default function ManageBookingsPage() {
                             variant="ghost" 
                             size="icon" 
                             className="h-8 w-8 text-muted-foreground hover:text-destructive" 
-                            onClick={() => handleCancelBookingPrompt(booking)}
+                            onClick={() => handleDeleteBookingPrompt(booking)}
                             disabled={booking.status === 'Cancelled' || booking.status === 'Checked-out'}
                           >
-                            <Trash2 className="h-4 w-4" /> <span className="sr-only">Cancel/Delete</span>
+                            <Trash2 className="h-4 w-4" /> <span className="sr-only">Delete Booking</span>
                           </Button>
                         </TooltipTrigger>
-                        <TooltipContent><p>Cancel Booking</p></TooltipContent>
+                        <TooltipContent><p>Delete Booking</p></TooltipContent>
                       </Tooltip>
                     </TableCell>
                   </TableRow>
@@ -282,17 +280,17 @@ export default function ManageBookingsPage() {
       />
 
       <ConfirmationDialog
-        isOpen={isCancelAlertOpen}
+        isOpen={isDeleteAlertOpen}
         onOpenChange={(isOpen) => {
-          setIsCancelAlertOpen(isOpen);
+          setIsDeleteAlertOpen(isOpen);
           if (!isOpen) {
             setSelectedBooking(null);
           }
         }}
-        onConfirm={confirmCancelBooking}
-        title="Do you want to Cancel this Booking?"
-        description={selectedBooking ? `${selectedBooking.id}` : ''}
-        confirmText="Cancel"
+        onConfirm={confirmDeleteBooking}
+        title="Are you sure you want to delete this booking?"
+        description={selectedBooking ? `Booking ID: #${selectedBooking.id}` : ''}
+        confirmText="Delete"
         cancelText="Go Back"
       />
     </TooltipProvider>
