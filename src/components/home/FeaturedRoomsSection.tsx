@@ -1,9 +1,10 @@
+
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { RoomCard } from '@/components/shared/RoomCard';
 import { mockRooms } from '@/data/mockData';
 import { ChevronRight } from 'lucide-react';
-import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 
 export function FeaturedRoomsSection() {
   const featuredRooms = mockRooms.slice(0, 3); // Display first 3 rooms
@@ -25,9 +26,9 @@ export function FeaturedRoomsSection() {
           <Carousel
             opts={{
               align: "start",
-              loop: featuredRooms.length > 2, // Loop if more than 2 rooms to make sense for a carousel
+              loop: featuredRooms.length > 1,
             }}
-            className="w-full max-w-md mx-auto" // Adjust width as needed
+            className="w-full max-w-md mx-auto"
           >
             <CarouselContent className="-ml-4">
               {featuredRooms.map((room) => (
@@ -38,11 +39,8 @@ export function FeaturedRoomsSection() {
                 </CarouselItem>
               ))}
             </CarouselContent>
-            {/* Add CarouselPrevious and CarouselNext if buttons are desired on mobile */}
-            {/* 
-            <CarouselPrevious className="absolute left-0 top-1/2 -translate-y-1/2 z-10" />
-            <CarouselNext className="absolute right-0 top-1/2 -translate-y-1/2 z-10" />
-            */}
+            <CarouselPrevious className="hidden sm:flex absolute left-0 top-1/2 -translate-y-1/2 z-10" />
+            <CarouselNext className="hidden sm:flex absolute right-0 top-1/2 -translate-y-1/2 z-10" />
           </Carousel>
         </div>
 
