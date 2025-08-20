@@ -18,8 +18,8 @@ export const metadata: Metadata = {
 function RoomFilters() {
   return (
     <div className="my-8 p-4 md:p-6 bg-card rounded-lg shadow-md">
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 items-end">
-        <div className="lg:col-span-2">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 items-end">
+        <div className="sm:col-span-2 lg:col-span-2">
           <label htmlFor="search" className="block text-sm font-medium text-foreground mb-1">Search Rooms</label>
           <div className="relative">
             <Input type="text" id="search" placeholder="e.g. Ocean View Suite" className="pl-10" />
@@ -55,7 +55,7 @@ function RoomFilters() {
             </SelectContent>
           </Select>
         </div>
-        <Button className="w-full font-body bg-primary text-primary-foreground hover:bg-primary/90">Apply Filters</Button>
+        <Button className="w-full font-body bg-primary text-primary-foreground hover:bg-primary/90 lg:w-auto">Apply Filters</Button>
       </div>
     </div>
   );
