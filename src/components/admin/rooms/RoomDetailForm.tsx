@@ -27,10 +27,10 @@ import {
 import { Checkbox } from '@/components/ui/checkbox';
 import { useToast } from '@/components/ui/use-toast';
 import type { Room } from '@/data/mockData';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Info, Users, DollarSign, CheckSquare, Image as ImageIcon, Plus, Minus, Trash2, CheckCircle } from 'lucide-react';
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
+import { ConfirmationDialog } from '@/components/shared/ConfirmationDialog';
 
 
 const amenitiesList = [
@@ -75,6 +75,8 @@ interface RoomDetailFormProps {
 export function RoomDetailForm({ mode, initialData, onDelete }: RoomDetailFormProps) {
   const router = useRouter();
   const { toast } = useToast();
+  const [isConfirmOpen, setIsConfirmOpen] = useState(false);
+  const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false);
 
   const form = useForm<RoomDetailFormValues>({
     resolver: zodResolver(roomFormSchema),
@@ -126,15 +128,6 @@ export function RoomDetailForm({ mode, initialData, onDelete }: RoomDetailFormPr
   const handleDelete = () => {
     if (onDelete) {
         onDelete();
-        toast({
-            variant: "destructive",
-            description: (
-              <div className="p-2 bg-red-100 rounded-full">
-                <Trash2 className="w-6 h-6 text-red-600" />
-              </div>
-            ),
-            title: `Successfully Deleted Room "${initialData?.name}" !`,
-        });
     }
   }
 
@@ -158,151 +151,141 @@ export function RoomDetailForm({ mode, initialData, onDelete }: RoomDetailFormPr
 
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center">
-              <Info className="w-5 h-5 mr-2 text-primary" /> Basic Information
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <FormField control={form.control} name="roomNumber" render={({ field }) => (<FormItem><FormLabel>Room Number</FormLabel><FormControl><Input placeholder="e.g., 105" {...field} /></FormControl><FormMessage /></FormItem>)} />
-            <FormField control={form.control} name="roomType" render={({ field }) => (<FormItem><FormLabel>Room Type</FormLabel><Select onValueChange={field.onChange} defaultValue={field.value}><FormControl><SelectTrigger><SelectValue placeholder="Select Room Type" /></SelectTrigger></FormControl><SelectContent><SelectItem value="Standard">Standard</SelectItem><SelectItem value="Deluxe">Deluxe</SelectItem><SelectItem value="Suite">Suite</SelectItem><SelectItem value="Villa">Villa</SelectItem></SelectContent></Select><FormMessage /></FormItem>)} />
-            <FormField control={form.control} name="descriptiveTitle" render={({ field }) => (<FormItem className="md:col-span-2"><FormLabel>Descriptive Title</FormLabel><FormControl><Input placeholder="e.g., Mountain View King Suite" {...field} /></FormControl><FormMessage /></FormItem>)} />
-            <FormField control={form.control} name="shortDescription" render={({ field }) => (<FormItem className="md:col-span-2"><FormLabel>Short Description</FormLabel><FormControl><Textarea placeholder="Brief overview of the room..." {...field} /></FormControl><FormMessage /></FormItem>)} />
-          </CardContent>
-        </Card>
-
-        <Card>
-            <CardHeader><CardTitle className="flex items-center"><Users className="w-5 h-5 mr-2 text-primary" /> Capacity & Dimensions</CardTitle></CardHeader>
-            <CardContent className="grid grid-cols-1 md:grid-cols-4 gap-6 items-end">
-                <NumberStepper name="adults" label="Adults" />
-                <NumberStepper name="children" label="Children" />
-                <div className="md:col-span-2">
-                    <FormLabel>Room Size</FormLabel>
-                    <div className="flex items-center space-x-2">
-                        <FormField control={form.control} name="roomSizeWidth" render={({ field }) => (<FormItem className="flex-grow"><FormControl><Input type="number" placeholder="width" {...field} /></FormControl><FormMessage /></FormItem>)} />
-                        <span className="text-muted-foreground">x</span>
-                        <FormField control={form.control} name="roomSizeHeight" render={({ field }) => (<FormItem className="flex-grow"><FormControl><Input type="number" placeholder="height" {...field} /></FormControl><FormMessage /></FormItem>)} />
-                    </div>
-                </div>
+    <>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center">
+                <Info className="w-5 h-5 mr-2 text-primary" /> Basic Information
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <FormField control={form.control} name="roomNumber" render={({ field }) => (<FormItem><FormLabel>Room Number</FormLabel><FormControl><Input placeholder="e.g., 105" {...field} /></FormControl><FormMessage /></FormItem>)} />
+              <FormField control={form.control} name="roomType" render={({ field }) => (<FormItem><FormLabel>Room Type</FormLabel><Select onValueChange={field.onChange} defaultValue={field.value}><FormControl><SelectTrigger><SelectValue placeholder="Select Room Type" /></SelectTrigger></FormControl><SelectContent><SelectItem value="Standard">Standard</SelectItem><SelectItem value="Deluxe">Deluxe</SelectItem><SelectItem value="Suite">Suite</SelectItem><SelectItem value="Villa">Villa</SelectItem></SelectContent></Select><FormMessage /></FormItem>)} />
+              <FormField control={form.control} name="descriptiveTitle" render={({ field }) => (<FormItem className="md:col-span-2"><FormLabel>Descriptive Title</FormLabel><FormControl><Input placeholder="e.g., Mountain View King Suite" {...field} /></FormControl><FormMessage /></FormItem>)} />
+              <FormField control={form.control} name="shortDescription" render={({ field }) => (<FormItem className="md:col-span-2"><FormLabel>Short Description</FormLabel><FormControl><Textarea placeholder="Brief overview of the room..." {...field} /></FormControl><FormMessage /></FormItem>)} />
             </CardContent>
-        </Card>
+          </Card>
 
-        <Card>
-          <CardHeader><CardTitle className="flex items-center"><DollarSign className="w-5 h-5 mr-2 text-primary" /> Pricing & Status</CardTitle></CardHeader>
-          <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <FormField control={form.control} name="pricePerNight" render={({ field }) => (<FormItem><FormLabel>Price per Night</FormLabel><div className="relative"><span className="absolute inset-y-0 left-0 flex items-center pl-3 text-muted-foreground">LKR</span><FormControl><Input type="number" className="pl-12" placeholder="25000" {...field} /></FormControl></div><FormMessage /></FormItem>)} />
-            <FormField control={form.control} name="status" render={({ field }) => (<FormItem><FormLabel>Current Status</FormLabel><Select onValueChange={field.onChange} defaultValue={field.value}><FormControl><SelectTrigger><SelectValue placeholder="Select Status" /></SelectTrigger></FormControl><SelectContent><SelectItem value="Available">Available</SelectItem><SelectItem value="Booked">Booked</SelectItem><SelectItem value="Under Maintenance">Under Maintenance</SelectItem><SelectItem value="Unavailable">Unavailable</SelectItem></SelectContent></Select><FormMessage /></FormItem>)} />
-          </CardContent>
-        </Card>
-        
-        <Card>
-            <CardHeader><CardTitle className="flex items-center"><CheckSquare className="w-5 h-5 mr-2 text-primary" /> Key Amenities</CardTitle></CardHeader>
-            <CardContent>
-                 <FormField
-                    control={form.control}
-                    name="amenities"
-                    render={() => (
-                        <FormItem>
-                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                            {amenitiesList.map((item) => (
-                            <FormField
-                                key={item.id}
-                                control={form.control}
-                                name="amenities"
-                                render={({ field }) => {
-                                return (
-                                    <FormItem
-                                    key={item.id}
-                                    className="flex flex-row items-start space-x-3 space-y-0"
-                                    >
-                                    <FormControl>
-                                        <Checkbox
-                                        checked={field.value?.includes(item.id)}
-                                        onCheckedChange={(checked) => {
-                                            return checked
-                                            ? field.onChange([...field.value, item.id])
-                                            : field.onChange(
-                                                field.value?.filter(
-                                                (value) => value !== item.id
-                                                )
-                                            )
-                                        }}
-                                        />
-                                    </FormControl>
-                                    <FormLabel className="font-normal">
-                                        {item.label}
-                                    </FormLabel>
-                                    </FormItem>
-                                )
-                                }}
-                            />
-                            ))}
-                        </div>
-                        <FormMessage className="pt-4" />
-                        </FormItem>
-                    )}
-                    />
+          <Card>
+              <CardHeader><CardTitle className="flex items-center"><Users className="w-5 h-5 mr-2 text-primary" /> Capacity & Dimensions</CardTitle></CardHeader>
+              <CardContent className="grid grid-cols-1 md:grid-cols-4 gap-6 items-end">
+                  <NumberStepper name="adults" label="Adults" />
+                  <NumberStepper name="children" label="Children" />
+                  <div className="md:col-span-2">
+                      <FormLabel>Room Size</FormLabel>
+                      <div className="flex items-center space-x-2">
+                          <FormField control={form.control} name="roomSizeWidth" render={({ field }) => (<FormItem className="flex-grow"><FormControl><Input type="number" placeholder="width" {...field} /></FormControl><FormMessage /></FormItem>)} />
+                          <span className="text-muted-foreground">x</span>
+                          <FormField control={form.control} name="roomSizeHeight" render={({ field }) => (<FormItem className="flex-grow"><FormControl><Input type="number" placeholder="height" {...field} /></FormControl><FormMessage /></FormItem>)} />
+                      </div>
+                  </div>
+              </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader><CardTitle className="flex items-center"><DollarSign className="w-5 h-5 mr-2 text-primary" /> Pricing & Status</CardTitle></CardHeader>
+            <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <FormField control={form.control} name="pricePerNight" render={({ field }) => (<FormItem><FormLabel>Price per Night</FormLabel><div className="relative"><span className="absolute inset-y-0 left-0 flex items-center pl-3 text-muted-foreground">LKR</span><FormControl><Input type="number" className="pl-12" placeholder="25000" {...field} /></FormControl></div><FormMessage /></FormItem>)} />
+              <FormField control={form.control} name="status" render={({ field }) => (<FormItem><FormLabel>Current Status</FormLabel><Select onValueChange={field.onChange} defaultValue={field.value}><FormControl><SelectTrigger><SelectValue placeholder="Select Status" /></SelectTrigger></FormControl><SelectContent><SelectItem value="Available">Available</SelectItem><SelectItem value="Booked">Booked</SelectItem><SelectItem value="Under Maintenance">Under Maintenance</SelectItem><SelectItem value="Unavailable">Unavailable</SelectItem></SelectContent></Select><FormMessage /></FormItem>)} />
             </CardContent>
-        </Card>
+          </Card>
+          
+          <Card>
+              <CardHeader><CardTitle className="flex items-center"><CheckSquare className="w-5 h-5 mr-2 text-primary" /> Key Amenities</CardTitle></CardHeader>
+              <CardContent>
+                  <FormField
+                      control={form.control}
+                      name="amenities"
+                      render={() => (
+                          <FormItem>
+                          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                              {amenitiesList.map((item) => (
+                              <FormField
+                                  key={item.id}
+                                  control={form.control}
+                                  name="amenities"
+                                  render={({ field }) => {
+                                  return (
+                                      <FormItem
+                                      key={item.id}
+                                      className="flex flex-row items-start space-x-3 space-y-0"
+                                      >
+                                      <FormControl>
+                                          <Checkbox
+                                          checked={field.value?.includes(item.id)}
+                                          onCheckedChange={(checked) => {
+                                              return checked
+                                              ? field.onChange([...field.value, item.id])
+                                              : field.onChange(
+                                                  field.value?.filter(
+                                                  (value) => value !== item.id
+                                                  )
+                                              )
+                                          }}
+                                          />
+                                      </FormControl>
+                                      <FormLabel className="font-normal">
+                                          {item.label}
+                                      </FormLabel>
+                                      </FormItem>
+                                  )
+                                  }}
+                              />
+                              ))}
+                          </div>
+                          <FormMessage className="pt-4" />
+                          </FormItem>
+                      )}
+                      />
+              </CardContent>
+          </Card>
 
-        <Card>
-          <CardHeader><CardTitle className="flex items-center"><ImageIcon className="w-5 h-5 mr-2 text-primary" /> Room Images</CardTitle></CardHeader>
-          <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {[...Array(4)].map((_, i) => (
-                <div key={i} className="aspect-video border-2 border-dashed rounded-lg flex flex-col items-center justify-center text-muted-foreground hover:bg-muted/50 cursor-pointer">
-                    <Plus className="w-8 h-8" />
-                    <span className="text-sm mt-1">Add Image</span>
-                </div>
-            ))}
-          </CardContent>
-        </Card>
+          <Card>
+            <CardHeader><CardTitle className="flex items-center"><ImageIcon className="w-5 h-5 mr-2 text-primary" /> Room Images</CardTitle></CardHeader>
+            <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {[...Array(4)].map((_, i) => (
+                  <div key={i} className="aspect-video border-2 border-dashed rounded-lg flex flex-col items-center justify-center text-muted-foreground hover:bg-muted/50 cursor-pointer">
+                      <Plus className="w-8 h-8" />
+                      <span className="text-sm mt-1">Add Image</span>
+                  </div>
+              ))}
+            </CardContent>
+          </Card>
 
-        <div className="bg-card p-4 rounded-lg shadow-sm flex justify-end items-center gap-4">
-          {mode === 'edit' && (
-              <AlertDialog>
-                  <AlertDialogTrigger asChild>
-                      <Button type="button" variant="destructive" className="mr-auto">Delete Room</Button>
-                  </AlertDialogTrigger>
-                  <AlertDialogContent>
-                      <AlertDialogHeader className="text-center">
-                        <AlertDialogTitle className="text-xl font-bold">Do you want to Delete this Room?</AlertDialogTitle>
-                        <AlertDialogDescription className="text-red-500 font-semibold text-lg py-2">
-                            Room "{initialData?.name}"
-                        </AlertDialogDescription>
-                      </AlertDialogHeader>
-                      <AlertDialogFooter className="sm:justify-center gap-2">
-                          <AlertDialogCancel>Cancel</AlertDialogCancel>
-                          <AlertDialogAction onClick={handleDelete} className="bg-red-600 hover:bg-red-700">
-                              Delete
-                          </AlertDialogAction>
-                      </AlertDialogFooter>
-                  </AlertDialogContent>
-              </AlertDialog>
-          )}
-          <Button type="button" variant="outline" onClick={() => router.push('/admin/rooms')}>Cancel</Button>
-          <AlertDialog>
-              <AlertDialogTrigger asChild>
-                  <Button type="button">
-                      {mode === 'add' ? 'Create New Room' : 'Save Changes'}
-                  </Button>
-              </AlertDialogTrigger>
-              <AlertDialogContent>
-                  <AlertDialogHeader className="text-center">
-                      <AlertDialogTitle className="text-xl font-bold">Do you want to {mode === 'add' ? 'Create' : 'Update'} this Room?</AlertDialogTitle>
-                  </AlertDialogHeader>
-                  <AlertDialogFooter className="sm:justify-center gap-2">
-                      <AlertDialogCancel>Cancel</AlertDialogCancel>
-                      <AlertDialogAction onClick={form.handleSubmit(onSubmit)}>
-                          Save Changes
-                      </AlertDialogAction>
-                  </AlertDialogFooter>
-              </AlertDialogContent>
-          </AlertDialog>
-        </div>
-      </form>
-    </Form>
+          <div className="bg-card p-4 rounded-lg shadow-sm flex justify-end items-center gap-4">
+            {mode === 'edit' && (
+              <Button type="button" variant="destructive" onClick={() => setIsDeleteConfirmOpen(true)} className="mr-auto">Delete Room</Button>
+            )}
+            <Button type="button" variant="outline" onClick={() => router.push('/admin/rooms')}>Cancel</Button>
+            <Button type="button" onClick={() => setIsConfirmOpen(true)}>
+              {mode === 'add' ? 'Create New Room' : 'Save Changes'}
+            </Button>
+          </div>
+        </form>
+      </Form>
+      <ConfirmationDialog
+          isOpen={isConfirmOpen}
+          onOpenChange={setIsConfirmOpen}
+          onConfirm={form.handleSubmit(onSubmit)}
+          title={`Do you want to ${mode === 'add' ? 'Create' : 'Update'} this Room?`}
+          confirmText="Save Changes"
+          cancelText="Cancel"
+          variant="default"
+      />
+      {mode === 'edit' && (
+        <ConfirmationDialog
+          isOpen={isDeleteConfirmOpen}
+          onOpenChange={setIsDeleteConfirmOpen}
+          onConfirm={handleDelete}
+          title="Do you want to Delete this Room?"
+          description={`Room "${initialData?.name}"`}
+          confirmText="Delete"
+          cancelText="Cancel"
+          variant="destructive"
+        />
+      )}
+    </>
   );
 }

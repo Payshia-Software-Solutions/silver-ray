@@ -75,7 +75,7 @@ function QuickActionCard({ title, icon: Icon, href, iconBgColor = 'bg-primary/10
   return (
     <Link href={href} className="block">
       <Card className="shadow-sm hover:shadow-lg transition-shadow h-full">
-        <CardContent className="p-4 flex flex-col items-center justify-center text-center space-y-2 aspect-square sm:aspect-auto">
+        <CardContent className="p-4 flex flex-col items-center justify-center text-center space-y-2 aspect-square">
           <div className={`p-3 rounded-full ${iconBgColor}`}>
             <Icon className={`h-6 w-6 ${iconTextColor}`} />
           </div>
@@ -185,7 +185,7 @@ export default function AdminDashboardPage() {
       {/* Quick Actions */}
       <div>
         <h2 className="font-headline text-xl font-semibold mb-3 text-foreground">Quick Actions</h2>
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4">
+        <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-6 gap-4">
           {quickActions.map((action) => (
             <QuickActionCard key={action.title} {...action} />
           ))}
@@ -243,5 +243,3 @@ export default function AdminDashboardPage() {
     </div>
   );
 }
-
-    
