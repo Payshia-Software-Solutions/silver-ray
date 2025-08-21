@@ -1,8 +1,8 @@
 
 import type { Room, WeddingPackage } from '@/types';
-import { Gift, Flower2, Wine, Users } from 'lucide-react';
+import { Gift, Flower2, Wine, Users, Utensils } from 'lucide-react';
 
-const API_BASE_URL = 'http://localhost';
+const API_BASE_URL = 'http://localhost/Silver_server';
 
 // --- Room Fetching Logic ---
 
@@ -37,23 +37,23 @@ function transformApiRoomToRoom(apiRoom: ApiRoom): Room {
         id: String(apiRoom.id),
         name: apiRoom.descriptive_title,
         description: apiRoom.short_description,
-        longDescription: apiRoom.short_description,
+        longDescription: apiRoom.short_description, // Using short_description as long description
         pricePerNight: parseFloat(apiRoom.price_per_night),
         imageUrl: imageUrl,
         imageHint: 'hotel room interior',
-        images: [imageUrl],
-        amenities: ['WiFi', 'Air Conditioning', 'Flat-screen TV'],
+        images: [imageUrl], // Use the main image as the only one in the array
+        amenities: ['WiFi', 'Air Conditioning', 'Flat-screen TV'], // Default amenities
         capacity: apiRoom.adults_capacity,
-        beds: apiRoom.adults_capacity > 2 ? '2 Queen Beds' : '1 King Bed',
+        beds: apiRoom.adults_capacity > 2 ? '2 Queen Beds' : '1 King Bed', // Simple logic for beds
         size: `${apiRoom.room_width} sqm`,
-        category: 'Deluxe',
-        rating: 4.5,
-        viewType: 'City View',
+        category: 'Deluxe', // Default category
+        rating: 4.5, // Default rating
+        viewType: 'City View', // Default view type
     };
 }
 
 export async function getRoomsByCompany(companyId: string): Promise<Room[]> {
-  const endpoint = `${API_BASE_URL}/Silver_server/rooms/company/${companyId}`;
+  const endpoint = `${API_BASE_URL}/rooms/company/${companyId}`;
   
   try {
     const response = await fetch(endpoint, {
@@ -61,6 +61,7 @@ export async function getRoomsByCompany(companyId: string): Promise<Room[]> {
     });
 
     if (!response.ok) {
+      console.error("Failed to fetch rooms, status:", response.status);
       return [];
     }
 
@@ -73,6 +74,11 @@ export async function getRoomsByCompany(companyId: string): Promise<Room[]> {
     return data.data.map(transformApiRoomToRoom);
 
   } catch (error) {
+     if (error instanceof TypeError && error.message.includes('fetch failed')) {
+        // This specifically catches network errors
+     } else {
+        console.error("An unexpected error occurred while fetching rooms:", error);
+     }
     return [];
   }
 }
@@ -122,7 +128,7 @@ function transformApiWeddingPackage(pkg: ApiWeddingPackage): WeddingPackage {
 
 
 export async function getWeddingPackages(): Promise<WeddingPackage[]> {
-  const endpoint = `${API_BASE_URL}/Silver_server/weddingpackages`;
+  const endpoint = `${API_BASE_URL}/weddingpackages`;
 
   try {
     const response = await fetch(endpoint, {
