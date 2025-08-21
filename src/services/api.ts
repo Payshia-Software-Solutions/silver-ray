@@ -2,7 +2,7 @@
 import type { Room, WeddingPackage } from '@/types';
 import { Gift, Flower2, Wine, Users, Utensils } from 'lucide-react';
 
-const API_BASE_URL = 'http://localhost/Silver_server';
+const API_BASE_URL = 'http://localhost/Silver_server/api';
 
 // --- Room Fetching Logic ---
 
@@ -31,7 +31,7 @@ interface ApiRoom {
 function transformApiRoomToRoom(apiRoom: ApiRoom): Room {
     const imageUrl = apiRoom.image_url.startsWith('http') 
         ? apiRoom.image_url 
-        : `${API_BASE_URL}${apiRoom.image_url}`;
+        : `http://localhost/Silver_server${apiRoom.image_url}`;
 
     return {
         id: String(apiRoom.id),
