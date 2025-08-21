@@ -28,24 +28,22 @@ interface ApiRoom {
 // Function to transform API data into the frontend Room type
 function transformApiRoomToRoom(apiRoom: ApiRoom): Room {
     // A simple mock transformation for amenities as the API returns IDs
-    const mockAmenities = ['WiFi', 'Air Conditioning', 'Flat-screen TV'];
+    const mockAmenities = ['WiFi', 'Air Conditioning', 'Flat-screen TV', 'Mini Bar'];
 
     return {
         id: String(apiRoom.id),
         name: apiRoom.descriptive_title,
         description: apiRoom.short_description,
-        longDescription: apiRoom.short_description, // Using short_description as long is not available
+        longDescription: apiRoom.short_description, // Using short_description as long is not available in the provided sample
         pricePerNight: parseFloat(apiRoom.price_per_night),
-        // The API returns a relative path, which won't work with next/image without a configured domain.
-        // We'll use a placeholder for now.
         imageUrl: apiRoom.image_url.startsWith('/') 
-            ? 'https://placehold.co/600x400.png' 
+            ? `${API_BASE_URL}${apiRoom.image_url}` 
             : apiRoom.image_url,
         imageHint: 'hotel room interior',
-        images: apiRoom.image_url.startsWith('/') ? ['https://placehold.co/600x400.png'] : [apiRoom.image_url],
-        amenities: mockAmenities, // Using mock amenities
+        images: apiRoom.image_url.startsWith('/') ? [`${API_BASE_URL}${apiRoom.image_url}`] : [apiRoom.image_url],
+        amenities: mockAmenities, // Using mock amenities as API returns IDs
         capacity: apiRoom.adults_capacity,
-        beds: `${apiRoom.adults_capacity > 1 ? '1 King Bed' : '1 Queen Bed'}`, // Mocked based on capacity
+        beds: apiRoom.adults_capacity > 2 ? '2 Queen Beds' : '1 King Bed', // Mocked based on capacity
         size: `${apiRoom.room_width} sqm`, // Assuming width is the size
         category: 'Deluxe', // Mocked as it's not in the response
         rating: 4.5, // Mocked
