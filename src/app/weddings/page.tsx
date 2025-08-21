@@ -5,9 +5,12 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { WeddingVenueCard } from '@/components/weddings/WeddingVenueCard';
 import { WeddingPackageCard } from '@/components/weddings/WeddingPackageCard';
-import { weddingVenues, weddingPackages, weddingServices, weddingTestimonials } from '@/data/weddingData';
+import { weddingVenues, weddingPackages as mockWeddingPackages, weddingServices, weddingTestimonials } from '@/data/weddingData';
 import { TestimonialCard } from '@/components/shared/TestimonialCard';
-import { Utensils, Flower2, ClipboardCheck, BedDouble as GuestAccommodationIcon } from 'lucide-react'; // Renamed BedDouble to avoid conflict
+import { Utensils, Flower2, ClipboardCheck, BedDouble as GuestAccommodationIcon, AlertTriangle } from 'lucide-react';
+import { getWeddingPackages } from '@/services/api';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+
 
 export const metadata: Metadata = {
   title: 'Weddings at Grand Silver Ray',
@@ -41,7 +44,11 @@ function WeddingHero() {
   );
 }
 
-export default function WeddingsPage() {
+export default async function WeddingsPage() {
+  const apiPackages = await getWeddingPackages();
+  const displayPackages = apiPackages.length > 0 ? apiPackages : mockWeddingPackages;
+  const showError = apiPackages.length === 0;
+
   return (
     <div className="bg-background">
       <WeddingHero />
@@ -70,8 +77,17 @@ export default function WeddingsPage() {
               Choose from our exquisite packages – each crafted to suit your vision, guest count, and style. All packages can be personalized to create your perfect day.
             </p>
           </div>
+           {showError && (
+             <Alert variant="destructive" className="max-w-2xl mx-auto my-6">
+              <AlertTriangle className="h-4 w-4" />
+              <AlertTitle>Connection Error</AlertTitle>
+              <AlertDescription>
+                Could not connect to the wedding packages data service. Please ensure the backend is running. Using fallback data for now.
+              </AlertDescription>
+            </Alert>
+          )}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {weddingPackages.map((pkg) => (
+            {displayPackages.map((pkg) => (
               <WeddingPackageCard key={pkg.id} packageItem={pkg} />
             ))}
           </div>

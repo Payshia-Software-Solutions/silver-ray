@@ -97,4 +97,20 @@ export interface ExperienceDetail {
   pricePerChild?: number; // Optional: for dynamic pricing display
 }
 
+export interface WeddingPackageInclusion {
+  icon: LucideIcon;
+  text: string;
+}
+export interface WeddingPackage {
+  id: string;
+  name: string;
+  price?: string;
+  icon: LucideIcon;
+  iconImageUrl?: string;
+  imageHint: string;
+  inclusions: WeddingPackageInclusion[];
+  shortDescription?: string;
+  heroImage?: string;
+  heroImageHint?: string;
+}
     
