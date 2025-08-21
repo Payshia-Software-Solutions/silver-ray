@@ -1,7 +1,7 @@
 
 import type { Room } from '@/types';
 
-const API_BASE_URL = 'http://localhost:3001';
+const API_BASE_URL = 'http://localhost';
 
 interface ApiRoom {
     id: number;
@@ -30,15 +30,19 @@ function transformApiRoomToRoom(apiRoom: ApiRoom): Room {
     // A simple mock transformation for amenities as the API returns IDs
     const mockAmenities = ['WiFi', 'Air Conditioning', 'Flat-screen TV', 'Mini Bar'];
 
+    const imageUrl = apiRoom.image_url.startsWith('http') 
+        ? apiRoom.image_url 
+        : `${API_BASE_URL}${apiRoom.image_url}`;
+
     return {
         id: String(apiRoom.id),
         name: apiRoom.descriptive_title,
         description: apiRoom.short_description,
-        longDescription: apiRoom.short_description, // Using short_description as long is not available
+        longDescription: apiRoom.short_description,
         pricePerNight: parseFloat(apiRoom.price_per_night),
-        imageUrl: apiRoom.image_url,
+        imageUrl: imageUrl,
         imageHint: 'hotel room interior',
-        images: [apiRoom.image_url],
+        images: [imageUrl],
         amenities: mockAmenities,
         capacity: apiRoom.adults_capacity,
         beds: apiRoom.adults_capacity > 2 ? '2 Queen Beds' : '1 King Bed',
@@ -59,7 +63,6 @@ export async function getRoomsByCompany(companyId: string): Promise<Room[]> {
     });
 
     if (!response.ok) {
-      // Don't log error here, just return empty to allow fallback
       return [];
     }
 
@@ -72,8 +75,7 @@ export async function getRoomsByCompany(companyId: string): Promise<Room[]> {
     return data.data.map(transformApiRoomToRoom);
 
   } catch (error) {
-    // Fail silently on network error to allow the frontend to use fallback data
-    // This is useful when the backend server is not running during development.
+    // Fail silently on purpose to allow fallback to mock data if the backend is not running.
     return [];
   }
 }
