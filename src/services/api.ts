@@ -38,14 +38,14 @@ function transformApiRoomToRoom(apiRoom: ApiRoom): Room {
         id: String(apiRoom.id),
         name: apiRoom.descriptive_title,
         description: apiRoom.short_description,
-        longDescription: apiRoom.short_description,
+        longDescription: apiRoom.short_description, // Using short description as long for now
         pricePerNight: parseFloat(apiRoom.price_per_night),
         imageUrl: imageUrl,
         imageHint: 'hotel room interior',
         images: [imageUrl],
         amenities: mockAmenities,
         capacity: apiRoom.adults_capacity,
-        beds: apiRoom.adults_capacity > 2 ? '2 Queen Beds' : '1 King Bed',
+        beds: apiRoom.adults_capacity > 2 ? '2 Queen Beds' : '1 King Bed', // Mock logic
         size: `${apiRoom.room_width} sqm`,
         category: 'Deluxe', // Mocked as it's not in the response
         rating: 4.5, // Mocked
