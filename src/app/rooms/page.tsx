@@ -1,11 +1,11 @@
 
 import type { Metadata } from 'next';
 import { RoomCard } from '@/components/shared/RoomCard';
-import { mockRooms } from '@/data/mockData';
+import { getRoomsByCompany } from '@/services/api';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
-import { Search } from 'lucide-react';
+import { Search, AlertTriangle } from 'lucide-react';
 import { RoomsPageHero } from '@/components/rooms/RoomsPageHero';
 import { NotificationBanner } from '@/components/rooms/NotificationBanner';
 
@@ -14,7 +14,6 @@ export const metadata: Metadata = {
   description: 'Explore our luxurious accommodations at Grand Silver Ray. Find the perfect room or suite for your stay.',
 };
 
-// This would be a client component if we add real filtering logic
 function RoomFilters() {
   return (
     <div className="my-8 p-4 md:p-6 bg-card rounded-lg shadow-md">
@@ -62,8 +61,15 @@ function RoomFilters() {
 }
 
 
-export default function RoomsPage() {
-  const rooms = mockRooms; 
+export default async function RoomsPage() {
+  let rooms = [];
+  let error: string | null = null;
+  try {
+    rooms = await getRoomsByCompany('COMP031');
+  } catch (e: any) {
+    console.error(e);
+    error = e.message || "An unknown error occurred.";
+  }
 
   return (
     <>
@@ -72,7 +78,14 @@ export default function RoomsPage() {
       <div className="bg-background">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
           <RoomFilters />
-          {rooms.length > 0 ? (
+          {error ? (
+             <div className="bg-red-50 border border-red-200 text-red-800 p-6 rounded-lg flex flex-col items-center text-center">
+              <AlertTriangle className="w-12 h-12 mb-4 text-red-500" />
+              <h2 className="text-xl font-bold mb-2">Could Not Load Rooms</h2>
+              <p>{error}</p>
+              <p className="text-sm mt-2">Please try again later or contact support.</p>
+            </div>
+          ) : rooms.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {rooms.map((room) => (
                 <RoomCard key={room.id} room={room} />

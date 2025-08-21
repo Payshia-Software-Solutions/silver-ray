@@ -4,8 +4,8 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import type { Room } from '@/types';
-import { BedDouble, Users, Maximize, Wifi } from 'lucide-react'; // Removed Tag as it's not used
-import { Badge } from '@/components/ui/badge'; // Added Badge import
+import { BedDouble, Users, Maximize, Wifi } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
 
 interface RoomCardProps {
   room: Room;
@@ -69,7 +69,7 @@ export function RoomCard({ room }: RoomCardProps) {
 
           <div>
             <span className="font-body text-xs text-muted-foreground">Starting from</span>
-            <p className="font-headline text-xl font-semibold text-foreground">${room.pricePerNight}</p>
+            <p className="font-headline text-xl font-semibold text-foreground">${room.pricePerNight.toFixed(2)}</p>
           </div>
         </div>
       </CardContent>
