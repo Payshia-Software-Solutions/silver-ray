@@ -9,6 +9,7 @@ import { Search, AlertTriangle } from 'lucide-react';
 import { RoomsPageHero } from '@/components/rooms/RoomsPageHero';
 import { NotificationBanner } from '@/components/rooms/NotificationBanner';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { mockRooms } from '@/data/mockData';
 
 
 export const metadata: Metadata = {
@@ -64,13 +65,15 @@ function RoomFilters() {
 
 
 export default async function RoomsPage() {
-  let rooms = [];
+  let rooms;
   let error: string | null = null;
   try {
     rooms = await getRoomsByCompany('COMP031');
   } catch (e: any) {
     console.error(e);
     error = e.message || "An unknown error occurred.";
+    // Fallback to mock data if API fails
+    rooms = mockRooms;
   }
 
   return (
@@ -80,15 +83,16 @@ export default async function RoomsPage() {
       <div className="bg-background">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
           <RoomFilters />
-          {error ? (
-             <Alert variant="destructive" className="max-w-2xl mx-auto">
+          {error && (
+             <Alert variant="destructive" className="max-w-2xl mx-auto my-6">
               <AlertTriangle className="h-4 w-4" />
               <AlertTitle>Connection Error</AlertTitle>
               <AlertDescription>
-                {error} Please ensure the backend data service is running and accessible.
+                {error} Using fallback data. Please ensure the backend data service is running.
               </AlertDescription>
             </Alert>
-          ) : rooms.length > 0 ? (
+          )}
+          {rooms.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {rooms.map((room) => (
                 <RoomCard key={room.id} room={room} />
