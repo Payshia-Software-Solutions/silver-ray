@@ -63,18 +63,14 @@ export async function getRoomsByCompany(companyId: string): Promise<Room[]> {
     });
 
     if (!response.ok) {
-      // More specific error for server-side issues
-      if (response.status >= 500) {
-          throw new Error(`Server error: Could not fetch rooms. Status: ${response.status}`);
-      } else if (response.status >= 400) {
-          throw new Error(`Client error: Request failed. Status: ${response.status}`);
-      }
-      throw new Error(`Failed to fetch rooms. Status: ${response.status}`);
+      console.error(`API request failed with status: ${response.status}`);
+      return []; // Return empty array on failure
     }
 
     const data = await response.json();
     if (!data.success || !Array.isArray(data.data)) {
-        throw new Error("Invalid data format received from the server.");
+        console.error("Invalid data format received from the server.");
+        return []; // Return empty array on invalid format
     }
     
     // Transform each room from the API response
@@ -83,10 +79,9 @@ export async function getRoomsByCompany(companyId: string): Promise<Room[]> {
   } catch (error) {
     if (error instanceof TypeError && error.message.includes('fetch failed')) {
         console.error("Network error: Could not connect to the API server at", API_BASE_URL);
-        throw new Error("Could not connect to the data service. Please ensure the backend is running.");
+    } else {
+        console.error("An unexpected error occurred while fetching rooms:", error);
     }
-    console.error("An unexpected error occurred while fetching rooms:", error);
-    // Re-throw the original error or a new generic one
-    throw error;
+    return []; // Return empty array on any fetch-related error
   }
 }
