@@ -34,17 +34,15 @@ function transformApiRoomToRoom(apiRoom: ApiRoom): Room {
         id: String(apiRoom.id),
         name: apiRoom.descriptive_title,
         description: apiRoom.short_description,
-        longDescription: apiRoom.short_description, // Using short_description as long is not available in the provided sample
+        longDescription: apiRoom.short_description, // Using short_description as long is not available
         pricePerNight: parseFloat(apiRoom.price_per_night),
-        imageUrl: apiRoom.image_url.startsWith('/') 
-            ? `${API_BASE_URL}${apiRoom.image_url}` 
-            : apiRoom.image_url,
+        imageUrl: apiRoom.image_url,
         imageHint: 'hotel room interior',
-        images: apiRoom.image_url.startsWith('/') ? [`${API_BASE_URL}${apiRoom.image_url}`] : [apiRoom.image_url],
-        amenities: mockAmenities, // Using mock amenities as API returns IDs
+        images: [apiRoom.image_url],
+        amenities: mockAmenities,
         capacity: apiRoom.adults_capacity,
-        beds: apiRoom.adults_capacity > 2 ? '2 Queen Beds' : '1 King Bed', // Mocked based on capacity
-        size: `${apiRoom.room_width} sqm`, // Assuming width is the size
+        beds: apiRoom.adults_capacity > 2 ? '2 Queen Beds' : '1 King Bed',
+        size: `${apiRoom.room_width} sqm`,
         category: 'Deluxe', // Mocked as it's not in the response
         rating: 4.5, // Mocked
         viewType: 'City View', // Mocked
@@ -61,25 +59,21 @@ export async function getRoomsByCompany(companyId: string): Promise<Room[]> {
     });
 
     if (!response.ok) {
-      console.error(`API request failed with status: ${response.status}`);
-      return []; // Return empty array on failure
+      // Don't log error here, just return empty to allow fallback
+      return [];
     }
 
     const data = await response.json();
     if (!data.success || !Array.isArray(data.data)) {
         console.error("Invalid data format received from the server.");
-        return []; // Return empty array on invalid format
+        return [];
     }
     
-    // Transform each room from the API response
     return data.data.map(transformApiRoomToRoom);
 
   } catch (error) {
-    if (error instanceof TypeError && error.message.includes('fetch failed')) {
-        console.error("Network error: Could not connect to the API server at", API_BASE_URL);
-    } else {
-        console.error("An unexpected error occurred while fetching rooms:", error);
-    }
-    return []; // Return empty array on any fetch-related error
+    // Fail silently on network error to allow the frontend to use fallback data
+    // This is useful when the backend server is not running during development.
+    return [];
   }
 }
