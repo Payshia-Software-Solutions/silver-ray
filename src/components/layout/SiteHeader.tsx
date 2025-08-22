@@ -36,20 +36,20 @@ export function SiteHeader() {
           <span className="font-headline text-3xl font-bold text-foreground">Grand Silver Ray</span>
         </Link>
 
-        <nav className="hidden md:flex items-center space-x-6">
+        <nav className="hidden md:flex items-center space-x-5">
           {navLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
               className={cn(
-                "font-body text-lg font-medium transition-colors hover:text-primary",
+                "font-body text-base font-medium transition-colors hover:text-primary",
                 pathname === link.href ? "text-primary" : "text-foreground/70"
               )}
             >
               {link.label}
             </Link>
           ))}
-          <Button asChild size="lg" className="font-body rounded-full">
+          <Button asChild className="font-body rounded-full">
             <Link href="/booking">Book Now</Link>
           </Button>
         </nav>
@@ -80,14 +80,14 @@ export function SiteHeader() {
                     key={link.href}
                     href={link.href}
                     className={cn(
-                      "font-body text-2xl font-medium transition-colors hover:text-primary",
+                      "font-body text-xl font-medium transition-colors hover:text-primary",
                       pathname === link.href ? "text-primary" : "text-foreground/70"
                     )}
                   >
                     {link.label}
                   </Link>
                 ))}
-                <Button asChild size="lg" className="font-body text-lg w-full mt-4" >
+                <Button asChild size="default" className="font-body text-base w-full mt-4" >
                   <Link href="/booking">Book Now</Link>
                 </Button>
               </nav>
