@@ -32,7 +32,7 @@ function transformApiWeddingPackage(apiPackage: ApiWeddingPackage): WeddingPacka
 }
 
 export async function getWeddingPackages(): Promise<WeddingPackage[]> {
-    const fetchUrl = `${API_BASE_URL}/weddingpackages`;
+    const fetchUrl = `${API_BASE_URL}/api/weddingpackages`;
     try {
         const response = await fetch(fetchUrl, { cache: 'no-store' });
         if (!response.ok) {
