@@ -50,3 +50,4 @@ export const getRoomsByCompany = async (companyId: string): Promise<Room[]> => {
     return [];
   }
 };
+
