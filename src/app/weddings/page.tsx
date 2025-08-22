@@ -160,7 +160,30 @@ export default async function WeddingsPage() {
               Hear from couples who celebrated their special day with us.
             </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+          {/* Mobile Carousel */}
+          <div className="md:hidden">
+            <Carousel
+              opts={{
+                align: "start",
+                loop: weddingTestimonials.length > 1,
+              }}
+              className="w-full max-w-sm mx-auto"
+            >
+              <CarouselContent className="-ml-4">
+                {weddingTestimonials.map((testimonial) => (
+                  <CarouselItem key={testimonial.id} className="pl-4">
+                    <div className="p-1 h-full">
+                      <TestimonialCard testimonial={testimonial} />
+                    </div>
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+              <CarouselPrevious className="absolute left-[-50px] bg-background/70 hover:bg-background/90 text-foreground" />
+              <CarouselNext className="absolute right-[-50px] bg-background/70 hover:bg-background/90 text-foreground" />
+            </Carousel>
+          </div>
+          {/* Desktop Grid */}
+          <div className="hidden md:grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
             {weddingTestimonials.map((testimonial) => (
               <TestimonialCard key={testimonial.id} testimonial={testimonial} />
             ))}
