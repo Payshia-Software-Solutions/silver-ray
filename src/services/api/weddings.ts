@@ -1,3 +1,4 @@
+
 import type { WeddingPackage } from '@/types';
 import { Gift, CheckCircle } from 'lucide-react'; // Assuming Gift and CheckCircle are used
 
@@ -32,7 +33,7 @@ function transformApiWeddingPackage(apiPackage: ApiWeddingPackage): WeddingPacka
 
 export async function getWeddingPackages(): Promise<WeddingPackage[]> {
     try {
-        const response = await fetch(`${API_BASE_URL}/weddingpackages`, { cache: 'no-store' });
+        const response = await fetch(`${API_BASE_URL}/api/weddingpackages`, { cache: 'no-store' });
         if (!response.ok) {
             console.error("Failed to fetch wedding packages, status:", response.status);
             return [];
