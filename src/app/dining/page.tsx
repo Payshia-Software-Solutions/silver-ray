@@ -5,6 +5,8 @@ import { VenueCard, type VenueProps } from '@/components/dining/VenueCard';
 import { DishCard, type DishProps } from '@/components/dining/DishCard';
 import { ReservationSection } from '@/components/dining/ReservationSection';
 import { InfoBar } from '@/components/dining/InfoBar';
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
+
 
 export const metadata: Metadata = {
   title: 'Culinary Experiences',
@@ -75,7 +77,24 @@ export default function DiningPage() {
               From lavish buffets to rooftop cocktails, each venue offers a unique ambiance and culinary experiences to delight every palate.
             </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {/* Mobile Carousel */}
+          <div className="md:hidden">
+            <Carousel className="w-full max-w-sm mx-auto">
+              <CarouselContent className="-ml-4">
+                {diningVenues.map((venue) => (
+                  <CarouselItem key={venue.id} className="pl-4">
+                    <div className="p-1 h-full">
+                      <VenueCard {...venue} />
+                    </div>
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+              <CarouselPrevious className="absolute left-[-50px] bg-background/70 hover:bg-background/90 text-foreground" />
+              <CarouselNext className="absolute right-[-50px] bg-background/70 hover:bg-background/90 text-foreground" />
+            </Carousel>
+          </div>
+          {/* Desktop Grid */}
+          <div className="hidden md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {diningVenues.map((venue) => (
               <VenueCard key={venue.id} {...venue} />
             ))}
@@ -91,7 +110,24 @@ export default function DiningPage() {
               Indulge in our chef's most celebrated creations and seasonal specialties, crafted with passion and the finest ingredients.
             </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {/* Mobile Carousel */}
+          <div className="md:hidden">
+            <Carousel className="w-full max-w-sm mx-auto">
+              <CarouselContent className="-ml-4">
+                {signatureDishes.map((dish) => (
+                  <CarouselItem key={dish.id} className="pl-4">
+                    <div className="p-1 h-full">
+                      <DishCard {...dish} />
+                    </div>
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+              <CarouselPrevious className="absolute left-[-50px] bg-background/70 hover:bg-background/90 text-foreground" />
+              <CarouselNext className="absolute right-[-50px] bg-background/70 hover:bg-background/90 text-foreground" />
+            </Carousel>
+          </div>
+          {/* Desktop Grid */}
+          <div className="hidden md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {signatureDishes.map((dish) => (
               <DishCard key={dish.id} {...dish} />
             ))}

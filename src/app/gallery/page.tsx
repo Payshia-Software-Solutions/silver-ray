@@ -1,6 +1,8 @@
 
 import type { Metadata } from 'next';
 import NextImage from 'next/image';
+import { Card, CardContent } from '@/components/ui/card';
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 
 export const metadata: Metadata = {
   title: 'Gallery',
@@ -34,7 +36,33 @@ export default function GalleryPage() {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+      {/* Mobile Carousel */}
+      <div className="md:hidden">
+        <Carousel className="w-full max-w-sm mx-auto">
+          <CarouselContent>
+            {galleryImages.map((image, index) => (
+              <CarouselItem key={index}>
+                <Card>
+                  <CardContent className="relative aspect-square">
+                    <NextImage
+                      src={image.src}
+                      alt={image.alt}
+                      data-ai-hint={image.hint}
+                      fill
+                      className="object-cover rounded-lg"
+                    />
+                  </CardContent>
+                </Card>
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          <CarouselPrevious className="absolute left-[-50px] bg-background/70 hover:bg-background/90 text-foreground" />
+          <CarouselNext className="absolute right-[-50px] bg-background/70 hover:bg-background/90 text-foreground" />
+        </Carousel>
+      </div>
+
+      {/* Desktop Grid */}
+      <div className="hidden md:grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         {galleryImages.map((image, index) => (
           <div key={index} className="aspect-w-1 aspect-h-1 rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300">
             <NextImage
@@ -53,4 +81,3 @@ export default function GalleryPage() {
     </div>
   );
 }
-

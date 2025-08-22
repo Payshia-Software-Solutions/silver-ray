@@ -10,7 +10,7 @@ import { TestimonialCard } from '@/components/shared/TestimonialCard';
 import { Utensils, Flower2, ClipboardCheck, BedDouble as GuestAccommodationIcon, AlertTriangle } from 'lucide-react';
 import { getWeddingPackages } from '@/services/api';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 
 export const metadata: Metadata = {
   title: 'Weddings at Grand Silver Ray',
@@ -61,7 +61,24 @@ export default async function WeddingsPage() {
               Choose from a selection of breathtaking spaces, each offering a unique backdrop for your special day.
             </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {/* Mobile Carousel */}
+           <div className="md:hidden">
+            <Carousel className="w-full max-w-sm mx-auto">
+              <CarouselContent className="-ml-4">
+                {weddingVenues.map((venue) => (
+                  <CarouselItem key={venue.id} className="pl-4">
+                    <div className="p-1 h-full">
+                      <WeddingVenueCard venue={venue} />
+                    </div>
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+              <CarouselPrevious className="absolute left-[-50px] bg-background/70 hover:bg-background/90 text-foreground" />
+              <CarouselNext className="absolute right-[-50px] bg-background/70 hover:bg-background/90 text-foreground" />
+            </Carousel>
+          </div>
+          {/* Desktop Grid */}
+          <div className="hidden md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {weddingVenues.map((venue) => (
               <WeddingVenueCard key={venue.id} venue={venue} />
             ))}
@@ -86,7 +103,24 @@ export default async function WeddingsPage() {
               </AlertDescription>
             </Alert>
           )}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+           {/* Mobile Carousel */}
+            <div className="md:hidden">
+              <Carousel className="w-full max-w-sm mx-auto">
+                <CarouselContent className="-ml-4">
+                  {displayPackages.map((pkg) => (
+                    <CarouselItem key={pkg.id} className="pl-4 basis-full sm:basis-1/2">
+                      <div className="p-1 h-full">
+                       <WeddingPackageCard packageItem={pkg} />
+                      </div>
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+                <CarouselPrevious className="absolute left-[-50px] bg-background/70 hover:bg-background/90 text-foreground" />
+                <CarouselNext className="absolute right-[-50px] bg-background/70 hover:bg-background/90 text-foreground" />
+              </Carousel>
+            </div>
+            {/* Desktop Grid */}
+          <div className="hidden md:grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {displayPackages.map((pkg) => (
               <WeddingPackageCard key={pkg.id} packageItem={pkg} />
             ))}

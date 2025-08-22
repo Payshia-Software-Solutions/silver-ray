@@ -22,6 +22,8 @@ import {
   Sparkles
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
+
 
 export const metadata: Metadata = {
   title: 'Unforgettable Experiences',
@@ -151,6 +153,33 @@ const nearbyAttractions: NearbyAttraction[] = [
   { id: 'ancient-temple', imageUrl: 'https://images.unsplash.com/photo-1730758070932-0ad2926af54c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8YW5jaWVudCUyMHRlbXBsZSUyMHJ1aW5zfGVufDB8fHx8MTc0OTE0NTQzMXww&ixlib=rb-4.1.0&q=80&w=1080', imageHint: 'ancient temple ruins', title: 'Ancient Temple', distance: '3.0 km from hotel', icon: Landmark },
 ];
 
+const FeaturedExperienceCard = ({ exp }: { exp: FeaturedExperience }) => (
+    <Card className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col bg-card rounded-xl h-full">
+        <CardHeader className="p-0 relative aspect-video">
+            <NextImage
+            src={exp.imageUrl}
+            alt={exp.title}
+            data-ai-hint={exp.imageHint}
+            fill
+            className="object-cover"
+            />
+        </CardHeader>
+        <CardContent className="p-5 flex flex-col flex-grow">
+            <CardTitle className="font-headline text-xl mb-2">{exp.title}</CardTitle>
+            <CardDescription className="font-body text-sm text-muted-foreground mb-4 flex-grow line-clamp-3">
+            {exp.description}
+            </CardDescription>
+            <div className="font-body text-xs text-muted-foreground space-y-1.5 mb-4">
+            <div className="flex items-center"><Clock className="w-3.5 h-3.5 mr-1.5 text-primary" /> {exp.duration}</div>
+            <div className="flex items-center"><Users className="w-3.5 h-3.5 mr-1.5 text-primary" /> {exp.pricePerPerson} per person</div>
+            <div className="flex items-center"><CalendarCheck className="w-3.5 h-3.5 mr-1.5 text-primary" /> {exp.bookingDetails}</div>
+            </div>
+            <Button asChild className="w-full mt-auto bg-primary text-primary-foreground hover:bg-primary/90 rounded-md">
+            <Link href={`/experiences/book/${exp.id}`}>Book This Experience</Link>
+            </Button>
+        </CardContent>
+    </Card>
+);
 
 export default function ExperiencesPage() {
   return (
@@ -201,35 +230,32 @@ export default function ExperiencesPage() {
       <section className="py-16 lg:py-20 bg-secondary/20">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="font-headline text-3xl sm:text-4xl font-bold text-center mb-12">Featured Experiences</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {featuredExperiences.map((exp) => (
-              <Card key={exp.id} className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col bg-card rounded-xl">
-                <CardHeader className="p-0 relative aspect-video">
-                  <NextImage
-                    src={exp.imageUrl}
-                    alt={exp.title}
-                    data-ai-hint={exp.imageHint}
-                    fill
-                    className="object-cover"
-                  />
-                </CardHeader>
-                <CardContent className="p-5 flex flex-col flex-grow">
-                  <CardTitle className="font-headline text-xl mb-2">{exp.title}</CardTitle>
-                  <CardDescription className="font-body text-sm text-muted-foreground mb-4 flex-grow line-clamp-3">
-                    {exp.description}
-                  </CardDescription>
-                  <div className="font-body text-xs text-muted-foreground space-y-1.5 mb-4">
-                    <div className="flex items-center"><Clock className="w-3.5 h-3.5 mr-1.5 text-primary" /> {exp.duration}</div>
-                    <div className="flex items-center"><Users className="w-3.5 h-3.5 mr-1.5 text-primary" /> {exp.pricePerPerson} per person</div>
-                    <div className="flex items-center"><CalendarCheck className="w-3.5 h-3.5 mr-1.5 text-primary" /> {exp.bookingDetails}</div>
-                  </div>
-                  <Button asChild className="w-full mt-auto bg-primary text-primary-foreground hover:bg-primary/90 rounded-md">
-                    <Link href={`/experiences/book/${exp.id}`}>Book This Experience</Link>
-                  </Button>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+            {/* Mobile Carousel */}
+            <div className="md:hidden">
+              <Carousel
+                opts={{ align: "start", loop: true }}
+                className="w-full max-w-sm mx-auto"
+              >
+                <CarouselContent className="-ml-4">
+                  {featuredExperiences.map((exp) => (
+                    <CarouselItem key={exp.id} className="pl-4">
+                       <div className="p-1 h-full">
+                        <FeaturedExperienceCard exp={exp} />
+                      </div>
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+                <CarouselPrevious className="absolute left-[-50px] bg-background/70 hover:bg-background/90 text-foreground" />
+                <CarouselNext className="absolute right-[-50px] bg-background/70 hover:bg-background/90 text-foreground" />
+              </Carousel>
+            </div>
+            
+            {/* Desktop Grid */}
+            <div className="hidden md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {featuredExperiences.map((exp) => (
+                <FeaturedExperienceCard key={exp.id} exp={exp} />
+              ))}
+            </div>
         </div>
       </section>
 

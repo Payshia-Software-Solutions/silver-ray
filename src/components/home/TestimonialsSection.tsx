@@ -25,13 +25,13 @@ export function TestimonialsSection() {
         <Carousel
           opts={{
             align: "start",
-            loop: mockTestimonials.length > 1, // Loop if more than 1, or more than 3 if showing 3 items
+            loop: mockTestimonials.length > 2, 
           }}
           className="w-full max-w-xs sm:max-w-xl md:max-w-3xl lg:max-w-5xl xl:max-w-6xl mx-auto"
         >
           <CarouselContent className="-ml-4 py-4">
             {mockTestimonials.map((testimonial) => (
-              <CarouselItem key={testimonial.id} className="pl-4 basis-full md:basis-1/2 lg:basis-1/3">
+              <CarouselItem key={testimonial.id} className="pl-4 basis-full sm:basis-1/2 lg:basis-1/3">
                 <div className="p-1 h-full">
                   <TestimonialCard testimonial={testimonial} />
                 </div>
