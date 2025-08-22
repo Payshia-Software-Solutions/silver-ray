@@ -28,7 +28,7 @@ const transformApiRoomToRoom = (apiRoom: any): Room => {
 
 
 export const getRoomsByCompany = async (companyId: string): Promise<Room[]> => {
-  const fetchUrl = `${API_BASE_URL}/rooms`;
+  const fetchUrl = `${API_BASE_URL}/api/rooms?company_id=${companyId}`;
   try {
     const response = await fetch(fetchUrl, { cache: 'no-store' });
     if (!response.ok) {
