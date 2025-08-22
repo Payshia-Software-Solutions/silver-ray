@@ -65,7 +65,7 @@ export function SiteHeader() {
                 <Menu className="h-7 w-7" />
               </Button>
             </SheetTrigger>
-            <SheetContent side="left" className="p-0 w-3/4 bg-background/95 backdrop-blur">
+            <SheetContent side="left" className="p-0 w-2/3 bg-background/95 backdrop-blur">
               <SheetHeader className="p-4 border-b">
                  <SheetTitle asChild>
                     <Link href="/" className="flex items-center space-x-2">
