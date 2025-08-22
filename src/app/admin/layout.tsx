@@ -17,26 +17,19 @@ import Link from 'next/link';
 import { 
   LayoutDashboard, 
   BedDouble, 
-  Briefcase, 
-  CalendarHeart, 
-  List, 
-  MapPin, 
-  Package, 
-  ClipboardList,
-  Hotel,
-  LineChart,
+  Shield,
   CalendarCheck,
   Utensils,
   Star,
+  Users,
   Mail,
   Heart,
+  Gift,
   Globe2,
-  Users,
-  Settings
+  UserCog,
+  Hotel,
 } from 'lucide-react';
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { usePathname } from 'next/navigation';
-import { cn } from '@/lib/utils';
 
 // Individual admin pages (e.g., /admin/page.tsx) should define their own metadata.
 
@@ -48,16 +41,18 @@ export default function AdminLayout({
   const pathname = usePathname();
 
   const navItems = [
-    { href: '/admin', label: 'Dashboard', icon: LineChart, activePath: '/admin', exact: true },
+    { href: '/admin', label: 'Dashboard', icon: LayoutDashboard, activePath: '/admin', exact: true },
     { href: '/admin/rooms', label: 'Room Management', icon: BedDouble, activePath: '/admin/rooms' },
-    { href: '/admin/bookings', label: 'Booking Management', icon: CalendarCheck, activePath: '/admin/bookings' },
+    { href: '/admin/amenities', label: 'Amenities Management', icon: Shield, activePath: '/admin/amenities' },
+    { href: '/admin/bookings', label: 'Room Booking Management', icon: CalendarCheck, activePath: '/admin/bookings' },
     { href: '/admin/dining', label: 'Restaurant & Dining', icon: Utensils, activePath: '/admin/dining' },
     { href: '/admin/experiences', label: 'Experience Management', icon: Star, activePath: '/admin/experiences' },
+    { href: '/admin/customers', label: 'Customer Management', icon: Users, activePath: '/admin/customers' },
     { href: '/admin/messages', label: 'Contact Messages', icon: Mail, activePath: '/admin/messages' },
     { href: '/admin/weddings', label: 'Wedding Management', icon: Heart, activePath: '/admin/weddings' },
+    { href: '/admin/events', label: 'Event Management', icon: Gift, activePath: '/admin/events' },
     { href: '/admin/content', label: 'Website Content', icon: Globe2, activePath: '/admin/content' },
-    { href: '/admin/users', label: 'User Management', icon: Users, activePath: '/admin/users' },
-    { href: '/admin/settings', label: 'Settings', icon: Settings, activePath: '/admin/settings' },
+    { href: '/admin/users', label: 'User Management', icon: UserCog, activePath: '/admin/users' },
   ];
 
   return (
