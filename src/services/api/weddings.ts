@@ -32,10 +32,11 @@ function transformApiWeddingPackage(apiPackage: ApiWeddingPackage): WeddingPacka
 }
 
 export async function getWeddingPackages(): Promise<WeddingPackage[]> {
+    const fetchUrl = `${API_BASE_URL}/weddingpackages`;
     try {
-        const response = await fetch(`${API_BASE_URL}/api/weddingpackages`, { cache: 'no-store' });
+        const response = await fetch(fetchUrl, { cache: 'no-store' });
         if (!response.ok) {
-            console.error("Failed to fetch wedding packages, status:", response.status);
+            console.error(`Failed to fetch wedding packages. Status: ${response.status}. URL: ${fetchUrl}`);
             return [];
         }
         const apiPackages: ApiWeddingPackage[] = await response.json();
@@ -46,9 +47,9 @@ export async function getWeddingPackages(): Promise<WeddingPackage[]> {
         return apiPackages.map(transformApiWeddingPackage);
     } catch (error) {
         if (error instanceof TypeError && error.message.includes('fetch failed')) {
-            console.error("Network error: Could not connect to the API server for wedding packages at", API_BASE_URL);
+            console.error(`Network error: Could not connect to the API server for wedding packages at ${fetchUrl}`);
         } else {
-            console.error("An unexpected error occurred while fetching wedding packages:", error);
+            console.error(`An unexpected error occurred while fetching wedding packages from ${fetchUrl}:`, error);
         }
         return [];
     }
