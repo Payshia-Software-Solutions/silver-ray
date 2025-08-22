@@ -28,19 +28,19 @@ export function FeaturedRoomsSection() {
               align: "start",
               loop: featuredRooms.length > 1,
             }}
-            className="w-full max-w-md mx-auto"
+            className="w-full max-w-sm mx-auto"
           >
             <CarouselContent className="-ml-4">
               {featuredRooms.map((room) => (
-                <CarouselItem key={room.id} className="pl-4 basis-full sm:basis-4/5">
+                <CarouselItem key={room.id} className="pl-4">
                   <div className="p-1 h-full">
                     <RoomCard room={room} />
                   </div>
                 </CarouselItem>
               ))}
             </CarouselContent>
-            <CarouselPrevious className="hidden sm:flex absolute left-0 top-1/2 -translate-y-1/2 z-10" />
-            <CarouselNext className="hidden sm:flex absolute right-0 top-1/2 -translate-y-1/2 z-10" />
+            <CarouselPrevious className="absolute left-[-50px]" />
+            <CarouselNext className="absolute right-[-50px]" />
           </Carousel>
         </div>
 
