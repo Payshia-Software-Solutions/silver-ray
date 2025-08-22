@@ -1,9 +1,13 @@
 
+"use client";
+
 import Link from 'next/link';
 import NextImage from 'next/image';
 import { Phone, Mail, MapPin, Facebook, Instagram, Linkedin, HelpCircle } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 // Inline SVG for Pinterest icon
 const PinterestIcon = ({ size = 20, className }: { size?: number; className?: string }) => (
@@ -19,38 +23,80 @@ const PinterestIcon = ({ size = 20, className }: { size?: number; className?: st
   </svg>
 );
 
+const quickLinks = [
+  { href: '/', label: 'Home' },
+  { href: '/rooms', label: 'Rooms & Suites' },
+  { href: '/dining', label: 'Dining' },
+  { href: '/experiences', label: 'Experiences' },
+  { href: '/gallery', label: 'Gallery' },
+  { href: '/contact', label: 'Contact Us' },
+  { href: '/weddings', label: 'Weddings' },
+  { href: '/events', label: 'Meetings & Events' },
+  { href: '/booking', label: 'Book a Stay' },
+];
+
+const informationLinks = [
+  { href: '/privacy', label: 'Privacy Policy' },
+  { href: '/terms', label: 'Terms & Conditions' },
+  { href: '/cancellation-policy', label: 'Cancellation Policy' },
+  { href: '/careers', label: 'Careers' },
+  { href: '/faq', label: 'FAQs' },
+  { href: '/sitemap', label: 'Site Map' },
+];
+
+const socialLinks = [
+  { href: '#', icon: Facebook, label: 'Facebook' },
+  { href: '#', icon: Instagram, label: 'Instagram' },
+  { href: '#', icon: HelpCircle, label: 'Help' },
+  { href: '#', icon: Linkedin, label: 'LinkedIn' },
+  { href: '#', icon: PinterestIcon, label: 'Pinterest' },
+];
+
+const FooterLinkColumn = ({ title, links }: { title: string, links: { href: string, label: string }[] }) => {
+  const isMobile = useIsMobile();
+
+  if (isMobile) {
+    return (
+      <Accordion type="single" collapsible className="w-full">
+        <AccordionItem value="item-1" className="border-b border-slate-700">
+          <AccordionTrigger className="font-headline text-xl font-semibold text-slate-100 hover:no-underline py-3">
+            {title}
+          </AccordionTrigger>
+          <AccordionContent className="pt-2">
+            <ul className="space-y-2 text-base">
+              {links.map((link) => (
+                <li key={link.href}>
+                  <Link href={link.href} className="text-slate-400 hover:text-primary transition-colors">
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </AccordionContent>
+        </AccordionItem>
+      </Accordion>
+    );
+  }
+
+  return (
+    <div>
+      <h3 className="font-headline text-xl font-semibold text-slate-100 mb-4">{title}</h3>
+      <ul className="space-y-2 text-sm">
+        {links.map((link) => (
+          <li key={link.href}>
+            <Link href={link.href} className="hover:text-primary transition-colors">
+              {link.label}
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+
 
 export function SiteFooter() {
   const currentYear = new Date().getFullYear();
-
-  const quickLinks = [
-    { href: '/', label: 'Home' },
-    { href: '/rooms', label: 'Rooms & Suites' },
-    { href: '/dining', label: 'Dining' },
-    { href: '/experiences', label: 'Experiences' },
-    { href: '/gallery', label: 'Gallery' },
-    { href: '/contact', label: 'Contact Us' },
-    { href: '/weddings', label: 'Weddings' }, // Assuming spa, meetings, promotions are under broader pages for now or future
-    { href: '/events', label: 'Meetings & Events' },
-    { href: '/booking', label: 'Book a Stay' },
-  ];
-
-  const informationLinks = [
-    { href: '/privacy', label: 'Privacy Policy' },
-    { href: '/terms', label: 'Terms & Conditions' }, // Placeholder path
-    { href: '/cancellation-policy', label: 'Cancellation Policy' }, // Placeholder path
-    { href: '/careers', label: 'Careers' }, // Placeholder path
-    { href: '/faq', label: 'FAQs' }, // Placeholder path
-    { href: '/sitemap', label: 'Site Map' }, // Placeholder path
-  ];
-
-  const socialLinks = [
-    { href: '#', icon: Facebook, label: 'Facebook' },
-    { href: '#', icon: Instagram, label: 'Instagram' },
-    { href: '#', icon: HelpCircle, label: 'Help' },
-    { href: '#', icon: Linkedin, label: 'LinkedIn' },
-    { href: '#', icon: PinterestIcon, label: 'Pinterest' }, // Use the inline SVG component
-  ];
 
   return (
     <footer className="bg-slate-900 text-slate-300">
@@ -58,9 +104,9 @@ export function SiteFooter() {
         {/* Optional: Top Accent Bar - subtle color difference */}
       </div>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
-          {/* Column 1: Hotel Info */}
-          <div className="space-y-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12 mb-8">
+          {/* Column 1: Hotel Info (Always visible) */}
+          <div className="space-y-4 md:col-span-2 lg:col-span-1">
             <h2 className="font-headline text-3xl font-bold text-slate-100">Grand Silver Ray</h2>
             <p className="text-sm">
               A timeless sanctuary on the Sri Lankan coast.
@@ -79,53 +125,7 @@ export function SiteFooter() {
                 <span>123, Galle Road, Colombo 3, Sri Lanka</span>
               </li>
             </ul>
-            <p className="text-xs italic pt-2">
-              Where elegance meets ocean breeze—creating treasured memories for generations.
-            </p>
-          </div>
-
-          {/* Column 2: Quick Links */}
-          <div>
-            <h3 className="font-headline text-xl font-semibold text-slate-100 mb-4">Quick Links</h3>
-            <ul className="space-y-2 text-sm">
-              {quickLinks.map((link) => (
-                <li key={link.href}>
-                  <Link href={link.href} className="hover:text-primary transition-colors">
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Column 3: Information */}
-          <div>
-            <h3 className="font-headline text-xl font-semibold text-slate-100 mb-4">Information</h3>
-            <ul className="space-y-2 text-sm">
-              {informationLinks.map((link) => (
-                <li key={link.href}>
-                  <Link href={link.href} className="hover:text-primary transition-colors">
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Column 4: Logo, Social & Newsletter */}
-          <div className="space-y-6">
-            <div className="mb-4">
-              <NextImage
-                src="https://placehold.co/120x80.png"
-                alt="Grand Silver Ray Logo"
-                data-ai-hint="hotel logo monogram"
-                width={120}
-                height={80}
-                className="opacity-80" 
-              />
-              {/* You might want to use a more specific SVG or text logo here if the image is complex */}
-            </div>
-            <div>
+             <div className="pt-4">
               <h3 className="font-headline text-lg font-semibold text-slate-100 mb-3">Stay Connected</h3>
               <div className="flex space-x-3">
                 {socialLinks.map((social) => (
@@ -139,6 +139,26 @@ export function SiteFooter() {
                   </a>
                 ))}
               </div>
+            </div>
+          </div>
+          
+          {/* Columns 2 & 3: Links (Accordion on mobile) */}
+          <div className="md:col-span-2 lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-8">
+             <FooterLinkColumn title="Quick Links" links={quickLinks} />
+             <FooterLinkColumn title="Information" links={informationLinks} />
+          </div>
+
+          {/* Column 4: Newsletter */}
+          <div className="space-y-4">
+             <div className="mb-4 hidden lg:block">
+              <NextImage
+                src="https://placehold.co/120x80.png"
+                alt="Grand Silver Ray Logo"
+                data-ai-hint="hotel logo monogram"
+                width={120}
+                height={80}
+                className="opacity-80" 
+              />
             </div>
             <div>
               <label htmlFor="newsletter-email" className="block text-sm font-medium mb-1.5 text-slate-100">
@@ -157,6 +177,9 @@ export function SiteFooter() {
                 </Button>
               </form>
             </div>
+             <p className="text-xs italic pt-2 hidden md:block">
+              Where elegance meets ocean breeze—creating treasured memories for generations.
+            </p>
           </div>
         </div>
 
@@ -169,3 +192,4 @@ export function SiteFooter() {
     </footer>
   );
 }
+
