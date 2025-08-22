@@ -38,8 +38,8 @@ export function TestimonialsSection() {
               </CarouselItem>
             ))}
           </CarouselContent>
-          <CarouselPrevious className="absolute left-[-20px] sm:left-[-50px] bg-background/70 hover:bg-background/90 text-foreground" />
-          <CarouselNext className="absolute right-[-20px] sm:right-[-50px] bg-background/70 hover:bg-background/90 text-foreground" />
+          <CarouselPrevious className="absolute left-[-24px] sm:left-[-60px] bg-background/70 hover:bg-background/90 text-foreground" />
+          <CarouselNext className="absolute right-[-24px] sm:right-[-60px] bg-background/70 hover:bg-background/90 text-foreground" />
         </Carousel>
       </div>
     </section>
