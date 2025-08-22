@@ -1,10 +1,11 @@
+
 import { Room  } from "@/types";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost/Silver_server';
 
 const transformApiRoomToRoom = (apiRoom: any): Room => {
   const imageUrl = (apiRoom.image_url && !apiRoom.image_url.startsWith('http'))
-    ? `${API_BASE_URL}${apiRoom.image_url}`
+    ? `http://localhost/Silver_server${apiRoom.image_url}`
     : apiRoom.image_url || 'https://placehold.co/600x400.png';
 
   return {
@@ -27,10 +28,11 @@ const transformApiRoomToRoom = (apiRoom: any): Room => {
 
 
 export const getRoomsByCompany = async (companyId: string): Promise<Room[]> => {
+  const fetchUrl = `${API_BASE_URL}/rooms/company/${companyId}`;
   try {
-    const response = await fetch(`${API_BASE_URL}/rooms/company/${companyId}`, { cache: 'no-store' });
+    const response = await fetch(fetchUrl, { cache: 'no-store' });
     if (!response.ok) {
-      console.error("Failed to fetch rooms, status:", response.status);
+      console.error(`Failed to fetch rooms. Status: ${response.status}. URL: ${fetchUrl}`);
       return [];
     }
     const data = await response.json();
@@ -41,9 +43,9 @@ export const getRoomsByCompany = async (companyId: string): Promise<Room[]> => {
     return data.map(transformApiRoomToRoom);
   } catch (error) {
     if (error instanceof TypeError && error.message.includes('fetch failed')) {
-        console.error("Network error: Could not connect to the API server for rooms at", API_BASE_URL);
+        console.error(`Network error: Could not connect to the API server for rooms. Ensure the backend is running and accessible at ${fetchUrl}`);
     } else {
-        console.error("An unexpected error occurred while fetching rooms:", error);
+        console.error(`An unexpected error occurred while fetching rooms from ${fetchUrl}:`, error);
     }
     return [];
   }
