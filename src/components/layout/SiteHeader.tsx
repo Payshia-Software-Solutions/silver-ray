@@ -87,7 +87,7 @@ export function SiteHeader() {
                     {link.label}
                   </Link>
                 ))}
-                <Button asChild size="lg" className="font-body text-xl w-full mt-4" >
+                <Button asChild size="lg" className="font-body text-lg w-full mt-4" >
                   <Link href="/booking">Book Now</Link>
                 </Button>
               </nav>
