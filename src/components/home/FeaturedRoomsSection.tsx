@@ -1,13 +1,20 @@
 
+"use client";
+
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { RoomCard } from '@/components/shared/RoomCard';
 import { mockRooms } from '@/data/mockData';
 import { ChevronRight } from 'lucide-react';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
+import Autoplay from "embla-carousel-autoplay";
+import React from 'react';
 
 export function FeaturedRoomsSection() {
   const featuredRooms = mockRooms.slice(0, 3); // Display first 3 rooms
+  const plugin = React.useRef(
+    Autoplay({ delay: 3000, stopOnInteraction: true, stopOnHover: true })
+  );
 
   return (
     <section className="py-16 lg:py-24 bg-secondary/30">
@@ -28,7 +35,10 @@ export function FeaturedRoomsSection() {
               align: "start",
               loop: featuredRooms.length > 1,
             }}
+            plugins={[plugin.current]}
             className="w-full max-w-sm mx-auto"
+            onMouseEnter={plugin.current.stop}
+            onMouseLeave={plugin.current.reset}
           >
             <CarouselContent className="-ml-4">
               {featuredRooms.map((room) => (
