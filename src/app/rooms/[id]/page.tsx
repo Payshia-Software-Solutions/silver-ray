@@ -1,3 +1,4 @@
+
 import type { Metadata, ResolvingMetadata } from 'next';
 import NextImage from 'next/image';
 import { mockRooms } from '@/data/mockData';
@@ -29,7 +30,7 @@ export async function generateMetadata(
     title: `${room.name} | Grand Silver Ray`,
     description: room.description,
     openGraph: {
-        images: room.images.length > 0 ? [room.images[0]] : [room.imageUrl],
+        images: room.images && room.images.length > 0 ? [room.images[0]] : [room.imageUrl],
     },
   };
 }
@@ -41,15 +42,20 @@ export default function RoomDetailPage({ params }: Props) {
     notFound();
   }
 
+  const imagesToShow = room.images && room.images.length > 0 ? room.images : [room.imageUrl];
+
   return (
     <div className="bg-secondary/5 py-12 md:py-16">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-7 gap-8 lg:gap-12">
           {/* Left Column: Room Details */}
           <div className="lg:col-span-5 space-y-8">
-            <Carousel className="w-full rounded-lg overflow-hidden shadow-xl border border-border">
+            <Carousel 
+              className="w-full rounded-lg overflow-hidden shadow-xl border border-border"
+              opts={{ loop: imagesToShow.length > 1 }}
+            >
               <CarouselContent>
-                {room.images.map((img, index) => (
+                {imagesToShow.map((img, index) => (
                   <CarouselItem key={index}>
                     <div className="relative aspect-[16/10] w-full">
                       <NextImage
@@ -64,8 +70,12 @@ export default function RoomDetailPage({ params }: Props) {
                   </CarouselItem>
                 ))}
               </CarouselContent>
-              <CarouselPrevious className="absolute left-4 top-1/2 -translate-y-1/2 z-10 bg-background/70 hover:bg-background/90 text-foreground" />
-              <CarouselNext className="absolute right-4 top-1/2 -translate-y-1/2 z-10 bg-background/70 hover:bg-background/90 text-foreground" />
+              {imagesToShow.length > 1 && (
+                <>
+                  <CarouselPrevious className="absolute left-4 top-1/2 -translate-y-1/2 z-10 bg-background/70 hover:bg-background/90 text-foreground" />
+                  <CarouselNext className="absolute right-4 top-1/2 -translate-y-1/2 z-10 bg-background/70 hover:bg-background/90 text-foreground" />
+                </>
+              )}
             </Carousel>
             
             <div>
