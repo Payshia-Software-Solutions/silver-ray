@@ -89,8 +89,8 @@ export default function DiningPage() {
                   </CarouselItem>
                 ))}
               </CarouselContent>
-              <CarouselPrevious className="absolute left-[-50px] bg-background/70 hover:bg-background/90 text-foreground" />
-              <CarouselNext className="absolute right-[-50px] bg-background/70 hover:bg-background/90 text-foreground" />
+              <CarouselPrevious className="absolute left-[-50px] bg-background/70 text-foreground" />
+              <CarouselNext className="absolute right-[-50px] bg-background/70 text-foreground" />
             </Carousel>
           </div>
           {/* Desktop Grid */}
@@ -122,8 +122,8 @@ export default function DiningPage() {
                   </CarouselItem>
                 ))}
               </CarouselContent>
-              <CarouselPrevious className="absolute left-[-50px] bg-background/70 hover:bg-background/90 text-foreground" />
-              <CarouselNext className="absolute right-[-50px] bg-background/70 hover:bg-background/90 text-foreground" />
+              <CarouselPrevious className="absolute left-[-50px] bg-background/70 text-foreground" />
+              <CarouselNext className="absolute right-[-50px] bg-background/70 text-foreground" />
             </Carousel>
           </div>
           {/* Desktop Grid */}

@@ -25,7 +25,7 @@ const offers: Offer[] = [
     id: 'honeymoon-bliss',
     title: 'Honeymoon Bliss',
     description: 'Celebrate your love with a romantic suite, private dinner, and exclusive amenities.',
-    imageUrl: 'https://images.unsplash.com/photo-1471530090166-fbe1875839c4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxyb21hbnRpYyUyMHN1aXRlJTIwY2hhbXBhZ25lfGVufDB8fHx8MTc0OTE5MTYyOXww&ixlib=rb-4.1.0&q=80&w=1080',
+    imageUrl: 'https://images.unsplash.com/photo-1471530090166-fbe1875839c4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxyb21hbnRpYyUyMHN1aXRlJTIwY2hhbXBhZ25lfGVufDB8fHx8MTc0OTE5MTYyOXww&ixlib-rb-4.1.0&q=80&w=1080',
     imageHint: 'romantic suite champagne',
     link: '/booking?offer=honeymoon-bliss',
   },
@@ -111,8 +111,8 @@ export function LatestOffersSection() {
                 </CarouselItem>
               ))}
             </CarouselContent>
-            <CarouselPrevious className="absolute left-[-50px] bg-background/70 hover:bg-background/90 text-foreground" />
-            <CarouselNext className="absolute right-[-50px] bg-background/70 hover:bg-background/90 text-foreground" />
+            <CarouselPrevious className="absolute left-[-50px] bg-background/70 text-foreground" />
+            <CarouselNext className="absolute right-[-50px] bg-background/70 text-foreground" />
           </Carousel>
         </div>
 
