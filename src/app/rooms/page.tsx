@@ -1,4 +1,5 @@
 
+
 import type { Metadata } from 'next';
 import { RoomCard } from '@/components/shared/RoomCard';
 import { getRoomsByCompany } from '@/services/api';
@@ -100,8 +101,8 @@ export default async function RoomsPage() {
                       </CarouselItem>
                     ))}
                   </CarouselContent>
-                  <CarouselPrevious className="absolute left-[-50px] bg-background/70 hover:bg-background/90 text-foreground" />
-                  <CarouselNext className="absolute right-[-50px] bg-background/70 hover:bg-background/90 text-foreground" />
+                  <CarouselPrevious className="absolute left-[-50px] bg-background/70 text-foreground" />
+                  <CarouselNext className="absolute right-[-50px] bg-background/70 text-foreground" />
                 </Carousel>
               </div>
 
