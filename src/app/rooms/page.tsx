@@ -10,6 +10,7 @@ import { RoomsPageHero } from '@/components/rooms/RoomsPageHero';
 import { NotificationBanner } from '@/components/rooms/NotificationBanner';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { mockRooms } from '@/data/mockData';
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 
 
 export const metadata: Metadata = {
@@ -86,11 +87,31 @@ export default async function RoomsPage() {
             </Alert>
           )}
           {displayRooms.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {displayRooms.map((room) => (
-                <RoomCard key={room.id} room={room} />
-              ))}
-            </div>
+            <>
+              {/* Mobile Carousel */}
+              <div className="md:hidden">
+                <Carousel className="w-full max-w-sm mx-auto">
+                  <CarouselContent className="-ml-4">
+                    {displayRooms.map((room) => (
+                      <CarouselItem key={room.id} className="pl-4">
+                        <div className="p-1 h-full">
+                          <RoomCard room={room} />
+                        </div>
+                      </CarouselItem>
+                    ))}
+                  </CarouselContent>
+                  <CarouselPrevious className="absolute left-[-50px] bg-background/70 hover:bg-background/90 text-foreground" />
+                  <CarouselNext className="absolute right-[-50px] bg-background/70 hover:bg-background/90 text-foreground" />
+                </Carousel>
+              </div>
+
+              {/* Desktop Grid */}
+              <div className="hidden md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {displayRooms.map((room) => (
+                  <RoomCard key={room.id} room={room} />
+                ))}
+              </div>
+            </>
           ) : (
             <p className="text-center font-body text-lg text-muted-foreground">
               No rooms available matching your criteria. Please try different filters.
