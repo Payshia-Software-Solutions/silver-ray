@@ -1,7 +1,7 @@
 
 import { Room } from "@/types";
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost/Silver_server/index.php';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost/Silver_server';
 
 // This interface matches the structure of the objects in your API response
 interface ApiRoom {
