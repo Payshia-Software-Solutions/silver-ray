@@ -7,9 +7,7 @@ import { WeddingVenueCard } from '@/components/weddings/WeddingVenueCard';
 import { WeddingPackageCard } from '@/components/weddings/WeddingPackageCard';
 import { weddingVenues, weddingPackages as mockWeddingPackages, weddingServices, weddingTestimonials } from '@/data/weddingData';
 import { TestimonialCard } from '@/components/shared/TestimonialCard';
-import { Utensils, Flower2, ClipboardCheck, BedDouble as GuestAccommodationIcon, AlertTriangle } from 'lucide-react';
-import { getWeddingPackages } from '@/services/api';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { Utensils, Flower2, ClipboardCheck, BedDouble as GuestAccommodationIcon } from 'lucide-react';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 
 export const metadata: Metadata = {
@@ -44,10 +42,8 @@ function WeddingHero() {
   );
 }
 
-export default async function WeddingsPage() {
-  const apiPackages = await getWeddingPackages();
-  const displayPackages = apiPackages.length > 0 ? apiPackages : mockWeddingPackages;
-  const showError = apiPackages.length === 0;
+export default function WeddingsPage() {
+  const displayPackages = mockWeddingPackages;
 
   return (
     <div className="bg-background">
@@ -94,15 +90,6 @@ export default async function WeddingsPage() {
               Choose from our exquisite packages – each crafted to suit your vision, guest count, and style. All packages can be personalized to create your perfect day.
             </p>
           </div>
-           {showError && (
-             <Alert variant="destructive" className="max-w-2xl mx-auto my-6">
-              <AlertTriangle className="h-4 w-4" />
-              <AlertTitle>Connection Error</AlertTitle>
-              <AlertDescription>
-                Could not connect to the wedding packages data service. Please ensure the backend is running. Using fallback data for now.
-              </AlertDescription>
-            </Alert>
-          )}
            {/* Mobile Carousel */}
             <div className="md:hidden">
               <Carousel className="w-full max-w-sm mx-auto">

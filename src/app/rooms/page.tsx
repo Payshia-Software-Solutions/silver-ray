@@ -1,14 +1,12 @@
 
 import type { Metadata } from 'next';
 import { RoomCard } from '@/components/shared/RoomCard';
-import { getRoomsByCompany } from '@/services/api';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
-import { Search, AlertTriangle } from 'lucide-react';
+import { Search } from 'lucide-react';
 import { RoomsPageHero } from '@/components/rooms/RoomsPageHero';
 import { NotificationBanner } from '@/components/rooms/NotificationBanner';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { mockRooms } from '@/data/mockData';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 
@@ -65,10 +63,8 @@ function RoomFilters() {
 }
 
 
-export default async function RoomsPage() {
-  const apiRooms = await getRoomsByCompany('1'); // Use company ID '1' as requested
-  const displayRooms = apiRooms.length > 0 ? apiRooms : mockRooms;
-  const showError = apiRooms.length === 0;
+export default function RoomsPage() {
+  const displayRooms = mockRooms;
 
   return (
     <>
@@ -77,15 +73,6 @@ export default async function RoomsPage() {
       <div className="bg-background">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
           <RoomFilters />
-          {showError && (
-             <Alert variant="destructive" className="max-w-2xl mx-auto my-6">
-              <AlertTriangle className="h-4 w-4" />
-              <AlertTitle>Connection Error</AlertTitle>
-              <AlertDescription>
-                Could not connect to the data service. Please ensure the backend is running. Using fallback data for now.
-              </AlertDescription>
-            </Alert>
-          )}
           {displayRooms.length > 0 ? (
             <>
               {/* Mobile Carousel */}
