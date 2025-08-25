@@ -64,7 +64,7 @@ export default function GalleryPage() {
       {/* Desktop Grid */}
       <div className="hidden md:grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         {galleryImages.map((image, index) => (
-          <div key={index} className="aspect-w-1 aspect-h-1 rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300">
+          <div key={index} className="relative w-full h-64 rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300">
             <NextImage
               src={image.src}
               alt={image.alt}
