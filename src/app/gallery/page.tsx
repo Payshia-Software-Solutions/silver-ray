@@ -10,18 +10,18 @@ export const metadata: Metadata = {
 };
 
 const galleryImages = [
-  { src: "https://placehold.co/600x400.png", alt: "Hotel Exterior", hint: "hotel architecture" },
-  { src: "https://placehold.co/600x400.png", alt: "Luxury Suite Interior", hint: "luxury bedroom" },
-  { src: "https://placehold.co/600x400.png", alt: "Poolside View", hint: "resort pool" },
-  { src: "https://placehold.co/600x400.png", alt: "Restaurant Ambiance", hint: "fine dining" },
-  { src: "https://placehold.co/600x400.png", alt: "Beachfront Scenery", hint: "beach sunset" },
-  { src: "https://placehold.co/600x400.png", alt: "Spa Serenity", hint: "spa massage" },
-  { src: "https://placehold.co/600x400.png", alt: "Lobby Grandeur", hint: "hotel lobby" },
-  { src: "https://placehold.co/600x400.png", alt: "Event Hall Setup", hint: "event setup" },
-  { src: "https://placehold.co/600x400.png", alt: "Fitness Center", hint: "gym fitness" },
-  { src: "https://placehold.co/600x400.png", alt: "Hotel Bar & Lounge", hint: "bar lounge" },
-  { src: "https://placehold.co/600x400.png", alt: "Manicured Hotel Gardens", hint: "hotel garden" },
-  { src: "https://placehold.co/600x400.png", alt: "Kids Play Area", hint: "kids play" },
+  { src: "https://placehold.co/300x300.png", alt: "Hotel Exterior", hint: "hotel architecture" },
+  { src: "https://placehold.co/300x300.png", alt: "Luxury Suite Interior", hint: "luxury bedroom" },
+  { src: "https://placehold.co/300x300.png", alt: "Poolside View", hint: "resort pool" },
+  { src: "https://placehold.co/300x300.png", alt: "Restaurant Ambiance", hint: "fine dining" },
+  { src: "https://placehold.co/300x300.png", alt: "Beachfront Scenery", hint: "beach sunset" },
+  { src: "https://placehold.co/300x300.png", alt: "Spa Serenity", hint: "spa massage" },
+  { src: "https://placehold.co/300x300.png", alt: "Lobby Grandeur", hint: "hotel lobby" },
+  { src: "https://placehold.co/300x300.png", alt: "Event Hall Setup", hint: "event setup" },
+  { src: "https://placehold.co/300x300.png", alt: "Fitness Center", hint: "gym fitness" },
+  { src: "https://placehold.co/300x300.png", alt: "Hotel Bar & Lounge", hint: "bar lounge" },
+  { src: "https://placehold.co/300x300.png", alt: "Manicured Hotel Gardens", hint: "hotel garden" },
+  { src: "https://placehold.co/300x300.png", alt: "Kids Play Area", hint: "kids play" },
 ];
 
 export default function GalleryPage() {
@@ -56,8 +56,8 @@ export default function GalleryPage() {
               </CarouselItem>
             ))}
           </CarouselContent>
-          <CarouselPrevious className="absolute left-[-50px] bg-background/70 text-foreground" />
-          <CarouselNext className="absolute right-[-50px] bg-background/70 text-foreground" />
+          <CarouselPrevious className="absolute left-[-50px] bg-background/70 text-foreground hover:bg-background/70" />
+          <CarouselNext className="absolute right-[-50px] bg-background/70 text-foreground hover:bg-background/70" />
         </Carousel>
       </div>
 
