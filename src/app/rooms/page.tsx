@@ -4,11 +4,14 @@ import { RoomCard } from '@/components/shared/RoomCard';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
-import { Search } from 'lucide-react';
+import { Search, AlertTriangle } from 'lucide-react';
 import { RoomsPageHero } from '@/components/rooms/RoomsPageHero';
 import { NotificationBanner } from '@/components/rooms/NotificationBanner';
 import { mockRooms } from '@/data/mockData';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
+import { getRoomsByCompany } from '@/services/api';
+import type { Room } from '@/types';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
 
 export const metadata: Metadata = {
@@ -63,8 +66,23 @@ function RoomFilters() {
 }
 
 
-export default function RoomsPage() {
-  const displayRooms = mockRooms;
+export default async function RoomsPage() {
+  let displayRooms: Room[] = [];
+  let errorState = false;
+  try {
+    // We pass '1' as the companyId as requested in the endpoint
+    const fetchedRooms = await getRoomsByCompany('1'); 
+    if (fetchedRooms.length > 0) {
+      displayRooms = fetchedRooms;
+    } else {
+      // API call succeeded but returned no rooms, so we use mock data
+      displayRooms = mockRooms;
+    }
+  } catch (error) {
+    console.error("Failed to fetch rooms from backend:", error);
+    errorState = true;
+    displayRooms = mockRooms; // Fallback to mock data on error
+  }
 
   return (
     <>
@@ -73,6 +91,17 @@ export default function RoomsPage() {
       <div className="bg-background">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
           <RoomFilters />
+
+          {errorState && (
+             <Alert variant="destructive" className="mb-8 bg-yellow-50 border-yellow-300 text-yellow-800 [&>svg]:text-yellow-600">
+                <AlertTriangle className="h-4 w-4" />
+                <AlertTitle>Connection Error</AlertTitle>
+                <AlertDescription>
+                  Could not connect to the data service. Please ensure the backend is running. Using fallback data for now.
+                </AlertDescription>
+            </Alert>
+          )}
+
           {displayRooms.length > 0 ? (
             <>
               {/* Mobile Carousel */}
