@@ -1,6 +1,8 @@
 
 import axios from 'axios';
 import type { Room } from '@/types';
+import { weddingPackages, type WeddingPackage } from '@/data/weddingData';
+
 
 // Define the structure of the raw room data from your PHP backend
 interface RawRoomData {
@@ -46,7 +48,7 @@ const transformRoomData = (rawRoom: RawRoomData): Room => {
 
 // Function to fetch rooms from your PHP backend and transform the data
 export const getRoomsByCompany = async (companyId: string): Promise<Room[]> => {
-  const fetchUrl = `http://localhost/Silver_server/company/rooms/${companyId}`;
+  const fetchUrl = `http://localhost/Silver_server/rooms/company/${companyId}`;
   
   try {
     console.log(`Fetching rooms from: ${fetchUrl}`);
@@ -69,3 +71,18 @@ export const getRoomsByCompany = async (companyId: string): Promise<Room[]> => {
     throw error;
   }
 };
+
+// Mock function to simulate fetching wedding packages
+export const getWeddingPackages = async (): Promise<WeddingPackage[]> => {
+  console.log("Fetching wedding packages...");
+  // Simulate network delay
+  await new Promise(resolve => setTimeout(resolve, 500));
+  
+  // In a real scenario, this would be an API call like:
+  // const response = await axios.get(`http://localhost/Silver_server/wedding-packages`);
+  // return response.data.packages.map(transformWeddingPackageData);
+
+  // For now, return mock data
+  return weddingPackages;
+};
+
