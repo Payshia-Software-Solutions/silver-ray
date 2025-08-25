@@ -38,7 +38,7 @@ const transformApiPackageToWeddingPackage = (apiPackage: ApiWeddingPackage): Wed
 
 export const getWeddingPackages = async (): Promise<WeddingPackage[]> => {
   try {
-    const fetchUrl = `${API_BASE_URL}/index.php/weddingpackages`;
+    const fetchUrl = `${API_BASE_URL}/index.php/weddingpackage`;
     const response = await fetch(fetchUrl, { cache: 'no-store' });
     if (!response.ok) {
         console.error(`Failed to fetch wedding packages. Status: ${response.status}. URL: ${fetchUrl}`);
