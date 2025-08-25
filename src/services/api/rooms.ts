@@ -28,7 +28,7 @@ const transformApiRoomToRoom = (apiRoom: any): Room => {
 
 
 export const getRoomsByCompany = async (companyId: string): Promise<Room[]> => {
-  const fetchUrl = `${API_BASE_URL}/api/rooms/company/${companyId}`;
+  const fetchUrl = `${API_BASE_URL}/index.php/rooms?company_id=${companyId}`;
   try {
     const response = await fetch(fetchUrl, { cache: 'no-store' });
     if (!response.ok) {
@@ -50,6 +50,3 @@ export const getRoomsByCompany = async (companyId: string): Promise<Room[]> => {
     return [];
   }
 };
-
-
-
