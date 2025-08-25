@@ -42,7 +42,7 @@ function WeddingHero() {
   );
 }
 
-export default function WeddingsPage() {
+export default async function WeddingsPage() {
   const displayPackages = mockWeddingPackages;
 
   return (
