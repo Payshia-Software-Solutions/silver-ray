@@ -4,10 +4,11 @@ import { RoomCard } from '@/components/shared/RoomCard';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
-import { Search } from 'lucide-react';
+import { Search, AlertTriangle } from 'lucide-react';
 import { RoomsPageHero } from '@/components/rooms/RoomsPageHero';
 import { NotificationBanner } from '@/components/rooms/NotificationBanner';
-import { mockRooms } from '@/data/mockData';
+import { getRoomsByCompany } from '@/services/api/rooms';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import type { Room } from '@/types';
 
@@ -65,7 +66,7 @@ function RoomFilters() {
 
 
 export default async function RoomsPage() {
-  const displayRooms: Room[] = mockRooms;
+  const { rooms: displayRooms, error } = await getRoomsByCompany('1');
   
   return (
     <>
@@ -74,6 +75,16 @@ export default async function RoomsPage() {
       <div className="bg-background">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
           <RoomFilters />
+
+          {error && (
+            <Alert variant="destructive" className="mb-8">
+              <AlertTriangle className="h-4 w-4" />
+              <AlertTitle>Connection Error</AlertTitle>
+              <AlertDescription>
+                {error} Using fallback data for now.
+              </AlertDescription>
+            </Alert>
+          )}
 
           {displayRooms.length > 0 ? (
             <>
