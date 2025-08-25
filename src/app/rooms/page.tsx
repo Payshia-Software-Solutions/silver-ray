@@ -1,5 +1,4 @@
 
-
 import type { Metadata } from 'next';
 import { RoomCard } from '@/components/shared/RoomCard';
 import { getRoomsByCompany } from '@/services/api';
@@ -67,9 +66,9 @@ function RoomFilters() {
 
 
 export default async function RoomsPage() {
-  let apiRooms = await getRoomsByCompany('COMP031');
-  let displayRooms = apiRooms.length > 0 ? apiRooms : mockRooms;
-  let showError = apiRooms.length === 0;
+  const apiRooms = await getRoomsByCompany('1'); // Use company ID '1' as requested
+  const displayRooms = apiRooms.length > 0 ? apiRooms : mockRooms;
+  const showError = apiRooms.length === 0;
 
   return (
     <>
