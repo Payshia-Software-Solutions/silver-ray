@@ -52,14 +52,14 @@ const signatureDishes: DishProps[] = [
     id: 'molten-lava-cake',
     name: 'Molten Chocolate Lava Cake',
     description: 'Rich chocolate cake with a warm, gooey center, garnished with gold leaf and fresh berries.',
-    imageUrl: 'https://images.unsplash.com/photo-1514517521153-1be72277b32f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxjaG9jb2xhdGUlMjBsYXZhJTIwY2FrZSUyMGRlc3NlcnR8ZW58MHx8fHwxNzQ5MTQ1MTY0fDA&ixlib=rb-4.1.0&q=80&w=1080',
+    imageUrl: 'https://images.unsplash.com/photo-1514517521153-1be72277b32f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxjaG9jb2xhdGUlMjBsYXZhJTIwY2FrZSUyMGRlc3NlcnR8ZW58MHx8fHwxNzQ5MTQ1MTY0fDA&ixlibrb-4.1.0&q=80&w=1080',
     imageHint: 'chocolate lava cake dessert',
   },
   {
     id: 'prime-ribeye',
     name: 'Prime Ribeye with Truffle Mash',
     description: 'Juicy ribeye steak, truffle-infused mashed potatoes, and seasonal vegetables.',
-    imageUrl: 'https://images.unsplash.com/photo-1625937329368-9c6e55f665ba?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxyaWJleWUlMjBzdGVhayUyMG1lYWx8ZW58MHx8fHwxNzQ5MTQ1MTY0fDA&ixlib=rb-4.1.0&q=80&w=1080',
+    imageUrl: 'https://images.unsplash.com/photo-1625937329368-9c6e55f665ba?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxyaWJleWUlMjBzdGVhayUyMG1lYWx8ZW58MHx8fHwxNzQ5MTQ1MTY0fDA&ixlib.rb-4.1.0&q=80&w=1080',
     imageHint: 'ribeye steak meal',
   },
 ];
@@ -89,8 +89,8 @@ export default function DiningPage() {
                   </CarouselItem>
                 ))}
               </CarouselContent>
-              <CarouselPrevious className="absolute left-[-50px] bg-background/70 text-foreground" />
-              <CarouselNext className="absolute right-[-50px] bg-background/70 text-foreground" />
+              <CarouselPrevious />
+              <CarouselNext />
             </Carousel>
           </div>
           {/* Desktop Grid */}
@@ -122,8 +122,8 @@ export default function DiningPage() {
                   </CarouselItem>
                 ))}
               </CarouselContent>
-              <CarouselPrevious className="absolute left-[-50px] bg-background/70 text-foreground" />
-              <CarouselNext className="absolute right-[-50px] bg-background/70 text-foreground" />
+              <CarouselPrevious />
+              <CarouselNext />
             </Carousel>
           </div>
           {/* Desktop Grid */}

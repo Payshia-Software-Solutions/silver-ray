@@ -38,8 +38,8 @@ export function TestimonialsSection() {
               </CarouselItem>
             ))}
           </CarouselContent>
-          <CarouselPrevious className="absolute left-[-24px] sm:left-[-60px] bg-background/70 text-foreground" />
-          <CarouselNext className="absolute right-[-24px] sm:right-[-60px] bg-background/70 text-foreground" />
+          <CarouselPrevious />
+          <CarouselNext />
         </Carousel>
       </div>
     </section>

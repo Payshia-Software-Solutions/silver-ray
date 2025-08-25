@@ -49,8 +49,8 @@ export function FeaturedRoomsSection() {
                 </CarouselItem>
               ))}
             </CarouselContent>
-            <CarouselPrevious className="absolute left-[-50px] bg-background/70 text-foreground" />
-            <CarouselNext className="absolute right-[-50px] bg-background/70 text-foreground" />
+            <CarouselPrevious />
+            <CarouselNext />
           </Carousel>
         </div>
 

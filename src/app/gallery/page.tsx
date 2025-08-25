@@ -56,8 +56,8 @@ export default function GalleryPage() {
               </CarouselItem>
             ))}
           </CarouselContent>
-          <CarouselPrevious className="absolute left-[-50px] bg-background/70 text-foreground hover:bg-background/70" />
-          <CarouselNext className="absolute right-[-50px] bg-background/70 text-foreground hover:bg-background/70" />
+          <CarouselPrevious />
+          <CarouselNext />
         </Carousel>
       </div>
 

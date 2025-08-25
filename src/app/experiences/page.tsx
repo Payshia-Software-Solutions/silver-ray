@@ -119,7 +119,7 @@ const featuredExperiences: FeaturedExperience[] = [
   },
   {
     id: 'sunrise-yoga',
-    imageUrl: 'https://images.unsplash.com/photo-1447452001602-7090c7ab2db3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxzdW5yaXNlJTIweW9nYSUyMHNlc3Npb258ZW58MHx8fHwxNzQ5MTQ1MzI1fDA&ixlib=rb-4.1.0&q=80&w=1080',
+    imageUrl: 'https://images.unsplash.com/photo-1447452001602-7090c7ab2db3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxzdW5yaXNlJTIweW9nYSUyMHNlc3Npb258ZW58MHx8fHwxNzQ5MTQ1MzI1fDA&ixlib-rb-4.1.0&q=80&w=1080',
     imageHint: 'sunrise yoga session',
     title: 'Sunrise Yoga Session',
     description: 'Start the day with a guided yoga class in our tranquil gardens, suitable for all levels.',
@@ -145,12 +145,12 @@ const curateRecommendations: CurateRecommendation[] = [
 ];
 
 const nearbyAttractions: NearbyAttraction[] = [
-  { id: 'crystal-falls', imageUrl: 'https://images.unsplash.com/photo-1519582149095-fe7d19b2a3d2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8d2F0ZXJmYWxsJTIwbmF0dXJlfGVufDB8fHx8MTc0OTE0NTQzMXww&ixlib=rb-4.1.0&q=80&w=1080', imageHint: 'waterfall nature', title: 'Crystal Falls', distance: '2.1 km from hotel', icon: Waves },
-  { id: 'emerald-forest', imageUrl: 'https://images.unsplash.com/photo-1640354065652-64832d9ba672?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxmb3Jlc3QlMjByZXNlcnZlJTIwdHJhaWx8ZW58MHx8fHwxNzQ5MTQ1NDMxfDA&ixlib=rb-4.1.0&q=80&w=1080', imageHint: 'forest reserve trail', title: 'Emerald Forest Reserve', distance: '4.3 km from hotel', icon: Leaf },
-  { id: 'heritage-museum', imageUrl: 'https://images.unsplash.com/photo-1743881188980-4de44e2bba56?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxtdXNldW0lMjBoaXN0b3JpY2FsJTIwYnVpbGRpbmd8ZW58MHx8fHwxNzQ5MTQ1NDMxfDA&ixlib=rb-4.1.0&q=80&w=1080', imageHint: 'museum historical building', title: 'Heritage Museum', distance: '1.8 km from hotel', icon: Palette },
-  { id: 'sunrise-peak', imageUrl: 'https://images.unsplash.com/photo-1466854076813-4aa9ac0fc347?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxtb3VudGFpbiUyMHBlYWslMjBzdW5yaXNlfGVufDB8fHx8MTc0OTE0NTQzMXww&ixlib=rb-4.1.0&q=80&w=1080', imageHint: 'mountain peak sunrise', title: 'Sunrise Peak', distance: '6.7 km from hotel', icon: MountainSnow },
-  { id: 'local-market', imageUrl: 'https://images.unsplash.com/photo-1533264533981-8aead62802fd?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxsb2NhbCUyMG1hcmtldCUyMHN0YWxsc3xlbnwwfHx8fDE3NDkxNDU0MzF8MA&ixlib=rb-4.1.0&q=80&w=1080', imageHint: 'local market stalls', title: 'Local Market', distance: '0.9 km from hotel', icon: Utensils },
-  { id: 'ancient-temple', imageUrl: 'https://images.unsplash.com/photo-1730758070932-0ad2926af54c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8YW5jaWVudCUyMHRlbXBsZSUyMHJ1aW5zfGVufDB8fHx8MTc0OTE0NTQzMXww&ixlib=rb-4.1.0&q=80&w=1080', imageHint: 'ancient temple ruins', title: 'Ancient Temple', distance: '3.0 km from hotel', icon: Landmark },
+  { id: 'crystal-falls', imageUrl: 'https://images.unsplash.com/photo-1519582149095-fe7d19b2a3d2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8d2F0ZXJmYWxsJTIwbmF0dXJlfGVufDB8fHx8MTc0OTE0NTQzMXww&ixlib-rb-4.1.0&q=80&w=1080', imageHint: 'waterfall nature', title: 'Crystal Falls', distance: '2.1 km from hotel', icon: Waves },
+  { id: 'emerald-forest', imageUrl: 'https://images.unsplash.com/photo-1640354065652-64832d9ba672?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxmb3Jlc3QlMjByZXNlcnZlJTIwdHJhaWx8ZW58MHx8fHwxNzQ5MTQ1NDMxfDA&ixlib.rb-4.1.0&q=80&w=1080', imageHint: 'forest reserve trail', title: 'Emerald Forest Reserve', distance: '4.3 km from hotel', icon: Leaf },
+  { id: 'heritage-museum', imageUrl: 'https://images.unsplash.com/photo-1743881188980-4de44e2bba56?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxtdXNldW0lMjBoaXN0b3JpY2FsJTIwYnVpbGRpbmd8ZW58MHx8fHwxNzQ5MTQ1NDMxfDA&ixlib.rb-4.1.0&q=80&w=1080', imageHint: 'museum historical building', title: 'Heritage Museum', distance: '1.8 km from hotel', icon: Palette },
+  { id: 'sunrise-peak', imageUrl: 'https://images.unsplash.com/photo-1466854076813-4aa9ac0fc347?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxtb3VudGFpbiUyMHBlYWslMjBzdW5yaXNlfGVufDB8fHx8MTc0OTE0NTQzMXww&ixlib.rb-4.1.0&q=80&w=1080', imageHint: 'mountain peak sunrise', title: 'Sunrise Peak', distance: '6.7 km from hotel', icon: MountainSnow },
+  { id: 'local-market', imageUrl: 'https://images.unsplash.com/photo-1533264533981-8aead62802fd?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxsb2NhbCUyMG1hcmtldCUyMHN0YWxsc3xlbnwwfHx8fDE3NDkxNDU0MzF8MA&ixlib.rb-4.1.0&q=80&w=1080', imageHint: 'local market stalls', title: 'Local Market', distance: '0.9 km from hotel', icon: Utensils },
+  { id: 'ancient-temple', imageUrl: 'https://images.unsplash.com/photo-1730758070932-0ad2926af54c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8YW5jaWVudCUyMHRlbXBsZSUyMHJ1aW5zfGVufDB8fHx8MTc0OTE0NTQzMXww&ixlib.rb-4.1.0&q=80&w=1080', imageHint: 'ancient temple ruins', title: 'Ancient Temple', distance: '3.0 km from hotel', icon: Landmark },
 ];
 
 const FeaturedExperienceCard = ({ exp }: { exp: FeaturedExperience }) => (
@@ -245,8 +245,8 @@ export default function ExperiencesPage() {
                     </CarouselItem>
                   ))}
                 </CarouselContent>
-                <CarouselPrevious className="absolute left-[-50px] bg-background/70 text-foreground" />
-                <CarouselNext className="absolute right-[-50px] bg-background/70 text-foreground" />
+                <CarouselPrevious />
+                <CarouselNext />
               </Carousel>
             </div>
             
