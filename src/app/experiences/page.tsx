@@ -24,6 +24,8 @@ import {
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
+import Autoplay from 'embla-carousel-autoplay';
+import React from 'react';
 
 
 export const metadata: Metadata = {
@@ -100,7 +102,7 @@ const featuredExperiences: FeaturedExperience[] = [
   },
   {
     id: 'waterfall-hike',
-    imageUrl: 'https://images.unsplash.com/photo-1498866363999-1afe374cb87f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHx3YXRlcmZhbGwlMjBoaWtpbmclMjBuYXR1cmV8ZW58MHx8fHwxNzQ5MTQ1MzI1fDA&ixlib-rb-4.1.0&q=80&w=1080',
+    imageUrl: 'https://images.unsplash.com/photo-1498866363999-1afe374cb87f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHx3YXRlcmZhbGwlMjBoaWtpbmclMjBuYXR1cmV8ZW58MHx8fHwxNzQ5MTQ1MzI1fDA&ixlib=rb-4.1.0&q=80&w=1080',
     imageHint: 'waterfall hiking nature',
     title: 'Guided Waterfall Hike',
     description: 'Trek through lush rainforests to discover hidden waterfalls with our expert local guide.',
@@ -130,7 +132,7 @@ const featuredExperiences: FeaturedExperience[] = [
   },
   {
     id: 'kids-club',
-    imageUrl: 'https://images.unsplash.com/photo-1519340241574-2cec6aef0c01?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxraWRzJTIwY2x1YiUyMGFjdGl2aXRpZXN8ZW58MHx8fHwxNzQ5MTQ1MzI2fDA&ixlib=rb-4.1.0&q=80&w=1080',
+    imageUrl: 'https://images.unsplash.com/photo-1519340241574-2cec6aef0c01?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxraWRzJTIwY2x1YiUyMGFjdGl2aXRpZXN8ZW58MHx8fHwxNzQ5MTQ1MzI2fDA&ixlib-rb-4.1.0&q=80&w=1080',
     imageHint: 'kids club activities',
     title: "Kids' Discovery Club",
     description: 'A safe, supervised environment where children create, learn, and make new friends.',
@@ -146,9 +148,9 @@ const curateRecommendations: CurateRecommendation[] = [
 ];
 
 const nearbyAttractions: NearbyAttraction[] = [
-  { id: 'crystal-falls', imageUrl: 'https://images.unsplash.com/photo-1519582149095-fe7d19b2a3d2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8d2F0ZXJmYWxsJTIwbmF0dXJlfGVufDB8fHx8MTc0OTE0NTQzMXww&ixlib=rb-4.1.0&q=80&w=1080', imageHint: 'waterfall nature', title: 'Crystal Falls', distance: '2.1 km from hotel', icon: Waves },
+  { id: 'crystal-falls', imageUrl: 'https://images.unsplash.com/photo-1519582149095-fe7d19b2a3d2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8d2F0ZXJmYWxsJTIwbmF0dXJlfGVufDB8fHx8MTc0OTE0NTQzMXww&ixlib-rb-4.1.0&q=80&w=1080', imageHint: 'waterfall nature', title: 'Crystal Falls', distance: '2.1 km from hotel', icon: Waves },
   { id: 'emerald-forest', imageUrl: 'https://images.unsplash.com/photo-1640354065652-64832d9ba672?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxmb3Jlc3QlMjByZXNlcnZlJTIwdHJhaWx8ZW58MHx8fHwxNzQ5MTQ1NDMxfDA&ixlib.rb-4.1.0&q=80&w=1080', imageHint: 'forest reserve trail', title: 'Emerald Forest Reserve', distance: '4.3 km from hotel', icon: Leaf },
-  { id: 'heritage-museum', imageUrl: 'https://images.unsplash.com/photo-1743881188980-4de44e2bba56?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxtdXNldW0lMjBoaXN0b3JpY2FsJTIwYnVpbGRpbmd8ZW58MHx8fHwxNzQ5MTQ1NDMxfDA&ixlib=rb-4.1.0&q=80&w=1080', imageHint: 'museum historical building', title: 'Heritage Museum', distance: '1.8 km from hotel', icon: Palette },
+  { id: 'heritage-museum', imageUrl: 'https://images.unsplash.com/photo-1743881188980-4de44e2bba56?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxtdXNldW0lMjBoaXN0b3JpY2FsJTIwYnVpbGRpbmd8ZW58MHx8fHwxNzQ5MTQ1NDMxfDA&ixlib-rb-4.1.0&q=80&w=1080', imageHint: 'museum historical building', title: 'Heritage Museum', distance: '1.8 km from hotel', icon: Palette },
   { id: 'sunrise-peak', imageUrl: 'https://images.unsplash.com/photo-1466854076813-4aa9ac0fc347?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxtb3VudGFpbiUyMHBlYWslMjBzdW5yaXNlfGVufDB8fHx8MTc0OTE0NTQzMXww&ixlib.rb-41.0&q=80&w=1080', imageHint: 'mountain peak sunrise', title: 'Sunrise Peak', distance: '6.7 km from hotel', icon: MountainSnow },
   { id: 'local-market', imageUrl: 'https://images.unsplash.com/photo-1533264533981-8aead62802fd?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxsb2NhbCUyMG1hcmtldCUyMHN0YWxsc3xlbnwwfHx8fDE3NDkxNDU0MzF8MA&ixlib.rb-4.1.0&q=80&w=1080', imageHint: 'local market stalls', title: 'Local Market', distance: '0.9 km from hotel', icon: Utensils },
   { id: 'ancient-temple', imageUrl: 'https://images.unsplash.com/photo-1730758070932-0ad2926af54c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8YW5jaWVudCUyMHRlbXBsZSUyMHJ1aW5zfGVufDB8fHx8MTc0OTE0NTQzMXww&ixlib-rb-4.1.0&q=80&w=1080', imageHint: 'ancient temple ruins', title: 'Ancient Temple', distance: '3.0 km from hotel', icon: Landmark },
@@ -182,7 +184,22 @@ const FeaturedExperienceCard = ({ exp }: { exp: FeaturedExperience }) => (
     </Card>
 );
 
-export default function ExperiencesPage() {
+const ExperienceCategoryCard = ({ category }: { category: ExperienceCategory }) => (
+  <Card className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col bg-card rounded-xl h-full border-none text-center p-6 items-center">
+    <div className="w-24 h-24 bg-secondary/50 rounded-full flex items-center justify-center mb-4 border-2 border-primary/20">
+      <category.icon className="w-12 h-12 text-primary" />
+    </div>
+    <h3 className="font-headline text-xl font-semibold mb-2">{category.title}</h3>
+    <p className="font-body text-sm text-muted-foreground flex-grow">{category.description}</p>
+  </Card>
+);
+
+
+function ExperiencesPage() {
+    const plugin = React.useRef(
+        Autoplay({ delay: 4000, stopOnInteraction: true, stopOnHover: true })
+    );
+
   return (
     <div className="bg-background">
       {/* Hero Section */}
@@ -213,30 +230,28 @@ export default function ExperiencesPage() {
         <section className="py-16 lg:py-20">
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                 <h2 className="font-headline text-3xl sm:text-4xl font-bold text-center mb-12">Choose Your Experience</h2>
-                 {/* Mobile: 2-column grid */}
-                <div className="grid grid-cols-2 gap-x-4 gap-y-8 md:hidden">
+                <Carousel
+                  opts={{
+                    align: "start",
+                    loop: true,
+                  }}
+                  plugins={[plugin.current]}
+                  className="w-full"
+                  onMouseEnter={plugin.current.stop}
+                  onMouseLeave={plugin.current.reset}
+                >
+                  <CarouselContent className="-ml-4">
                     {experienceCategories.map((category) => (
-                        <div key={category.id} className="text-center flex flex-col items-center">
-                            <div className="w-24 h-24 bg-secondary/50 rounded-full flex items-center justify-center mb-3 border-2 border-primary/20">
-                                <category.icon className="w-12 h-12 text-primary" />
-                            </div>
-                            <h3 className="font-headline text-lg font-semibold mb-1">{category.title}</h3>
-                            <p className="font-body text-xs text-muted-foreground px-2">{category.description}</p>
+                      <CarouselItem key={category.id} className="pl-4 md:basis-1/3 lg:basis-1/4">
+                         <div className="p-1 h-full">
+                            <ExperienceCategoryCard category={category} />
                         </div>
+                      </CarouselItem>
                     ))}
-                </div>
-                 {/* Desktop: 5-column grid */}
-                <div className="hidden md:grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8">
-                    {experienceCategories.map((category) => (
-                    <div key={category.id} className="text-center flex flex-col items-center">
-                        <div className="w-20 h-20 sm:w-24 sm:h-24 bg-secondary/50 rounded-full flex items-center justify-center mb-4 border-2 border-primary/30">
-                        <category.icon className="w-10 h-10 sm:w-12 sm:h-12 text-primary" />
-                        </div>
-                        <h3 className="font-headline text-lg sm:text-xl font-semibold mb-1">{category.title}</h3>
-                        <p className="font-body text-xs sm:text-sm text-muted-foreground">{category.description}</p>
-                    </div>
-                    ))}
-                </div>
+                  </CarouselContent>
+                  <CarouselPrevious className="hidden md:flex" />
+                  <CarouselNext className="hidden md:flex" />
+                </Carousel>
             </div>
         </section>
 
@@ -348,3 +363,8 @@ export default function ExperiencesPage() {
     </div>
   );
 }
+
+// You must export default from a page file
+export default ExperiencesPage;
+
+    
