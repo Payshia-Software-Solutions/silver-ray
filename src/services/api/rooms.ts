@@ -60,7 +60,7 @@ export async function getRoomsByCompany(companyId: string): Promise<{ rooms: Roo
       // Return mock data on failure to prevent the app from crashing
       return { 
         rooms: mockRooms, 
-        error: "Could not connect to the data service. Please ensure the backend is running." 
+        error: "Could not connect to the data service. Please ensure the backend is running and the URL is correct." 
       };
     }
     
@@ -78,7 +78,7 @@ export async function getRoomsByCompany(companyId: string): Promise<{ rooms: Roo
     console.error(`An error occurred while fetching rooms:`, error);
     return { 
       rooms: mockRooms, 
-      error: "Could not connect to the data service. Please ensure the backend is running."
+      error: "Could not connect to the data service. Please ensure the backend is running and the URL is correct."
     };
   }
 }
