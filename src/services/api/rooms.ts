@@ -29,24 +29,21 @@ interface RawApiRoom {
 
 // This function transforms a single raw room object into the format our frontend components expect
 function transformApiRoomToFrontendRoom(apiRoom: RawApiRoom): Room {
-  // Always use a placeholder image and remove dependency on the backend's image path.
-  const placeholderImageUrl = 'https://placehold.co/1200x800.png';
-
   return {
     id: String(apiRoom.id),
     name: apiRoom.descriptive_title,
     description: apiRoom.short_description,
     longDescription: apiRoom.short_description, 
     pricePerNight: parseFloat(apiRoom.price_per_night),
-    imageUrl: placeholderImageUrl,
+    imageUrl: 'https://placehold.co/1200x800.png', // Using placeholder as requested
     imageHint: 'hotel room interior', // Generic hint
-    images: [placeholderImageUrl],
-    amenities: apiRoom.amenities_id ? apiRoom.amenities_id.split(',') : [],
-    capacity: apiRoom.adults_capacity || 2,
-    beds: `${apiRoom.adults_capacity > 1 ? '1 King Bed' : '1 Queen Bed'}`,
-    size: `${apiRoom.room_width} sqm`,
-    category: 'Deluxe', // Example static category
-    viewType: 'City View', // Example static view type
+    images: ['https://placehold.co/1200x800.png'],
+    amenities: [], // Default empty array
+    capacity: 2, // Default capacity
+    beds: '1 King Bed', // Default bed config
+    size: '40 sqm', // Default size
+    category: 'Deluxe', // Default category
+    viewType: 'City View', // Default view
   };
 }
 
