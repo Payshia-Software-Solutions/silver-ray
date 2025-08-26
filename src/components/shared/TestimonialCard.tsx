@@ -2,7 +2,7 @@
 import NextImage from 'next/image';
 import { Card, CardContent } from '@/components/ui/card';
 import type { Testimonial } from '@/types';
-import { Star } from 'lucide-react';
+import { Heart } from 'lucide-react';
 
 interface TestimonialCardProps {
   testimonial: Testimonial;
@@ -10,32 +10,29 @@ interface TestimonialCardProps {
 
 export function TestimonialCard({ testimonial }: TestimonialCardProps) {
   return (
-    <Card className="bg-card rounded-xl shadow-lg text-center h-full flex flex-col">
-      <CardContent className="p-6 md:p-8 flex flex-col items-center flex-grow">
+    <Card className="bg-card rounded-xl shadow-lg h-full flex flex-col">
+      <CardContent className="p-6 md:p-8 flex items-start space-x-6">
         {testimonial.avatarUrl && (
-          <div className="relative w-16 h-16 mb-4">
+          <div className="relative w-16 h-16 sm:w-20 sm:h-20 rounded-full overflow-hidden flex-shrink-0 border-2 border-primary/20 p-1 bg-background">
             <NextImage
               src={testimonial.avatarUrl}
               alt={testimonial.name}
               data-ai-hint="person avatar"
-              width={64}
-              height={64}
+              width={80}
+              height={80}
               className="rounded-full object-cover"
             />
           </div>
         )}
-        <div className="flex mb-3">
-          {Array(5).fill(0).map((_, i) => (
-            <Star
-              key={i}
-              className={`w-5 h-5 ${i < testimonial.rating ? 'text-yellow-400 fill-yellow-400' : 'text-muted-foreground/30 fill-muted-foreground/20'}`}
-            />
-          ))}
+        <div className="flex-grow">
+            <blockquote className="font-body text-sm text-foreground/80 mb-3 italic">
+            "{testimonial.quote}"
+            </blockquote>
+            <div className="flex items-center space-x-2">
+                <p className="font-headline text-base font-semibold text-foreground/90">- {testimonial.name}</p>
+                <Heart className="w-4 h-4 text-pink-400 fill-pink-400" />
+            </div>
         </div>
-        <blockquote className="font-body text-sm italic text-foreground/80 mb-4 flex-grow">
-          "{testimonial.quote}"
-        </blockquote>
-        <p className="font-headline text-base font-semibold text-foreground/90 mt-auto">- {testimonial.name}</p>
       </CardContent>
     </Card>
   );

@@ -1,4 +1,6 @@
 
+'use client';
+
 import type { Metadata } from 'next';
 import NextImage from 'next/image';
 import Link from 'next/link';
@@ -9,11 +11,14 @@ import { weddingVenues, weddingPackages as mockWeddingPackages, weddingServices,
 import { TestimonialCard } from '@/components/shared/TestimonialCard';
 import { Utensils, Flower2, ClipboardCheck, BedDouble as GuestAccommodationIcon } from 'lucide-react';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
+import Autoplay from "embla-carousel-autoplay";
+import React from 'react';
 
-export const metadata: Metadata = {
-  title: 'Weddings at Grand Silver Ray',
-  description: 'Host your dream wedding at Grand Silver Ray. Discover our stunning venues and bespoke wedding packages.',
-};
+// Metadata export is ignored in client components
+// export const metadata: Metadata = {
+//   title: 'Weddings at Grand Silver Ray',
+//   description: 'Host your dream wedding at Grand Silver Ray. Discover our stunning venues and bespoke wedding packages.',
+// };
 
 function WeddingHero() {
   return (
@@ -42,8 +47,11 @@ function WeddingHero() {
   );
 }
 
-export default async function WeddingsPage() {
+export default function WeddingsPage() {
   const displayPackages = mockWeddingPackages;
+  const plugin = React.useRef(
+    Autoplay({ delay: 5000, stopOnInteraction: true, stopOnHover: true })
+  );
 
   return (
     <div className="bg-background">
@@ -113,11 +121,28 @@ export default async function WeddingsPage() {
               Hear from couples who celebrated their special day with us.
             </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-            {weddingTestimonials.map((testimonial) => (
-              <TestimonialCard key={testimonial.id} testimonial={testimonial} />
-            ))}
-          </div>
+          <Carousel
+            opts={{
+              align: "start",
+              loop: weddingTestimonials.length > 1,
+            }}
+            plugins={[plugin.current]}
+            className="w-full max-w-xs sm:max-w-xl md:max-w-2xl mx-auto"
+            onMouseEnter={plugin.current.stop}
+            onMouseLeave={plugin.current.reset}
+          >
+            <CarouselContent className="-ml-4 py-4">
+              {weddingTestimonials.map((testimonial) => (
+                <CarouselItem key={testimonial.id} className="pl-4">
+                  <div className="p-1 h-full">
+                    <TestimonialCard testimonial={testimonial} />
+                  </div>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious className="hidden md:flex" />
+            <CarouselNext className="hidden md:flex" />
+          </Carousel>
         </div>
       </section>
 
