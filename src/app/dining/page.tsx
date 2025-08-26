@@ -17,7 +17,8 @@ const diningVenues: VenueProps[] = [
   {
     id: 'main-restaurant',
     name: 'Main Restaurant',
-    description: 'Elegant dining crafted to symphony taste buds.',
+    tag: 'Fine Dining',
+    description: 'Global cuisine crafted to satisfy every palate.',
     imageUrl: 'https://images.unsplash.com/photo-1743793055663-5aee4edc16d3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxlbGVnYW50JTIwcmVzdGF1cmFudCUyMGludGVyaW9yfGVufDB8fHx8MTc0OTE0NTA4MHww&ixlib=rb-4.1.0&q=80&w=1080',
     imageHint: 'elegant restaurant interior',
     viewMoreLink: '/dining/menu/main-restaurant',
@@ -25,6 +26,7 @@ const diningVenues: VenueProps[] = [
   {
     id: 'cafe-101',
     name: 'Cafe 101',
+    tag: 'Casual Eats',
     description: 'Authentic, traditional dishes in a relaxed atmosphere.',
     imageUrl: 'https://images.unsplash.com/photo-1742427605886-18fc2eb3ef71?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxjb3p5JTIwY2FmZSUyMGFtYmlhbmNlfGVufDB8fHx8MTc0OTE0NTA4MHww&ixlib=rb-4.1.0&q=80&w=1080',
     imageHint: 'cozy cafe ambiance',
@@ -33,6 +35,7 @@ const diningVenues: VenueProps[] = [
   {
     id: 'indian-restaurant',
     name: 'Indian Restaurant',
+    tag: 'Authentic Flavors',
     description: 'Traditional Indian flavors brought to life.',
     imageUrl: 'https://images.unsplash.com/photo-1620268835770-1e9c62832a49?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxpbmRpYW4lMjBjdWlzaW5lJTIwcHJlc2VudGF0aW9ufGVufDB8fHx8MTc0OTE0NTA4MHww&ixlib=rb-4.1.0&q=80&w=1080',
     imageHint: 'indian cuisine presentation',
@@ -45,7 +48,7 @@ const signatureDishes: DishProps[] = [
     id: 'seared-salmon',
     name: 'Seared Salmon with Lemon Beurre Blanc',
     description: 'Perfectly cooked salmon, market vegetables, and a silky lemon butter sauce.',
-    imageUrl: 'https://images.unsplash.com/photo-1627662234966-bd65a4e21363?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxzZWFyZWQlMjBzYWxtb24lMjBkaXNoJTIwZ291cm1ldHxlbnwwfHx8fDE3NDkxNDUxNjR8MA&ixlib=rb-4.1.0&q=80&w=1080',
+    imageUrl: 'https://images.unsplash.com/photo-1627662234966-bd65a4e21363?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxzZWFyZWQlMjBzYWxtb24lMjBkaXNoJTIwZ291cm1ldHxlbnwwfHx8fDE3NDkxNDUxNjR8MA&ixlib-rb-4.1.0&q=80&w=1080',
     imageHint: 'seared salmon dish gourmet',
   },
   {
@@ -89,8 +92,8 @@ export default function DiningPage() {
                   </CarouselItem>
                 ))}
               </CarouselContent>
-              <CarouselPrevious />
-              <CarouselNext />
+              <CarouselPrevious className="hidden" />
+              <CarouselNext className="hidden"/>
             </Carousel>
           </div>
           {/* Desktop Grid */}
@@ -122,8 +125,8 @@ export default function DiningPage() {
                   </CarouselItem>
                 ))}
               </CarouselContent>
-              <CarouselPrevious />
-              <CarouselNext />
+              <CarouselPrevious className="hidden" />
+              <CarouselNext className="hidden"/>
             </Carousel>
           </div>
           {/* Desktop Grid */}
