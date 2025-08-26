@@ -106,7 +106,7 @@ export default function WeddingsPage() {
 
       <TestimonialsCarousel />
 
-      <section className="py-16 lg:py-24 bg-primary/10">
+      <section className="py-12 lg:py-16 bg-primary/10">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="font-headline text-3xl sm:text-4xl font-bold mb-4 text-primary-foreground/90">
             Ready to Begin Your Forever?
