@@ -10,7 +10,8 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Breadcrumbs } from '@/components/shared/Breadcrumbs';
 import type { BreadcrumbItem } from '@/types';
-import { CheckCircle, Utensils, Flower2, Camera, Music, BedDouble, Sparkles, Users, ClipboardCheck, Disc } from 'lucide-react';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { Utensils, Flower2, Camera, Music, BedDouble, Sparkles, Users, ClipboardCheck, Disc, Gem } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { WeddingAddonCard } from '@/components/weddings/WeddingAddonCard';
 
@@ -74,9 +75,9 @@ export default function WeddingPackageDetailPage({ params }: Props) {
 
   const overviewHighlights: IconCardProps[] = [
     { icon: Utensils, label: 'Premium Catering' },
-    { icon: Flower2, label: 'Luxury Decor' },
+    { icon: Gem, label: 'Luxury Decor' }, // Using Gem for Luxury Decor
     { icon: Camera, label: 'Photography' },
-    { icon: Users, label: 'Guest Experience' },
+    { icon: Users, label: '150 Guests' }, // Updated label
   ];
 
   // Group inclusions by category based on icon
@@ -85,8 +86,8 @@ export default function WeddingPackageDetailPage({ params }: Props) {
     { title: 'Photography & Videography', icon: Camera, items: [] },
     { title: 'Luxury Decor & Florals', icon: Flower2, items: [] },
     { title: 'Entertainment', icon: Music, items: [] },
-    { title: 'Ceremony Setup', icon: Sparkles, items: [] }, // Using Sparkles as a generic icon
-    { title: 'Guest Accommodation & Coordination', icon: BedDouble, items: [] },
+    { title: 'Ceremony Setup', icon: Sparkles, items: [] },
+    { title: 'Guest Accommodation', icon: BedDouble, items: [] },
   ];
 
   pkg.inclusions.forEach(inclusion => {
@@ -94,13 +95,13 @@ export default function WeddingPackageDetailPage({ params }: Props) {
     else if (inclusion.icon === Camera) inclusionGroups[1].items.push(inclusion);
     else if (inclusion.icon === Flower2) inclusionGroups[2].items.push(inclusion);
     else if (inclusion.icon === Music || inclusion.icon === Disc) inclusionGroups[3].items.push(inclusion);
-    else if (inclusion.icon === Sparkles || inclusion.icon === ClipboardCheck) { // Grouping coordination under ceremony setup or guest accommodation
+    else if (inclusion.icon === Sparkles || inclusion.icon === ClipboardCheck) {
          const ceremonySetupGroup = inclusionGroups.find(g => g.icon === Sparkles);
          if(ceremonySetupGroup) ceremonySetupGroup.items.push(inclusion);
-         else inclusionGroups[4].items.push(inclusion); // fallback if Sparkles group not defined (should not happen)
+         else inclusionGroups[4].items.push(inclusion);
     }
     else if (inclusion.icon === BedDouble) inclusionGroups[5].items.push(inclusion);
-    else { // Fallback for other icons, add to a "General" or the most relevant group
+    else {
       const ceremonySetupGroup = inclusionGroups.find(g => g.icon === Sparkles);
       if(ceremonySetupGroup) ceremonySetupGroup.items.push(inclusion);
     }
@@ -130,7 +131,7 @@ export default function WeddingPackageDetailPage({ params }: Props) {
             Your Dream Wedding Begins Here
           </p>
           <Button asChild size="lg" className="font-body text-lg px-8 py-3 bg-primary/90 hover:bg-primary text-primary-foreground transform hover:scale-105 transition-transform duration-300 rounded-md">
-            <Link href={`/contact?subject=Wedding Package Inquiry: ${pkg.name}`}>Book This Package</Link>
+            <Link href={`/contact?subject=Wedding Package Inquiry: ${pkg.name}`}>Book Your Wedding Package</Link>
           </Button>
         </div>
       </section>
@@ -139,25 +140,26 @@ export default function WeddingPackageDetailPage({ params }: Props) {
         <Breadcrumbs items={breadcrumbItems} className="mb-8 md:mb-12" />
 
         {/* Overview Section */}
-        <section className="mb-12 md:mb-16 bg-secondary/20 p-6 sm:p-8 md:p-10 rounded-xl shadow-lg">
-          <div className="grid md:grid-cols-3 gap-8 items-center">
-            <div className="md:col-span-2">
+        <section className="mb-12 md:mb-16 bg-card p-6 sm:p-8 md:p-10 rounded-xl shadow-lg">
+            <div className="text-center md:text-left">
               <h2 className="font-headline text-3xl font-bold text-primary mb-2">{pkg.name}</h2>
               {pkg.price && (
-                <p className="font-body text-lg text-muted-foreground mb-3">
-                  Starting from <span className="font-semibold text-foreground">{pkg.price}</span>
-                </p>
+                <div className="inline-block relative">
+                    <p className="font-body text-lg text-muted-foreground mb-3">
+                      Starting from <span className="font-semibold text-foreground">{pkg.price}</span>
+                    </p>
+                    <div className="absolute bottom-1 left-0 w-full h-0.5 bg-blue-400" />
+                </div>
               )}
-              <p className="font-body text-foreground/80 leading-relaxed">
-                {pkg.shortDescription || 'Experience an unforgettable wedding with this comprehensive package, designed for elegance and joy.'}
+              <p className="font-body text-foreground/80 leading-relaxed max-w-xl mx-auto md:mx-0 mb-6">
+                Experience the ultimate luxury wedding celebration with premium services and elegant décor.
               </p>
             </div>
-            <div className="md:col-span-1 grid grid-cols-2 sm:grid-cols-4 md:grid-cols-2 gap-3">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
               {overviewHighlights.map(highlight => (
                 <IconCard key={highlight.label} icon={highlight.icon} label={highlight.label} />
               ))}
             </div>
-          </div>
         </section>
 
         {/* What's Included Section */}
@@ -165,7 +167,34 @@ export default function WeddingPackageDetailPage({ params }: Props) {
           <h2 className="font-headline text-3xl sm:text-4xl font-bold text-center mb-10 md:mb-12">
             What&apos;s Included
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+          {/* Mobile Accordion View */}
+          <div className="md:hidden space-y-3">
+            {filteredInclusionGroups.map(group => (
+              <Accordion key={group.title} type="single" collapsible className="w-full bg-card rounded-xl shadow-md border px-4">
+                  <AccordionItem value={group.title} className="border-b-0">
+                      <AccordionTrigger className="hover:no-underline font-semibold text-foreground/80 py-4">
+                        <div className="flex items-center gap-3">
+                            <group.icon className="w-5 h-5 text-primary" />
+                            <span>{group.title}</span>
+                        </div>
+                      </AccordionTrigger>
+                      <AccordionContent className="pt-0 pb-4">
+                         <ul className="space-y-2.5 font-body text-sm text-muted-foreground pl-8">
+                          {group.items.map((item, idx) => (
+                            <li key={idx} className="flex items-start">
+                              <CheckCircle className="w-4 h-4 text-green-500 mr-2.5 mt-0.5 flex-shrink-0" />
+                              <span>{item.text}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </AccordionContent>
+                  </AccordionItem>
+              </Accordion>
+            ))}
+          </div>
+
+          {/* Desktop Grid View */}
+          <div className="hidden md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
             {filteredInclusionGroups.map((group) => (
               <Card key={group.title} className="bg-card rounded-xl shadow-lg flex flex-col">
                 <CardHeader className="pb-3 pt-5 px-5">
@@ -191,11 +220,11 @@ export default function WeddingPackageDetailPage({ params }: Props) {
 
         {/* Premium Add-ons Section */}
         {premiumWeddingAddons.length > 0 && (
-          <section className="mb-12 md:mb-16 py-12 bg-secondary/10 rounded-xl">
-            <h2 className="font-headline text-3xl sm:text-4xl font-bold text-center mb-10 md:mb-12 text-primary">
+          <section className="mb-12 md:mb-16 py-12 md:bg-secondary/10 rounded-xl">
+            <h2 className="font-headline text-3xl sm:text-4xl font-bold text-center mb-10 md:mb-12 md:text-primary">
               Premium Add-ons
             </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-8 px-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-8 md:px-6">
               {premiumWeddingAddons.map((addon) => (
                 <WeddingAddonCard key={addon.id} addon={addon} packageName={pkg.name} />
               ))}

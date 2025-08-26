@@ -11,25 +11,22 @@ interface WeddingAddonCardProps {
 
 export function WeddingAddonCard({ addon, packageName }: WeddingAddonCardProps) {
   return (
-    <Card className="overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300 flex flex-col h-full rounded-xl bg-card text-center items-center p-4">
-      <CardHeader className="pt-4 pb-2 items-center">
-        <div className="w-12 h-12 mb-3 rounded-full bg-primary/10 flex items-center justify-center border border-primary/20">
-          <addon.icon className="w-6 h-6 text-primary" />
-        </div>
-        <CardTitle className="font-headline text-md font-semibold text-foreground/90">{addon.name}</CardTitle>
+    <Card className="overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300 flex flex-col h-full rounded-xl bg-card text-left p-4">
+      <CardHeader className="pt-2 pb-2 px-2 items-start">
+        <CardTitle className="font-headline text-lg font-semibold text-foreground/90">{addon.name}</CardTitle>
       </CardHeader>
-      <CardContent className="px-2 pb-4 flex flex-col flex-grow w-full items-center">
-        <p className="font-body text-xs text-muted-foreground mb-2 line-clamp-2 flex-grow">
+      <CardContent className="px-2 pb-2 flex flex-col flex-grow w-full">
+        <p className="font-body text-sm text-muted-foreground mb-2 line-clamp-2 flex-grow">
           {addon.description}
         </p>
-        <p className="font-body text-sm font-medium text-primary mb-3">
-          {addon.price}
+        <p className="font-body text-base font-medium text-foreground mb-3">
+          +{addon.price}
         </p>
         <Button
           asChild
           size="sm"
-          variant="outline"
-          className="w-full mt-auto border-primary text-primary hover:bg-primary/10 text-xs h-8"
+          variant="default"
+          className="w-full mt-auto bg-primary/90 text-primary-foreground h-10 text-sm"
         >
           <Link href={`/contact?subject=Inquiry about ${packageName} with Add-on: ${addon.name}`}>
             Add to Package
