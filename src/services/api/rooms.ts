@@ -27,9 +27,8 @@ interface RawApiRoom {
 
 // This function transforms a single raw room object into the format our frontend components expect
 function transformApiRoomToFrontendRoom(apiRoom: RawApiRoom): Room {
-  const imageUrl = apiRoom['room _images']
-    ? `http://localhost/Silver_server${apiRoom['room _images']}`.replace(/\\/g, '/')
-    : 'https://placehold.co/1200x800.png'; // Fallback image
+  // Always use a placeholder image and remove dependency on the backend's image path.
+  const placeholderImageUrl = 'https://placehold.co/1200x800.png';
 
   return {
     id: String(apiRoom.id),
@@ -37,9 +36,9 @@ function transformApiRoomToFrontendRoom(apiRoom: RawApiRoom): Room {
     description: apiRoom.short_description,
     longDescription: apiRoom.short_description, 
     pricePerNight: parseFloat(apiRoom.price_per_night),
-    imageUrl: imageUrl,
+    imageUrl: placeholderImageUrl,
     imageHint: 'hotel room interior', // Generic hint
-    images: [imageUrl],
+    images: [placeholderImageUrl],
     amenities: apiRoom.amenities_id ? apiRoom.amenities_id.split(',') : [],
     capacity: apiRoom.adults_capacity || 2,
     beds: `${apiRoom.adults_capacity > 1 ? '1 King Bed' : '1 Queen Bed'}`,
