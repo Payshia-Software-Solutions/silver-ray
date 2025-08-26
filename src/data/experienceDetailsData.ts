@@ -53,8 +53,51 @@ export const allExperienceDetails: ExperienceDetail[] = [
     ],
     defaultAdults: 2,
     pricePerAdult: 3500,
+  },
+  {
+    id: 'sapphire-trail',
+    pageTitle: 'Book Your Sapphire Trail Expedition',
+    heroImageUrl: 'https://placehold.co/1920x500.png',
+    heroImageHint: 'gem mine expedition',
+    overviewTitle: 'Sapphire Trail - Overview',
+    overviewContent: 'Explore a gem mine.',
+    highlightsContent: 'See traditional mining.',
+    details: [],
+    galleryImages: [],
+  },
+  {
+    id: 'waterfall-hike',
+    pageTitle: 'Book Your Waterfall Hike',
+    heroImageUrl: 'https://placehold.co/1920x500.png',
+    heroImageHint: 'waterfall hiking adventure',
+    overviewTitle: 'Waterfall Hike - Overview',
+    overviewContent: 'Trek to a hidden waterfall.',
+    highlightsContent: 'Enjoy the lush rainforest.',
+    details: [],
+    galleryImages: [],
+  },
+  {
+    id: 'sunrise-yoga',
+    pageTitle: 'Book Your Sunrise Yoga Session',
+    heroImageUrl: 'https://placehold.co/1920x500.png',
+    heroImageHint: 'yoga session at sunrise',
+    overviewTitle: 'Sunrise Yoga - Overview',
+    overviewContent: 'Start your day with yoga.',
+    highlightsContent: 'Suitable for all levels.',
+    details: [],
+    galleryImages: [],
+  },
+  {
+    id: 'kids-club',
+    pageTitle: 'Book the Kids\' Discovery Club',
+    heroImageUrl: 'https://placehold.co/1920x500.png',
+    heroImageHint: 'kids club activities',
+    overviewTitle: 'Kids\' Club - Overview',
+    overviewContent: 'Fun for the little ones.',
+    highlightsContent: 'Creative and educational programs.',
+    details: [],
+    galleryImages: [],
   }
-  // ... other experiences
 ];
 
 export const getExperienceDetailById = (id: string): ExperienceDetail | undefined => {
