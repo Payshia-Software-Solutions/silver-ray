@@ -2,6 +2,8 @@
 import type { Room } from '@/types';
 import { mockRooms } from '@/data/mockData';
 
+const API_BASE_URL = 'http://localhost/Silver_server';
+
 // This is the raw structure of the room object from your PHP backend
 interface RawApiRoom {
     id: number;
@@ -49,7 +51,7 @@ function transformApiRoomToFrontendRoom(apiRoom: RawApiRoom): Room {
 }
 
 export async function getRoomsByCompany(companyId: string): Promise<{ rooms: Room[], error: string | null }> {
-  const fetchUrl = `http://localhost/Silver_server/company/rooms/${companyId}`;
+  const fetchUrl = `${API_BASE_URL}/company/rooms/${companyId}`;
   
   try {
     const response = await fetch(fetchUrl, { cache: 'no-store' });
