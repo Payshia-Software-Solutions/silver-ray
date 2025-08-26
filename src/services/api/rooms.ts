@@ -2,9 +2,6 @@
 import type { Room } from '@/types';
 import { mockRooms } from '@/data/mockData';
 
-// The API base URL now points to our OWN frontend's proxy route.
-const API_BASE_URL = '/api/rooms';
-
 // This is the raw structure of the room object from your PHP backend
 interface RawApiRoom {
     id: number;
@@ -49,9 +46,10 @@ function transformApiRoomToFrontendRoom(apiRoom: RawApiRoom): Room {
 }
 
 export async function getRoomsByCompany(companyId: string): Promise<{ rooms: Room[], error: string | null }> {
-  // The fetch URL is now our internal proxy route.
-  // The companyId is currently handled by the proxy, but we keep it here for future flexibility.
-  const fetchUrl = `${API_BASE_URL}`; 
+  // When running on the server, we need a full URL.
+  // In a real production app, this would come from an environment variable.
+  const host = process.env.HOST || 'http://localhost:9002';
+  const fetchUrl = `${host}/api/rooms`; 
   
   try {
     // This fetch call goes to our own Next.js server, not directly to the PHP backend.
