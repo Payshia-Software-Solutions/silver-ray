@@ -12,7 +12,14 @@ import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "@/components/ui/accordion"
+} from "@/components/ui/accordion";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 
 
 export const metadata: Metadata = {
@@ -20,9 +27,77 @@ export const metadata: Metadata = {
   description: 'Explore our luxurious accommodations at Grand Silver Ray. Find the perfect room or suite for your stay.',
 };
 
-function RoomFilters() {
+function DesktopRoomFilters() {
   return (
-    <div className="my-8">
+    <div className="hidden md:block my-8 p-4 bg-card rounded-lg shadow-md border">
+        <div className="flex justify-between items-center">
+            <div className="flex items-center gap-4">
+                <span className="font-semibold text-foreground/80">Filter by:</span>
+                <Select>
+                    <SelectTrigger className="w-[140px]">
+                        <SelectValue placeholder="View" />
+                    </SelectTrigger>
+                    <SelectContent>
+                        <SelectItem value="ocean">Ocean View</SelectItem>
+                        <SelectItem value="city">City View</SelectItem>
+                        <SelectItem value="garden">Garden View</SelectItem>
+                    </SelectContent>
+                </Select>
+                <Select>
+                    <SelectTrigger className="w-[140px]">
+                        <SelectValue placeholder="Occupancy" />
+                    </SelectTrigger>
+                    <SelectContent>
+                        <SelectItem value="1">1 Guest</SelectItem>
+                        <SelectItem value="2">2 Guests</SelectItem>
+                        <SelectItem value="3">3 Guests</SelectItem>
+                        <SelectItem value="4">4+ Guests</SelectItem>
+                    </SelectContent>
+                </Select>
+                <Select>
+                    <SelectTrigger className="w-[140px]">
+                        <SelectValue placeholder="Amenities" />
+                    </SelectTrigger>
+                    <SelectContent>
+                        <SelectItem value="pool">Private Pool</SelectItem>
+                        <SelectItem value="balcony">Balcony</SelectItem>
+                        <SelectItem value="kitchen">Kitchen</SelectItem>
+                    </SelectContent>
+                </Select>
+                <Select>
+                    <SelectTrigger className="w-[140px]">
+                        <SelectValue placeholder="Price Range" />
+                    </SelectTrigger>
+                    <SelectContent>
+                        <SelectItem value="low">$200-$400</SelectItem>
+                        <SelectItem value="medium">$400-$800</SelectItem>
+                        <SelectItem value="high">$800+</SelectItem>
+                    </SelectContent>
+                </Select>
+            </div>
+            <div className="flex items-center gap-4">
+                <span className="font-semibold text-foreground/80">Sort by:</span>
+                <Select defaultValue="recommended">
+                    <SelectTrigger className="w-[180px]">
+                        <SelectValue placeholder="Sort by" />
+                    </SelectTrigger>
+                    <SelectContent>
+                        <SelectItem value="recommended">Recommended</SelectItem>
+                        <SelectItem value="price-asc">Price: Low to High</SelectItem>
+                        <SelectItem value="price-desc">Price: High to Low</SelectItem>
+                        <SelectItem value="size">Size</SelectItem>
+                    </SelectContent>
+                </Select>
+            </div>
+        </div>
+    </div>
+  );
+}
+
+
+function MobileRoomFilters() {
+  return (
+    <div className="my-8 md:hidden">
       <Accordion type="single" collapsible className="w-full bg-card rounded-lg shadow-sm border px-4">
         <AccordionItem value="item-1" className="border-b-0">
           <AccordionTrigger className="hover:no-underline font-semibold text-foreground/80">
@@ -32,8 +107,8 @@ function RoomFilters() {
              </div>
           </AccordionTrigger>
           <AccordionContent>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 items-end pt-4">
-               <p className='text-muted-foreground'>Filter controls would be here.</p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 items-end pt-4">
+               <p className='text-muted-foreground text-center col-span-full'>Filter controls would be here.</p>
             </div>
           </AccordionContent>
         </AccordionItem>
@@ -52,7 +127,8 @@ export default async function RoomsPage() {
       <NotificationBanner />
       <div className="bg-background">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
-          <RoomFilters />
+          <DesktopRoomFilters />
+          <MobileRoomFilters />
 
           {displayRooms.length > 0 ? (
              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
