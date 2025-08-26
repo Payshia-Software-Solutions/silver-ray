@@ -1,5 +1,6 @@
 
 import type { Room } from '@/types';
+import { mockRooms } from '@/data/mockData';
 
 // This is the raw structure of the room object from your PHP backend
 interface RawApiRoom {
@@ -55,10 +56,10 @@ export async function getRoomsByCompany(companyId: string): Promise<{ rooms: Roo
     
     if (!response.ok) {
       console.error(`Failed to fetch rooms. Status: ${response.status}. URL: ${fetchUrl}`);
-      // Return an empty array and an error message on failure
+      // Return mock data on failure to prevent the app from crashing
       return { 
-        rooms: [], 
-        error: `Could not connect to the data service (Status: ${response.status}). Please ensure the backend is running.` 
+        rooms: mockRooms, 
+        error: `Could not connect to the data service (Status: ${response.status}). Please ensure the backend is running. Using fallback data for now.` 
       };
     }
     
@@ -66,7 +67,7 @@ export async function getRoomsByCompany(companyId: string): Promise<{ rooms: Roo
     
     if (!Array.isArray(data)) {
         console.error("API did not return an array. Data:", data);
-        return { rooms: [], error: "Received unexpected data format from the server." };
+        return { rooms: mockRooms, error: "Received unexpected data format from the server. Using fallback data for now." };
     }
 
     const transformedRooms = data.map(transformApiRoomToFrontendRoom);
@@ -74,10 +75,10 @@ export async function getRoomsByCompany(companyId: string): Promise<{ rooms: Roo
 
   } catch (error) {
     console.error(`An error occurred while fetching rooms:`, error);
-    // Return an empty array and an error message on exception
+    // Return mock data on exception
     return { 
-      rooms: [], 
-      error: "An error occurred while trying to connect to the data service. Please check the backend server and network connection."
+      rooms: mockRooms, 
+      error: "An error occurred while trying to connect to the data service. Please check the backend server and network connection. Using fallback data for now."
     };
   }
 }
