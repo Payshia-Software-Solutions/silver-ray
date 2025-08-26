@@ -60,7 +60,7 @@ export default function EventsPage() {
                 <li className="flex items-center"><MapPin className="w-4 h-4 mr-2 text-primary"/>Multiple venue sizes</li>
                 <li className="flex items-center"><CalendarDays className="w-4 h-4 mr-2 text-primary"/>Flexible booking options</li>
             </ul>
-            <Button asChild variant="outline">
+            <Button asChild>
                <Link href="/contact?subject=Conference+Inquiry">Plan Your Meeting</Link>
             </Button>
           </div>
