@@ -81,7 +81,7 @@ export default async function RoomsPage() {
               <AlertTriangle className="h-4 w-4" />
               <AlertTitle>Connection Error</AlertTitle>
               <AlertDescription>
-                {error} Using fallback data for now.
+                {error}
               </AlertDescription>
             </Alert>
           )}

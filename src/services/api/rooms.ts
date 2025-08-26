@@ -55,11 +55,12 @@ export async function getRoomsByCompany(companyId: string): Promise<{ rooms: Roo
     const response = await fetch(fetchUrl, { cache: 'no-store' });
     
     if (!response.ok) {
-      console.error(`Failed to fetch rooms. Status: ${response.status}. URL: ${fetchUrl}`);
+      const errorMessage = `Failed to fetch rooms. Status: ${response.status}. URL: ${fetchUrl}. Please ensure the backend is running and accessible.`;
+      console.error(errorMessage);
       // Return mock data on failure to prevent the app from crashing
       return { 
         rooms: mockRooms, 
-        error: `Could not connect to the data service (Status: ${response.status}). Please ensure the backend is running. Using fallback data for now.` 
+        error: `Could not connect to the data service (Status: ${response.status}). Using fallback data for now.` 
       };
     }
     
@@ -74,7 +75,8 @@ export async function getRoomsByCompany(companyId: string): Promise<{ rooms: Roo
     return { rooms: transformedRooms, error: null };
 
   } catch (error) {
-    console.error(`An error occurred while fetching rooms:`, error);
+    const errorMessage = `An error occurred while fetching rooms: ${error}`;
+    console.error(errorMessage);
     // Return mock data on exception
     return { 
       rooms: mockRooms, 
