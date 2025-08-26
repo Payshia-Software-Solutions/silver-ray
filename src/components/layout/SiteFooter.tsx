@@ -3,7 +3,7 @@
 
 import Link from 'next/link';
 import NextImage from 'next/image';
-import { Phone, Mail, MapPin, Facebook, Instagram, Linkedin, HelpCircle } from 'lucide-react';
+import { Phone, Mail, MapPin, Facebook, Instagram, Linkedin, HelpCircle, Youtube } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
@@ -35,6 +35,15 @@ const quickLinks = [
   { href: '/booking', label: 'Book a Stay' },
 ];
 
+const mobileQuickLinks = [
+    { href: '/', label: 'Home' },
+    { href: '#', label: 'Video' },
+    { href: '/events', label: 'Events' },
+    { href: '/experiences', label: 'Experiences' },
+    { href: '/gallery', label: 'Gallery' },
+    { href: '/contact', label: 'Contact' },
+];
+
 const informationLinks = [
   { href: '/privacy', label: 'Privacy Policy' },
   { href: '/terms', label: 'Terms & Conditions' },
@@ -45,10 +54,9 @@ const informationLinks = [
 ];
 
 const socialLinks = [
-  { href: '#', icon: Facebook, label: 'Facebook' },
   { href: '#', icon: Instagram, label: 'Instagram' },
-  { href: '#', icon: HelpCircle, label: 'Help' },
-  { href: '#', icon: Linkedin, label: 'LinkedIn' },
+  { href: '#', icon: Facebook, label: 'Facebook' },
+  { href: '#', icon: Youtube, label: 'YouTube' },
   { href: '#', icon: PinterestIcon, label: 'Pinterest' },
 ];
 
@@ -94,102 +102,154 @@ const FooterLinkColumn = ({ title, links }: { title: string, links: { href: stri
   );
 };
 
+const DesktopFooter = () => (
+    <>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12 mb-8">
+            {/* Column 1: Hotel Info */}
+            <div className="space-y-4 md:col-span-2 lg:col-span-1">
+                <h2 className="font-headline text-3xl font-bold text-slate-100">Grand Silver Ray</h2>
+                <p className="text-sm">
+                A timeless sanctuary on the Sri Lankan coast.
+                </p>
+                <ul className="space-y-2 text-sm">
+                <li className="flex items-center">
+                    <Phone className="w-4 h-4 mr-2 text-primary" />
+                    <span>+94 11 234 5678</span>
+                </li>
+                <li className="flex items-center">
+                    <Mail className="w-4 h-4 mr-2 text-primary" />
+                    <a href="mailto:info@grandsilverray.com" className="hover:text-primary transition-colors">info@grandsilverray.com</a>
+                </li>
+                <li className="flex items-start">
+                    <MapPin className="w-4 h-4 mr-2 text-primary mt-1 flex-shrink-0" />
+                    <span>123, Galle Road, Colombo 3, Sri Lanka</span>
+                </li>
+                </ul>
+                <div className="pt-4">
+                <h3 className="font-headline text-lg font-semibold text-slate-100 mb-3">Stay Connected</h3>
+                <div className="flex space-x-3">
+                    {socialLinks.map((social) => (
+                    <a
+                        key={social.label}
+                        href={social.href}
+                        aria-label={social.label}
+                        className="text-slate-400 hover:text-primary transition-colors"
+                    >
+                        <social.icon size={20} />
+                    </a>
+                    ))}
+                </div>
+                </div>
+            </div>
+            
+            {/* Columns 2 & 3: Links */}
+            <div className="md:col-span-2 lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-8">
+                <FooterLinkColumn title="Quick Links" links={quickLinks} />
+                <FooterLinkColumn title="Information" links={informationLinks} />
+            </div>
+
+            {/* Column 4: Newsletter */}
+            <div className="space-y-4">
+                <div className="mb-4 hidden lg:block">
+                <NextImage
+                    src="https://placehold.co/120x80.png"
+                    alt="Grand Silver Ray Logo"
+                    data-ai-hint="hotel logo monogram"
+                    width={120}
+                    height={80}
+                    className="opacity-80" 
+                />
+                </div>
+                <div>
+                <label htmlFor="newsletter-email" className="block text-sm font-medium mb-1.5 text-slate-100">
+                    Enter your email for updates
+                </label>
+                <form className="flex space-x-2">
+                    <Input
+                    type="email"
+                    id="newsletter-email"
+                    placeholder="your.email@example.com"
+                    className="bg-slate-800 border-slate-700 text-slate-200 placeholder-slate-500 text-sm h-10"
+                    aria-label="Email for newsletter"
+                    />
+                    <Button type="submit" variant="default" className="bg-primary hover:bg-primary/90 text-primary-foreground h-10 text-sm shrink-0">
+                    Subscribe
+                    </Button>
+                </form>
+                </div>
+                <p className="text-xs italic pt-2 hidden md:block">
+                Where elegance meets ocean breeze—creating treasured memories for generations.
+                </p>
+            </div>
+        </div>
+         <div className="border-t border-slate-700 pt-8 text-center">
+            <p className="text-sm">
+                &copy; {new Date().getFullYear()} Grand Silver Ray. All Rights Reserved.
+            </p>
+        </div>
+    </>
+);
+
+
+const MobileFooter = () => (
+  <div className="flex flex-col items-center text-center py-10 px-4">
+    <NextImage
+      src="https://placehold.co/150x100.png?text=SR+Logo"
+      alt="Grand Silver Ray Logo"
+      data-ai-hint="hotel logo monogram"
+      width={150}
+      height={100}
+      className="mb-4"
+    />
+    <h2 className="font-headline text-2xl font-semibold text-slate-100 mb-4 border-b-2 border-primary pb-2">
+      Grand Silver Ray
+    </h2>
+    <div className="text-sm text-slate-300 space-y-1 mb-6">
+      <p>123 Oceanfront Avenue, Silver Bay</p>
+      <a href="mailto:reservations@grandsilverray.com" className="hover:text-primary transition-colors">reservations@grandsilverray.com</a>
+      <p>+1 (555) 123-4567</p>
+    </div>
+    <div className="flex space-x-6 mb-8">
+      {socialLinks.map((social) => (
+        <a key={social.label} href={social.href} aria-label={social.label} className="text-slate-400 hover:text-primary transition-colors">
+          <social.icon size={24} />
+        </a>
+      ))}
+    </div>
+    <nav className="flex flex-wrap justify-center gap-x-6 gap-y-2 mb-8 font-body text-slate-300">
+      {mobileQuickLinks.map(link => (
+          <Link key={link.label} href={link.href} className="hover:text-primary transition-colors">{link.label}</Link>
+      ))}
+    </nav>
+    <form className="flex flex-col sm:flex-row items-center w-full max-w-sm gap-2 mb-8">
+      <Input
+        type="email"
+        placeholder="Subscribe to newsletter"
+        className="bg-slate-800 border-slate-700 text-slate-200 placeholder-slate-500 h-12 text-center w-full"
+        aria-label="Email for newsletter"
+      />
+      <Button type="submit" className="bg-primary hover:bg-primary/90 text-primary-foreground h-12 w-full sm:w-auto px-6">
+        Subscribe
+      </Button>
+    </form>
+    <p className="text-xs text-slate-500">
+      &copy; {new Date().getFullYear()} Grand Silver Ray. All rights reserved.
+    </p>
+  </div>
+);
+
 
 export function SiteFooter() {
-  const currentYear = new Date().getFullYear();
+  const isMobile = useIsMobile();
 
   return (
     <footer className="bg-slate-900 text-slate-300">
       <div className="bg-slate-800 py-3"> 
-        {/* Optional: Top Accent Bar - subtle color difference */}
+        {/* Optional: Top Accent Bar */}
       </div>
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12 mb-8">
-          {/* Column 1: Hotel Info (Always visible) */}
-          <div className="space-y-4 md:col-span-2 lg:col-span-1">
-            <h2 className="font-headline text-3xl font-bold text-slate-100">Grand Silver Ray</h2>
-            <p className="text-sm">
-              A timeless sanctuary on the Sri Lankan coast.
-            </p>
-            <ul className="space-y-2 text-sm">
-              <li className="flex items-center">
-                <Phone className="w-4 h-4 mr-2 text-primary" />
-                <span>+94 11 234 5678</span>
-              </li>
-              <li className="flex items-center">
-                <Mail className="w-4 h-4 mr-2 text-primary" />
-                <a href="mailto:info@grandsilverray.com" className="hover:text-primary transition-colors">info@grandsilverray.com</a>
-              </li>
-              <li className="flex items-start">
-                <MapPin className="w-4 h-4 mr-2 text-primary mt-1 flex-shrink-0" />
-                <span>123, Galle Road, Colombo 3, Sri Lanka</span>
-              </li>
-            </ul>
-             <div className="pt-4">
-              <h3 className="font-headline text-lg font-semibold text-slate-100 mb-3">Stay Connected</h3>
-              <div className="flex space-x-3">
-                {socialLinks.map((social) => (
-                  <a
-                    key={social.label}
-                    href={social.href}
-                    aria-label={social.label}
-                    className="text-slate-400 hover:text-primary transition-colors"
-                  >
-                    <social.icon size={20} />
-                  </a>
-                ))}
-              </div>
-            </div>
-          </div>
-          
-          {/* Columns 2 & 3: Links (Accordion on mobile) */}
-          <div className="md:col-span-2 lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-8">
-             <FooterLinkColumn title="Quick Links" links={quickLinks} />
-             <FooterLinkColumn title="Information" links={informationLinks} />
-          </div>
-
-          {/* Column 4: Newsletter */}
-          <div className="space-y-4">
-             <div className="mb-4 hidden lg:block">
-              <NextImage
-                src="https://placehold.co/120x80.png"
-                alt="Grand Silver Ray Logo"
-                data-ai-hint="hotel logo monogram"
-                width={120}
-                height={80}
-                className="opacity-80" 
-              />
-            </div>
-            <div>
-              <label htmlFor="newsletter-email" className="block text-sm font-medium mb-1.5 text-slate-100">
-                Enter your email for updates
-              </label>
-              <form className="flex space-x-2">
-                <Input
-                  type="email"
-                  id="newsletter-email"
-                  placeholder="your.email@example.com"
-                  className="bg-slate-800 border-slate-700 text-slate-200 placeholder-slate-500 text-sm h-10"
-                  aria-label="Email for newsletter"
-                />
-                <Button type="submit" variant="default" className="bg-primary hover:bg-primary/90 text-primary-foreground h-10 text-sm shrink-0">
-                  Subscribe
-                </Button>
-              </form>
-            </div>
-             <p className="text-xs italic pt-2 hidden md:block">
-              Where elegance meets ocean breeze—creating treasured memories for generations.
-            </p>
-          </div>
-        </div>
-
-        <div className="border-t border-slate-700 pt-8 text-center">
-          <p className="text-sm">
-            &copy; {currentYear} Grand Silver Ray. All Rights Reserved.
-          </p>
-        </div>
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 md:py-16">
+        {isMobile ? <MobileFooter /> : <DesktopFooter />}
       </div>
     </footer>
   );
 }
-
