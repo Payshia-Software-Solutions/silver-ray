@@ -1,6 +1,5 @@
 
 import type { Room } from '@/types';
-import { mockRooms } from '@/data/mockData';
 
 // This is the raw structure of the room object from your PHP backend
 interface RawApiRoom {
@@ -56,10 +55,10 @@ export async function getRoomsByCompany(companyId: string): Promise<{ rooms: Roo
     
     if (!response.ok) {
       console.error(`Failed to fetch rooms. Status: ${response.status}. URL: ${fetchUrl}`);
-      // Return mock data on failure to prevent the app from crashing
+      // Return an empty array and an error message on failure
       return { 
-        rooms: mockRooms, 
-        error: "Could not connect to the data service. Please ensure the backend is running and the URL is correct." 
+        rooms: [], 
+        error: `Could not connect to the data service (Status: ${response.status}). Please ensure the backend is running.` 
       };
     }
     
@@ -67,7 +66,7 @@ export async function getRoomsByCompany(companyId: string): Promise<{ rooms: Roo
     
     if (!Array.isArray(data)) {
         console.error("API did not return an array. Data:", data);
-        return { rooms: mockRooms, error: "Received unexpected data format from the server." };
+        return { rooms: [], error: "Received unexpected data format from the server." };
     }
 
     const transformedRooms = data.map(transformApiRoomToFrontendRoom);
@@ -75,9 +74,10 @@ export async function getRoomsByCompany(companyId: string): Promise<{ rooms: Roo
 
   } catch (error) {
     console.error(`An error occurred while fetching rooms:`, error);
+    // Return an empty array and an error message on exception
     return { 
-      rooms: mockRooms, 
-      error: "Could not connect to the data service. Please ensure the backend is running and the URL is correct."
+      rooms: [], 
+      error: "An error occurred while trying to connect to the data service. Please check the backend server and network connection."
     };
   }
 }
