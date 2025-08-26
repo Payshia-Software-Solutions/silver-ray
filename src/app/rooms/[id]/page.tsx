@@ -4,10 +4,32 @@ import NextImage from 'next/image';
 import { mockRooms } from '@/data/mockData';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { CheckCircle, Users, Maximize, Award, Sparkle, CalendarDays, DollarSign, Bed } from 'lucide-react';
+import { 
+  CheckCircle, 
+  Users, 
+  Bed, 
+  Maximize, 
+  Award, 
+  Sparkle, 
+  CalendarDays, 
+  DollarSign,
+  ArrowLeft,
+  Heart,
+  Eye,
+  Camera,
+  BedDouble,
+  ShowerHead,
+  Tv,
+  Wifi,
+  Coffee,
+  Mountain,
+  Ruler,
+  Building
+} from 'lucide-react';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
+import { Separator } from '@/components/ui/separator';
 
 
 type Props = {
@@ -35,6 +57,17 @@ export async function generateMetadata(
   };
 }
 
+const amenitiesIcons = {
+  'King-size Bed': BedDouble,
+  'Rain Shower': ShowerHead,
+  'Smart TV': Tv,
+  'High-speed Wi-Fi': Wifi,
+  'Coffee Bar': Coffee,
+  'Balcony View': Mountain,
+  'Nespresso Machine': Coffee,
+  'Private Balcony': Mountain,
+};
+
 export default function RoomDetailPage({ params }: Props) {
   const room = mockRooms.find((r) => r.id === params.id);
 
@@ -43,166 +76,215 @@ export default function RoomDetailPage({ params }: Props) {
   }
 
   const imagesToShow = room.images && room.images.length > 0 ? room.images : [room.imageUrl];
+  const mainImage = imagesToShow[0];
+  const thumbnails = imagesToShow.slice(0, 4); // Show up to 4 thumbnails
 
   return (
-    <div className="bg-secondary/5 py-12 md:py-16">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-7 gap-8 lg:gap-12">
-          {/* Left Column: Room Details */}
-          <div className="lg:col-span-5 space-y-8">
-            <Carousel 
-              className="w-full rounded-lg overflow-hidden shadow-xl border border-border"
-              opts={{ loop: imagesToShow.length > 1 }}
-            >
-              <CarouselContent>
-                {imagesToShow.map((img, index) => (
-                  <CarouselItem key={index}>
-                    <div className="relative aspect-[16/10] w-full">
-                      <NextImage
-                        src={img}
-                        alt={`${room.name} - Image ${index + 1}`}
-                        data-ai-hint={`${room.category.toLowerCase()} room interior detail`}
-                        fill
-                        className="object-cover"
-                        priority={index === 0}
-                      />
+    <div className="bg-background md:bg-secondary/10">
+        {/* --- Floating Mobile Header --- */}
+        <div className="md:hidden sticky top-0 z-40 bg-background/80 backdrop-blur-sm p-3 flex items-center justify-between border-b">
+            <Button variant="ghost" size="icon" asChild>
+              <Link href="/rooms"><ArrowLeft /></Link>
+            </Button>
+            <h2 className="font-headline text-lg font-semibold truncate">{room.name}</h2>
+            <Button variant="ghost" size="icon"><Heart /></Button>
+        </div>
+        
+      <div className="container mx-auto md:px-4 md:py-12">
+          {/* --- Desktop Header --- */}
+          <div className="hidden md:block mb-6">
+              <Link href="/rooms" className="flex items-center text-sm text-muted-foreground hover:text-primary mb-4">
+                  <ArrowLeft className="w-4 h-4 mr-2"/> Back to Rooms
+              </Link>
+              <h1 className="font-headline text-4xl font-bold">{room.name}</h1>
+          </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 md:gap-8">
+            {/* --- Left/Main Column --- */}
+            <div className="md:col-span-2">
+                {/* --- Image Carousel --- */}
+                <div className="relative mb-6">
+                    <div className="relative aspect-[4/3] w-full rounded-xl overflow-hidden shadow-lg">
+                        <NextImage
+                            src={mainImage}
+                            alt={`${room.name} Main Image`}
+                            data-ai-hint={`${room.category.toLowerCase()} room interior detail`}
+                            fill
+                            className="object-cover"
+                            priority
+                        />
+                         <div className="absolute bottom-4 left-4">
+                            <Button variant="secondary" className="bg-black/50 text-white backdrop-blur-sm hover:bg-black/70 border-white/20">
+                                <Camera className="w-4 h-4 mr-2" /> 360° Tour
+                            </Button>
+                        </div>
                     </div>
-                  </CarouselItem>
-                ))}
-              </CarouselContent>
-              {imagesToShow.length > 1 && (
-                <>
-                  <CarouselPrevious className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 z-10" />
-                  <CarouselNext className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 z-10" />
-                </>
-              )}
-            </Carousel>
-            
-            <div>
-              <Badge variant="outline" className="mb-2 text-sm">{room.category}</Badge>
-              <h1 className="font-headline text-3xl sm:text-4xl font-bold mb-4">{room.name}</h1>
-              <p className="font-body text-foreground/80 text-base leading-relaxed">{room.longDescription}</p>
+                    <div className="mt-2 grid grid-cols-4 gap-2">
+                        {thumbnails.map((img, index) => (
+                             <div key={index} className="relative aspect-video w-full rounded-md overflow-hidden cursor-pointer border-2 border-transparent hover:border-primary">
+                                <NextImage
+                                    src={img}
+                                    alt={`${room.name} - Thumbnail ${index + 1}`}
+                                    data-ai-hint={`${room.category.toLowerCase()} room interior thumbnail`}
+                                    fill
+                                    className="object-cover"
+                                />
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
+                 {/* --- Details for Desktop --- */}
+                <div className="hidden md:block bg-card p-6 rounded-xl shadow-sm">
+                   <Badge variant="outline" className="mb-2 text-sm">{room.category}</Badge>
+                    <h1 className="font-headline text-3xl font-bold mb-4">{room.name}</h1>
+                    <p className="font-body text-foreground/80 text-base leading-relaxed">{room.longDescription}</p>
+                </div>
             </div>
 
-            <div>
-              <h2 className="font-headline text-2xl font-semibold mb-4">Key Amenities</h2>
-              <ul className="grid grid-cols-2 md:grid-cols-3 gap-x-6 gap-y-3 font-body text-foreground/90">
-                {room.amenities.slice(0, 9).map((amenity) => ( // Show up to 9 amenities for brevity
-                  <li key={amenity} className="flex items-center">
-                    <CheckCircle className="w-5 h-5 mr-2 text-primary flex-shrink-0" />
-                    <span>{amenity}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
+            {/* --- Right/Side Column --- */}
+            <div className="md:col-span-1 px-4 md:px-0">
+               <div className="md:sticky md:top-24 md:h-fit">
+                    {/* --- Details for Mobile --- */}
+                    <div className="md:hidden mb-6">
+                        <Badge variant="outline" className="mb-2 text-sm">{room.category}</Badge>
+                        <h1 className="font-headline text-2xl font-bold mb-3">{room.name}</h1>
+                        <p className="font-body text-foreground/80 text-sm leading-relaxed">{room.longDescription}</p>
+                    </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-4 border-t border-border">
-              <div className="flex items-start p-4 bg-card rounded-lg shadow-sm">
-                <Maximize className="w-7 h-7 mr-3 text-primary flex-shrink-0 mt-1" />
-                <div>
-                  <h3 className="font-headline text-md font-semibold">Room Size</h3>
-                  <p className="font-body text-sm text-muted-foreground">{room.size}</p>
-                </div>
-              </div>
-              <div className="flex items-start p-4 bg-card rounded-lg shadow-sm">
-                <Users className="w-7 h-7 mr-3 text-primary flex-shrink-0 mt-1" />
-                <div>
-                  <h3 className="font-headline text-md font-semibold">Max Occupancy</h3>
-                  <p className="font-body text-sm text-muted-foreground">{room.capacity} Guests ({room.beds})</p>
-                </div>
-              </div>
-              <div className="flex items-start p-4 bg-card rounded-lg shadow-sm">
-                <Award className="w-7 h-7 mr-3 text-primary flex-shrink-0 mt-1" />
-                <div>
-                  <h3 className="font-headline text-md font-semibold">View</h3>
-                  <p className="font-body text-sm text-muted-foreground">{room.viewType || 'Pleasant Views'}</p>
-                </div>
-              </div>
-            </div>
-            
-            {room.roomLayoutImageUrl && (
-              <div>
-                <h2 className="font-headline text-2xl font-semibold mb-4">Room Layout</h2>
-                <div className="relative aspect-[2/1] w-full max-w-xl overflow-hidden rounded-lg border border-border shadow-sm">
-                  <NextImage
-                    src={room.roomLayoutImageUrl}
-                    alt={`${room.name} Layout`}
-                    data-ai-hint="floor plan"
-                    fill
-                    className="object-contain p-2 bg-card" 
-                  />
-                </div>
-              </div>
-            )}
+                    {/* --- Booking Widget --- */}
+                    <div className="bg-card p-4 rounded-xl shadow-lg border border-border/50 mb-6">
+                         <div className="flex justify-between items-center mb-4">
+                            <div>
+                                <span className="font-body text-2xl font-bold text-foreground">${room.pricePerNight}</span>
+                                <span className="text-sm text-muted-foreground">/night</span>
+                            </div>
+                            <div className="flex items-center gap-1 text-sm">
+                                <Star className="w-4 h-4 text-yellow-400 fill-yellow-400"/>
+                                <span className="font-semibold">{room.rating}</span>
+                                <span className="text-muted-foreground">(127)</span>
+                            </div>
+                        </div>
 
-            {room.enhanceYourStay && room.enhanceYourStay.length > 0 && (
-              <div>
-                <h2 className="font-headline text-2xl font-semibold mb-4">Enhance Your Stay</h2>
-                <ul className="space-y-2 font-body text-foreground/90">
-                  {room.enhanceYourStay.map((perk) => (
-                    <li key={perk} className="flex items-center">
-                      <Sparkle className="w-5 h-5 mr-2 text-primary flex-shrink-0" />
-                      <span>{perk}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-          </div>
+                        <div className="grid grid-cols-2 gap-3 mb-4">
+                            <div>
+                                <label className="font-body text-xs font-medium text-muted-foreground block mb-1">Check In</label>
+                                <div className="flex items-center p-2 rounded-md border border-input bg-background/50 text-sm">
+                                    <span>Dec 15</span>
+                                </div>
+                            </div>
+                            <div>
+                                <label className="font-body text-xs font-medium text-muted-foreground block mb-1">Check Out</label>
+                                <div className="flex items-center p-2 rounded-md border border-input bg-background/50 text-sm">
+                                    <span>Dec 18</span>
+                                </div>
+                            </div>
+                             <div className="col-span-2">
+                                <label className="font-body text-xs font-medium text-muted-foreground block mb-1">Guests</label>
+                                <div className="flex items-center p-2 rounded-md border border-input bg-background/50 text-sm">
+                                    <span>2 Guests</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <Button asChild size="lg" className="w-full font-body text-base">
+                            <Link href={`/booking?roomId=${room.id}`}>Book This Room</Link>
+                        </Button>
+                    </div>
 
-          {/* Right Column: Booking Widget */}
-          <div className="lg:col-span-2 lg:sticky lg:top-24 h-fit"> {/* Added h-fit for sticky */}
-            <div className="bg-card p-6 rounded-xl shadow-2xl border border-border">
-              <div className="mb-6">
-                <span className="font-body text-sm text-muted-foreground">Starting from</span>
-                <p className="font-headline text-4xl font-bold text-foreground">
-                  ${room.pricePerNight}
-                  <span className="text-lg font-normal text-muted-foreground">/night</span>
-                </p>
-              </div>
+                    {/* --- Amenities Section --- */}
+                    <div className="mb-6">
+                        <h2 className="font-headline text-xl font-semibold mb-4">Room Amenities</h2>
+                        <div className="grid grid-cols-2 gap-x-4 gap-y-3 font-body text-foreground/90 text-sm">
+                            {room.amenities.slice(0, 6).map((amenity) => {
+                                const Icon = (amenitiesIcons as any)[amenity] || Bed;
+                                return (
+                                <div key={amenity} className="flex items-center">
+                                    <Icon className="w-5 h-5 mr-2.5 text-primary flex-shrink-0" />
+                                    <span>{amenity}</span>
+                                </div>
+                                )
+                            })}
+                        </div>
+                    </div>
+                    <Separator className="my-6"/>
 
-              <div className="space-y-4 mb-6">
-                <div>
-                  <label className="font-body text-sm font-medium text-muted-foreground block mb-1">Check In</label>
-                  <div className="flex items-center p-3 rounded-md border border-input bg-background text-sm text-muted-foreground">
-                    <CalendarDays className="w-5 h-5 mr-2 text-muted-foreground/70" />
-                    <span>Select date</span>
-                  </div>
+                    {/* --- Room Stats Section --- */}
+                     <div className="flex justify-around text-center mb-6">
+                        <div className="flex flex-col items-center gap-1">
+                            <Ruler className="w-6 h-6 text-primary"/>
+                            <span className="text-sm font-semibold">{room.size}</span>
+                            <span className="text-xs text-muted-foreground">sq ft</span>
+                        </div>
+                        <div className="flex flex-col items-center gap-1">
+                            <Users className="w-6 h-6 text-primary"/>
+                            <span className="text-sm font-semibold">{room.capacity}</span>
+                            <span className="text-xs text-muted-foreground">max guests</span>
+                        </div>
+                        <div className="flex flex-col items-center gap-1">
+                            <Building className="w-6 h-6 text-primary"/>
+                            <span className="text-sm font-semibold">15th</span>
+                            <span className="text-xs text-muted-foreground">floor</span>
+                        </div>
+                    </div>
+                    <Separator className="my-6"/>
+
+                    {/* --- Room Layout --- */}
+                    {room.roomLayoutImageUrl && (
+                    <div className="mb-6">
+                        <h2 className="font-headline text-xl font-semibold mb-4">Room Layout</h2>
+                        <div className="relative aspect-video w-full overflow-hidden rounded-lg border-2 border-border bg-card p-2 shadow-sm">
+                        <NextImage
+                            src={room.roomLayoutImageUrl}
+                            alt={`${room.name} Layout`}
+                            data-ai-hint="floor plan"
+                            fill
+                            className="object-contain" 
+                        />
+                        </div>
+                        <Button variant="link" className="text-primary w-full mt-2">
+                             <Eye className="w-4 h-4 mr-2"/>View Full Layout
+                        </Button>
+                    </div>
+                    )}
+                    <Separator className="my-6"/>
+
+                    {/* --- Enhance Your Stay --- */}
+                    {room.enhanceYourStay && room.enhanceYourStay.length > 0 && (
+                    <div className="mb-6">
+                        <h2 className="font-headline text-xl font-semibold mb-4">Enhance Your Stay</h2>
+                        <div className="flex flex-wrap gap-2">
+                        {room.enhanceYourStay.map((perk) => (
+                            <Badge key={perk} variant="outline" className="font-normal bg-secondary/50 border-input">
+                            {perk}
+                            </Badge>
+                        ))}
+                        </div>
+                    </div>
+                    )}
+                    
+                    {/* --- Need More Space? --- */}
+                     <div className="mt-6 bg-primary/5 p-4 rounded-lg text-center border border-primary/10">
+                        <h3 className="font-headline text-md font-semibold mb-2 text-primary-foreground/90">Need more space?</h3>
+                        <p className="text-sm text-muted-foreground mb-3">Upgrade to our Presidential Suite for the ultimate luxury experience.</p>
+                        <Button asChild variant="link" className="text-sm text-primary hover:text-primary/80 h-auto p-0">
+                            <Link href="/rooms/presidential-villa">View Presidential Suite &rarr;</Link>
+                        </Button>
+                    </div>
                 </div>
-                 <div>
-                  <label className="font-body text-sm font-medium text-muted-foreground block mb-1">Check Out</label>
-                  <div className="flex items-center p-3 rounded-md border border-input bg-background text-sm text-muted-foreground">
-                    <CalendarDays className="w-5 h-5 mr-2 text-muted-foreground/70" />
-                    <span>Select date</span>
-                  </div>
-                </div>
-                 <div>
-                  <label className="font-body text-sm font-medium text-muted-foreground block mb-1">Guests</label>
-                  <div className="flex items-center p-3 rounded-md border border-input bg-background text-sm text-muted-foreground">
-                    <Users className="w-5 h-5 mr-2 text-muted-foreground/70" />
-                    <span>1 Adult</span>
-                  </div>
-                </div>
-              </div>
-              
-              <Button asChild size="lg" className="w-full font-body text-lg transform hover:scale-105 transition-transform duration-300">
-                <Link href={`/booking?roomId=${room.id}`}>Book This Room</Link>
-              </Button>
-              <p className="text-xs text-muted-foreground text-center mt-3">
-                You won't be charged until the stay.
-              </p>
             </div>
-            
-            <div className="mt-6 bg-primary/10 p-4 rounded-lg text-center">
-                <h3 className="font-headline text-md font-semibold mb-2 text-primary-foreground/90">Need more space?</h3>
-                <p className="text-sm text-primary-foreground/80 mb-3">Explore our luxurious suites for an upgraded experience.</p>
-                <Button asChild variant="link" className="text-sm text-primary-foreground hover:text-primary-foreground/80">
-                    <Link href="/rooms?category=Suite">View Suites</Link>
-                </Button>
-            </div>
-          </div>
         </div>
       </div>
+       {/* --- Sticky Mobile Footer --- */}
+        <div className="md:hidden sticky bottom-0 z-40 bg-background/90 backdrop-blur-sm p-3 flex items-center justify-between border-t shadow-[0_-2px_10px_rgba(0,0,0,0.05)]">
+            <div>
+                 <span className="font-body text-xl font-bold text-foreground">${room.pricePerNight}</span>
+                 <span className="text-sm text-muted-foreground">/night</span>
+            </div>
+             <Button asChild size="lg" className="font-body text-base w-1/2">
+                <Link href={`/booking?roomId=${room.id}`}>Book Now</Link>
+            </Button>
+        </div>
     </div>
   );
 }
