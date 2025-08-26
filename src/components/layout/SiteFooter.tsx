@@ -169,10 +169,10 @@ const DesktopFooter = () => (
                     type="email"
                     id="newsletter-email"
                     placeholder="your.email@example.com"
-                    className="bg-slate-800 border-slate-700 text-slate-200 placeholder-slate-500 text-sm h-10"
+                    className="bg-slate-800 border-slate-700 text-slate-200 placeholder-slate-500 text-sm h-10 rounded-full"
                     aria-label="Email for newsletter"
                     />
-                    <Button type="submit" variant="default" className="bg-primary hover:bg-primary/90 text-primary-foreground h-10 text-sm shrink-0">
+                    <Button type="submit" variant="default" className="bg-primary hover:bg-primary/90 text-primary-foreground h-10 text-sm shrink-0 rounded-full">
                     Subscribe
                     </Button>
                 </form>
@@ -225,10 +225,10 @@ const MobileFooter = () => (
       <Input
         type="email"
         placeholder="Subscribe to newsletter"
-        className="bg-slate-800 border-slate-700 text-slate-200 placeholder-slate-500 h-12 text-center w-full"
+        className="bg-slate-800 border-slate-700 text-slate-200 placeholder-slate-500 h-12 text-center w-full rounded-full"
         aria-label="Email for newsletter"
       />
-      <Button type="submit" className="bg-primary hover:bg-primary/90 text-primary-foreground h-12 w-full sm:w-auto px-6">
+      <Button type="submit" className="bg-primary hover:bg-primary/90 text-primary-foreground h-12 w-full sm:w-auto px-6 rounded-full">
         Subscribe
       </Button>
     </form>

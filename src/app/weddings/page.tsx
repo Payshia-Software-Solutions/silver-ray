@@ -34,7 +34,7 @@ function WeddingHero() {
         <p className="font-body text-lg sm:text-xl mb-8 max-w-xl mx-auto" style={{textShadow: '0 1px 3px rgba(0,0,0,0.5)'}}>
           Unforgettable weddings begin at Grand Silver Ray. Let us craft your perfect day.
         </p>
-        <Button asChild size="lg" className="font-body text-lg px-8 py-3 bg-primary/80 backdrop-blur-sm text-primary-foreground hover:bg-primary transform hover:scale-105 transition-transform duration-300 rounded-md">
+        <Button asChild size="lg" className="font-body text-lg px-8 py-3 bg-primary/80 backdrop-blur-sm text-primary-foreground hover:bg-primary transform hover:scale-105 transition-transform duration-300 rounded-full">
           <Link href="/contact?subject=Wedding+Proposal+Inquiry">Request a Proposal</Link>
         </Button>
       </div>
@@ -57,24 +57,7 @@ export default async function WeddingsPage() {
               Choose from a selection of breathtaking spaces, each offering a unique backdrop for your special day.
             </p>
           </div>
-          {/* Mobile Carousel */}
-           <div className="md:hidden">
-            <Carousel className="w-full max-w-sm mx-auto">
-              <CarouselContent className="-ml-4">
-                {weddingVenues.map((venue) => (
-                  <CarouselItem key={venue.id} className="pl-4">
-                    <div className="p-1 h-full">
-                      <WeddingVenueCard venue={venue} />
-                    </div>
-                  </CarouselItem>
-                ))}
-              </CarouselContent>
-              <CarouselPrevious />
-              <CarouselNext />
-            </Carousel>
-          </div>
-          {/* Desktop Grid */}
-          <div className="hidden md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {weddingVenues.map((venue) => (
               <WeddingVenueCard key={venue.id} venue={venue} />
             ))}
@@ -85,29 +68,12 @@ export default async function WeddingsPage() {
       <section className="py-16 lg:py-24 bg-secondary/20">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="font-headline text-3xl sm:text-4xl font-bold mb-3">Our Wedding Package Collections</h2>
+            <h2 className="font-headline text-3xl sm:text-4xl font-bold mb-3">Our Wedding Package Collection</h2>
             <p className="font-body text-lg text-muted-foreground max-w-2xl mx-auto">
               Choose from our exquisite packages – each crafted to suit your vision, guest count, and style. All packages can be personalized to create your perfect day.
             </p>
           </div>
-           {/* Mobile Carousel */}
-            <div className="md:hidden">
-              <Carousel className="w-full max-w-sm mx-auto">
-                <CarouselContent className="-ml-4">
-                  {displayPackages.map((pkg) => (
-                    <CarouselItem key={pkg.id} className="pl-4 basis-full sm:basis-1/2">
-                      <div className="p-1 h-full">
-                       <WeddingPackageCard packageItem={pkg} />
-                      </div>
-                    </CarouselItem>
-                  ))}
-                </CarouselContent>
-                <CarouselPrevious />
-                <CarouselNext />
-              </Carousel>
-            </div>
-            {/* Desktop Grid */}
-          <div className="hidden md:grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {displayPackages.map((pkg) => (
               <WeddingPackageCard key={pkg.id} packageItem={pkg} />
             ))}
@@ -147,30 +113,7 @@ export default async function WeddingsPage() {
               Hear from couples who celebrated their special day with us.
             </p>
           </div>
-          {/* Mobile Carousel */}
-          <div className="md:hidden">
-            <Carousel
-              opts={{
-                align: "start",
-                loop: weddingTestimonials.length > 1,
-              }}
-              className="w-full max-w-sm mx-auto"
-            >
-              <CarouselContent className="-ml-4">
-                {weddingTestimonials.map((testimonial) => (
-                  <CarouselItem key={testimonial.id} className="pl-4">
-                    <div className="p-1 h-full">
-                      <TestimonialCard testimonial={testimonial} />
-                    </div>
-                  </CarouselItem>
-                ))}
-              </CarouselContent>
-              <CarouselPrevious />
-              <CarouselNext />
-            </Carousel>
-          </div>
-          {/* Desktop Grid */}
-          <div className="hidden md:grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
             {weddingTestimonials.map((testimonial) => (
               <TestimonialCard key={testimonial.id} testimonial={testimonial} />
             ))}
@@ -178,7 +121,7 @@ export default async function WeddingsPage() {
         </div>
       </section>
 
-      <section className="py-16 lg:py-24 bg-primary/">
+      <section className="py-16 lg:py-24 bg-primary/10">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="font-headline text-3xl sm:text-4xl font-bold mb-4 text-primary-foreground/90">
             Ready to Begin Your Forever?
@@ -186,7 +129,7 @@ export default async function WeddingsPage() {
           <p className="font-body text-lg text-primary-foreground/80 mb-8 max-w-xl mx-auto">
             Let our expert team help you craft the wedding of your dreams. Share your vision, and we'll bring it to life.
           </p>
-          <Button asChild size="lg" className="font-body text-lg px-8 py-3 bg-accent text-accent-foreground hover:bg-accent/90 transform hover:scale-105 transition-transform duration-300 rounded-md">
+          <Button asChild size="lg" className="font-body text-lg px-8 py-3 bg-accent text-accent-foreground hover:bg-accent/90 transform hover:scale-105 transition-transform duration-300 rounded-full">
             <Link href="/contact?subject=Wedding+Consultation+Inquiry">Contact Our Wedding Team</Link>
           </Button>
         </div>

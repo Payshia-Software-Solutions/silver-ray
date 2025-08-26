@@ -46,7 +46,7 @@ export function WeddingPackageCard({ packageItem }: WeddingPackageCardProps) {
             </li>
           ))}
         </ul>
-        <Button asChild className="w-full mt-auto bg-primary text-primary-foreground hover:bg-primary/90 rounded-md text-sm py-2 h-auto">
+        <Button asChild className="w-full mt-auto bg-primary text-primary-foreground hover:bg-primary/90 rounded-full text-sm py-2 h-auto">
           <Link href={`/weddings/packages/${packageItem.id}`}>View Full Details</Link>
         </Button>
       </CardContent>
