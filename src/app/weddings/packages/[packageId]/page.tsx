@@ -11,7 +11,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Breadcrumbs } from '@/components/shared/Breadcrumbs';
 import type { BreadcrumbItem } from '@/types';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { Utensils, Flower2, Camera, Music, BedDouble, Sparkles, Users, ClipboardCheck, Disc, Gem } from 'lucide-react';
+import { Utensils, Flower2, Camera, Music, BedDouble, Sparkles, Users, ClipboardCheck, Disc, Gem, CheckCircle } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { WeddingAddonCard } from '@/components/weddings/WeddingAddonCard';
 
