@@ -148,7 +148,6 @@ export default function WeddingPackageDetailPage({ params }: Props) {
                     <p className="font-body text-lg text-muted-foreground mb-3">
                       Starting from <span className="font-semibold text-foreground">{pkg.price}</span>
                     </p>
-                    <div className="absolute bottom-1 left-0 w-full h-0.5 bg-blue-400" />
                 </div>
               )}
               <p className="font-body text-foreground/80 leading-relaxed max-w-xl mx-auto md:mx-0 mb-6">
