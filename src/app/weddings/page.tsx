@@ -106,15 +106,15 @@ export default function WeddingsPage() {
 
       <TestimonialsCarousel />
 
-      <section className="py-12 lg:py-16 bg-primary/10">
+      <section className="py-16 lg:py-20 bg-secondary/20">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="font-headline text-3xl sm:text-4xl font-bold mb-4 text-primary-foreground/90">
+          <h2 className="font-headline text-3xl sm:text-4xl font-bold mb-4 text-foreground">
             Ready to Begin Your Forever?
           </h2>
-          <p className="font-body text-lg text-primary-foreground/80 mb-8 max-w-xl mx-auto">
-            Let our expert team help you craft the wedding of your dreams. Share your vision, and we'll bring it to life.
+          <p className="font-body text-lg text-muted-foreground mb-8 max-w-xl mx-auto">
+            Let our expert team help you create the wedding of your dreams. Share your vision, and we'll bring it to life.
           </p>
-          <Button asChild size="lg" className="font-body text-lg px-8 py-3 bg-accent text-accent-foreground hover:bg-accent/90 transform hover:scale-105 transition-transform duration-300 rounded-full">
+          <Button asChild size="lg" className="font-body text-lg px-8 py-3 bg-primary text-primary-foreground hover:bg-primary/90 transform hover:scale-105 transition-transform duration-300 rounded-full">
             <Link href="/contact?subject=Wedding+Consultation+Inquiry">Contact Our Wedding Team</Link>
           </Button>
         </div>
