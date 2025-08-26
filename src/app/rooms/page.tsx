@@ -20,6 +20,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import { Label } from '@/components/ui/label';
 
 
 export const metadata: Metadata = {
@@ -107,8 +108,73 @@ function MobileRoomFilters() {
              </div>
           </AccordionTrigger>
           <AccordionContent>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 items-end pt-4">
-               <p className='text-muted-foreground text-center col-span-full'>Filter controls would be here.</p>
+            <div className="grid grid-cols-2 gap-4 items-end pt-4">
+                <div className="col-span-2 space-y-1.5">
+                    <Label>Sort by</Label>
+                    <Select defaultValue="recommended">
+                        <SelectTrigger>
+                            <SelectValue placeholder="Sort by" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="recommended">Recommended</SelectItem>
+                            <SelectItem value="price-asc">Price: Low to High</SelectItem>
+                            <SelectItem value="price-desc">Price: High to Low</SelectItem>
+                            <SelectItem value="size">Size</SelectItem>
+                        </SelectContent>
+                    </Select>
+                </div>
+                <div className="space-y-1.5">
+                    <Label>View</Label>
+                     <Select>
+                        <SelectTrigger>
+                            <SelectValue placeholder="Any" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="ocean">Ocean</SelectItem>
+                            <SelectItem value="city">City</SelectItem>
+                            <SelectItem value="garden">Garden</SelectItem>
+                        </SelectContent>
+                    </Select>
+                </div>
+                 <div className="space-y-1.5">
+                    <Label>Occupancy</Label>
+                    <Select>
+                        <SelectTrigger>
+                           <SelectValue placeholder="Any" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="1">1 Guest</SelectItem>
+                            <SelectItem value="2">2 Guests</SelectItem>
+                            <SelectItem value="3">3+</SelectItem>
+                        </SelectContent>
+                    </Select>
+                </div>
+                 <div className="space-y-1.5">
+                    <Label>Price</Label>
+                    <Select>
+                        <SelectTrigger>
+                           <SelectValue placeholder="Any" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="low">$200-$400</SelectItem>
+                            <SelectItem value="medium">$400-$800</SelectItem>
+                            <SelectItem value="high">$800+</SelectItem>
+                        </SelectContent>
+                    </Select>
+                </div>
+                 <div className="space-y-1.5">
+                    <Label>Amenities</Label>
+                    <Select>
+                        <SelectTrigger>
+                           <SelectValue placeholder="Any" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="pool">Pool</SelectItem>
+                            <SelectItem value="balcony">Balcony</SelectItem>
+                            <SelectItem value="kitchen">Kitchen</SelectItem>
+                        </SelectContent>
+                    </Select>
+                </div>
             </div>
           </AccordionContent>
         </AccordionItem>
