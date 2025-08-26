@@ -28,22 +28,22 @@ interface RawApiRoom {
 // This function transforms a single raw room object into the format our frontend components expect
 function transformApiRoomToFrontendRoom(apiRoom: RawApiRoom): Room {
   const imageUrl = apiRoom['room _images']
-    ? `http://localhost/Silver_server${apiRoom['room _images']}`
+    ? `http://localhost/Silver_server${apiRoom['room _images']}`.replace(/\\/g, '/')
     : 'https://placehold.co/1200x800.png'; // Fallback image
 
   return {
     id: String(apiRoom.id),
     name: apiRoom.descriptive_title,
     description: apiRoom.short_description,
-    longDescription: apiRoom.short_description, // Using short_description for long as well, can be changed
+    longDescription: apiRoom.short_description, 
     pricePerNight: parseFloat(apiRoom.price_per_night),
     imageUrl: imageUrl,
     imageHint: 'hotel room interior', // Generic hint
     images: [imageUrl],
-    amenities: apiRoom.amenities_id.split(','), // Simple split, could be mapped to names later
-    capacity: apiRoom.adults_capacity,
-    beds: `${apiRoom.adults_capacity > 1 ? '1 King Bed' : '1 Queen Bed'}`, // Example logic
-    size: `${apiRoom.room_width} sqm`, // Assuming width is the primary size metric
+    amenities: apiRoom.amenities_id ? apiRoom.amenities_id.split(',') : [],
+    capacity: apiRoom.adults_capacity || 2,
+    beds: `${apiRoom.adults_capacity > 1 ? '1 King Bed' : '1 Queen Bed'}`,
+    size: `${apiRoom.room_width} sqm`,
     category: 'Deluxe', // Example static category
     viewType: 'City View', // Example static view type
   };
@@ -64,7 +64,7 @@ export async function getRoomsByCompany(companyId: string): Promise<{ rooms: Roo
       };
     }
     
-    const data: RawApiRoom[] = await response.json();
+    const data = await response.json();
     
     if (!Array.isArray(data)) {
         console.error("API did not return an array. Data:", data);
