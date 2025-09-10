@@ -5,7 +5,7 @@ import { useState, useEffect, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
-import { PlusCircle, Search, Eye, Trash2, CalendarDays, CheckCircle, Clock, DollarSign, Bell, User, Pencil } from 'lucide-react';
+import { PlusCircle, Search, Eye, Trash2, CalendarDays, CheckCircle, Clock, DollarSign, Bell, User, Pencil, AlertTriangle } from 'lucide-react';
 import {
   Table,
   TableHeader,
@@ -20,7 +20,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
-import { mockBookings, type Booking, type BookingStatus, type PaymentStatus } from '@/data/bookingData'; 
+import type { Booking, BookingStatus, PaymentStatus } from '@/data/bookingData'; 
 import { BookingDetailDialog } from '@/components/admin/bookings/BookingDetailDialog';
 import { useToast } from '@/components/ui/use-toast';
 import { format } from 'date-fns';
@@ -28,6 +28,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import Link from 'next/link';
 import { ConfirmationDialog } from '@/components/shared/ConfirmationDialog';
+import apiClient from '@/lib/apiClient';
 
 
 const StatCard = ({ title, value, icon: Icon, iconBgColor }: { title: string, value: string, icon: React.ElementType, iconBgColor: string }) => (
@@ -47,6 +48,8 @@ const StatCard = ({ title, value, icon: Icon, iconBgColor }: { title: string, va
 
 export default function ManageBookingsPage() {
   const [bookingsList, setBookingsList] = useState<Booking[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [isDetailOpen, setIsDetailOpen] = useState(false);
   const [isDeleteAlertOpen, setIsDeleteAlertOpen] = useState(false);
   const [selectedBooking, setSelectedBooking] = useState<Booking | null>(null);
@@ -54,15 +57,44 @@ export default function ManageBookingsPage() {
   const { toast } = useToast();
 
   useEffect(() => {
-    const processedBookings = mockBookings.map(b => ({
-      ...b,
-      checkInDate: new Date(b.checkInDate),
-      checkOutDate: new Date(b.checkOutDate),
-      createdAt: new Date(b.createdAt),
-      updatedAt: new Date(b.updatedAt),
-    }));
-    setBookingsList(processedBookings);
-  }, []);
+    const fetchBookings = async () => {
+      try {
+        setIsLoading(true);
+        setError(null);
+        // Assuming your PHP endpoint for getting bookings is '/bookings'
+        const response = await apiClient.get('/bookings');
+        
+        // The PHP backend seems to return data directly, not nested under a `data` key
+        const rawData = response.data;
+
+        if (!Array.isArray(rawData)) {
+             throw new Error("Invalid data format received from the server.");
+        }
+
+        const processedBookings = rawData.map((b: any) => ({
+          ...b,
+          // Ensure dates are converted to Date objects
+          checkInDate: new Date(b.checkInDate),
+          checkOutDate: new Date(b.checkOutDate),
+          createdAt: new Date(b.createdAt),
+          updatedAt: new Date(b.updatedAt),
+        }));
+        setBookingsList(processedBookings);
+      } catch (err: any) {
+        console.error('Failed to fetch bookings:', err);
+        setError('Failed to load bookings. Please make sure the backend is running and the API endpoint is correct.');
+        toast({
+          variant: 'destructive',
+          title: 'Error',
+          description: 'Could not fetch bookings from the server.',
+        });
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchBookings();
+  }, [toast]);
 
   const filteredBookings = useMemo(() => {
     if (!searchTerm) return bookingsList;
@@ -98,19 +130,145 @@ export default function ManageBookingsPage() {
     setIsDeleteAlertOpen(true);
   };
 
-  const confirmDeleteBooking = () => {
+  const confirmDeleteBooking = async () => {
     if (selectedBooking) {
-      setBookingsList(bookingsList.filter(b => b.id !== selectedBooking.id));
-      toast({
-        variant: 'destructive',
-        description: (
-          <div className="p-2 bg-red-100 rounded-full">
-              <Trash2 className="w-6 h-6 text-red-600" />
-          </div>
-        ),
-        title: `Successfully Deleted Booking ${selectedBooking.id} !`,
-      });
+      try {
+        // Assuming your PHP endpoint for deleting a booking is '/bookings/delete'
+        await apiClient.post('/bookings/delete', { id: selectedBooking.id });
+        setBookingsList(bookingsList.filter(b => b.id !== selectedBooking.id));
+        toast({
+          variant: 'destructive',
+          description: (
+            <div className="p-2 bg-red-100 rounded-full">
+                <Trash2 className="w-6 h-6 text-red-600" />
+            </div>
+          ),
+          title: `Successfully Deleted Booking ${selectedBooking.id} !`,
+        });
+      } catch (err) {
+         toast({
+          variant: 'destructive',
+          title: 'Error',
+          description: `Could not delete booking ${selectedBooking.id}.`,
+        });
+      }
     }
+  };
+
+  const renderContent = () => {
+    if (isLoading) {
+      return (
+        <div className="text-center p-8 text-muted-foreground font-body">
+          Loading bookings...
+        </div>
+      );
+    }
+    if (error) {
+      return (
+        <div className="text-center p-8 text-red-600 font-body bg-red-50 border border-red-200 rounded-lg">
+          <AlertTriangle className="mx-auto h-8 w-8 mb-2"/>
+          <p className="font-semibold">An Error Occurred</p>
+          <p>{error}</p>
+        </div>
+      );
+    }
+    if (filteredBookings.length === 0) {
+       return (
+        <div className="text-center p-8 text-muted-foreground font-body">
+          {searchTerm ? 'No bookings match your search.' : 'No bookings found.'}
+        </div>
+      );
+    }
+    return (
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead className="w-[100px]">Booking ID</TableHead>
+            <TableHead>Guest</TableHead>
+            <TableHead>Room</TableHead>
+            <TableHead>Check-in</TableHead>
+            <TableHead>Check-out</TableHead>
+            <TableHead>Guests</TableHead>
+            <TableHead>Total</TableHead>
+            <TableHead>Payment</TableHead>
+            <TableHead>Status</TableHead>
+            <TableHead className="text-right">Actions</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {filteredBookings.map((booking) => (
+            <TableRow key={booking.id}>
+                <TableCell className="font-medium">#{booking.id}</TableCell>
+                <TableCell>
+                    <div className="flex items-center gap-3">
+                        <Avatar className="h-9 w-9">
+                            <AvatarImage src={booking.guestAvatar} alt={`${booking.guestFirstName} ${booking.guestLastName}`} />
+                            <AvatarFallback>{booking.guestFirstName[0]}{booking.guestLastName[0]}</AvatarFallback>
+                        </Avatar>
+                        <div>
+                            <div className="font-medium">{`${booking.guestFirstName} ${booking.guestLastName}`}</div>
+                            <div className="text-xs text-muted-foreground">{booking.guestEmail}</div>
+                        </div>
+                    </div>
+                </TableCell>
+                <TableCell>
+                    <div className="font-medium">{booking.roomName}</div>
+                    <div className="text-xs text-muted-foreground">{booking.roomNumber}</div>
+                </TableCell>
+                <TableCell>{format(new Date(booking.checkInDate), 'MMM dd, yyyy')}</TableCell>
+                <TableCell>{format(new Date(booking.checkOutDate), 'MMM dd, yyyy')}</TableCell>
+                <TableCell>{booking.numGuests} Adult{booking.numGuests > 1 ? 's' : ''}</TableCell>
+                <TableCell>LKR. {booking.totalPrice.toLocaleString()}</TableCell>
+                <TableCell>
+                  <Badge variant="outline" className={getStatusBadgeInfo(booking.paymentStatus).className}>
+                    {booking.paymentStatus}
+                  </Badge>
+                </TableCell>
+                 <TableCell>
+                  <Badge variant="outline" className={getStatusBadgeInfo(booking.status).className}>
+                    {booking.status}
+                  </Badge>
+                </TableCell>
+                <TableCell className="text-right space-x-1">
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground hover:text-primary" onClick={() => handleViewDetails(booking)}>
+                        <Eye className="h-4 w-4" /> <span className="sr-only">View</span>
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent><p>View Details</p></TooltipContent>
+                  </Tooltip>
+                   <Tooltip>
+                    <TooltipTrigger asChild>
+                       <Button asChild variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground hover:text-primary">
+                          <Link href={`/admin/bookings/edit/${booking.id}`}>
+                            <Pencil className="h-4 w-4" />
+                            <span className="sr-only">Edit Booking</span>
+                          </Link>
+                        </Button>
+                    </TooltipTrigger>
+                    <TooltipContent><p>Edit Booking</p></TooltipContent>
+                  </Tooltip>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button 
+                        variant="ghost" 
+                        size="icon" 
+                        className="h-8 w-8 text-muted-foreground hover:text-destructive" 
+                        onClick={() => handleDeleteBookingPrompt(booking)}
+                        disabled={booking.status === 'Cancelled' || booking.status === 'Checked-out'}
+                      >
+                        <Trash2 className="h-4 w-4" /> <span className="sr-only">Delete Booking</span>
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent><p>Delete Booking</p></TooltipContent>
+                  </Tooltip>
+                </TableCell>
+              </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    );
   };
 
   return (
@@ -139,9 +297,9 @@ export default function ManageBookingsPage() {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <StatCard title="Total Bookings" value="1,247" icon={CalendarDays} iconBgColor="bg-blue-500" />
-            <StatCard title="Checked In" value="89" icon={CheckCircle} iconBgColor="bg-green-500" />
-            <StatCard title="Pending" value="23" icon={Clock} iconBgColor="bg-yellow-500" />
+            <StatCard title="Total Bookings" value={String(bookingsList.length)} icon={CalendarDays} iconBgColor="bg-blue-500" />
+            <StatCard title="Checked In" value={String(bookingsList.filter(b => b.status === 'Checked-in').length)} icon={CheckCircle} iconBgColor="bg-green-500" />
+            <StatCard title="Pending" value={String(bookingsList.filter(b => b.status === 'Pending').length)} icon={Clock} iconBgColor="bg-yellow-500" />
             <StatCard title="Revenue" value="LKR. 45,890" icon={DollarSign} iconBgColor="bg-orange-500" />
         </div>
 
@@ -166,99 +324,7 @@ export default function ManageBookingsPage() {
 
 
         <div className="bg-card rounded-lg shadow overflow-hidden border">
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead className="w-[100px]">Booking ID</TableHead>
-                <TableHead>Guest</TableHead>
-                <TableHead>Room</TableHead>
-                <TableHead>Check-in</TableHead>
-                <TableHead>Check-out</TableHead>
-                <TableHead>Guests</TableHead>
-                <TableHead>Total</TableHead>
-                <TableHead>Payment</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead className="text-right">Actions</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {filteredBookings.map((booking) => (
-                <TableRow key={booking.id}>
-                    <TableCell className="font-medium">#{booking.id}</TableCell>
-                    <TableCell>
-                        <div className="flex items-center gap-3">
-                            <Avatar className="h-9 w-9">
-                                <AvatarImage src={booking.guestAvatar} alt={`${booking.guestFirstName} ${booking.guestLastName}`} />
-                                <AvatarFallback>{booking.guestFirstName[0]}{booking.guestLastName[0]}</AvatarFallback>
-                            </Avatar>
-                            <div>
-                                <div className="font-medium">{`${booking.guestFirstName} ${booking.guestLastName}`}</div>
-                                <div className="text-xs text-muted-foreground">{booking.guestEmail}</div>
-                            </div>
-                        </div>
-                    </TableCell>
-                    <TableCell>
-                        <div className="font-medium">{booking.roomName}</div>
-                        <div className="text-xs text-muted-foreground">{booking.roomNumber}</div>
-                    </TableCell>
-                    <TableCell>{format(new Date(booking.checkInDate), 'MMM dd, yyyy')}</TableCell>
-                    <TableCell>{format(new Date(booking.checkOutDate), 'MMM dd, yyyy')}</TableCell>
-                    <TableCell>{booking.numGuests} Adult{booking.numGuests > 1 ? 's' : ''}</TableCell>
-                    <TableCell>LKR. {booking.totalPrice.toLocaleString()}</TableCell>
-                    <TableCell>
-                      <Badge variant="outline" className={getStatusBadgeInfo(booking.paymentStatus).className}>
-                        {booking.paymentStatus}
-                      </Badge>
-                    </TableCell>
-                     <TableCell>
-                      <Badge variant="outline" className={getStatusBadgeInfo(booking.status).className}>
-                        {booking.status}
-                      </Badge>
-                    </TableCell>
-                    <TableCell className="text-right space-x-1">
-                      <Tooltip>
-                        <TooltipTrigger asChild>
-                          <Button variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground hover:text-primary" onClick={() => handleViewDetails(booking)}>
-                            <Eye className="h-4 w-4" /> <span className="sr-only">View</span>
-                          </Button>
-                        </TooltipTrigger>
-                        <TooltipContent><p>View Details</p></TooltipContent>
-                      </Tooltip>
-                       <Tooltip>
-                        <TooltipTrigger asChild>
-                           <Button asChild variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground hover:text-primary">
-                              <Link href={`/admin/bookings/edit/${booking.id}`}>
-                                <Pencil className="h-4 w-4" />
-                                <span className="sr-only">Edit Booking</span>
-                              </Link>
-                            </Button>
-                        </TooltipTrigger>
-                        <TooltipContent><p>Edit Booking</p></TooltipContent>
-                      </Tooltip>
-                      <Tooltip>
-                        <TooltipTrigger asChild>
-                          <Button 
-                            variant="ghost" 
-                            size="icon" 
-                            className="h-8 w-8 text-muted-foreground hover:text-destructive" 
-                            onClick={() => handleDeleteBookingPrompt(booking)}
-                            disabled={booking.status === 'Cancelled' || booking.status === 'Checked-out'}
-                          >
-                            <Trash2 className="h-4 w-4" /> <span className="sr-only">Delete Booking</span>
-                          </Button>
-                        </TooltipTrigger>
-                        <TooltipContent><p>Delete Booking</p></TooltipContent>
-                      </Tooltip>
-                    </TableCell>
-                  </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-          {filteredBookings.length === 0 && (
-            <div className="text-center p-8 text-muted-foreground font-body">
-              {searchTerm ? 'No bookings match your search.' : 'No bookings found.'}
-            </div>
-          )}
+          {renderContent()}
         </div>
         <div className="flex items-center justify-between py-4 text-sm text-muted-foreground">
           <div>
