@@ -29,7 +29,15 @@ async function handleResponse<T>(response: Response): Promise<T> {
   }
 
   try {
-    return JSON.parse(text);
+    const data = JSON.parse(text);
+    // Ensure the data is always an array for consistency
+    if (Array.isArray(data)) {
+        return data as T;
+    } else if (typeof data === 'object' && data !== null) {
+        // If the backend returns a single object, wrap it in an array
+        return [data] as T;
+    }
+    return [] as T;
   } catch (error) {
     console.error("Failed to parse JSON:", text);
     throw new Error("Invalid JSON response from server.");
