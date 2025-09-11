@@ -1,12 +1,13 @@
 
-import type { Metadata } from 'next';
+'use client';
+
+import { useState, useEffect } from 'react';
 import { RoomCard } from '@/components/shared/RoomCard';
 import { Button } from '@/components/ui/button';
 import { ChevronDown, SlidersHorizontal } from 'lucide-react';
 import { RoomsPageHero } from '@/components/rooms/RoomsPageHero';
 import { NotificationBanner } from '@/components/rooms/NotificationBanner';
-import { mockRooms } from '@/data/mockData';
-import type { Room } from '@/types';
+import type { Room, RoomImage } from '@/types';
 import {
   Accordion,
   AccordionContent,
@@ -21,12 +22,10 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { Label } from '@/components/ui/label';
+import apiClient from '@/lib/apiClient';
 
-
-export const metadata: Metadata = {
-  title: 'Our Rooms & Suites',
-  description: 'Explore our luxurious accommodations at Grand Silver Ray. Find the perfect room or suite for your stay.',
-};
+// This would typically come from user auth, session, or config
+const COMPANY_ID = '2'; 
 
 function DesktopRoomFilters() {
   return (
@@ -183,9 +182,81 @@ function MobileRoomFilters() {
   );
 }
 
+export default function RoomsPage() {
+  const [rooms, setRooms] = useState<Room[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-export default async function RoomsPage() {
-  const displayRooms: Room[] = mockRooms;
+  useEffect(() => {
+    const fetchRoomsAndImages = async () => {
+      try {
+        setIsLoading(true);
+        const [roomsResponse, imagesResponse] = await Promise.all([
+          apiClient.get(`/company/rooms/${COMPANY_ID}`),
+          apiClient.get(`/company/room-images/${COMPANY_ID}`)
+        ]);
+
+        const roomsData: Room[] = roomsResponse.data;
+        const imagesData: RoomImage[] = imagesResponse.data;
+
+        const roomsWithImages = roomsData.map(room => {
+          const primaryImage = imagesData.find(img => img.room_id === room.id && img.is_primary);
+          return {
+            ...room,
+            imageUrl: primaryImage ? primaryImage.image_url : 'https://placehold.co/600x400.png', // Fallback image
+            // You can also attach all images to the room object if needed for a detail page
+            images: imagesData.filter(img => img.room_id === room.id),
+          };
+        });
+
+        setRooms(roomsWithImages);
+      } catch (err) {
+        console.error('Failed to fetch room data:', err);
+        setError('Failed to load rooms. Please try again later.');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchRoomsAndImages();
+  }, []);
+
+  const renderContent = () => {
+    if (isLoading) {
+      return (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {[...Array(3)].map((_, i) => (
+            <div key={i} className="bg-card rounded-lg shadow animate-pulse">
+              <div className="aspect-[4/3] bg-muted rounded-t-lg"></div>
+              <div className="p-6 space-y-3">
+                <div className="h-6 bg-muted rounded w-3/4"></div>
+                <div className="h-4 bg-muted rounded w-full"></div>
+                <div className="h-4 bg-muted rounded w-1/2"></div>
+                <div className="h-10 bg-muted rounded-full mt-4"></div>
+              </div>
+            </div>
+          ))}
+        </div>
+      );
+    }
+    if (error) {
+      return <p className="text-center font-body text-lg text-destructive">{error}</p>;
+    }
+    if (rooms.length === 0) {
+      return (
+        <p className="text-center font-body text-lg text-muted-foreground">
+          No rooms available at the moment.
+        </p>
+      );
+    }
+    return (
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {rooms.map((room) => (
+          <RoomCard key={room.id} room={room} />
+        ))}
+      </div>
+    );
+  };
   
   return (
     <>
@@ -195,18 +266,8 @@ export default async function RoomsPage() {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
           <DesktopRoomFilters />
           <MobileRoomFilters />
-
-          {displayRooms.length > 0 ? (
-             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {displayRooms.map((room) => (
-                  <RoomCard key={room.id} room={room} />
-                ))}
-              </div>
-          ) : (
-            <p className="text-center font-body text-lg text-muted-foreground">
-              No rooms available.
-            </p>
-          )}
+          
+          {renderContent()}
 
            <div className="text-center mt-12">
             <Button variant="outline" className="rounded-full px-6 py-3 h-auto">

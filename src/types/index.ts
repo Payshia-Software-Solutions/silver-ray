@@ -2,16 +2,15 @@
 import type { LucideIcon } from 'lucide-react';
 
 export interface Room {
-  id: string;
-  name: string;
-  description: string;
-  longDescription?: string;
-  pricePerNight: number;
+  id: number;
+  descriptive_title: string;
+  short_description: string;
+  price_per_night: string;
   imageUrl: string;
   imageHint?: string; 
-  images?: string[];
+  images?: RoomImage[];
   amenities: string[];
-  capacity: number; 
+  adults_capacity: number; 
   beds: string; 
   size: string; 
   category: 'Standard' | 'Deluxe' | 'Suite' | 'Villa';
@@ -20,7 +19,20 @@ export interface Room {
   viewType?: string; 
   enhanceYourStay?: string[]; 
   roomLayoutImageUrl?: string;
+  // Fields from API that might not be used in card but needed for detail page
+  room_number: string;
+  longDescription?: string;
+  capacity?: number; // fallback for adults_capacity
 }
+
+export interface RoomImage {
+  id: number;
+  room_id: number;
+  image_url: string;
+  alt_text: string;
+  is_primary: number;
+}
+
 
 export interface Testimonial {
   id: string;

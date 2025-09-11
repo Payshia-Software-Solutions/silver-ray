@@ -1,8 +1,9 @@
+
 import axios from 'axios';
 
 // Create an Axios instance
 const apiClient = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost/your-project-folder/index.php?route=', // Replace with your actual backend URL
+  baseURL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost/Silver_server',
   headers: {
     'Content-Type': 'application/json',
   },
