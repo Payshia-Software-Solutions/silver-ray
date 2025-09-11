@@ -9,7 +9,20 @@ const apiClient = axios.create({
   },
 });
 
-// Interceptor is no longer needed as we are calling direct URLs now.
+// The PHP backend uses a query parameter for routing (e.g., index.php?route=/my-path).
+// This interceptor modifies the request URL to match that format.
+apiClient.interceptors.request.use(config => {
+    if (config.url) {
+        // Ensure the path starts with a slash
+        const path = config.url.startsWith('/') ? config.url : `/${config.url}`;
+        
+        // Transform the URL to use the 'route' query parameter
+        config.url = `/?route=${path}`;
+    }
+    return config;
+}, error => {
+    return Promise.reject(error);
+});
 
 apiClient.interceptors.response.use(response => {
   // Any status code that lie within the range of 2xx cause this function to trigger
