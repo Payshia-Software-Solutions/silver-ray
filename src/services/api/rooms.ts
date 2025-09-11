@@ -1,1 +1,75 @@
-// This file is no longer needed as the application now uses local data.
+
+/**
+ * @fileoverview This file contains the functions for making API calls to the PHP back-end.
+ * It uses the native fetch API for all requests.
+ */
+
+import type { RoomFromApi } from '@/types';
+
+// The base URL of your PHP server's router script
+const API_BASE_URL = 'http://localhost/Silver_server';
+
+/**
+ * A helper function to handle the response from the fetch API.
+ * It checks for errors and parses the JSON response.
+ * @param response The Response object from a fetch call.
+ * @returns A promise that resolves with the JSON data.
+ */
+async function handleResponse<T>(response: Response): Promise<T> {
+  const text = await response.text();
+  if (!response.ok) {
+    // If the response is not ok, it might contain a server-side error message.
+    // We throw this as an error to be caught by the calling function.
+    throw new Error(`API request failed with status ${response.status}: ${text}`);
+  }
+  
+  // Find the start of the actual JSON content
+  const firstBracket = text.indexOf('[');
+  const firstBrace = text.indexOf('{');
+  
+  let startIndex = -1;
+
+  if (firstBracket === -1 && firstBrace === -1) {
+    // Neither bracket nor brace found, response is likely empty or not JSON
+    if (text.trim() === '') return {} as T;
+    throw new Error(`Invalid JSON response: ${text}`);
+  } else if (firstBracket === -1) {
+    startIndex = firstBrace;
+  } else if (firstBrace === -1) {
+    startIndex = firstBracket;
+  } else {
+    startIndex = Math.min(firstBracket, firstBrace);
+  }
+  
+  const jsonText = text.substring(startIndex);
+  
+  try {
+    if (jsonText.trim() === '') {
+      return [] as T; // Return empty array for empty but valid responses
+    }
+    return JSON.parse(jsonText);
+  } catch (error) {
+    console.error("Failed to parse JSON:", jsonText);
+    throw new Error("Invalid JSON response from server.");
+  }
+}
+
+/**
+ * Fetches all rooms from the back-end.
+ * @returns A promise that resolves to an array of RoomFromApi objects.
+ */
+export async function getRooms(): Promise<RoomFromApi[]> {
+  try {
+    const response = await fetch(`${API_BASE_URL}/?route=/rooms`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
+    return handleResponse<RoomFromApi[]>(response);
+  } catch (error) {
+    console.error('Failed to fetch rooms:', error);
+    // In a real app, you might want to handle this more gracefully
+    throw error;
+  }
+}

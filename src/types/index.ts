@@ -1,38 +1,42 @@
 
 import type { LucideIcon } from 'lucide-react';
 
-export interface Room {
+export interface RoomFromApi {
   id: number;
-  descriptive_title: string;
-  short_description: string;
-  price_per_night: string;
-  imageUrl: string; // This will be populated from the images endpoint
-  imageHint?: string; 
-  images?: RoomImage[];
-  amenities: string[]; // This might need adjustment based on the new API response
-  adults_capacity: number; 
-  children_capacity: number;
-  beds: string; // Not in the new room object, might need to derive it
-  size: string; // Not in the new room object, might need to derive it from width/height
-  category: 'Standard' | 'Deluxe' | 'Suite' | 'Villa'; // This will be derived from room_type_id
-  rating?: number; 
-  features?: string[]; 
-  viewType?: string; 
-  enhanceYourStay?: string[]; 
-  roomLayoutImageUrl?: string;
-  
-  // Fields from API
   room_number: string;
+  descriptive_title: string;
+  current_status: 'Available' | 'Booked' | 'Under Maintenance';
+  price_per_night: string;
+  currency: string;
   room_type_id: number;
-  amenities_id: string; // Assuming this is a comma-separated string of IDs
-  company_id: string;
+  short_description: string;
+  adults_capacity: number;
+  children_capacity: number;
   room_width: string;
   room_height: string;
-  currency: string;
-  current_status: string;
-  room_images: string; // Original image path, may not be used directly
-  longDescription?: string; // Add if available
-  capacity?: number;
+  amenities_id: string; // Comma-separated string of amenity IDs
+  image_url: string;
+  company_id: string;
+  created_by: string;
+  updated_by: string | null;
+  is_active: number;
+}
+
+export interface Room extends RoomFromApi {
+  imageUrl: string;
+  imageHint?: string;
+  images?: RoomImage[];
+  amenities: string[];
+  capacity: number;
+  beds: string;
+  size: string;
+  category: 'Standard' | 'Deluxe' | 'Suite' | 'Villa';
+  rating?: number;
+  features?: string[];
+  viewType?: string;
+  enhanceYourStay?: string[];
+  roomLayoutImageUrl?: string;
+  longDescription?: string;
 }
 
 
@@ -136,4 +140,3 @@ export interface WeddingPackage {
   heroImage?: string;
   heroImageHint?: string;
 }
-    

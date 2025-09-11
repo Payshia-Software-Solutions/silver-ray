@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { ChevronDown, SlidersHorizontal } from 'lucide-react';
 import { RoomsPageHero } from '@/components/rooms/RoomsPageHero';
 import { NotificationBanner } from '@/components/rooms/NotificationBanner';
-import type { Room, RoomImage } from '@/types';
+import type { Room, RoomFromApi } from '@/types';
 import {
   Accordion,
   AccordionContent,
@@ -22,10 +22,8 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { Label } from '@/components/ui/label';
-import apiClient from '@/lib/apiClient';
+import { getRooms } from '@/services/api/rooms';
 
-// This would typically come from user auth, session, or config
-const COMPANY_ID = '2'; 
 
 function DesktopRoomFilters() {
   return (
@@ -191,33 +189,23 @@ export default function RoomsPage() {
     const fetchRoomsAndImages = async () => {
       try {
         setIsLoading(true);
-        const [roomsResponse, imagesResponse] = await Promise.all([
-          apiClient.get(`/rooms`),
-          apiClient.get(`/company/room-images/${COMPANY_ID}`)
-        ]);
+        const roomsData = await getRooms();
 
-        const roomsData: Room[] = roomsResponse.data;
-        const imagesData: RoomImage[] = imagesResponse.data;
-        
-        // Filter images for the current company only
-        const companyImages = imagesData.filter(img => {
-            const roomForImage = roomsData.find(room => room.id === img.room_id);
-            return roomForImage && roomForImage.company_id === COMPANY_ID;
-        });
-
-        const roomsWithImages = roomsData
-         .filter(room => room.company_id === COMPANY_ID)
-         .map(room => {
-            const primaryImage = companyImages.find(img => img.room_id === room.id && img.is_primary);
+        const roomsWithImages: Room[] = roomsData.map(room => {
             return {
               ...room,
-              imageUrl: primaryImage ? primaryImage.image_url : 'https://placehold.co/600x400.png', // Fallback image
-              images: companyImages.filter(img => img.room_id === room.id),
-              // You can add more derived properties here if needed, e.g. mapping room_type_id to a category string.
-              category: 'Standard', // Placeholder, you might want a map for this
+              imageUrl: room.image_url || 'https://placehold.co/600x400.png', // Fallback image
+              // The new API provides amenities_id as a string, not an array of strings.
+              // This needs to be handled differently. For now, we'll use a placeholder.
+              amenities: ['Wifi', 'Tv', 'Coffee', 'Users'],
+              // The API provides capacity as separate adult/child fields.
+              capacity: room.adults_capacity,
+              // The API doesn't provide a 'beds' field.
               beds: '1 King Bed', // Placeholder
-              amenities: ['Wifi', 'Tv', 'Coffee', 'Users'], // Placeholder
-              size: `${room.room_width} sqm` // Example
+              // The API provides width/height.
+              size: `${room.room_width}x${room.room_height} sqm`,
+              // The room_type_id needs to be mapped to a category string.
+              category: 'Standard', // Placeholder
             };
         });
 
