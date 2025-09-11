@@ -45,7 +45,7 @@ async function handleResponse<T>(response: Response): Promise<T> {
   
   try {
     if (jsonText.trim() === '') {
-      return [] as T; // Return empty array for empty but valid responses
+      return [] as T;
     }
     return JSON.parse(jsonText);
   } catch (error) {
@@ -60,6 +60,7 @@ async function handleResponse<T>(response: Response): Promise<T> {
  */
 export async function getRooms(): Promise<RoomFromApi[]> {
   try {
+    // Using query parameter for routing as expected by the PHP backend
     const response = await fetch(`${API_BASE_URL}/?route=/rooms`, {
         method: 'GET',
         headers: {
