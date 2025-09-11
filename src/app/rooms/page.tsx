@@ -187,7 +187,7 @@ export default function RoomsPage() {
 
   useEffect(() => {
     // Assuming a static company ID for now. This could be dynamic.
-    const COMPANY_ID = '101'; 
+    const COMPANY_ID = 'com-001'; 
 
     const fetchRoomsAndImages = async () => {
       try {
