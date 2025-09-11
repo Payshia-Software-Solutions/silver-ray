@@ -192,21 +192,33 @@ export default function RoomsPage() {
       try {
         setIsLoading(true);
         const [roomsResponse, imagesResponse] = await Promise.all([
-          apiClient.get(`/company/rooms/${COMPANY_ID}`),
+          apiClient.get(`/rooms`),
           apiClient.get(`/company/room-images/${COMPANY_ID}`)
         ]);
 
         const roomsData: Room[] = roomsResponse.data;
         const imagesData: RoomImage[] = imagesResponse.data;
+        
+        // Filter images for the current company only
+        const companyImages = imagesData.filter(img => {
+            const roomForImage = roomsData.find(room => room.id === img.room_id);
+            return roomForImage && roomForImage.company_id === COMPANY_ID;
+        });
 
-        const roomsWithImages = roomsData.map(room => {
-          const primaryImage = imagesData.find(img => img.room_id === room.id && img.is_primary);
-          return {
-            ...room,
-            imageUrl: primaryImage ? primaryImage.image_url : 'https://placehold.co/600x400.png', // Fallback image
-            // You can also attach all images to the room object if needed for a detail page
-            images: imagesData.filter(img => img.room_id === room.id),
-          };
+        const roomsWithImages = roomsData
+         .filter(room => room.company_id === COMPANY_ID)
+         .map(room => {
+            const primaryImage = companyImages.find(img => img.room_id === room.id && img.is_primary);
+            return {
+              ...room,
+              imageUrl: primaryImage ? primaryImage.image_url : 'https://placehold.co/600x400.png', // Fallback image
+              images: companyImages.filter(img => img.room_id === room.id),
+              // You can add more derived properties here if needed, e.g. mapping room_type_id to a category string.
+              category: 'Standard', // Placeholder, you might want a map for this
+              beds: '1 King Bed', // Placeholder
+              amenities: ['Wifi', 'Tv', 'Coffee', 'Users'], // Placeholder
+              size: `${room.room_width} sqm` // Example
+            };
         });
 
         setRooms(roomsWithImages);

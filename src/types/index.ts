@@ -6,24 +6,35 @@ export interface Room {
   descriptive_title: string;
   short_description: string;
   price_per_night: string;
-  imageUrl: string;
+  imageUrl: string; // This will be populated from the images endpoint
   imageHint?: string; 
   images?: RoomImage[];
-  amenities: string[];
+  amenities: string[]; // This might need adjustment based on the new API response
   adults_capacity: number; 
-  beds: string; 
-  size: string; 
-  category: 'Standard' | 'Deluxe' | 'Suite' | 'Villa';
+  children_capacity: number;
+  beds: string; // Not in the new room object, might need to derive it
+  size: string; // Not in the new room object, might need to derive it from width/height
+  category: 'Standard' | 'Deluxe' | 'Suite' | 'Villa'; // This will be derived from room_type_id
   rating?: number; 
   features?: string[]; 
   viewType?: string; 
   enhanceYourStay?: string[]; 
   roomLayoutImageUrl?: string;
-  // Fields from API that might not be used in card but needed for detail page
+  
+  // Fields from API
   room_number: string;
-  longDescription?: string;
-  capacity?: number; // fallback for adults_capacity
+  room_type_id: number;
+  amenities_id: string; // Assuming this is a comma-separated string of IDs
+  company_id: string;
+  room_width: string;
+  room_height: string;
+  currency: string;
+  current_status: string;
+  room_images: string; // Original image path, may not be used directly
+  longDescription?: string; // Add if available
+  capacity?: number;
 }
+
 
 export interface RoomImage {
   id: number;
