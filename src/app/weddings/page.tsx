@@ -1,18 +1,17 @@
 
-import type { Metadata } from 'next';
+'use client';
+
+import { useState, useEffect } from 'react';
 import NextImage from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { WeddingVenueCard } from '@/components/weddings/WeddingVenueCard';
 import { WeddingPackageCard } from '@/components/weddings/WeddingPackageCard';
-import { weddingVenues, weddingPackages as mockWeddingPackages, weddingServices } from '@/data/weddingData';
-import { Utensils, Flower2, ClipboardCheck, BedDouble as GuestAccommodationIcon } from 'lucide-react';
+import { weddingVenues, weddingServices } from '@/data/weddingData';
 import { TestimonialsCarousel } from '@/components/weddings/TestimonialsCarousel';
-
-export const metadata: Metadata = {
-  title: 'Weddings at Grand Silver Ray',
-  description: 'Host your dream wedding at Grand Silver Ray. Discover our stunning venues and bespoke wedding packages.',
-};
+import type { WeddingPackage, WeddingPackageFromApi, WeddingImage } from '@/types';
+import { getWeddingPackages, getWeddingImages } from '@/services/api/weddings';
+import { Gift, Utensils, Flower2, ClipboardCheck, BedDouble as GuestAccommodationIcon } from 'lucide-react';
 
 function WeddingHero() {
   return (
@@ -42,7 +41,55 @@ function WeddingHero() {
 }
 
 export default function WeddingsPage() {
-  const displayPackages = mockWeddingPackages;
+  const [packages, setPackages] = useState<WeddingPackage[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchWeddingData = async () => {
+      const COMPANY_ID = 'com-001';
+      try {
+        setIsLoading(true);
+        const [packagesData, imagesData] = await Promise.all([
+          getWeddingPackages(COMPANY_ID),
+          getWeddingImages(COMPANY_ID),
+        ]);
+
+        const imagesByPackageId = imagesData.reduce((acc, image) => {
+          if (!acc[image.wedding_id]) {
+            acc[image.wedding_id] = [];
+          }
+          acc[image.wedding_id].push(image);
+          return acc;
+        }, {} as Record<number, WeddingImage[]>);
+
+        const packagesWithImages: WeddingPackage[] = packagesData.map(pkg => {
+          const primaryImage = imagesByPackageId[pkg.id]?.find(img => img.is_primary) || imagesByPackageId[pkg.id]?.[0];
+          const API_BASE_URL = 'http://localhost/Silver_server';
+          return {
+            id: String(pkg.id),
+            name: pkg.package_name,
+            price: pkg.price,
+            icon: Gift, // Default icon
+            imageHint: primaryImage?.alt_text || 'wedding package',
+            inclusions: [], // This needs to be mapped if the data is available
+            shortDescription: pkg.short_description,
+            heroImage: primaryImage ? `${API_BASE_URL}${primaryImage.image_url}` : 'https://placehold.co/1920x700.png',
+            iconImageUrl: primaryImage ? `${API_BASE_URL}${primaryImage.image_url}` : 'https://placehold.co/100x100.png',
+          };
+        });
+        
+        setPackages(packagesWithImages);
+      } catch (err: any) {
+        console.error("Failed to fetch wedding data:", err);
+        setError("Failed to load wedding packages. Please try again later.");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchWeddingData();
+  }, []);
 
   return (
     <div className="bg-background">
@@ -72,11 +119,28 @@ export default function WeddingsPage() {
               Choose from our exquisite packages – each crafted to suit your vision, guest count, and style. All packages can be personalized to create your perfect day.
             </p>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {displayPackages.map((pkg) => (
-              <WeddingPackageCard key={pkg.id} packageItem={pkg} />
-            ))}
-          </div>
+          {isLoading && (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+              {[...Array(4)].map((_, i) => (
+                <div key={i} className="bg-card rounded-lg shadow animate-pulse">
+                  <div className="aspect-square bg-muted rounded-t-lg"></div>
+                  <div className="p-6 space-y-3">
+                    <div className="h-6 bg-muted rounded w-3/4"></div>
+                    <div className="h-4 bg-muted rounded w-full"></div>
+                    <div className="h-10 bg-muted rounded-full mt-4"></div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+          {error && <p className="text-center font-body text-lg text-destructive">{error}</p>}
+          {!isLoading && !error && (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+              {packages.map((pkg) => (
+                <WeddingPackageCard key={pkg.id} packageItem={pkg} />
+              ))}
+            </div>
+          )}
         </div>
       </section>
 

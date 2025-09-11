@@ -3,7 +3,7 @@ import NextImage from 'next/image';
 import Link from 'next/link';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import type { WeddingPackage } from '@/data/weddingData';
+import type { WeddingPackage } from '@/types';
 import { CheckCircle } from 'lucide-react'; // Using CheckCircle as a generic icon for inclusions
 
 interface WeddingPackageCardProps {
@@ -23,6 +23,7 @@ export function WeddingPackageCard({ packageItem }: WeddingPackageCardProps) {
               width={80}
               height={80}
               className="object-contain p-2"
+              unoptimized
             />
           </div>
         ) : (
@@ -33,19 +34,23 @@ export function WeddingPackageCard({ packageItem }: WeddingPackageCardProps) {
         <CardTitle className="font-headline text-lg">{packageItem.name}</CardTitle>
         {packageItem.price && (
           <CardDescription className="font-body text-sm text-muted-foreground">
-            Starting from {packageItem.price}
+            Starting from LKR {parseFloat(packageItem.price).toLocaleString()}
           </CardDescription>
         )}
       </CardHeader>
       <CardContent className="px-5 pb-5 flex flex-col flex-grow w-full">
-        <ul className="font-body text-xs text-muted-foreground space-y-1.5 mb-4 text-left flex-grow">
-          {packageItem.inclusions.slice(0, 4).map((inclusion, index) => ( // Show max 4 inclusions
-            <li key={index} className="flex items-start">
-              <inclusion.icon className="w-3.5 h-3.5 mr-1.5 text-primary flex-shrink-0 mt-0.5" />
-              <span>{inclusion.text}</span>
-            </li>
-          ))}
-        </ul>
+        {packageItem.inclusions && packageItem.inclusions.length > 0 ? (
+          <ul className="font-body text-xs text-muted-foreground space-y-1.5 mb-4 text-left flex-grow">
+            {packageItem.inclusions.slice(0, 4).map((inclusion, index) => ( // Show max 4 inclusions
+              <li key={index} className="flex items-start">
+                <inclusion.icon className="w-3.5 h-3.5 mr-1.5 text-primary flex-shrink-0 mt-0.5" />
+                <span>{inclusion.text}</span>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className="font-body text-xs text-muted-foreground mb-4 text-left flex-grow">{packageItem.shortDescription}</p>
+        )}
         <Button asChild className="w-full mt-auto bg-primary text-primary-foreground hover:bg-primary/90 rounded-full text-sm py-2 h-auto">
           <Link href={`/weddings/packages/${packageItem.id}`}>View Full Details</Link>
         </Button>

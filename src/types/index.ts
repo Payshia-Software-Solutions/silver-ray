@@ -133,6 +133,42 @@ export interface ExperienceDetail {
   pricePerChild?: number; // Optional: for dynamic pricing display
 }
 
+export interface WeddingPackageFromApi {
+    id: number;
+    package_name: string;
+    hall_id: string;
+    company_id: string;
+    status: string;
+    short_description: string;
+    detailed_description: string;
+    price: string;
+    max_guests: number;
+    inclusions: string | null;
+    weddinng_image: string | null;
+    created_by: string;
+    updated_by: string | null;
+    created_at: string;
+    updated_at: string;
+}
+
+export interface WeddingImage {
+    id: number;
+    wedding_id: number;
+    company_id: string;
+    image_name: string;
+    image_url: string;
+    file_size: number;
+    alt_text: string;
+    is_primary: number;
+    display_order: number;
+    uploaded_by: string;
+    updated_by: string;
+    created_at: string;
+    updated_at: string;
+    is_active: number;
+}
+
+
 export interface WeddingPackageInclusion {
   icon: LucideIcon;
   text: string;
