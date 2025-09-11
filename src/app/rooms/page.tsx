@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { ChevronDown, SlidersHorizontal } from 'lucide-react';
 import { RoomsPageHero } from '@/components/rooms/RoomsPageHero';
 import { NotificationBanner } from '@/components/rooms/NotificationBanner';
-import type { Room, RoomFromApi } from '@/types';
+import type { Room, RoomFromApi, RoomImage } from '@/types';
 import {
   Accordion,
   AccordionContent,
@@ -22,7 +22,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { Label } from '@/components/ui/label';
-import { getRooms } from '@/services/api/rooms';
+import { getRooms, getRoomImages } from '@/services/api/rooms';
 
 
 function DesktopRoomFilters() {
@@ -186,33 +186,43 @@ export default function RoomsPage() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    // Assuming a static company ID for now. This could be dynamic.
+    const COMPANY_ID = '1'; 
+
     const fetchRoomsAndImages = async () => {
       try {
         setIsLoading(true);
-        const roomsData = await getRooms();
+        const [roomsData, imagesData] = await Promise.all([
+          getRooms(),
+          getRoomImages(COMPANY_ID)
+        ]);
+
+        const imagesByRoomId = imagesData.reduce((acc, image) => {
+          if (!acc[image.room_id]) {
+            acc[image.room_id] = [];
+          }
+          acc[image.room_id].push(image);
+          return acc;
+        }, {} as Record<number, RoomImage[]>);
 
         const roomsWithImages: Room[] = roomsData.map(room => {
+            const primaryImage = imagesByRoomId[room.id]?.find(img => img.is_primary) || imagesByRoomId[room.id]?.[0];
             return {
               ...room,
-              imageUrl: room.image_url || 'https://placehold.co/600x400.png', // Fallback image
-              // The new API provides amenities_id as a string, not an array of strings.
-              // This needs to be handled differently. For now, we'll use a placeholder.
-              amenities: ['Wifi', 'Tv', 'Coffee', 'Users'],
-              // The API provides capacity as separate adult/child fields.
+              imageUrl: primaryImage?.image_url || 'https://placehold.co/600x400.png',
+              images: imagesByRoomId[room.id] || [],
+              amenities: [], // This needs to be mapped from amenities_id if there's an amenities endpoint
               capacity: room.adults_capacity,
-              // The API doesn't provide a 'beds' field.
-              beds: '1 King Bed', // Placeholder
-              // The API provides width/height.
+              beds: '1 King Bed', // Placeholder, needs data from backend
               size: `${room.room_width}x${room.room_height} sqm`,
-              // The room_type_id needs to be mapped to a category string.
-              category: 'Standard', // Placeholder
+              category: 'Standard', // Placeholder, needs to be mapped from room_type_id
             };
         });
 
         setRooms(roomsWithImages);
-      } catch (err) {
+      } catch (err: any) {
         console.error('Failed to fetch room data:', err);
-        setError('Failed to load rooms. Please try again later.');
+        setError(err.message || 'Failed to load rooms. Please try again later.');
       } finally {
         setIsLoading(false);
       }

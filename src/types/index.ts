@@ -43,9 +43,18 @@ export interface Room extends RoomFromApi {
 export interface RoomImage {
   id: number;
   room_id: number;
+  company_id: string;
+  image_name: string;
   image_url: string;
+  file_size: number;
   alt_text: string;
   is_primary: number;
+  display_order: number;
+  uploaded_by: number;
+  updated_by: number;
+  created_at: string;
+  updated_at: string;
+  is_active: number;
 }
 
 
