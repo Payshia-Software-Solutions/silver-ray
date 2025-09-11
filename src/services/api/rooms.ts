@@ -50,7 +50,7 @@ async function handleResponse<T>(response: Response): Promise<T> {
  */
 export async function getRooms(): Promise<RoomFromApi[]> {
   try {
-    const response = await fetch(`${API_BASE_URL}/rooms`, {
+    const response = await fetch(`${API_BASE_URL}/company/rooms/com-001`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
