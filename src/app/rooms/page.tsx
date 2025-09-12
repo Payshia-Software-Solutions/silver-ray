@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { ChevronDown, SlidersHorizontal } from 'lucide-react';
 import { RoomsPageHero } from '@/components/rooms/RoomsPageHero';
 import { NotificationBanner } from '@/components/rooms/NotificationBanner';
-import type { Room, RoomFromApi, RoomImage } from '@/types';
+import type { Room, RoomImage } from '@/types';
 import {
   Accordion,
   AccordionContent,
@@ -197,7 +197,7 @@ export default function RoomsPage() {
           getRoomImages(COMPANY_ID)
         ]);
 
-        const imagesByRoomId = imagesData.reduce((acc, image) => {
+        const imagesByRoomId = (imagesData || []).reduce((acc, image) => {
           if (!acc[image.room_id]) {
             acc[image.room_id] = [];
           }

@@ -11,13 +11,14 @@ interface WeddingPackageCardProps {
 }
 
 export function WeddingPackageCard({ packageItem }: WeddingPackageCardProps) {
+    const API_BASE_URL = 'https://silverray-server.payshia.com';
   return (
     <Card className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col h-full rounded-xl bg-card text-center items-center">
       <CardHeader className="pt-6 pb-3 items-center">
         {packageItem.iconImageUrl ? (
           <div className="relative w-20 h-20 mb-3 rounded-full overflow-hidden border-2 border-primary/30 flex items-center justify-center bg-secondary/50">
             <NextImage
-              src={packageItem.iconImageUrl}
+              src={`${API_BASE_URL}${packageItem.iconImageUrl}`}
               alt={`${packageItem.name} icon`}
               data-ai-hint={packageItem.imageHint}
               width={80}

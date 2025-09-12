@@ -19,12 +19,13 @@ export function RoomCard({ room }: RoomCardProps) {
       coffee: room.amenities?.includes('Nespresso Machine'),
       users: true, // Placeholder for guests
   };
+  const API_BASE_URL = 'https://silverray-server.payshia.com';
 
   return (
     <Card className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col h-full rounded-2xl bg-card border-none">
       <CardHeader className="p-0 relative aspect-[4/3]">
         <NextImage
-          src={room.imageUrl || 'https://placehold.co/600x400.png'}
+          src={room.imageUrl ? `${API_BASE_URL}${room.imageUrl}` : 'https://placehold.co/600x400.png'}
           alt={`Image of ${room.descriptive_title}`}
           data-ai-hint={room.imageHint || `${room.category?.toLowerCase()} room scenic view`}
           fill

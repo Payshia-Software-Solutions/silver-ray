@@ -1,7 +1,7 @@
 
 import type { WeddingPackageFromApi, WeddingImage } from '@/types';
 
-const API_BASE_URL = 'http://localhost/Silver_server';
+const API_BASE_URL = 'https://silverray-server.payshia.com';
 
 async function handleResponse<T>(response: Response): Promise<T> {
   if (!response.ok) {

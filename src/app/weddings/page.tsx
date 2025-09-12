@@ -9,9 +9,9 @@ import { WeddingVenueCard } from '@/components/weddings/WeddingVenueCard';
 import { WeddingPackageCard } from '@/components/weddings/WeddingPackageCard';
 import { weddingVenues, weddingServices } from '@/data/weddingData';
 import { TestimonialsCarousel } from '@/components/weddings/TestimonialsCarousel';
-import type { WeddingPackage, WeddingPackageFromApi, WeddingImage } from '@/types';
+import type { WeddingPackage, WeddingImage } from '@/types';
 import { getWeddingPackages, getWeddingImages } from '@/services/api/weddings';
-import { Gift, Utensils, Flower2, ClipboardCheck, BedDouble as GuestAccommodationIcon } from 'lucide-react';
+import { Gift } from 'lucide-react';
 
 function WeddingHero() {
   return (
@@ -55,7 +55,7 @@ export default function WeddingsPage() {
           getWeddingImages(COMPANY_ID),
         ]);
 
-        const imagesByPackageId = imagesData.reduce((acc, image) => {
+        const imagesByPackageId = (imagesData || []).reduce((acc, image) => {
           if (!acc[image.wedding_id]) {
             acc[image.wedding_id] = [];
           }
@@ -65,7 +65,7 @@ export default function WeddingsPage() {
 
         const packagesWithImages: WeddingPackage[] = packagesData.map(pkg => {
           const primaryImage = imagesByPackageId[pkg.id]?.find(img => img.is_primary) || imagesByPackageId[pkg.id]?.[0];
-          const API_BASE_URL = 'http://localhost/Silver_server';
+          
           return {
             id: String(pkg.id),
             name: pkg.package_name,
@@ -74,8 +74,8 @@ export default function WeddingsPage() {
             imageHint: primaryImage?.alt_text || 'wedding package',
             inclusions: [], // This needs to be mapped if the data is available
             shortDescription: pkg.short_description,
-            heroImage: primaryImage ? `${API_BASE_URL}${primaryImage.image_url}` : 'https://placehold.co/1920x700.png',
-            iconImageUrl: primaryImage ? `${API_BASE_URL}${primaryImage.image_url}` : 'https://placehold.co/100x100.png',
+            heroImage: primaryImage ? primaryImage.image_url : 'https://placehold.co/1920x700.png',
+            iconImageUrl: primaryImage ? primaryImage.image_url : 'https://placehold.co/100x100.png',
           };
         });
         

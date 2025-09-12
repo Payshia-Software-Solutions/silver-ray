@@ -26,7 +26,7 @@ export function FeaturedRoomsSection() {
           getRoomImages(COMPANY_ID)
         ]);
 
-        const imagesByRoomId = imagesData.reduce((acc, image) => {
+        const imagesByRoomId = (imagesData || []).reduce((acc, image) => {
           if (!acc[image.room_id]) {
             acc[image.room_id] = [];
           }

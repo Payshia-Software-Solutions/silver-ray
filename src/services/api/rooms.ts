@@ -6,7 +6,7 @@
 import type { RoomFromApi, RoomImage } from '@/types';
 
 // The base URL of your PHP server's router script
-const API_BASE_URL = 'http://localhost/Silver_server';
+const API_BASE_URL = 'https://silverray-server.payshia.com';
 
 /**
  * A helper function to handle the response from the fetch API.
@@ -35,7 +35,7 @@ async function handleResponse<T>(response: Response): Promise<T> {
         return data as T;
     } else if (typeof data === 'object' && data !== null) {
         // If the backend returns a single object, wrap it in an array
-        return [data] as T;
+        return [data] as unknown as T;
     }
     return [] as T;
   } catch (error) {
