@@ -4,30 +4,90 @@
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { RoomCard } from '@/components/shared/RoomCard';
-import { mockRooms } from '@/data/mockData';
 import { ChevronRight } from 'lucide-react';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import type { Room, RoomImage } from '@/types';
+import { getRooms, getRoomImages } from '@/services/api/rooms';
 
 export function FeaturedRoomsSection() {
-  const featuredRooms = mockRooms.slice(0, 3); // Display first 3 rooms
+  const [featuredRooms, setFeaturedRooms] = useState<Room[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const COMPANY_ID = 'com-001';
+    const fetchFeaturedRooms = async () => {
+      try {
+        setIsLoading(true);
+        const [roomsData, imagesData] = await Promise.all([
+          getRooms(),
+          getRoomImages(COMPANY_ID)
+        ]);
+
+        const imagesByRoomId = imagesData.reduce((acc, image) => {
+          if (!acc[image.room_id]) {
+            acc[image.room_id] = [];
+          }
+          acc[image.room_id].push(image);
+          return acc;
+        }, {} as Record<number, RoomImage[]>);
+
+        const roomsWithImages: Room[] = roomsData.map(room => {
+            const primaryImage = imagesByRoomId[room.id]?.find(img => img.is_primary) || imagesByRoomId[room.id]?.[0];
+            return {
+              ...room,
+              imageUrl: primaryImage?.image_url || 'https://placehold.co/600x400.png',
+              images: imagesByRoomId[room.id] || [],
+              amenities: [], 
+              capacity: room.adults_capacity,
+              beds: '1 King Bed',
+              size: `${room.room_width}x${room.room_height} sqm`,
+              category: 'Standard',
+            };
+        });
+
+        setFeaturedRooms(roomsWithImages.slice(0, 3)); // Take first 3 for featured section
+      } catch (err: any) {
+        console.error('Failed to fetch featured rooms:', err);
+        setError('Could not load featured rooms.');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchFeaturedRooms();
+  }, []);
+
   const plugin = React.useRef(
     Autoplay({ delay: 3000, stopOnInteraction: true, stopOnHover: true })
   );
 
-  return (
-    <section className="py-16 lg:py-24 bg-secondary/30">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
-          <h2 className="font-headline text-3xl sm:text-4xl lg:text-5xl font-bold mb-4">
-            Explore Our Exquisite Rooms
-          </h2>
-          <p className="font-body text-lg text-muted-foreground max-w-2xl mx-auto">
-            Each of our rooms and suites is designed with your utmost comfort and luxury in mind, offering a serene escape.
-          </p>
+  const renderContent = () => {
+    if (isLoading) {
+      return (
+        <div className="hidden md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {[...Array(3)].map((_, i) => (
+            <div key={i} className="bg-card rounded-lg shadow animate-pulse">
+              <div className="aspect-[4/3] bg-muted rounded-t-lg"></div>
+              <div className="p-6 space-y-3">
+                <div className="h-6 bg-muted rounded w-3/4"></div>
+                <div className="h-4 bg-muted rounded w-full"></div>
+                <div className="h-4 bg-muted rounded w-1/2"></div>
+                <div className="h-10 bg-muted rounded-full mt-4"></div>
+              </div>
+            </div>
+          ))}
         </div>
-        
+      );
+    }
+    if (error) {
+       return <p className="text-center text-destructive">{error}</p>
+    }
+
+    return (
+      <>
         {/* Mobile Carousel */}
         <div className="md:hidden mb-12">
           <Carousel
@@ -60,6 +120,23 @@ export function FeaturedRoomsSection() {
             <RoomCard key={room.id} room={room} />
           ))}
         </div>
+      </>
+    );
+  };
+
+  return (
+    <section className="py-16 lg:py-24 bg-secondary/30">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-12">
+          <h2 className="font-headline text-3xl sm:text-4xl lg:text-5xl font-bold mb-4">
+            Explore Our Exquisite Rooms
+          </h2>
+          <p className="font-body text-lg text-muted-foreground max-w-2xl mx-auto">
+            Each of our rooms and suites is designed with your utmost comfort and luxury in mind, offering a serene escape.
+          </p>
+        </div>
+        
+        {renderContent()}
 
         <div className="text-center">
           <Button asChild size="lg" variant="outline" className="font-body text-lg group border-primary text-primary hover:bg-primary hover:text-primary-foreground transition-all duration-300">
