@@ -185,3 +185,58 @@ export interface WeddingPackage {
   heroImage?: string;
   heroImageHint?: string;
 }
+
+
+export interface ExperienceFromApi {
+    id: number;
+    name: string;
+    company_id: string;
+    meeting_Point: string;
+    short_description: string;
+    detailed_description: string;
+    duration: string;
+    Price: string;
+    pricing_basis: string;
+    min_participants: number;
+    max_participants: number;
+    advance_booking_required: number;
+    walk_in_available: number;
+    day_of_week: string;
+    is_available: number;
+    schedule_note: string;
+    status: string;
+    experience_image: string | null;
+    time_slot: string;
+    created_at: string;
+    updated_at: string;
+    created_by: string;
+    updated_by: string | null;
+}
+
+export interface ExperienceImage {
+    id: number;
+    experience_id: number;
+    company_id: string;
+    image_name: string;
+    image_url: string;
+    file_size: number;
+    alt_text: string;
+    is_primary: number;
+    display_order: number;
+    uploaded_by: string;
+    updated_by: string | null;
+    created_at: string;
+    updated_at: string;
+    is_active: number;
+}
+
+export interface FeaturedExperience {
+  id: string;
+  imageUrl: string;
+  imageHint: string;
+  title: string;
+  description: string;
+  duration: string;
+  pricePerPerson: string;
+  bookingDetails: string;
+}
