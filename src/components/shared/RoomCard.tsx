@@ -37,7 +37,7 @@ export function RoomCard({ room }: RoomCardProps) {
          <div className="flex justify-between items-start mb-2">
             <CardTitle className="font-headline text-lg sm:text-xl mr-2">{room.descriptive_title}</CardTitle>
             <Badge variant="secondary" className="text-xs px-3 py-1.5 h-fit whitespace-nowrap shrink-0 bg-muted text-muted-foreground rounded-full">
-              ${parseFloat(room.price_per_night).toFixed(0)}+/night
+              LKR {parseFloat(room.price_per_night).toFixed(0)}+/night
             </Badge>
           </div>
           <p className="font-body text-muted-foreground text-sm mb-4 line-clamp-2">{room.short_description}</p>
