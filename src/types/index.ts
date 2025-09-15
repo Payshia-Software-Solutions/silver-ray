@@ -240,3 +240,38 @@ export interface FeaturedExperience {
   pricePerPerson: string;
   bookingDetails: string;
 }
+
+export interface RestaurantFromApi {
+    id: number;
+    venue_name: string;
+    short_description: string;
+    detailed_description: string;
+    capacity: string;
+    operating_hours_id: string;
+    feature_id: string;
+    "restaurant _image": string | null;
+    status: string;
+    status_notes: string;
+    company_id: string;
+    created_by: string;
+    updated_by: string | null;
+    created_at: string;
+    updated_at: string;
+}
+
+export interface RestaurantImage {
+    id: number;
+    restaurant_id: number;
+    company_id: number;
+    image_name: string;
+    image_url: string;
+    file_size: number;
+    alt_text: string;
+    is_primary: number;
+    display_order: number;
+    uploaded_by: number;
+    updated_by: number;
+    created_at: string;
+    updated_at: string;
+    is_active: number;
+}

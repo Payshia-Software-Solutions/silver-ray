@@ -27,6 +27,7 @@ export function VenueCard({ name, tag, description, imageUrl, imageHint, viewMor
           data-ai-hint={imageHint}
           fill
           className="object-cover"
+          unoptimized
         />
       </CardHeader>
       <CardContent className="p-6 flex flex-col flex-grow">

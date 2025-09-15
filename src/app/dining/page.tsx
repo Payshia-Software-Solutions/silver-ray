@@ -1,54 +1,22 @@
 
-import type { Metadata } from 'next';
+'use client';
+
+import { useState, useEffect } from 'react';
 import { DiningHero } from '@/components/dining/DiningHero';
 import { VenueCard, type VenueProps } from '@/components/dining/VenueCard';
 import { DishCard, type DishProps } from '@/components/dining/DishCard';
 import { ReservationSection } from '@/components/dining/ReservationSection';
 import { InfoBar } from '@/components/dining/InfoBar';
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
-
-
-export const metadata: Metadata = {
-  title: 'Culinary Experiences',
-  description: 'Discover unforgettable flavors and exquisite settings at Grand Silver Ray Hotel. Explore our celebrated restaurants and bars.',
-};
-
-const diningVenues: VenueProps[] = [
-  {
-    id: 'main-restaurant',
-    name: 'Main Restaurant',
-    tag: 'Fine Dining',
-    description: 'Global cuisine crafted to satisfy every palate.',
-    imageUrl: 'https://images.unsplash.com/photo-1743793055663-5aee4edc16d3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxlbGVnYW50JTIwcmVzdGF1cmFudCUyMGludGVyaW9yfGVufDB8fHx8MTc0OTE0NTA4MHww&ixlib=rb-4.1.0&q=80&w=1080',
-    imageHint: 'elegant restaurant interior',
-    viewMoreLink: '/dining/menu/main-restaurant',
-  },
-  {
-    id: 'cafe-101',
-    name: 'Cafe 101',
-    tag: 'Casual Eats',
-    description: 'Authentic, traditional dishes in a relaxed atmosphere.',
-    imageUrl: 'https://images.unsplash.com/photo-1742427605886-18fc2eb3ef71?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxjb3p5JTIwY2FmZSUyMGFtYmlhbmNlfGVufDB8fHx8MTc0OTE0NTA4MHww&ixlib=rb-4.1.0&q=80&w=1080',
-    imageHint: 'cozy cafe ambiance',
-    viewMoreLink: '/dining/menu/cafe-101',
-  },
-  {
-    id: 'indian-restaurant',
-    name: 'Indian Restaurant',
-    tag: 'Authentic Flavors',
-    description: 'Traditional Indian flavors brought to life.',
-    imageUrl: 'https://images.unsplash.com/photo-1620268835770-1e9c62832a49?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxpbmRpYW4lMjBjdWlzaW5lJTIwcHJlc2VudGF0aW9ufGVufDB8fHx8MTc0OTE0NTA4MHww&ixlib=rb-4.1.0&q=80&w=1080',
-    imageHint: 'indian cuisine presentation',
-    viewMoreLink: '/dining/menu/indian-restaurant',
-  },
-];
+import type { RestaurantFromApi, RestaurantImage } from '@/types';
+import { getRestaurants, getRestaurantImages } from '@/services/api/dining';
+import { API_BASE_URL } from '@/lib/config';
 
 const signatureDishes: DishProps[] = [
   {
     id: 'seared-salmon',
     name: 'Seared Salmon with Lemon Beurre Blanc',
     description: 'Perfectly cooked salmon, market vegetables, and a silky lemon butter sauce.',
-    imageUrl: 'https://images.unsplash.com/photo-1627662234966-bd65a4e21363?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxzZWFyZWQlMjBzYWxtb24lMjBkaXNoJTIwZ291cm1ldHxlbnwwfHx8fDE3NDkxNDUxNjR8MA&ixlib-rb-4.1.0&q=80&w=1080',
+    imageUrl: 'https://images.unsplash.com/photo-1627662234966-bd65a4e21363?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxzZWFyZWQlMjBzYWxtb24lMjBkaXNoJTIwZ291cm1ldHxlbnwwfHx8fDE3NDkxNDUxNjR8MA&ixlib=rb-4.1.0&q=80&w=1080',
     imageHint: 'seared salmon dish gourmet',
   },
   {
@@ -68,6 +36,73 @@ const signatureDishes: DishProps[] = [
 ];
 
 export default function DiningPage() {
+  const [diningVenues, setDiningVenues] = useState<VenueProps[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchDiningData = async () => {
+      try {
+        setIsLoading(true);
+        const [restaurantsData, imagesData] = await Promise.all([
+          getRestaurants(),
+          getRestaurantImages(),
+        ]);
+
+        const imagesByRestaurantId = (imagesData || []).reduce((acc, image) => {
+          if (!acc[image.restaurant_id]) {
+            acc[image.restaurant_id] = [];
+          }
+          acc[image.restaurant_id].push(image);
+          return acc;
+        }, {} as Record<number, RestaurantImage[]>);
+
+        const venues: VenueProps[] = (restaurantsData || []).map(restaurant => {
+          const primaryImage = imagesByRestaurantId[restaurant.id]?.find(img => img.is_primary) || imagesByRestaurantId[restaurant.id]?.[0];
+          return {
+            id: String(restaurant.id),
+            name: restaurant.venue_name,
+            tag: restaurant.status === 'Active' ? 'Fine Dining' : 'Coming Soon', // Example logic for tag
+            description: restaurant.short_description,
+            imageUrl: primaryImage ? `${API_BASE_URL}${primaryImage.image_url}` : 'https://placehold.co/600x400.png',
+            imageHint: primaryImage?.alt_text || 'restaurant interior',
+            viewMoreLink: `/dining/menu/${restaurant.id}`,
+          };
+        });
+
+        setDiningVenues(venues);
+      } catch (err: any) {
+        console.error("Failed to fetch dining venues:", err);
+        setError("Failed to load dining venues. Please try again later.");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchDiningData();
+  }, []);
+  
+  const renderVenues = () => {
+    if (isLoading) {
+      return [...Array(3)].map((_, i) => (
+        <div key={i} className="bg-card rounded-xl shadow-lg animate-pulse">
+          <div className="aspect-[4/3] bg-muted rounded-t-xl"></div>
+          <div className="p-6 space-y-3">
+            <div className="h-6 bg-muted rounded w-3/4"></div>
+            <div className="h-4 bg-muted rounded w-full"></div>
+            <div className="h-4 bg-muted rounded w-1/2"></div>
+          </div>
+        </div>
+      ));
+    }
+    if (error) {
+      return <p className="col-span-full text-center text-destructive">{error}</p>;
+    }
+    return diningVenues.map((venue) => (
+      <VenueCard key={venue.id} {...venue} />
+    ));
+  }
+
   return (
     <div className="bg-background">
       <DiningHero />
@@ -81,9 +116,7 @@ export default function DiningPage() {
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {diningVenues.map((venue) => (
-              <VenueCard key={venue.id} {...venue} />
-            ))}
+            {renderVenues()}
           </div>
         </div>
       </section>
