@@ -5,20 +5,20 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Button } from '@/components/ui/button';
 import type { WeddingPackage } from '@/types';
 import { CheckCircle } from 'lucide-react'; // Using CheckCircle as a generic icon for inclusions
+import { API_BASE_URL } from '@/lib/config';
 
 interface WeddingPackageCardProps {
   packageItem: WeddingPackage;
 }
 
 export function WeddingPackageCard({ packageItem }: WeddingPackageCardProps) {
-    const API_BASE_URL = 'https://silverray-server.payshia.com';
   return (
     <Card className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col h-full rounded-xl bg-card text-center items-center">
       <CardHeader className="pt-6 pb-3 items-center">
         {packageItem.iconImageUrl ? (
           <div className="relative w-20 h-20 mb-3 rounded-full overflow-hidden border-2 border-primary/30 flex items-center justify-center bg-secondary/50">
             <NextImage
-              src={`${API_BASE_URL}${packageItem.iconImageUrl}`}
+              src={packageItem.iconImageUrl}
               alt={`${packageItem.name} icon`}
               data-ai-hint={packageItem.imageHint}
               width={80}

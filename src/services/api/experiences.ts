@@ -1,7 +1,6 @@
 
 import type { ExperienceFromApi, ExperienceImage } from '@/types';
-
-const API_BASE_URL = 'https://silverray-server.payshia.com';
+import { API_BASE_URL, COMPANY_ID } from '@/lib/config';
 
 async function handleResponse<T>(response: Response): Promise<T> {
   if (!response.ok) {
@@ -28,9 +27,9 @@ async function handleResponse<T>(response: Response): Promise<T> {
   }
 }
 
-export async function getExperiences(companyId: string): Promise<ExperienceFromApi[]> {
+export async function getExperiences(): Promise<ExperienceFromApi[]> {
   try {
-    const response = await fetch(`${API_BASE_URL}/experiences/company/${companyId}`, {
+    const response = await fetch(`${API_BASE_URL}/experiences/company/${COMPANY_ID}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -43,9 +42,9 @@ export async function getExperiences(companyId: string): Promise<ExperienceFromA
   }
 }
 
-export async function getExperienceImages(companyId: string): Promise<ExperienceImage[]> {
+export async function getExperienceImages(): Promise<ExperienceImage[]> {
   try {
-    const response = await fetch(`${API_BASE_URL}/company/experience-images/${companyId}`, {
+    const response = await fetch(`${API_BASE_URL}/company/experience-images/${COMPANY_ID}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -53,7 +52,7 @@ export async function getExperienceImages(companyId: string): Promise<Experience
     });
     return handleResponse<ExperienceImage[]>(response);
   } catch (error) {
-    console.error(`Failed to fetch experience images for company ${companyId}:`, error);
+    console.error(`Failed to fetch experience images for company ${COMPANY_ID}:`, error);
     throw error;
   }
 }

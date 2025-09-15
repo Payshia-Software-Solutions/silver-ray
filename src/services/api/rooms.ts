@@ -4,9 +4,8 @@
  */
 
 import type { RoomFromApi, RoomImage } from '@/types';
+import { API_BASE_URL, COMPANY_ID } from '@/lib/config';
 
-// The base URL of your PHP server's router script
-const API_BASE_URL = 'https://silverray-server.payshia.com';
 
 /**
  * A helper function to handle the response from the fetch API.
@@ -15,31 +14,46 @@ const API_BASE_URL = 'https://silverray-server.payshia.com';
  * @returns A promise that resolves with the JSON data.
  */
 async function handleResponse<T>(response: Response): Promise<T> {
+  const text = await response.text();
   if (!response.ok) {
-    const errorText = await response.text();
     // If the response is not ok, it might contain a server-side error message.
     // We throw this as an error to be caught by the calling function.
-    throw new Error(`API request failed with status ${response.status}: ${errorText}`);
+    throw new Error(`API request failed with status ${response.status}: ${text}`);
   }
   
-  const text = await response.text();
-  // Handle cases where the response might be empty
-  if (!text) {
-      return [] as T;
-  }
+  // Find the start of the actual JSON content
+  const firstBracket = text.indexOf('[');
+  const firstBrace = text.indexOf('{');
+  
+  let startIndex = -1;
 
+  if (firstBracket === -1 && firstBrace === -1) {
+    // Neither bracket nor brace found, response is likely empty or not JSON
+    if (text.trim() === '') return [] as T;
+    throw new Error(`Invalid JSON response: ${text}`);
+  } else if (firstBracket === -1) {
+    startIndex = firstBrace;
+  } else if (firstBrace === -1) {
+    startIndex = firstBracket;
+  } else {
+    startIndex = Math.min(firstBracket, firstBrace);
+  }
+  
+  const jsonText = text.substring(startIndex);
+  
   try {
-    const data = JSON.parse(text);
-    // Ensure the data is always an array for consistency
+    if (jsonText.trim() === '') {
+      return [] as T;
+    }
+    const data = JSON.parse(jsonText);
     if (Array.isArray(data)) {
         return data as T;
     } else if (typeof data === 'object' && data !== null) {
-        // If the backend returns a single object, wrap it in an array
         return [data] as unknown as T;
     }
     return [] as T;
   } catch (error) {
-    console.error("Failed to parse JSON:", text);
+    console.error("Failed to parse JSON:", jsonText);
     throw new Error("Invalid JSON response from server.");
   }
 }
@@ -50,7 +64,7 @@ async function handleResponse<T>(response: Response): Promise<T> {
  */
 export async function getRooms(): Promise<RoomFromApi[]> {
   try {
-    const response = await fetch(`${API_BASE_URL}/company/rooms/com-001`, {
+    const response = await fetch(`${API_BASE_URL}/company/rooms/${COMPANY_ID}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -66,12 +80,11 @@ export async function getRooms(): Promise<RoomFromApi[]> {
 
 /**
  * Fetches all room images for a given company.
- * @param companyId The ID of the company.
  * @returns A promise that resolves to an array of RoomImage objects.
  */
-export async function getRoomImages(companyId: string): Promise<RoomImage[]> {
+export async function getRoomImages(): Promise<RoomImage[]> {
   try {
-    const response = await fetch(`${API_BASE_URL}/company/room-images/${companyId}`, {
+    const response = await fetch(`${API_BASE_URL}/company/room-images/${COMPANY_ID}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -79,7 +92,7 @@ export async function getRoomImages(companyId: string): Promise<RoomImage[]> {
     });
     return handleResponse<RoomImage[]>(response);
   } catch (error) {
-    console.error(`Failed to fetch room images for company ${companyId}:`, error);
+    console.error(`Failed to fetch room images for company ${COMPANY_ID}:`, error);
     throw error;
   }
 }

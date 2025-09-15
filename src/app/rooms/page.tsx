@@ -124,7 +124,7 @@ function MobileRoomFilters() {
                     <Label>View</Label>
                      <Select>
                         <SelectTrigger>
-                            <SelectValue placeholder="Any" />
+                           <SelectValue placeholder="Any" />
                         </SelectTrigger>
                         <SelectContent>
                             <SelectItem value="ocean">Ocean</SelectItem>
@@ -186,15 +186,12 @@ export default function RoomsPage() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    // Assuming a static company ID for now. This could be dynamic.
-    const COMPANY_ID = 'com-001'; 
-
     const fetchRoomsAndImages = async () => {
       try {
         setIsLoading(true);
         const [roomsData, imagesData] = await Promise.all([
           getRooms(),
-          getRoomImages(COMPANY_ID)
+          getRoomImages()
         ]);
 
         const imagesByRoomId = (imagesData || []).reduce((acc, image) => {

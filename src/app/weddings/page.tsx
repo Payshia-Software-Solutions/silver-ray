@@ -12,6 +12,7 @@ import { TestimonialsCarousel } from '@/components/weddings/TestimonialsCarousel
 import type { WeddingPackage, WeddingImage } from '@/types';
 import { getWeddingPackages, getWeddingImages } from '@/services/api/weddings';
 import { Gift } from 'lucide-react';
+import { API_BASE_URL } from '@/lib/config';
 
 function WeddingHero() {
   return (
@@ -47,12 +48,11 @@ export default function WeddingsPage() {
 
   useEffect(() => {
     const fetchWeddingData = async () => {
-      const COMPANY_ID = 'com-001';
       try {
         setIsLoading(true);
         const [packagesData, imagesData] = await Promise.all([
-          getWeddingPackages(COMPANY_ID),
-          getWeddingImages(COMPANY_ID),
+          getWeddingPackages(),
+          getWeddingImages(),
         ]);
 
         const imagesByPackageId = (imagesData || []).reduce((acc, image) => {
@@ -74,8 +74,8 @@ export default function WeddingsPage() {
             imageHint: primaryImage?.alt_text || 'wedding package',
             inclusions: [], // This needs to be mapped if the data is available
             shortDescription: pkg.short_description,
-            heroImage: primaryImage ? primaryImage.image_url : 'https://placehold.co/1920x700.png',
-            iconImageUrl: primaryImage ? primaryImage.image_url : 'https://placehold.co/100x100.png',
+            heroImage: primaryImage ? `${API_BASE_URL}${primaryImage.image_url}` : 'https://placehold.co/1920x700.png',
+            iconImageUrl: primaryImage ? `${API_BASE_URL}${primaryImage.image_url}` : 'https://placehold.co/100x100.png',
           };
         });
         

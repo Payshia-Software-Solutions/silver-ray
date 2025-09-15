@@ -1,7 +1,6 @@
 
 import type { WeddingPackageFromApi, WeddingImage } from '@/types';
-
-const API_BASE_URL = 'https://silverray-server.payshia.com';
+import { API_BASE_URL, COMPANY_ID } from '@/lib/config';
 
 async function handleResponse<T>(response: Response): Promise<T> {
   if (!response.ok) {
@@ -28,9 +27,9 @@ async function handleResponse<T>(response: Response): Promise<T> {
   }
 }
 
-export async function getWeddingPackages(companyId: string): Promise<WeddingPackageFromApi[]> {
+export async function getWeddingPackages(): Promise<WeddingPackageFromApi[]> {
   try {
-    const response = await fetch(`${API_BASE_URL}/weddingpackages/company/${companyId}`, {
+    const response = await fetch(`${API_BASE_URL}/weddingpackages/company/${COMPANY_ID}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -43,9 +42,9 @@ export async function getWeddingPackages(companyId: string): Promise<WeddingPack
   }
 }
 
-export async function getWeddingImages(companyId: string): Promise<WeddingImage[]> {
+export async function getWeddingImages(): Promise<WeddingImage[]> {
   try {
-    const response = await fetch(`${API_BASE_URL}/company/wedding-images/${companyId}`, {
+    const response = await fetch(`${API_BASE_URL}/company/wedding-images/${COMPANY_ID}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -53,7 +52,7 @@ export async function getWeddingImages(companyId: string): Promise<WeddingImage[
     });
     return handleResponse<WeddingImage[]>(response);
   } catch (error) {
-    console.error(`Failed to fetch wedding images for company ${companyId}:`, error);
+    console.error(`Failed to fetch wedding images for company ${COMPANY_ID}:`, error);
     throw error;
   }
 }

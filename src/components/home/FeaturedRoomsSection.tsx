@@ -17,13 +17,12 @@ export function FeaturedRoomsSection() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const COMPANY_ID = 'com-001';
     const fetchFeaturedRooms = async () => {
       try {
         setIsLoading(true);
         const [roomsData, imagesData] = await Promise.all([
           getRooms(),
-          getRoomImages(COMPANY_ID)
+          getRoomImages()
         ]);
 
         const imagesByRoomId = (imagesData || []).reduce((acc, image) => {
