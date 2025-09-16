@@ -65,7 +65,7 @@ export default function WeddingsPage() {
 
         const packagesWithImages: WeddingPackage[] = packagesData.map(pkg => {
           const primaryImage = imagesByPackageId[pkg.id]?.find(img => img.is_primary === 1) || imagesByPackageId[pkg.id]?.[0];
-          const iconImageUrl = primaryImage ? `${IMAGE_BASE_URL}${primaryImage.image_url.replace(/\\/g, '')}` : 'https://placehold.co/100x100.png';
+          const iconImageUrl = primaryImage?.image_url || '';
           
           return {
             id: String(pkg.id),

@@ -23,7 +23,7 @@ const signatureDishes: DishProps[] = [
     id: 'molten-lava-cake',
     name: 'Molten Chocolate Lava Cake',
     description: 'Rich chocolate cake with a warm, gooey center, garnished with gold leaf and fresh berries.',
-    imageUrl: 'https://images.unsplash.com/photo-1514517521153-1be72277b32f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxjaG9jb2xhdGUlMjBsYXZhJTIwY2FrZSUyMGRlc3NlcnR8ZW58MHx8fHwxNzQ5MTQ1MTY0fDA&ixlibrb-4.1.0&q=80&w=1080',
+    imageUrl: 'https://images.unsplash.com/photo-1514517521153-1be72277b32f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxjaG9jb2xhdGUlMjBsYXZhJTIwY2FrZSUyMGRlc3NlcnR8ZW58MHx8fHwxNzQ5MTQ1MTY0fDA&ixlib-rb-4.1.0&q=80&w=1080',
     imageHint: 'chocolate lava cake dessert',
   },
   {
@@ -59,7 +59,7 @@ export default function DiningPage() {
 
         const venues: VenueProps[] = (restaurantsData || []).map(restaurant => {
           const primaryImage = imagesByRestaurantId[restaurant.id]?.find(img => img.is_primary) || imagesByRestaurantId[restaurant.id]?.[0];
-          const imageUrl = primaryImage ? `${IMAGE_BASE_URL}${primaryImage.image_url.replace(/\\/g, '')}` : 'https://placehold.co/600x400.png';
+          const imageUrl = primaryImage?.image_url || '';
           return {
             id: String(restaurant.id),
             name: restaurant.venue_name,

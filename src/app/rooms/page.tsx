@@ -205,7 +205,7 @@ export default function RoomsPage() {
 
         const roomsWithImages: Room[] = (roomsData as RoomFromApi[]).map(room => {
             const primaryImage = imagesByRoomId[room.id]?.find(img => img.is_primary === 1) || imagesByRoomId[room.id]?.[0];
-            const imageUrl = primaryImage ? `${IMAGE_BASE_URL}${primaryImage.image_url.replace(/\\/g, '')}` : 'https://placehold.co/600x400.png';
+            const imageUrl = primaryImage?.image_url || '';
             return {
               ...room,
               imageUrl: imageUrl,
