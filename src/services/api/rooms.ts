@@ -1,3 +1,4 @@
+
 /**
  * @fileoverview This file contains the functions for making API calls to the PHP back-end.
  * It uses the native fetch API for all requests.
@@ -9,6 +10,7 @@ import { API_BASE_URL, COMPANY_ID } from '@/lib/config';
 // Helper to clean up image URLs by removing leading/trailing slashes and backslashes
 function cleanImageUrl(url: string | null | undefined): string {
     if (!url) return '';
+    // This regex removes leading/trailing slashes and all backslashes
     return url.replace(/\\/g, '').replace(/^\/+|\/+$/g, '');
 }
 
