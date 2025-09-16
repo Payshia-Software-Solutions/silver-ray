@@ -21,7 +21,7 @@ export function RoomCard({ room }: RoomCardProps) {
       users: true, // Placeholder for guests
   };
   
-  const imageUrl = room.imageUrl.startsWith('http') ? room.imageUrl : `${IMAGE_BASE_URL}${room.imageUrl.replace(/\\/g, '').replace(/^\//, '')}`;
+  const imageUrl = room.imageUrl?.startsWith('http') ? room.imageUrl : `${IMAGE_BASE_URL}${room.imageUrl?.replace(/\\/g, '').replace(/^\//, '')}`;
 
   return (
     <Card className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col h-full rounded-2xl bg-card border-none">
