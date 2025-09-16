@@ -1,12 +1,12 @@
 
 import type { EventFromApi, EventImage } from '@/types';
-import { API_BASE_URL, COMPANY_ID } from '@/lib/config';
+import { API_BASE_URL } from '@/lib/config';
 import { handleApiResponse, cleanImageUrl } from '@/lib/apiClient';
 
 
 export async function getEvents(): Promise<EventFromApi[]> {
   try {
-    const response = await fetch(`${API_BASE_URL}/events/company/${COMPANY_ID}`, {
+    const response = await fetch(`${API_BASE_URL}/events`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -21,7 +21,7 @@ export async function getEvents(): Promise<EventFromApi[]> {
 
 export async function getEventImages(): Promise<EventImage[]> {
   try {
-    const response = await fetch(`${API_BASE_URL}/company/event-images/${COMPANY_ID}`, {
+    const response = await fetch(`${API_BASE_URL}/event-images`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -33,7 +33,7 @@ export async function getEventImages(): Promise<EventImage[]> {
         image_url: cleanImageUrl(image.image_url),
     }));
   } catch (error) {
-    console.error(`Failed to fetch event images for company ${COMPANY_ID}:`, error);
+    console.error(`Failed to fetch event images for company:`, error);
     throw error;
   }
 }

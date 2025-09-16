@@ -1,6 +1,6 @@
 
 import type { RoomFromApi, RoomImage } from '@/types';
-import { API_BASE_URL, COMPANY_ID } from '@/lib/config';
+import { API_BASE_URL } from '@/lib/config';
 import { handleApiResponse, cleanImageUrl } from '@/lib/apiClient';
 
 /**
@@ -9,7 +9,7 @@ import { handleApiResponse, cleanImageUrl } from '@/lib/apiClient';
  */
 export async function getRooms(): Promise<RoomFromApi[]> {
   try {
-    const response = await fetch(`${API_BASE_URL}/company/rooms/${COMPANY_ID}`, {
+    const response = await fetch(`${API_BASE_URL}/rooms`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -31,7 +31,7 @@ export async function getRooms(): Promise<RoomFromApi[]> {
  */
 export async function getRoomImages(): Promise<RoomImage[]> {
   try {
-    const response = await fetch(`${API_BASE_URL}/company/room-images/${COMPANY_ID}`, {
+    const response = await fetch(`${API_BASE_URL}/room-images`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -43,7 +43,7 @@ export async function getRoomImages(): Promise<RoomImage[]> {
         image_url: cleanImageUrl(image.image_url),
     }));
   } catch (error) {
-    console.error(`Failed to fetch room images for company ${COMPANY_ID}:`, error);
+    console.error(`Failed to fetch room images for company:`, error);
     throw error;
   }
 }
