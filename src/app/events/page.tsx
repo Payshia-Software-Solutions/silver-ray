@@ -1,84 +1,113 @@
 
-import type { Metadata } from 'next';
-import NextImage from 'next/image';
-import { Button } from '@/components/ui/button';
-import { CalendarDays, MapPin } from 'lucide-react';
-import Link from 'next/link';
+'use client';
 
-export const metadata: Metadata = {
-  title: 'Events',
-  description: 'Host your perfect event at Grand Silver Ray. Weddings, conferences, and special occasions.',
-};
+import { useState, useEffect } from 'react';
+import NextImage from 'next/image';
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
+import { getEvents, getEventImages } from '@/services/api/events';
+import type { EventFromApi, EventImage } from '@/types';
+import { EventCard, type EventCardProps } from '@/components/events/EventCard';
+import { API_BASE_URL } from '@/lib/config';
+
 
 export default function EventsPage() {
-  return (
-    <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
-      <div className="text-center mb-12">
-        <h1 className="font-headline text-4xl sm:text-5xl font-bold mb-4">
-          Events at Grand Silver Ray
-        </h1>
-        <p className="font-body text-lg text-muted-foreground max-w-2xl mx-auto">
-          From grand celebrations to intimate gatherings, our versatile event spaces and dedicated team ensure a memorable occasion.
-        </p>
-      </div>
+    const [events, setEvents] = useState<EventCardProps[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
 
-      <div className="bg-card p-8 rounded-xl shadow-xl mb-12">
-        <div className="grid md:grid-cols-2 gap-8 items-center">
-          <div>
-            <NextImage 
-              src="https://images.unsplash.com/photo-1524824267900-2fa9cbf7a506?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxiYWxscm9vbSUyMGV2ZW50fGVufDB8fHx8MTc0OTE0NTI0Nnww&ixlib=rb-4.1.0&q=80&w=1080" 
-              alt="Elegant ballroom setup for an event" 
-              data-ai-hint="ballroom event"
-              width={600} 
-              height={400} 
-              className="rounded-lg shadow-md object-cover w-full h-auto"
-            />
-          </div>
-          <div className="font-body">
-            <h2 className="font-headline text-3xl font-semibold mb-4">Weddings & Celebrations</h2>
-            <p className="text-muted-foreground mb-3">
-              Create timeless memories with a breathtaking wedding at Grand Silver Ray. Our stunning venues, exquisite catering, and personalized service will make your special day truly unforgettable.
-            </p>
-            <p className="text-muted-foreground mb-6">
-              We also cater to anniversaries, birthdays, and other milestone celebrations.
-            </p>
-            <Button asChild>
-              <Link href="/contact?subject=Wedding+Inquiry">Inquire About Weddings</Link>
-            </Button>
-          </div>
-        </div>
-      </div>
+    useEffect(() => {
+        const fetchEvents = async () => {
+            try {
+                setIsLoading(true);
+                const [eventsData, imagesData] = await Promise.all([
+                    getEvents(),
+                    getEventImages(),
+                ]);
 
-      <div className="bg-card p-8 rounded-xl shadow-xl">
-        <div className="grid md:grid-cols-2 gap-8 items-center">
-           <div className="font-body md:order-2">
-            <h2 className="font-headline text-3xl font-semibold mb-4">Meetings & Conferences</h2>
-            <p className="text-muted-foreground mb-3">
-              Host successful corporate events in our state-of-the-art meeting rooms and conference facilities. Equipped with the latest technology and supported by our professional event planners.
-            </p>
-            <ul className="text-muted-foreground mb-6 space-y-1">
-                <li className="flex items-center"><MapPin className="w-4 h-4 mr-2 text-primary"/>Multiple venue sizes</li>
-                <li className="flex items-center"><CalendarDays className="w-4 h-4 mr-2 text-primary"/>Flexible booking options</li>
-            </ul>
-            <Button asChild>
-               <Link href="/contact?subject=Conference+Inquiry">Plan Your Meeting</Link>
-            </Button>
-          </div>
-          <div className="md:order-1">
-             <NextImage 
-              src="https://images.unsplash.com/flagged/photo-1576485436509-a7d286952b65?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxjb25mZXJlbmNlJTIwcm9vbXxlbnwwfHx8fDE3NDkxNDUyNDZ8MA&ixlib=rb-4.1.0&q=80&w=1080" 
-              alt="Modern conference room" 
-              data-ai-hint="conference room"
-              width={600} 
-              height={400} 
-              className="rounded-lg shadow-md object-cover w-full h-auto"
-            />
-          </div>
+                const imagesByEventId = (imagesData || []).reduce((acc, image) => {
+                    if (!acc[image.event_id]) {
+                        acc[image.event_id] = [];
+                    }
+                    acc[image.event_id].push(image);
+                    return acc;
+                }, {} as Record<string, EventImage[]>);
+                
+                const mappedEvents: EventCardProps[] = (eventsData || []).map(event => {
+                    const primaryImage = imagesByEventId[event.id]?.find(img => img.is_primary) || imagesByEventId[event.id]?.[0];
+                    return {
+                        id: event.id,
+                        title: event.event_name,
+                        date: new Date(event.event_date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }),
+                        imageUrl: primaryImage ? `${API_BASE_URL}${primaryImage.image_url}` : 'https://placehold.co/600x400.png',
+                        imageHint: primaryImage?.alt_text || 'event image',
+                        category: event.event_type,
+                    };
+                });
+
+                setEvents(mappedEvents);
+
+            } catch(err: any) {
+                console.error("Failed to fetch events:", err);
+                setError("Failed to load events. Please try again later.");
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        fetchEvents();
+    }, []);
+
+    const renderContent = () => {
+        if (isLoading) {
+            return [...Array(3)].map((_, i) => (
+                <div key={i} className="bg-card rounded-xl shadow-lg animate-pulse">
+                    <div className="aspect-[4/3] bg-muted rounded-t-xl"></div>
+                    <div className="p-6 space-y-3">
+                        <div className="h-6 bg-muted rounded w-3/4"></div>
+                        <div className="h-4 bg-muted rounded w-full"></div>
+                        <div className="h-4 bg-muted rounded w-1/2"></div>
+                    </div>
+                </div>
+            ));
+        }
+
+        if (error) {
+            return <p className="col-span-full text-center text-destructive">{error}</p>;
+        }
+        
+        if (events.length === 0) {
+            return <p className="col-span-full text-center text-muted-foreground">No upcoming events found.</p>
+        }
+
+        return events.map((event) => (
+            <EventCard key={event.id} {...event} />
+        ));
+    };
+
+    return (
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
+            <div className="text-center mb-12">
+                <h1 className="font-headline text-4xl sm:text-5xl font-bold mb-4">
+                Events at Grand Silver Ray
+                </h1>
+                <p className="font-body text-lg text-muted-foreground max-w-2xl mx-auto">
+                From grand celebrations to intimate gatherings, our versatile event spaces and dedicated team ensure a memorable occasion.
+                </p>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {renderContent()}
+            </div>
+
+            <div className="text-center mt-16">
+                <p className="font-body text-lg text-muted-foreground mb-4">
+                    Interested in hosting your own event with us?
+                </p>
+                <Button asChild>
+                    <Link href="/contact?subject=Event+Inquiry">Plan Your Event</Link>
+                </Button>
+            </div>
         </div>
-      </div>
-       <div className="text-center mt-16">
-          <p className="font-body text-lg text-muted-foreground">Contact our events team to discuss your specific needs and start planning your perfect event.</p>
-      </div>
-    </div>
-  );
+    );
 }
