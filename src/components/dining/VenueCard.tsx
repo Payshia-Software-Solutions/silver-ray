@@ -19,7 +19,7 @@ export interface VenueProps {
 }
 
 export function VenueCard({ name, tag, description, imageUrl, imageHint, viewMoreLink }: VenueProps) {
-  const finalImageUrl = imageUrl.startsWith('http') ? imageUrl : `${IMAGE_BASE_URL}${imageUrl.replace(/\\/g, '')}`;
+  const finalImageUrl = imageUrl.startsWith('http') ? imageUrl : `${IMAGE_BASE_URL}${imageUrl.replace(/\\/g, '').replace(/^\//, '')}`;
 
   return (
     <Card className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col h-full rounded-xl bg-card border-none">
