@@ -10,8 +10,8 @@ import { API_BASE_URL, COMPANY_ID } from '@/lib/config';
 // Helper to clean up image URLs by removing leading/trailing slashes and backslashes
 function cleanImageUrl(url: string | null | undefined): string {
     if (!url) return '';
-    // This regex removes leading slashes/backslashes and ensures the path is clean.
-    return url.replace(/^[\/\\]+/, '');
+    // Replace backslashes with forward slashes and remove any leading slash
+    return url.replace(/\\/g, '/').replace(/^\//, '');
 }
 
 /**
