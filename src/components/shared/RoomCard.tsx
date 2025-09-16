@@ -32,7 +32,7 @@ export function RoomCard({ room }: RoomCardProps) {
           data-ai-hint={room.imageHint || `${room.category?.toLowerCase()} room scenic view`}
           fill
           className="object-cover rounded-t-2xl"
-          unoptimized // Useful for localhost images without config
+          unoptimized
         />
       </CardHeader>
       <CardContent className="p-4 sm:p-6 flex-grow">
