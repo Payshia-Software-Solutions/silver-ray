@@ -155,7 +155,7 @@ function ExperiencesPage() {
 
                 const experiences: FeaturedExperience[] = (experiencesData || []).map(exp => {
                     const primaryImage = imagesByExperienceId[exp.id]?.find(img => img.is_primary === 1) || imagesByExperienceId[exp.id]?.[0];
-                    const imageUrl = primaryImage ? `${primaryImage.image_url.replace(/\\/g, '')}` : 'https://placehold.co/600x400.png';
+                    const imageUrl = primaryImage ? `${primaryImage.image_url}` : 'https://placehold.co/600x400.png';
                     return {
                         id: String(exp.id),
                         title: exp.name,
