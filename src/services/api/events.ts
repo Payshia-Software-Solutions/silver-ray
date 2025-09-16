@@ -2,6 +2,13 @@
 import type { EventFromApi, EventImage } from '@/types';
 import { API_BASE_URL, COMPANY_ID } from '@/lib/config';
 
+// Helper to clean up image URLs
+function cleanImageUrl(url: string | null | undefined): string {
+  if (!url) return '';
+  // Remove backslashes and ensure a single leading slash
+  return url.replace(/\\/g, '').replace(/^\/*/, '/');
+}
+
 async function handleResponse<T>(response: Response): Promise<T> {
   if (!response.ok) {
     const errorText = await response.text();
@@ -50,7 +57,11 @@ export async function getEventImages(): Promise<EventImage[]> {
             'Content-Type': 'application/json',
         },
     });
-    return handleResponse<EventImage[]>(response);
+    const images = await handleResponse<EventImage[]>(response);
+    return images.map(image => ({
+        ...image,
+        image_url: cleanImageUrl(image.image_url),
+    }));
   } catch (error) {
     console.error(`Failed to fetch event images for company ${COMPANY_ID}:`, error);
     throw error;

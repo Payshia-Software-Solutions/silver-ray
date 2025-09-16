@@ -2,6 +2,13 @@
 import type { WeddingPackageFromApi, WeddingImage } from '@/types';
 import { API_BASE_URL, COMPANY_ID } from '@/lib/config';
 
+// Helper to clean up image URLs
+function cleanImageUrl(url: string | null | undefined): string {
+  if (!url) return '';
+  // Remove backslashes and ensure a single leading slash
+  return url.replace(/\\/g, '').replace(/^\/*/, '/');
+}
+
 async function handleResponse<T>(response: Response): Promise<T> {
   if (!response.ok) {
     const errorText = await response.text();
@@ -35,7 +42,11 @@ export async function getWeddingPackages(): Promise<WeddingPackageFromApi[]> {
             'Content-Type': 'application/json',
         },
     });
-    return handleResponse<WeddingPackageFromApi[]>(response);
+    const packages = await handleResponse<WeddingPackageFromApi[]>(response);
+    return packages.map(pkg => ({
+        ...pkg,
+        weddinng_image: cleanImageUrl(pkg.weddinng_image),
+    }));
   } catch (error) {
     console.error('Failed to fetch wedding packages:', error);
     throw error;
@@ -50,7 +61,11 @@ export async function getWeddingImages(): Promise<WeddingImage[]> {
             'Content-Type': 'application/json',
         },
     });
-    return handleResponse<WeddingImage[]>(response);
+    const images = await handleResponse<WeddingImage[]>(response);
+    return images.map(image => ({
+        ...image,
+        image_url: cleanImageUrl(image.image_url),
+    }));
   } catch (error) {
     console.error(`Failed to fetch wedding images for company ${COMPANY_ID}:`, error);
     throw error;

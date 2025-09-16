@@ -2,6 +2,13 @@
 import type { RestaurantFromApi, RestaurantImage } from '@/types';
 import { API_BASE_URL, COMPANY_ID } from '@/lib/config';
 
+// Helper to clean up image URLs
+function cleanImageUrl(url: string | null | undefined): string {
+  if (!url) return '';
+  // Remove backslashes and ensure a single leading slash
+  return url.replace(/\\/g, '').replace(/^\/*/, '/');
+}
+
 async function handleResponse<T>(response: Response): Promise<T> {
   if (!response.ok) {
     const errorText = await response.text();
@@ -35,7 +42,11 @@ export async function getRestaurants(): Promise<RestaurantFromApi[]> {
             'Content-Type': 'application/json',
         },
     });
-    return handleResponse<RestaurantFromApi[]>(response);
+    const restaurants = await handleResponse<RestaurantFromApi[]>(response);
+    return restaurants.map(restaurant => ({
+        ...restaurant,
+        'restaurant _image': cleanImageUrl(restaurant['restaurant _image']),
+    }));
   } catch (error) {
     console.error('Failed to fetch restaurants:', error);
     throw error;
@@ -50,7 +61,11 @@ export async function getRestaurantImages(): Promise<RestaurantImage[]> {
             'Content-Type': 'application/json',
         },
     });
-    return handleResponse<RestaurantImage[]>(response);
+    const images = await handleResponse<RestaurantImage[]>(response);
+    return images.map(image => ({
+        ...image,
+        image_url: cleanImageUrl(image.image_url),
+    }));
   } catch (error) {
     console.error(`Failed to fetch restaurant images for company ${COMPANY_ID}:`, error);
     throw error;

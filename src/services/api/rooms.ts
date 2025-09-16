@@ -6,6 +6,12 @@
 import type { RoomFromApi, RoomImage } from '@/types';
 import { API_BASE_URL, COMPANY_ID } from '@/lib/config';
 
+// Helper to clean up image URLs
+function cleanImageUrl(url: string | null | undefined): string {
+    if (!url) return '';
+    // Remove backslashes and ensure a single leading slash
+    return url.replace(/\\/g, '').replace(/^\/*/, '/');
+}
 
 /**
  * A helper function to handle the response from the fetch API.
@@ -70,7 +76,11 @@ export async function getRooms(): Promise<RoomFromApi[]> {
             'Content-Type': 'application/json',
         },
     });
-    return handleResponse<RoomFromApi[]>(response);
+    const rooms = await handleResponse<RoomFromApi[]>(response);
+    return rooms.map(room => ({
+        ...room,
+        image_url: cleanImageUrl(room.image_url),
+    }));
   } catch (error) {
     console.error('Failed to fetch rooms:', error);
     // In a real app, you might want to handle this more gracefully
@@ -90,7 +100,11 @@ export async function getRoomImages(): Promise<RoomImage[]> {
             'Content-Type': 'application/json',
         },
     });
-    return handleResponse<RoomImage[]>(response);
+    const images = await handleResponse<RoomImage[]>(response);
+    return images.map(image => ({
+        ...image,
+        image_url: cleanImageUrl(image.image_url),
+    }));
   } catch (error) {
     console.error(`Failed to fetch room images for company ${COMPANY_ID}:`, error);
     throw error;

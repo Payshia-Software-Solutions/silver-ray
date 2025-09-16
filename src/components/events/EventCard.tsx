@@ -16,7 +16,7 @@ export interface EventCardProps {
 }
 
 export function EventCard({ id, title, date, imageUrl, imageHint, category }: EventCardProps) {
-  const finalImageUrl = imageUrl.startsWith('http') ? imageUrl : `${IMAGE_BASE_URL}${imageUrl.replace(/\\/g, '').replace(/^\//, '')}`;
+  const finalImageUrl = `${IMAGE_BASE_URL}${imageUrl}`;
   return (
     <Card className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col h-full rounded-xl bg-card border-none">
       <CardHeader className="p-0 relative aspect-video">

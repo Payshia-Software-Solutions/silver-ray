@@ -2,6 +2,13 @@
 import type { ExperienceFromApi, ExperienceImage } from '@/types';
 import { API_BASE_URL, COMPANY_ID } from '@/lib/config';
 
+// Helper to clean up image URLs
+function cleanImageUrl(url: string | null | undefined): string {
+  if (!url) return '';
+  // Remove backslashes and ensure a single leading slash
+  return url.replace(/\\/g, '').replace(/^\/*/, '/');
+}
+
 async function handleResponse<T>(response: Response): Promise<T> {
   if (!response.ok) {
     const errorText = await response.text();
@@ -35,7 +42,11 @@ export async function getExperiences(): Promise<ExperienceFromApi[]> {
             'Content-Type': 'application/json',
         },
     });
-    return handleResponse<ExperienceFromApi[]>(response);
+    const experiences = await handleResponse<ExperienceFromApi[]>(response);
+    return experiences.map(exp => ({
+        ...exp,
+        experience_image: cleanImageUrl(exp.experience_image),
+    }));
   } catch (error) {
     console.error('Failed to fetch experiences:', error);
     throw error;
@@ -50,7 +61,11 @@ export async function getExperienceImages(): Promise<ExperienceImage[]> {
             'Content-Type': 'application/json',
         },
     });
-    return handleResponse<ExperienceImage[]>(response);
+    const images = await handleResponse<ExperienceImage[]>(response);
+    return images.map(image => ({
+        ...image,
+        image_url: cleanImageUrl(image.image_url),
+    }));
   } catch (error) {
     console.error(`Failed to fetch experience images for company ${COMPANY_ID}:`, error);
     throw error;

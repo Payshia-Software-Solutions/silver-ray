@@ -12,9 +12,7 @@ interface WeddingPackageCardProps {
 }
 
 export function WeddingPackageCard({ packageItem }: WeddingPackageCardProps) {
-  const finalImageUrl = packageItem.iconImageUrl?.startsWith('http') 
-    ? packageItem.iconImageUrl 
-    : `${IMAGE_BASE_URL}${packageItem.iconImageUrl?.replace(/\\/g, '').replace(/^\//, '')}`;
+  const finalImageUrl = `${IMAGE_BASE_URL}${packageItem.iconImageUrl}`;
 
   return (
     <Card className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col h-full rounded-xl bg-card text-center items-center">
