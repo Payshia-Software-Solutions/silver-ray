@@ -2,11 +2,10 @@
 import type { ExperienceFromApi, ExperienceImage } from '@/types';
 import { API_BASE_URL, COMPANY_ID } from '@/lib/config';
 
-// Helper to clean up image URLs
+// Helper to clean up image URLs by removing leading/trailing slashes and backslashes
 function cleanImageUrl(url: string | null | undefined): string {
   if (!url) return '';
-  // Remove backslashes and ensure a single leading slash
-  return url.replace(/\\/g, '').replace(/^\/*/, '/');
+  return url.replace(/\\/g, '').replace(/^\/+|\/+$/g, '');
 }
 
 async function handleResponse<T>(response: Response): Promise<T> {
