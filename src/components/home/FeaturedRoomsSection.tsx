@@ -8,8 +8,9 @@ import { ChevronRight } from 'lucide-react';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
 import React, { useState, useEffect } from 'react';
-import type { Room, RoomImage } from '@/types';
+import type { Room, RoomImage, RoomFromApi } from '@/types';
 import { getRooms, getRoomImages } from '@/services/api/rooms';
+import { IMAGE_BASE_URL } from '@/lib/config';
 
 export function FeaturedRoomsSection() {
   const [featuredRooms, setFeaturedRooms] = useState<Room[]>([]);
@@ -33,11 +34,12 @@ export function FeaturedRoomsSection() {
           return acc;
         }, {} as Record<number, RoomImage[]>);
 
-        const roomsWithImages: Room[] = roomsData.map(room => {
-            const primaryImage = imagesByRoomId[room.id]?.find(img => img.is_primary) || imagesByRoomId[room.id]?.[0];
+        const roomsWithImages: Room[] = (roomsData as RoomFromApi[]).map(room => {
+            const primaryImage = imagesByRoomId[room.id]?.find(img => img.is_primary === 1) || imagesByRoomId[room.id]?.[0];
+            const imageUrl = primaryImage ? `${IMAGE_BASE_URL}${primaryImage.image_url.replace(/\\/g, '')}` : 'https://placehold.co/600x400.png';
             return {
               ...room,
-              imageUrl: primaryImage?.image_url || 'https://placehold.co/600x400.png',
+              imageUrl: imageUrl,
               images: imagesByRoomId[room.id] || [],
               amenities: [], 
               capacity: room.adults_capacity,

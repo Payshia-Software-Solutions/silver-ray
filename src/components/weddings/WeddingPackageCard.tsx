@@ -5,20 +5,24 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Button } from '@/components/ui/button';
 import type { WeddingPackage } from '@/types';
 import { CheckCircle } from 'lucide-react'; // Using CheckCircle as a generic icon for inclusions
-import { API_BASE_URL } from '@/lib/config';
+import { IMAGE_BASE_URL } from '@/lib/config';
 
 interface WeddingPackageCardProps {
   packageItem: WeddingPackage;
 }
 
 export function WeddingPackageCard({ packageItem }: WeddingPackageCardProps) {
+  const finalImageUrl = packageItem.iconImageUrl?.startsWith('http') 
+    ? packageItem.iconImageUrl 
+    : `${IMAGE_BASE_URL}${packageItem.iconImageUrl?.replace(/\\/g, '')}`;
+
   return (
     <Card className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col h-full rounded-xl bg-card text-center items-center">
       <CardHeader className="pt-6 pb-3 items-center">
         {packageItem.iconImageUrl ? (
           <div className="relative w-20 h-20 mb-3 rounded-full overflow-hidden border-2 border-primary/30 flex items-center justify-center bg-secondary/50">
             <NextImage
-              src={packageItem.iconImageUrl}
+              src={finalImageUrl}
               alt={`${packageItem.name} icon`}
               data-ai-hint={packageItem.imageHint}
               width={80}

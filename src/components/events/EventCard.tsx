@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { CalendarDays, Tag } from 'lucide-react';
+import { IMAGE_BASE_URL } from '@/lib/config';
 
 export interface EventCardProps {
   id: string;
@@ -15,11 +16,12 @@ export interface EventCardProps {
 }
 
 export function EventCard({ id, title, date, imageUrl, imageHint, category }: EventCardProps) {
+  const finalImageUrl = imageUrl.startsWith('http') ? imageUrl : `${IMAGE_BASE_URL}${imageUrl.replace(/\\/g, '')}`;
   return (
     <Card className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col h-full rounded-xl bg-card border-none">
       <CardHeader className="p-0 relative aspect-video">
         <NextImage
-          src={imageUrl}
+          src={finalImageUrl}
           alt={title}
           data-ai-hint={imageHint}
           fill

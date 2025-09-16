@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ArrowRight } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
+import { IMAGE_BASE_URL } from '@/lib/config';
 
 
 export interface VenueProps {
@@ -18,11 +19,13 @@ export interface VenueProps {
 }
 
 export function VenueCard({ name, tag, description, imageUrl, imageHint, viewMoreLink }: VenueProps) {
+  const finalImageUrl = imageUrl.startsWith('http') ? imageUrl : `${IMAGE_BASE_URL}${imageUrl.replace(/\\/g, '')}`;
+
   return (
     <Card className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col h-full rounded-xl bg-card border-none">
       <CardHeader className="p-0 relative aspect-[4/3]">
         <NextImage
-          src={imageUrl}
+          src={finalImageUrl}
           alt={`Image of ${name}`}
           data-ai-hint={imageHint}
           fill

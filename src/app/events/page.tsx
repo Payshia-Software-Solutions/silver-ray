@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { getEvents, getEventImages } from '@/services/api/events';
 import type { EventFromApi, EventImage } from '@/types';
 import { EventCard, type EventCardProps } from '@/components/events/EventCard';
-import { API_BASE_URL } from '@/lib/config';
+import { IMAGE_BASE_URL } from '@/lib/config';
 
 
 export default function EventsPage() {
@@ -34,12 +34,13 @@ export default function EventsPage() {
                 }, {} as Record<string, EventImage[]>);
                 
                 const mappedEvents: EventCardProps[] = (eventsData || []).map(event => {
-                    const primaryImage = imagesByEventId[event.id]?.find(img => img.is_primary) || imagesByEventId[event.id]?.[0];
+                    const primaryImage = imagesByEventId[event.id]?.find(img => img.is_primary === "1") || imagesByEventId[event.id]?.[0];
+                    const imageUrl = primaryImage ? `${IMAGE_BASE_URL}${primaryImage.image_url.replace(/\\/g, '')}` : 'https://placehold.co/600x400.png';
                     return {
                         id: event.id,
                         title: event.event_name,
                         date: new Date(event.event_date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }),
-                        imageUrl: primaryImage ? `${API_BASE_URL}${primaryImage.image_url}` : 'https://placehold.co/600x400.png',
+                        imageUrl: imageUrl,
                         imageHint: primaryImage?.alt_text || 'event image',
                         category: event.event_type,
                     };

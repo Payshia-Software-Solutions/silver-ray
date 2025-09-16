@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { ChevronDown, SlidersHorizontal } from 'lucide-react';
 import { RoomsPageHero } from '@/components/rooms/RoomsPageHero';
 import { NotificationBanner } from '@/components/rooms/NotificationBanner';
-import type { Room, RoomImage } from '@/types';
+import type { Room, RoomFromApi, RoomImage } from '@/types';
 import {
   Accordion,
   AccordionContent,
@@ -23,6 +23,7 @@ import {
 } from "@/components/ui/select"
 import { Label } from '@/components/ui/label';
 import { getRooms, getRoomImages } from '@/services/api/rooms';
+import { IMAGE_BASE_URL } from '@/lib/config';
 
 
 function DesktopRoomFilters() {
@@ -202,11 +203,12 @@ export default function RoomsPage() {
           return acc;
         }, {} as Record<number, RoomImage[]>);
 
-        const roomsWithImages: Room[] = roomsData.map(room => {
-            const primaryImage = imagesByRoomId[room.id]?.find(img => img.is_primary) || imagesByRoomId[room.id]?.[0];
+        const roomsWithImages: Room[] = (roomsData as RoomFromApi[]).map(room => {
+            const primaryImage = imagesByRoomId[room.id]?.find(img => img.is_primary === 1) || imagesByRoomId[room.id]?.[0];
+            const imageUrl = primaryImage ? `${IMAGE_BASE_URL}${primaryImage.image_url.replace(/\\/g, '')}` : 'https://placehold.co/600x400.png';
             return {
               ...room,
-              imageUrl: primaryImage?.image_url || 'https://placehold.co/600x400.png',
+              imageUrl: imageUrl,
               images: imagesByRoomId[room.id] || [],
               amenities: [], // This needs to be mapped from amenities_id if there's an amenities endpoint
               capacity: room.adults_capacity,

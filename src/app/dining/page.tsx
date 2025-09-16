@@ -9,7 +9,7 @@ import { ReservationSection } from '@/components/dining/ReservationSection';
 import { InfoBar } from '@/components/dining/InfoBar';
 import type { RestaurantFromApi, RestaurantImage } from '@/types';
 import { getRestaurants, getRestaurantImages } from '@/services/api/dining';
-import { API_BASE_URL } from '@/lib/config';
+import { IMAGE_BASE_URL } from '@/lib/config';
 
 const signatureDishes: DishProps[] = [
   {
@@ -59,12 +59,13 @@ export default function DiningPage() {
 
         const venues: VenueProps[] = (restaurantsData || []).map(restaurant => {
           const primaryImage = imagesByRestaurantId[restaurant.id]?.find(img => img.is_primary) || imagesByRestaurantId[restaurant.id]?.[0];
+          const imageUrl = primaryImage ? `${IMAGE_BASE_URL}${primaryImage.image_url.replace(/\\/g, '')}` : 'https://placehold.co/600x400.png';
           return {
             id: String(restaurant.id),
             name: restaurant.venue_name,
             tag: restaurant.status === 'Active' ? 'Fine Dining' : 'Coming Soon', // Example logic for tag
             description: restaurant.short_description,
-            imageUrl: primaryImage ? `${API_BASE_URL}${primaryImage.image_url}` : 'https://placehold.co/600x400.png',
+            imageUrl: imageUrl,
             imageHint: primaryImage?.alt_text || 'restaurant interior',
             viewMoreLink: `/dining/menu/${restaurant.id}`,
           };

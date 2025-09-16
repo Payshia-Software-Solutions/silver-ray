@@ -12,7 +12,7 @@ import { TestimonialsCarousel } from '@/components/weddings/TestimonialsCarousel
 import type { WeddingPackage, WeddingImage } from '@/types';
 import { getWeddingPackages, getWeddingImages } from '@/services/api/weddings';
 import { Gift } from 'lucide-react';
-import { API_BASE_URL } from '@/lib/config';
+import { IMAGE_BASE_URL } from '@/lib/config';
 
 function WeddingHero() {
   return (
@@ -64,7 +64,8 @@ export default function WeddingsPage() {
         }, {} as Record<number, WeddingImage[]>);
 
         const packagesWithImages: WeddingPackage[] = packagesData.map(pkg => {
-          const primaryImage = imagesByPackageId[pkg.id]?.find(img => img.is_primary) || imagesByPackageId[pkg.id]?.[0];
+          const primaryImage = imagesByPackageId[pkg.id]?.find(img => img.is_primary === 1) || imagesByPackageId[pkg.id]?.[0];
+          const iconImageUrl = primaryImage ? `${IMAGE_BASE_URL}${primaryImage.image_url.replace(/\\/g, '')}` : 'https://placehold.co/100x100.png';
           
           return {
             id: String(pkg.id),
@@ -74,8 +75,8 @@ export default function WeddingsPage() {
             imageHint: primaryImage?.alt_text || 'wedding package',
             inclusions: [], // This needs to be mapped if the data is available
             shortDescription: pkg.short_description,
-            heroImage: primaryImage ? `${API_BASE_URL}${primaryImage.image_url}` : 'https://placehold.co/1920x700.png',
-            iconImageUrl: primaryImage ? `${API_BASE_URL}${primaryImage.image_url}` : 'https://placehold.co/100x100.png',
+            heroImage: iconImageUrl,
+            iconImageUrl: iconImageUrl,
           };
         });
         
