@@ -1,7 +1,7 @@
 
 import type { Metadata, ResolvingMetadata } from 'next';
 import NextImage from 'next/image';
-import { getRoomById, getRoomImages } from '@/services/api/rooms';
+import { getRoomById, getRoomImages, getRooms } from '@/services/api/rooms';
 import type { Room, RoomFromApi, RoomImage } from '@/types';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -334,5 +334,3 @@ export async function generateStaticParams() {
     id: String(room.id),
   }));
 }
-
-    
