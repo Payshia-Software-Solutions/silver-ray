@@ -15,7 +15,7 @@ export interface RoomFromApi {
   room_width: string;
   room_height: string;
   amenities_id: string; // Comma-separated string of amenity IDs
-  image_url: string;
+  room_images: string | null;
   company_id: string;
   created_by: string;
   updated_by: string | null;

@@ -1,7 +1,8 @@
 
 import type { Metadata, ResolvingMetadata } from 'next';
 import NextImage from 'next/image';
-import { mockRooms } from '@/data/mockData';
+import { getRoomById, getRooms, getRoomImages } from '@/services/api/rooms';
+import type { Room, RoomFromApi, RoomImage } from '@/types';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { 
@@ -31,29 +32,60 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { Separator } from '@/components/ui/separator';
+import { IMAGE_BASE_URL } from '@/lib/config';
 
 
 type Props = {
   params: { id: string };
 };
 
+// Helper to map API data to our Room type
+const mapRoomData = (apiRoom: RoomFromApi, roomImages: RoomImage[]): Room => {
+  const finalImageUrl = apiRoom.room_images ? `${IMAGE_BASE_URL}${apiRoom.room_images}` : 'https://placehold.co/1200x800.png';
+  
+  const amenitiesMap: { [key: string]: string } = {
+    '89': 'King-size Bed',
+    // Add other amenity IDs here
+  };
+
+  const amenities = apiRoom.amenities_id?.split(',').map(id => amenitiesMap[id.trim()]).filter(Boolean) || [];
+
+  return {
+    ...apiRoom,
+    id: String(apiRoom.id),
+    name: apiRoom.descriptive_title,
+    description: apiRoom.short_description,
+    longDescription: apiRoom.short_description, // Assuming short_description can be used here
+    pricePerNight: parseFloat(apiRoom.price_per_night),
+    imageUrl: finalImageUrl,
+    images: roomImages.filter(img => String(img.room_id) === String(apiRoom.id)),
+    amenities: amenities,
+    capacity: apiRoom.adults_capacity,
+    beds: '1 King Bed', // This might need to be derived from room_type_id or another field
+    size: `${apiRoom.room_width}x${apiRoom.room_height} sqm`,
+    category: 'Suite', // This might need to be derived from room_type_id
+    rating: 4.8, // Placeholder
+  };
+};
+
 export async function generateMetadata(
   { params }: Props,
   parent: ResolvingMetadata
 ): Promise<Metadata> {
-  const room = mockRooms.find((r) => r.id === params.id);
-
-  if (!room) {
+  const roomData = await getRoomById(params.id);
+  if (!roomData) {
     return {
       title: 'Room Not Found | Grand Silver Ray',
     };
   }
 
+  const imageUrl = roomData.room_images ? `${IMAGE_BASE_URL}${roomData.room_images}` : 'https://placehold.co/1200x630.png';
+
   return {
-    title: `${room.name} | Grand Silver Ray`,
-    description: room.description,
+    title: `${roomData.descriptive_title} | Grand Silver Ray`,
+    description: roomData.short_description,
     openGraph: {
-        images: room.images && room.images.length > 0 ? [room.images[0]] : [room.imageUrl],
+        images: [imageUrl],
     },
   };
 }
@@ -69,14 +101,17 @@ const amenitiesIcons = {
   'Private Balcony': Mountain,
 };
 
-export default function RoomDetailPage({ params }: Props) {
-  const room = mockRooms.find((r) => r.id === params.id);
-
-  if (!room) {
+export default async function RoomDetailPage({ params }: Props) {
+  const apiRoom = await getRoomById(params.id);
+  
+  if (!apiRoom) {
     notFound();
   }
 
-  const imagesToShow = room.images && room.images.length > 0 ? room.images : [room.imageUrl];
+  const allRoomImages = await getRoomImages();
+  const room = mapRoomData(apiRoom, allRoomImages);
+  
+  const imagesToShow = room.images && room.images.length > 0 ? room.images.map(img => `${IMAGE_BASE_URL}${img.image_url}`) : [room.imageUrl];
   const mainImage = imagesToShow[0];
   const thumbnails = imagesToShow.slice(0, 4); // Show up to 4 thumbnails
 
@@ -113,6 +148,7 @@ export default function RoomDetailPage({ params }: Props) {
                             fill
                             className="object-cover"
                             priority
+                            unoptimized
                         />
                          <div className="absolute bottom-4 left-4">
                             <Button variant="secondary" className="bg-black/50 text-white backdrop-blur-sm hover:bg-black/70 border-white/20">
@@ -129,6 +165,7 @@ export default function RoomDetailPage({ params }: Props) {
                                     data-ai-hint={`${room.category.toLowerCase()} room interior thumbnail`}
                                     fill
                                     className="object-cover"
+                                    unoptimized
                                 />
                             </div>
                         ))}
@@ -241,6 +278,7 @@ export default function RoomDetailPage({ params }: Props) {
                             data-ai-hint="floor plan"
                             fill
                             className="object-contain" 
+                            unoptimized
                         />
                         </div>
                         <Button variant="link" className="text-primary w-full mt-2">
@@ -291,7 +329,8 @@ export default function RoomDetailPage({ params }: Props) {
 }
 
 export async function generateStaticParams() {
-  return mockRooms.map((room) => ({
-    id: room.id,
+  const rooms = await getRooms();
+  return rooms.map((room) => ({
+    id: String(room.id),
   }));
 }

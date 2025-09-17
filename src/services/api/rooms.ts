@@ -16,11 +16,41 @@ export async function getRooms(): Promise<RoomFromApi[]> {
         },
     });
     const rooms = await handleApiResponse<RoomFromApi[]>(response);
-    // Note: The main room list doesn't seem to have its own image URL in the provided structure,
-    // so we don't clean it here. It's constructed later from the room images.
-    return rooms;
+    return rooms.map(room => ({
+        ...room,
+        // The main room list doesn't seem to have its own image URL in the provided structure,
+        // so we don't clean it here. It's constructed later from the room images.
+    }));
   } catch (error) {
     console.error('Failed to fetch rooms:', error);
+    throw error;
+  }
+}
+
+/**
+ * Fetches a single room by its ID from the back-end.
+ * @param id The ID of the room to fetch.
+ * @returns A promise that resolves to a RoomFromApi object.
+ */
+export async function getRoomById(id: string): Promise<RoomFromApi> {
+  try {
+    const response = await fetch(`${API_BASE_URL}/rooms/${id}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    const room = await handleApiResponse<RoomFromApi>(response);
+    // The API returns an array with a single object for a single room request
+    const singleRoom = Array.isArray(room) ? room[0] : room;
+
+    return {
+        ...singleRoom,
+        room_images: cleanImageUrl(singleRoom.room_images),
+    };
+
+  } catch (error) {
+    console.error(`Failed to fetch room with id ${id}:`, error);
     throw error;
   }
 }
