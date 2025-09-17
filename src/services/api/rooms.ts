@@ -77,3 +77,5 @@ export async function getRoomImages(): Promise<RoomImage[]> {
     throw error;
   }
 }
+
+    
