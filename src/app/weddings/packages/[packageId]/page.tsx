@@ -4,7 +4,7 @@ import NextImage from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
-import { getWeddingPackageById, getWeddingPackages, getWeddingImages } from '@/services/api/weddings';
+import { getWeddingPackageById, getWeddingPackages } from '@/services/api/weddings';
 import { premiumWeddingAddons } from '@/data/weddingData';
 import type { WeddingPackageFromApi, WeddingImage } from '@/types';
 import { Button } from '@/components/ui/button';
