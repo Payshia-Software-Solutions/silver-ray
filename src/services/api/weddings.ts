@@ -23,6 +23,27 @@ export async function getWeddingPackages(): Promise<WeddingPackageFromApi[]> {
   }
 }
 
+export async function getWeddingPackageById(id: string): Promise<WeddingPackageFromApi> {
+  try {
+    const response = await fetch(`${API_BASE_URL}/weddingpackages/${id}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    const pkg = await handleApiResponse<WeddingPackageFromApi>(response);
+    const singlePackage = Array.isArray(pkg) ? pkg[0] : pkg;
+    return {
+        ...singlePackage,
+        weddinng_image: cleanImageUrl(singlePackage.weddinng_image),
+    };
+  } catch (error) {
+    console.error(`Failed to fetch wedding package with id ${id}:`, error);
+    throw error;
+  }
+}
+
+
 export async function getWeddingImages(): Promise<WeddingImage[]> {
   try {
     const response = await fetch(`${API_BASE_URL}/wedding-images`, {
