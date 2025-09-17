@@ -22,6 +22,29 @@ export async function getExperiences(): Promise<ExperienceFromApi[]> {
   }
 }
 
+export async function getExperienceById(id: string): Promise<ExperienceFromApi> {
+    try {
+        const response = await fetch(`${API_BASE_URL}/experiences/${id}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+        const exp = await handleApiResponse<ExperienceFromApi>(response);
+        const singleExperience = Array.isArray(exp) ? exp[0] : exp;
+
+        return {
+            ...singleExperience,
+            experience_image: cleanImageUrl(singleExperience.experience_image),
+        };
+
+    } catch (error) {
+        console.error(`Failed to fetch experience with id ${id}:`, error);
+        throw error;
+    }
+}
+
+
 export async function getExperienceImages(): Promise<ExperienceImage[]> {
   try {
     const response = await fetch(`${API_BASE_URL}/experience-images`, {
