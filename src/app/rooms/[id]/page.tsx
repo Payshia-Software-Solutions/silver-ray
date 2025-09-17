@@ -45,7 +45,7 @@ const mapRoomData = (apiRoom: RoomFromApi, roomImages: RoomImage[]): Room => {
   
   const amenitiesMap: { [key: string]: string } = {
     '89': 'King-size Bed',
-    // Add other amenity IDs here
+    // Add other amenity IDs here as you get them from your backend
   };
 
   const amenities = apiRoom.amenities_id?.split(',').map(id => amenitiesMap[id.trim()]).filter(Boolean) || [];
