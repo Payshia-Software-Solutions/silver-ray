@@ -28,6 +28,27 @@ export async function getRooms(): Promise<RoomFromApi[]> {
 }
 
 /**
+ * Fetches all rooms with their associated room types from the back-end.
+ * @returns A promise that resolves to an array of RoomFromApi objects.
+ */
+export async function getRoomsWithTypes(): Promise<RoomFromApi[]> {
+    try {
+        const response = await fetch(`${API_BASE_URL}/rooms-with-types`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+        const rooms = await handleApiResponse<RoomFromApi[]>(response);
+        return rooms;
+    } catch (error) {
+        console.error('Failed to fetch rooms with types:', error);
+        throw error;
+    }
+}
+
+
+/**
  * Fetches a single room by its ID from the back-end.
  * @param id The ID of the room to fetch.
  * @returns A promise that resolves to a RoomFromApi object.

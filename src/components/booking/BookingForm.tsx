@@ -1,3 +1,4 @@
+
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -26,10 +27,10 @@ import { toast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 import { CalendarIcon, Users, BedDouble } from "lucide-react";
 import { format } from "date-fns";
-import { mockRooms } from "@/data/mockData";
-import type { Room } from "@/types";
+import { getRoomsWithTypes } from "@/services/api/rooms";
+import type { RoomFromApi } from "@/types";
 import { useSearchParams } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 
 const bookingFormSchema = z.object({
@@ -52,6 +53,8 @@ type BookingFormValues = z.infer<typeof bookingFormSchema>;
 export function BookingForm() {
   const searchParams = useSearchParams();
   const preselectedRoomId = searchParams.get('roomId');
+  const [rooms, setRooms] = useState<RoomFromApi[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   const form = useForm<BookingFormValues>({
     resolver: zodResolver(bookingFormSchema),
@@ -65,6 +68,26 @@ export function BookingForm() {
       specialRequests: "",
     },
   });
+
+  useEffect(() => {
+    const fetchRooms = async () => {
+      try {
+        setIsLoading(true);
+        const roomsData = await getRoomsWithTypes();
+        setRooms(roomsData);
+      } catch (error) {
+        console.error("Failed to fetch rooms:", error);
+        toast({
+          title: "Error",
+          description: "Could not load rooms. Please try again later.",
+          variant: "destructive",
+        });
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchRooms();
+  }, []);
 
  useEffect(() => {
     if (preselectedRoomId) {
@@ -93,16 +116,16 @@ export function BookingForm() {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Room Type</FormLabel>
-                <Select onValueChange={field.onChange} defaultValue={field.value} value={field.value}>
+                <Select onValueChange={field.onChange} defaultValue={field.value} value={field.value} disabled={isLoading}>
                   <FormControl>
                     <SelectTrigger>
-                      <SelectValue placeholder="Select a room type" />
+                      <SelectValue placeholder={isLoading ? "Loading rooms..." : "Select a room type"} />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    {mockRooms.map((room: Room) => (
-                      <SelectItem key={room.id} value={room.id}>
-                        {room.name} (${room.pricePerNight}/night)
+                    {rooms.map((room: RoomFromApi) => (
+                      <SelectItem key={room.id} value={String(room.id)}>
+                        {room.descriptive_title} ({room.currency} {parseFloat(room.price_per_night).toFixed(2)}/night)
                       </SelectItem>
                     ))}
                   </SelectContent>

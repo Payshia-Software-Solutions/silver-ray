@@ -1,6 +1,16 @@
 
 import type { LucideIcon } from 'lucide-react';
 
+export interface RoomType {
+  id: string;
+  room_type_id: string;
+  company_id: string;
+  type_name: string;
+  created_at: string;
+  updated_at: string;
+  created_by: string;
+  updated_by: string | null;
+}
 export interface RoomFromApi {
   id: number;
   room_number: string;
@@ -20,6 +30,7 @@ export interface RoomFromApi {
   created_by: string;
   updated_by: string | null;
   is_active: number;
+  room_type?: RoomType;
 }
 
 export interface Room extends RoomFromApi {
