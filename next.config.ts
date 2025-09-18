@@ -34,7 +34,13 @@ const nextConfig: NextConfig = {
         hostname: 'content-provider.payshia.com',
         port: '',
         pathname: '/**',
-      }
+      },
+      {
+        protocol: 'https',
+        hostname: 'silverray-server.payshia.com',
+        port: '',
+        pathname: '/**',
+      },
     ],
   },
 };
