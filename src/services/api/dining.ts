@@ -37,6 +37,3 @@ export async function getRestaurantImages(): Promise<RestaurantImage[]> {
     }));
   } catch (error) {
     console.error(`Failed to fetch restaurant images for company:`, error);
-    throw error;
-  }
-}

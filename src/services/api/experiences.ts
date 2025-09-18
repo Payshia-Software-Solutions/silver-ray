@@ -46,20 +46,4 @@ export async function getExperienceById(id: string): Promise<ExperienceFromApi> 
 
 
 export async function getExperienceImages(): Promise<ExperienceImage[]> {
-  try {
-    const response = await fetch(`${API_BASE_URL}/experience-images`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-    });
-    const images = await handleApiResponse<ExperienceImage[]>(response);
-    return images.map(image => ({
-        ...image,
-        image_url: cleanImageUrl(image.image_url),
-    }));
-  } catch (error) {
-    console.error(`Failed to fetch experience images for company:`, error);
-    throw error;
-  }
-}
+  try

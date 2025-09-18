@@ -1,4 +1,3 @@
-
 // src/lib/apiClient.ts
 import axios from 'axios';
 import { API_BASE_URL } from './config';
@@ -12,14 +11,15 @@ const apiClient = axios.create({
 
 /**
  * A robust function to clean up image URLs received from the backend.
- * It replaces all backslashes with forward slashes. It no longer removes the leading slash.
+ * It replaces all backslashes with forward slashes.
  * @param url The raw image URL string from the API.
  * @returns A cleaned-up URL path ready to be appended to a base URL.
  */
 export function cleanImageUrl(url: string | null | undefined): string {
   if (!url) return '';
   // 1. Replace all backslashes with forward slashes
-  return url.replace(/\\/g, '/');
+  // 2. Remove a leading slash if it exists, to prevent double slashes when joining with base URL
+  return url.replace(/\\/g, '/').replace(/^\//, '');
 }
 
 
@@ -46,7 +46,7 @@ export async function handleApiResponse<T>(response: Response): Promise<T> {
         return data as T;
     } else if (typeof data === 'object' && data !== null) {
         // If the API returns a single object, wrap it in an array for consistency
-        return [data] as unknown as T;
+        return data as T; // Return single object as is.
     }
     // Return an empty array if the data is not in a recognized format
     return [] as T;
