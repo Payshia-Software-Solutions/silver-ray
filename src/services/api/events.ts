@@ -40,7 +40,10 @@ export async function getEventImages(): Promise<EventImage[]> {
 
 export async function getEventImagesByEventId(eventId: string): Promise<EventImage[]> {
   try {
-    const response = await fetch(`${API_BASE_URL}/event-images/company/1/event/${eventId}`, {
+    // The base URL is 'https://silverray-server.payshia.com/company/1'
+    // We need to construct the URL relative to the server root.
+    const serverRoot = API_BASE_URL.split('/company/')[0];
+    const response = await fetch(`${serverRoot}/event-images/company/1/event/${eventId}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -56,3 +59,4 @@ export async function getEventImagesByEventId(eventId: string): Promise<EventIma
     throw error;
   }
 }
+
