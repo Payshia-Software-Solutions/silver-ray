@@ -26,9 +26,12 @@ export function RoomCard({ room }: RoomCardProps) {
       if (!room.id) return;
       try {
         setIsLoading(true);
-        // Corrected the endpoint to be relative to the apiClient's baseURL
-        const response = await apiClient.get(`/room-images/room/${room.id}`);
-        const images: RoomImage[] = response.data;
+        // Using fetch directly to construct the exact URL needed, bypassing axios client baseURL issues.
+        const response = await fetch(`https://silverray-server.payshia.com/room-images/company/1/room/${room.id}`);
+        if (!response.ok) {
+            throw new Error(`API call failed with status: ${response.status}`);
+        }
+        const images: RoomImage[] = await response.json();
         
         const primaryImage = images.find(img => String(img.is_primary) === "1") || images[0];
         
