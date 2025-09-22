@@ -33,3 +33,7 @@ export async function getEventImages(): Promise<EventImage[]> {
         image_url: cleanImageUrl(image.image_url),
     }));
   } catch (error) {
+    console.error(`Failed to fetch event images:`, error);
+    throw error;
+  }
+}
