@@ -4,7 +4,7 @@
 import { useState, useEffect } from 'react';
 import NextImage from 'next/image';
 import Link from 'next/link';
-import { notFound } from 'next/navigation';
+import { notFound, useParams } from 'next/navigation';
 
 import { getWeddingPackageById } from '@/services/api/weddings';
 import { premiumWeddingAddons } from '@/data/weddingData';
@@ -20,10 +20,6 @@ import { WeddingAddonCard } from '@/components/weddings/WeddingAddonCard';
 import { IMAGE_BASE_URL } from '@/lib/config';
 import { Skeleton } from '@/components/ui/skeleton';
 
-
-type Props = {
-  params: { packageId: string };
-};
 
 const mapInclusions = (inclusions: string | null) => {
     if (!inclusions) return [];
@@ -54,16 +50,20 @@ interface InclusionGroup {
   items: { icon: LucideIcon; text: string }[];
 }
 
-export default function WeddingPackageDetailPage({ params }: Props) {
+export default function WeddingPackageDetailPage() {
+  const params = useParams();
+  const packageId = params.packageId as string;
+
   const [pkg, setPkg] = useState<WeddingPackageFromApi | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    if (!packageId) return;
     const fetchPackage = async () => {
       try {
         setIsLoading(true);
-        const pkgData = await getWeddingPackageById(params.packageId);
+        const pkgData = await getWeddingPackageById(packageId);
         if (!pkgData) {
           notFound();
           return;
@@ -77,7 +77,7 @@ export default function WeddingPackageDetailPage({ params }: Props) {
       }
     };
     fetchPackage();
-  }, [params.packageId]);
+  }, [packageId]);
 
   if (isLoading) {
     return (
@@ -265,3 +265,5 @@ export default function WeddingPackageDetailPage({ params }: Props) {
     </div>
   );
 }
+
+    
