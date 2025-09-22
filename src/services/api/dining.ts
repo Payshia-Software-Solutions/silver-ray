@@ -40,3 +40,26 @@ export async function getRestaurantImages(): Promise<RestaurantImage[]> {
     throw error;
   }
 }
+
+export async function getRestaurantImagesByVenueId(venueId: string): Promise<RestaurantImage[]> {
+  try {
+    const serverRoot = API_BASE_URL.split('/company/')[0];
+    const response = await fetch(`${serverRoot}/restaurant-images/company/1/restaurant/${venueId}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
+    if (response.status === 404) {
+      return [];
+    }
+    const images = await handleApiResponse<RestaurantImage[]>(response);
+     return images.map(image => ({
+        ...image,
+        image_url: cleanImageUrl(image.image_url),
+    }));
+  } catch (error) {
+    console.error(`Failed to fetch images for venue ${venueId}:`, error);
+    return [];
+  }
+}

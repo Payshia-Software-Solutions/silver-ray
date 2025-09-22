@@ -3,13 +3,14 @@
 
 import { useState, useEffect } from 'react';
 import { DiningHero } from '@/components/dining/DiningHero';
-import { VenueCard, type VenueProps } from '@/components/dining/VenueCard';
+import { VenueCard, type VenueCardProps } from '@/components/dining/VenueCard';
 import { DishCard, type DishProps } from '@/components/dining/DishCard';
 import { ReservationSection } from '@/components/dining/ReservationSection';
 import { InfoBar } from '@/components/dining/InfoBar';
-import type { RestaurantFromApi, RestaurantImage } from '@/types';
-import { getRestaurants, getRestaurantImages } from '@/services/api/dining';
-import { IMAGE_BASE_URL } from '@/lib/config';
+import type { RestaurantFromApi } from '@/types';
+import { getRestaurants } from '@/services/api/dining';
+import { Skeleton } from '@/components/ui/skeleton';
+
 
 const signatureDishes: DishProps[] = [
   {
@@ -23,7 +24,7 @@ const signatureDishes: DishProps[] = [
     id: 'molten-lava-cake',
     name: 'Molten Chocolate Lava Cake',
     description: 'Rich chocolate cake with a warm, gooey center, garnished with gold leaf and fresh berries.',
-    imageUrl: 'https://images.unsplash.com/photo-1514517521153-1be72277b32f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxjaG9jb2xhdGUlMjBsYXZhJTIwY2FrZSUyMGRlc3NlcnR8ZW58MHx8fHwxNzQ5MTQ1MTY0fDA&ixlib-rb-4.1.0&q=80&w=1080',
+    imageUrl: 'https://images.unsplash.com/photo-1514517521153-1be72277b32f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxjaG9jb2xhdGUlMjBsYXZhJTIwY2FrZSUyMGRlc3NlcnR8ZW58MHx8fHwxNzQ5MTQ1MTY0fDA&ixlib=rb-4.1.0&q=80&w=1080',
     imageHint: 'chocolate lava cake dessert',
   },
   {
@@ -36,7 +37,7 @@ const signatureDishes: DishProps[] = [
 ];
 
 export default function DiningPage() {
-  const [diningVenues, setDiningVenues] = useState<VenueProps[]>([]);
+  const [diningVenues, setDiningVenues] = useState<RestaurantFromApi[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -44,34 +45,8 @@ export default function DiningPage() {
     const fetchDiningData = async () => {
       try {
         setIsLoading(true);
-        const [restaurantsData, imagesData] = await Promise.all([
-          getRestaurants(),
-          getRestaurantImages(),
-        ]);
-
-        const imagesByRestaurantId = (imagesData || []).reduce((acc, image) => {
-          if (!acc[image.restaurant_id]) {
-            acc[image.restaurant_id] = [];
-          }
-          acc[image.restaurant_id].push(image);
-          return acc;
-        }, {} as Record<number, RestaurantImage[]>);
-
-        const venues: VenueProps[] = (restaurantsData || []).map(restaurant => {
-          const primaryImage = imagesByRestaurantId[restaurant.id]?.find(img => img.is_primary) || imagesByRestaurantId[restaurant.id]?.[0];
-          const imageUrl = primaryImage?.image_url || '';
-          return {
-            id: String(restaurant.id),
-            name: restaurant.venue_name,
-            tag: restaurant.status === 'Active' ? 'Fine Dining' : 'Coming Soon', // Example logic for tag
-            description: restaurant.short_description,
-            imageUrl: imageUrl,
-            imageHint: primaryImage?.alt_text || 'restaurant interior',
-            viewMoreLink: `/dining/menu/${restaurant.id}`,
-          };
-        });
-
-        setDiningVenues(venues);
+        const restaurantsData = await getRestaurants();
+        setDiningVenues(restaurantsData);
       } catch (err: any) {
         console.error("Failed to fetch dining venues:", err);
         setError("Failed to load dining venues. Please try again later.");
@@ -86,13 +61,13 @@ export default function DiningPage() {
   const renderVenues = () => {
     if (isLoading) {
       return [...Array(3)].map((_, i) => (
-        <div key={i} className="bg-card rounded-xl shadow-lg animate-pulse">
-          <div className="aspect-[4/3] bg-muted rounded-t-xl"></div>
-          <div className="p-6 space-y-3">
-            <div className="h-6 bg-muted rounded w-3/4"></div>
-            <div className="h-4 bg-muted rounded w-full"></div>
-            <div className="h-4 bg-muted rounded w-1/2"></div>
-          </div>
+         <div key={i} className="bg-card rounded-xl shadow-lg animate-pulse">
+            <div className="aspect-[4/3] bg-muted rounded-t-xl"></div>
+            <div className="p-6 space-y-3">
+              <div className="h-6 bg-muted rounded w-3/4"></div>
+              <div className="h-4 bg-muted rounded w-full"></div>
+              <div className="h-4 bg-muted rounded w-1/2"></div>
+            </div>
         </div>
       ));
     }
@@ -100,7 +75,7 @@ export default function DiningPage() {
       return <p className="col-span-full text-center text-destructive">{error}</p>;
     }
     return diningVenues.map((venue) => (
-      <VenueCard key={venue.id} {...venue} />
+      <VenueCard key={venue.id} venue={venue} />
     ));
   }
 
