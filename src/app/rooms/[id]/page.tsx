@@ -1,8 +1,9 @@
 
+'use client';
 
-import type { Metadata, ResolvingMetadata } from 'next';
+import { useState, useEffect } from 'react';
 import NextImage from 'next/image';
-import { getRoomById, getRoomImages, getRooms } from '@/services/api/rooms';
+import { getRoomById, getRoomImages } from '@/services/api/rooms';
 import type { Room, RoomFromApi, RoomImage } from '@/types';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -34,6 +35,7 @@ import { notFound } from 'next/navigation';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { Separator } from '@/components/ui/separator';
 import { IMAGE_BASE_URL } from '@/lib/config';
+import { Skeleton } from '@/components/ui/skeleton';
 
 
 type Props = {
@@ -87,28 +89,6 @@ const mapRoomData = (apiRoom: RoomFromApi, roomImages: RoomImage[]): Room => {
   };
 };
 
-export async function generateMetadata(
-  { params }: Props,
-  parent: ResolvingMetadata
-): Promise<Metadata> {
-  const roomData = await getRoomById(params.id);
-  if (!roomData) {
-    return {
-      title: 'Room Not Found | Grand Silver Ray',
-    };
-  }
-
-  const imageUrl = roomData.room_images ? `${IMAGE_BASE_URL}/${roomData.room_images.replace(/\\/g, '/')}` : 'https://placehold.co/1200x630.png';
-
-  return {
-    title: `${roomData.descriptive_title} | Grand Silver Ray`,
-    description: roomData.short_description,
-    openGraph: {
-        images: [imageUrl],
-    },
-  };
-}
-
 const amenitiesIcons: { [key: string]: LucideIcon } = {
   'King-size Bed': BedDouble,
   'Rain Shower': ShowerHead,
@@ -121,15 +101,71 @@ const amenitiesIcons: { [key: string]: LucideIcon } = {
   'Free Wi-Fi': Wifi
 };
 
-export default async function RoomDetailPage({ params }: Props) {
-  const apiRoom = await getRoomById(params.id);
+export default function RoomDetailPage({ params }: Props) {
+  const [room, setRoom] = useState<Room | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   
-  if (!apiRoom) {
-    notFound();
+  useEffect(() => {
+    const fetchRoomData = async () => {
+      try {
+        setIsLoading(true);
+        setError(null);
+        
+        const apiRoom = await getRoomById(params.id);
+        if (!apiRoom) {
+          notFound();
+          return;
+        }
+
+        const allRoomImages = await getRoomImages();
+        const mappedRoom = mapRoomData(apiRoom, allRoomImages);
+        setRoom(mappedRoom);
+
+      } catch (err) {
+        console.error(err);
+        setError("Failed to load room details. Please try again later.");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    if (params.id) {
+      fetchRoomData();
+    }
+  }, [params.id]);
+
+
+  if (isLoading) {
+    return (
+        <div className="container mx-auto md:px-4 md:py-12">
+            <div className="grid grid-cols-1 md:grid-cols-3 md:gap-8">
+                <div className="md:col-span-2 space-y-2">
+                    <Skeleton className="aspect-[4/3] w-full rounded-xl" />
+                    <div className="grid grid-cols-4 gap-2">
+                        <Skeleton className="aspect-video w-full rounded-md" />
+                        <Skeleton className="aspect-video w-full rounded-md" />
+                        <Skeleton className="aspect-video w-full rounded-md" />
+                        <Skeleton className="aspect-video w-full rounded-md" />
+                    </div>
+                </div>
+                <div className="space-y-6 mt-6 md:mt-0">
+                    <Skeleton className="h-48 w-full rounded-xl" />
+                    <Skeleton className="h-24 w-full rounded-xl" />
+                    <Skeleton className="h-16 w-full rounded-xl" />
+                </div>
+            </div>
+        </div>
+    );
   }
 
-  const allRoomImages = await getRoomImages();
-  const room = mapRoomData(apiRoom, allRoomImages);
+  if (error) {
+    return <div className="container text-center py-20 text-destructive">{error}</div>;
+  }
+  
+  if (!room) {
+    return null; // Or a 'not found' component
+  }
   
   const imagesToShow = room.images && room.images.length > 0 
     ? room.images.map(img => `${IMAGE_BASE_URL}${img.image_url.replace(/\\/g, '/').replace(/^\//, '')}`) 
@@ -350,12 +386,3 @@ export default async function RoomDetailPage({ params }: Props) {
     </div>
   );
 }
-
-export async function generateStaticParams() {
-  const rooms = await getRooms();
-  return rooms.map((room) => ({
-    id: String(room.id),
-  }));
-}
-
-    
