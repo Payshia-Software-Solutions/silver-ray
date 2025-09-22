@@ -42,9 +42,15 @@ type Props = {
 
 // Helper to map API data to our Room type
 const mapRoomData = (apiRoom: RoomFromApi, roomImages: RoomImage[]): Room => {
-  const mainImage = apiRoom.room_images ? `${IMAGE_BASE_URL}${apiRoom.room_images.replace(/\\/g, '/')}` : (roomImages.find(img => String(img.room_id) === String(apiRoom.id) && String(img.is_primary) === '1')?.image_url || roomImages.find(img => String(img.room_id) === String(apiRoom.id))?.image_url);
-  const finalImageUrl = mainImage && !mainImage.startsWith('http') ? `${IMAGE_BASE_URL}${mainImage.replace(/^\//, '')}` : (mainImage || 'https://placehold.co/1200x800.png');
+  const imagesForThisRoom = roomImages.filter(img => String(img.room_id) === String(apiRoom.id));
+  const primaryImage = imagesForThisRoom.find(img => String(img.is_primary) === '1') || imagesForThisRoom[0];
   
+  let finalImageUrl = 'https://placehold.co/1200x800.png'; // Fallback
+  if (primaryImage?.image_url) {
+      const cleanedUrl = primaryImage.image_url.replace(/\\/g, '/').replace(/^\//, '');
+      finalImageUrl = `${IMAGE_BASE_URL}${cleanedUrl}`;
+  }
+
   const amenitiesMap: { [key: string]: string } = {
     '89': 'King-size Bed',
     '90': 'Rain Shower',
@@ -70,7 +76,7 @@ const mapRoomData = (apiRoom: RoomFromApi, roomImages: RoomImage[]): Room => {
     longDescription: apiRoom.short_description, // Assuming short_description can be used here
     pricePerNight: parseFloat(apiRoom.price_per_night),
     imageUrl: finalImageUrl,
-    images: roomImages.filter(img => String(img.room_id) === String(apiRoom.id)),
+    images: imagesForThisRoom,
     amenities: amenities,
     capacity: apiRoom.adults_capacity,
     beds: '1 King Bed', // This might need to be derived from room_type_id or another field
@@ -122,8 +128,11 @@ export default async function RoomDetailPage({ params }: Props) {
   const allRoomImages = await getRoomImages();
   const room = mapRoomData(apiRoom, allRoomImages);
   
-  const imagesToShow = room.images && room.images.length > 0 ? room.images.map(img => !img.image_url.startsWith('http') ? `${IMAGE_BASE_URL}${img.image_url.replace(/\\/g, '/')}`: img.image_url) : [room.imageUrl];
-  const mainImage = imagesToShow[0];
+  const imagesToShow = room.images && room.images.length > 0 
+    ? room.images.map(img => `${IMAGE_BASE_URL}${img.image_url.replace(/\\/g, '/').replace(/^\//, '')}`) 
+    : [room.imageUrl];
+
+  const mainImage = imagesToShow[0] || 'https://placehold.co/1200x800.png';
   const thumbnails = imagesToShow.slice(0, 4); // Show up to 4 thumbnails
 
   return (
