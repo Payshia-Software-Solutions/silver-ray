@@ -35,8 +35,8 @@ export function FeaturedRoomsSection() {
         }, {} as Record<number, RoomImage[]>);
 
         const roomsWithImages: Room[] = (roomsData as RoomFromApi[]).map(room => {
-            const primaryImage = imagesByRoomId[room.id]?.find(img => img.is_primary === 1) || imagesByRoomId[room.id]?.[0];
-            const imageUrl = primaryImage ? `${IMAGE_BASE_URL}${primaryImage.image_url.replace(/\\/g, '')}` : 'https://placehold.co/600x400.png';
+            const primaryImage = imagesByRoomId[room.id]?.find(img => String(img.is_primary) === "1") || imagesByRoomId[room.id]?.[0];
+            const imageUrl = primaryImage ? primaryImage.image_url : room.room_images || '';
             return {
               ...room,
               imageUrl: imageUrl,

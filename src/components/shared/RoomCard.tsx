@@ -22,7 +22,7 @@ export function RoomCard({ room }: RoomCardProps) {
       users: true, // Placeholder for guests
   };
   
-  const imagePath = cleanImageUrl(room.room_images);
+  const imagePath = cleanImageUrl(room.imageUrl);
   const imageUrl = imagePath && !imagePath.startsWith('http') ? `${IMAGE_BASE_URL}${imagePath}` : (imagePath || 'https://placehold.co/600x400.png');
 
 
