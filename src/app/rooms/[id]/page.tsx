@@ -79,7 +79,7 @@ const mapRoomData = (apiRoom: RoomFromApi, roomImages: RoomImage[]): Room => {
     longDescription: apiRoom.short_description, 
     pricePerNight: parseFloat(apiRoom.price_per_night),
     imageUrl: finalImageUrl,
-    images: imagesForThisRoom,
+    images: imagesForThisRoom.map(img => ({ ...img, image_url: `${IMAGE_BASE_URL}${img.image_url.replace(/\\/g, '/').replace(/^\//, '')}`})),
     amenities: amenities,
     capacity: Number(apiRoom.adults_capacity),
     beds: '1 King Bed',
@@ -168,7 +168,7 @@ export default function RoomDetailPage({ params }: Props) {
   }
   
   const imagesToShow = room.images && room.images.length > 0 
-    ? room.images.map(img => `${IMAGE_BASE_URL}${img.image_url.replace(/\\/g, '/').replace(/^\//, '')}`) 
+    ? room.images.map(img => img.image_url) 
     : [room.imageUrl];
 
   const mainImage = imagesToShow[0] || 'https://placehold.co/1200x800.png';
@@ -386,3 +386,4 @@ export default function RoomDetailPage({ params }: Props) {
     </div>
   );
 }
+
