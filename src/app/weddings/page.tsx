@@ -9,8 +9,8 @@ import { WeddingVenueCard } from '@/components/weddings/WeddingVenueCard';
 import { WeddingPackageCard } from '@/components/weddings/WeddingPackageCard';
 import { weddingVenues, weddingServices } from '@/data/weddingData';
 import { TestimonialsCarousel } from '@/components/weddings/TestimonialsCarousel';
-import type { WeddingPackage, WeddingImage } from '@/types';
-import { getWeddingPackages, getWeddingImages } from '@/services/api/weddings';
+import type { WeddingPackageFromApi } from '@/types';
+import { getWeddingPackages } from '@/services/api/weddings';
 import { Gift } from 'lucide-react';
 import { IMAGE_BASE_URL } from '@/lib/config';
 
@@ -42,7 +42,7 @@ function WeddingHero() {
 }
 
 export default function WeddingsPage() {
-  const [packages, setPackages] = useState<WeddingPackage[]>([]);
+  const [packages, setPackages] = useState<WeddingPackageFromApi[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -50,37 +50,8 @@ export default function WeddingsPage() {
     const fetchWeddingData = async () => {
       try {
         setIsLoading(true);
-        const [packagesData, imagesData] = await Promise.all([
-          getWeddingPackages(),
-          getWeddingImages(),
-        ]);
-
-        const imagesByPackageId = (imagesData || []).reduce((acc, image) => {
-          if (!acc[image.wedding_id]) {
-            acc[image.wedding_id] = [];
-          }
-          acc[image.wedding_id].push(image);
-          return acc;
-        }, {} as Record<number, WeddingImage[]>);
-
-        const packagesWithImages: WeddingPackage[] = packagesData.map(pkg => {
-          const primaryImage = imagesByPackageId[pkg.id]?.find(img => img.is_primary === 1) || imagesByPackageId[pkg.id]?.[0];
-          const iconImageUrl = primaryImage?.image_url || '';
-          
-          return {
-            id: String(pkg.id),
-            name: pkg.package_name,
-            price: pkg.price,
-            icon: Gift, // Default icon
-            imageHint: primaryImage?.alt_text || 'wedding package',
-            inclusions: [], // This needs to be mapped if the data is available
-            shortDescription: pkg.short_description,
-            heroImage: iconImageUrl,
-            iconImageUrl: iconImageUrl,
-          };
-        });
-        
-        setPackages(packagesWithImages);
+        const packagesData = await getWeddingPackages();
+        setPackages(packagesData);
       } catch (err: any) {
         console.error("Failed to fetch wedding data:", err);
         setError("Failed to load wedding packages. Please try again later.");

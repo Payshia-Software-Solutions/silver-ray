@@ -170,7 +170,7 @@ export interface WeddingImage {
     image_url: string;
     file_size: number;
     alt_text: string;
-    is_primary: number;
+    is_primary: number | string;
     display_order: number;
     uploaded_by: string;
     updated_by: string;

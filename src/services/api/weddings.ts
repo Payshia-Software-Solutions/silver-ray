@@ -63,3 +63,26 @@ export async function getWeddingImages(): Promise<WeddingImage[]> {
     throw error;
   }
 }
+
+export async function getWeddingImagesByPackageId(packageId: string): Promise<WeddingImage[]> {
+  try {
+    const serverRoot = API_BASE_URL.split('/company/')[0];
+    const response = await fetch(`${serverRoot}/wedding-images/company/1/wedding/${packageId}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
+    if (response.status === 404) {
+      return [];
+    }
+    const images = await handleApiResponse<WeddingImage[]>(response);
+     return images.map(image => ({
+        ...image,
+        image_url: cleanImageUrl(image.image_url),
+    }));
+  } catch (error) {
+    console.error(`Failed to fetch images for wedding package ${packageId}:`, error);
+    return [];
+  }
+}
