@@ -7,6 +7,7 @@ import type { Room } from '@/types';
 import { BedDouble, Users, Maximize, Wifi, Coffee, Tv } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { IMAGE_BASE_URL } from '@/lib/config';
+import { cleanImageUrl } from '@/lib/apiClient';
 
 interface RoomCardProps {
   room: Room;
@@ -21,7 +22,8 @@ export function RoomCard({ room }: RoomCardProps) {
       users: true, // Placeholder for guests
   };
   
-  const imageUrl = room.room_images && !room.room_images.startsWith('http') ? `${IMAGE_BASE_URL}${room.room_images.replace(/\\/g, '/')}` : (room.room_images || 'https://placehold.co/600x400.png');
+  const imagePath = cleanImageUrl(room.room_images);
+  const imageUrl = imagePath && !imagePath.startsWith('http') ? `${IMAGE_BASE_URL}${imagePath}` : (imagePath || 'https://placehold.co/600x400.png');
 
 
   return (
