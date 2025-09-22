@@ -11,7 +11,7 @@ import { Badge } from '@/components/ui/badge';
 import { IMAGE_BASE_URL } from '@/lib/config';
 import { useState, useEffect } from 'react';
 import { Skeleton } from '../ui/skeleton';
-import apiClient from '@/lib/apiClient';
+import { getRoomImagesByRoomId } from '@/services/api/rooms';
 
 interface RoomCardProps {
   room: Room;
@@ -30,12 +30,7 @@ export function RoomCard({ room }: RoomCardProps) {
       };
       try {
         setIsLoading(true);
-        // Using fetch directly to construct the exact URL needed, bypassing axios client baseURL issues.
-        const response = await fetch(`https://silverray-server.payshia.com/room-images/company/1/room/${room.id}`);
-        if (!response.ok) {
-            throw new Error(`API call failed with status: ${response.status}`);
-        }
-        const images: RoomImage[] = await response.json();
+        const images = await getRoomImagesByRoomId(String(room.id));
         
         const primaryImage = images.find(img => String(img.is_primary) === "1") || images[0];
         
