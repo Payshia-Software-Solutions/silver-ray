@@ -57,15 +57,16 @@ const mapRoomData = (apiRoom: RoomFromApi, roomImages: RoomImage[]): Room => {
     '91': 'Smart TV',
     '92': 'High-speed Wi-Fi',
     '93': 'Coffee Bar',
-    '94': 'Private Balcony'
-    // Add other amenity IDs here as you get them from your backend
+    '94': 'Private Balcony',
+    '20': 'Air Conditioning',
+    '22': 'Free Wi-Fi'
   };
 
   const amenities = apiRoom.amenities_id?.split(',').map(id => amenitiesMap[id.trim()]).filter(Boolean) || [];
   
   const roomWidth = parseFloat(apiRoom.room_width);
   const roomHeight = parseFloat(apiRoom.room_height);
-  const size = !isNaN(roomWidth) && !isNaN(roomHeight) ? (roomWidth * roomHeight).toFixed(0) : 'N/A';
+  const size = !isNaN(roomWidth) && !isNaN(roomHeight) ? (roomWidth * roomHeight / 10.764).toFixed(0) : 'N/A';
 
 
   return {
@@ -73,16 +74,16 @@ const mapRoomData = (apiRoom: RoomFromApi, roomImages: RoomImage[]): Room => {
     id: String(apiRoom.id),
     name: apiRoom.descriptive_title,
     description: apiRoom.short_description,
-    longDescription: apiRoom.short_description, // Assuming short_description can be used here
+    longDescription: apiRoom.short_description, 
     pricePerNight: parseFloat(apiRoom.price_per_night),
     imageUrl: finalImageUrl,
     images: imagesForThisRoom,
     amenities: amenities,
-    capacity: apiRoom.adults_capacity,
-    beds: '1 King Bed', // This might need to be derived from room_type_id or another field
+    capacity: Number(apiRoom.adults_capacity),
+    beds: '1 King Bed',
     size: `${size} sqft`,
-    category: 'Suite', // This might need to be derived from room_type_id
-    rating: 4.8, // Placeholder
+    category: 'Suite', 
+    rating: 4.8, 
   };
 };
 
@@ -116,6 +117,8 @@ const amenitiesIcons: { [key: string]: LucideIcon } = {
   'Coffee Bar': Coffee,
   'Private Balcony': Mountain,
   'Nespresso Machine': Coffee,
+  'Air Conditioning': Wifi, // Using Wifi icon as a placeholder
+  'Free Wi-Fi': Wifi
 };
 
 export default async function RoomDetailPage({ params }: Props) {
@@ -133,7 +136,7 @@ export default async function RoomDetailPage({ params }: Props) {
     : [room.imageUrl];
 
   const mainImage = imagesToShow[0] || 'https://placehold.co/1200x800.png';
-  const thumbnails = imagesToShow.slice(0, 4); // Show up to 4 thumbnails
+  const thumbnails = imagesToShow.slice(0, 4); 
 
   return (
     <div className="bg-background md:bg-secondary/10">
@@ -214,7 +217,7 @@ export default async function RoomDetailPage({ params }: Props) {
                     <div className="bg-card p-4 rounded-xl shadow-lg border border-border/50 mb-6">
                          <div className="flex justify-between items-center mb-4">
                             <div>
-                                <span className="font-body text-2xl font-bold text-foreground">${room.pricePerNight}</span>
+                                <span className="font-body text-2xl font-bold text-foreground">{room.currency} {room.pricePerNight.toLocaleString()}</span>
                                 <span className="text-sm text-muted-foreground">/night</span>
                             </div>
                             <div className="flex items-center gap-1 text-sm">
@@ -337,7 +340,7 @@ export default async function RoomDetailPage({ params }: Props) {
        {/* --- Sticky Mobile Footer --- */}
         <div className="md:hidden sticky bottom-0 z-40 bg-background/90 backdrop-blur-sm p-3 flex items-center justify-between border-t shadow-[0_-2px_10px_rgba(0,0,0,0.05)]">
             <div>
-                 <span className="font-body text-xl font-bold text-foreground">${room.pricePerNight}</span>
+                 <span className="font-body text-xl font-bold text-foreground">{room.currency} {room.pricePerNight.toLocaleString()}</span>
                  <span className="text-sm text-muted-foreground">/night</span>
             </div>
              <Button asChild size="lg" className="font-body text-base w-1/2">
