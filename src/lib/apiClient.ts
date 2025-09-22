@@ -11,7 +11,7 @@ const apiClient = axios.create({
 
 /**
  * A robust function to clean up image URLs received from the backend.
- * It replaces all backslashes with forward slashes.
+ * It replaces all backslashes with forward slashes and removes any leading slashes.
  * @param url The raw image URL string from the API.
  * @returns A cleaned-up URL path ready to be appended to a base URL.
  */
