@@ -16,18 +16,13 @@ export function RoomsPageHero() {
       />
       <div className="absolute inset-0 bg-black/50" />
       <div className="relative z-10 p-6 max-w-3xl">
-        <h1 className="font-headline text-4xl sm:text-5xl md:text-6xl font-bold mb-3 leading-tight shadow-text">
+        <h1 className="font-headline text-4xl sm:text-5xl md:text-6xl font-bold mb-3 leading-tight" style={{textShadow: '0 2px 4px rgba(0,0,0,0.6)'}}>
           Our Rooms & Suites
         </h1>
-        <p className="font-body text-lg sm:text-xl mb-8 max-w-xl mx-auto shadow-text">
+        <p className="font-body text-lg sm:text-xl" style={{textShadow: '0 1px 3px rgba(0,0,0,0.5)'}}>
           Discover your perfect space for relaxation and comfort.
         </p>
       </div>
-      <style jsx global>{`
-        .shadow-text {
-          text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5);
-        }
-      `}</style>
     </section>
   );
 }

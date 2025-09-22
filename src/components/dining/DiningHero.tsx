@@ -4,7 +4,6 @@
 import NextImage from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { ArrowRight } from 'lucide-react';
 
 export function DiningHero() {
   return (
@@ -23,16 +22,15 @@ export function DiningHero() {
           A Culinary Journey Awaits
         </h1>
         <p className="font-body text-lg sm:text-xl mb-8 max-w-xl mx-auto shadow-text">
-          Discover unforgettable flavors and exquisite settings at Grand Silver Ray Hotel's celebrated restaurants and bars.
+          Discover unforgettable flavors and exquisite settings in our world-class dining venues.
         </p>
         <Button 
           asChild 
           size="lg" 
-          className="font-body text-lg px-8 py-3 bg-primary/80 backdrop-blur-sm text-primary-foreground hover:bg-primary transform hover:scale-105 transition-transform duration-300 rounded-lg"
+          className="font-body text-lg px-8 py-3 bg-primary/80 backdrop-blur-sm text-primary-foreground hover:bg-primary transform hover:scale-105 transition-transform duration-300 rounded-full"
         >
           <Link href="/contact?subject=Dining Reservation Experience">
             Reserve Your Experience
-            <ArrowRight className="ml-2 h-5 w-5" />
           </Link>
         </Button>
       </div>

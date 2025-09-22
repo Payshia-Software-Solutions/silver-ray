@@ -12,7 +12,7 @@ interface WeddingVenueCardProps {
 
 export function WeddingVenueCard({ venue }: WeddingVenueCardProps) {
   return (
-    <Card className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col h-full rounded-xl bg-card">
+    <Card className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col h-full rounded-xl bg-card border-none">
       <CardHeader className="p-0 relative aspect-[4/3]">
         <NextImage
           src={venue.imageUrl}
@@ -27,10 +27,10 @@ export function WeddingVenueCard({ venue }: WeddingVenueCardProps) {
         <p className="font-body text-sm text-muted-foreground mb-4 flex-grow line-clamp-3">
           {venue.description}
         </p>
-        <ul className="font-body text-xs text-muted-foreground space-y-1.5 mb-4">
+        <ul className="grid grid-cols-2 gap-x-4 gap-y-2 font-body text-xs text-muted-foreground mb-4">
           {venue.features.slice(0, 4).map((feature, index) => ( // Show max 4 features
             <li key={index} className="flex items-center">
-              <feature.icon className="w-3.5 h-3.5 mr-1.5 text-primary flex-shrink-0" />
+              <feature.icon className="w-4 h-4 mr-2 text-primary flex-shrink-0" />
               {feature.text}
             </li>
           ))}

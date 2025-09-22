@@ -4,34 +4,61 @@ import { notFound } from 'next/navigation';
 import NextImage from 'next/image';
 import Link from 'next/link';
 
-import { allExperienceDetails, getExperienceDetailById } from '@/data/experienceDetailsData';
-import type { ExperienceDetail, BreadcrumbItem } from '@/types';
+import { getExperienceById, getExperiences } from '@/services/api/experiences';
+import type { ExperienceDetail, ExperienceFromApi, BreadcrumbItem } from '@/types';
 
 import { Breadcrumbs } from '@/components/shared/Breadcrumbs';
 import { ExperienceBookingForm } from '@/components/experiences/booking/ExperienceBookingForm';
 import { Button } from '@/components/ui/button'; // For potential use
+import { Clock, Users, MapPin, ListChecks } from 'lucide-react';
+import { IMAGE_BASE_URL } from '@/lib/config';
 
 type Props = {
   params: { experienceId: string };
 };
 
+const mapApiToExperienceDetail = (apiData: ExperienceFromApi): ExperienceDetail => {
+    const heroImageUrl = apiData.experience_image ? `${IMAGE_BASE_URL}${apiData.experience_image}` : 'https://placehold.co/1920x500.png';
+    return {
+        id: String(apiData.id),
+        pageTitle: `Book: ${apiData.name}`,
+        heroImageUrl: heroImageUrl,
+        heroImageHint: 'experience event',
+        overviewTitle: `${apiData.name} - Overview`,
+        overviewContent: apiData.detailed_description,
+        highlightsContent: apiData.schedule_note,
+        details: [
+            { icon: Clock, label: 'Duration', value: apiData.duration },
+            { icon: Users, label: 'Participants', value: `${apiData.min_participants} - ${apiData.max_participants}` },
+            { icon: ListChecks, label: 'Inclusions', value: apiData.advance_booking_required ? 'Advance Booking' : 'Walk-ins Welcome' },
+            { icon: MapPin, label: 'Meeting Point', value: apiData.meeting_Point },
+        ],
+        galleryImages: [], // This would need another API call or to be included in the main one
+        defaultAdults: apiData.min_participants,
+        pricePerAdult: parseFloat(apiData.Price),
+    };
+};
+
+
 export async function generateMetadata(
   { params }: Props,
   parent: ResolvingMetadata
 ): Promise<Metadata> {
-  const experience = getExperienceDetailById(params.experienceId);
+  const experienceData = await getExperienceById(params.experienceId);
 
-  if (!experience) {
+  if (!experienceData) {
     return {
       title: 'Experience Not Found | Grand Silver Ray',
     };
   }
+  
+  const heroImageUrl = experienceData.experience_image ? `${IMAGE_BASE_URL}${experienceData.experience_image}` : 'https://placehold.co/1200x630.png';
 
   return {
-    title: `${experience.pageTitle} | Grand Silver Ray`,
-    description: `Book the "${experience.overviewTitle.replace(' - Overview', '')}" experience at Grand Silver Ray. ${experience.overviewContent.substring(0, 160)}...`,
+    title: `${experienceData.name} | Grand Silver Ray`,
+    description: `Book the "${experienceData.name}" experience at Grand Silver Ray. ${experienceData.short_description.substring(0, 160)}...`,
     openGraph: {
-      images: [experience.heroImageUrl],
+      images: [heroImageUrl],
     },
   };
 }
@@ -46,6 +73,7 @@ function ExperienceBookingHero({ title, imageUrl, imageHint }: { title: string, 
         fill
         className="object-cover"
         priority
+        unoptimized
       />
       <div className="absolute inset-0 bg-black/50" />
       <div className="relative z-10 p-6 max-w-4xl">
@@ -101,12 +129,14 @@ function ExperienceContentLayout({ experience }: { experience: ExperienceDetail 
 }
 
 
-export default function ExperienceBookingPage({ params }: Props) {
-  const experience = getExperienceDetailById(params.experienceId);
+export default async function ExperienceBookingPage({ params }: Props) {
+  const apiExperience = await getExperienceById(params.experienceId);
 
-  if (!experience) {
+  if (!apiExperience) {
     notFound();
   }
+
+  const experience = mapApiToExperienceDetail(apiExperience);
 
   const breadcrumbItems: BreadcrumbItem[] = [
     { label: 'Home', href: '/' },
@@ -142,9 +172,8 @@ export default function ExperienceBookingPage({ params }: Props) {
 }
 
 export async function generateStaticParams() {
-  return allExperienceDetails.map((exp) => ({
-    experienceId: exp.id,
+  const experiences = await getExperiences();
+  return experiences.map((exp) => ({
+    experienceId: String(exp.id),
   }));
 }
-
-    
