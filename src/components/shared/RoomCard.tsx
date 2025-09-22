@@ -11,7 +11,6 @@ import { Badge } from '@/components/ui/badge';
 import { IMAGE_BASE_URL } from '@/lib/config';
 import { useState, useEffect } from 'react';
 import { Skeleton } from '../ui/skeleton';
-import { getRoomImagesByRoomId } from '@/services/api/rooms';
 
 interface RoomCardProps {
   room: Room;
@@ -30,14 +29,19 @@ export function RoomCard({ room }: RoomCardProps) {
       };
       try {
         setIsLoading(true);
-        const images = await getRoomImagesByRoomId(String(room.id));
+        // Using direct fetch with the correct URL structure
+        const response = await fetch(`https://silverray-server.payshia.com/room-images/company/1/room/${room.id}`);
+        if (!response.ok) {
+            throw new Error(`API call failed with status: ${response.status}`);
+        }
+        const images: RoomImage[] = await response.json();
         
         const primaryImage = images.find(img => String(img.is_primary) === "1") || images[0];
         
         if (primaryImage && primaryImage.image_url) {
           const finalUrl = primaryImage.image_url.startsWith('http') 
             ? primaryImage.image_url 
-            : `${IMAGE_BASE_URL}${primaryImage.image_url.replace(/^\//, '')}`;
+            : `${IMAGE_BASE_URL}${primaryImage.image_url.replace(/\\/g, '/').replace(/^\//, '')}`;
           setImageUrl(finalUrl);
         } else {
             setImageUrl('https://placehold.co/600x400.png');
