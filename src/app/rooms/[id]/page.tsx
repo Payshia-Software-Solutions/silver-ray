@@ -1,4 +1,5 @@
 
+
 import type { Metadata, ResolvingMetadata } from 'next';
 import NextImage from 'next/image';
 import { getRoomById, getRoomImages, getRooms } from '@/services/api/rooms';
@@ -55,6 +56,11 @@ const mapRoomData = (apiRoom: RoomFromApi, roomImages: RoomImage[]): Room => {
   };
 
   const amenities = apiRoom.amenities_id?.split(',').map(id => amenitiesMap[id.trim()]).filter(Boolean) || [];
+  
+  const roomWidth = parseFloat(apiRoom.room_width);
+  const roomHeight = parseFloat(apiRoom.room_height);
+  const size = !isNaN(roomWidth) && !isNaN(roomHeight) ? (roomWidth * roomHeight).toFixed(0) : 'N/A';
+
 
   return {
     ...apiRoom,
@@ -68,7 +74,7 @@ const mapRoomData = (apiRoom: RoomFromApi, roomImages: RoomImage[]): Room => {
     amenities: amenities,
     capacity: apiRoom.adults_capacity,
     beds: '1 King Bed', // This might need to be derived from room_type_id or another field
-    size: `${apiRoom.room_width}x${apiRoom.room_height} sqm`,
+    size: `${size} sqft`,
     category: 'Suite', // This might need to be derived from room_type_id
     rating: 4.8, // Placeholder
   };
