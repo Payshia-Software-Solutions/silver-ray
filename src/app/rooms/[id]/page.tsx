@@ -31,7 +31,7 @@ import {
   Star
 } from 'lucide-react';
 import Link from 'next/link';
-import { notFound } from 'next/navigation';
+import { notFound, useParams } from 'next/navigation';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { Separator } from '@/components/ui/separator';
 import { IMAGE_BASE_URL } from '@/lib/config';
@@ -101,7 +101,9 @@ const amenitiesIcons: { [key: string]: LucideIcon } = {
   'Free Wi-Fi': Wifi
 };
 
-export default function RoomDetailPage({ params }: Props) {
+export default function RoomDetailPage() {
+  const params = useParams();
+  const id = params.id as string;
   const [room, setRoom] = useState<Room | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -112,7 +114,7 @@ export default function RoomDetailPage({ params }: Props) {
         setIsLoading(true);
         setError(null);
         
-        const apiRoom = await getRoomById(params.id);
+        const apiRoom = await getRoomById(id);
         if (!apiRoom) {
           notFound();
           return;
@@ -130,10 +132,10 @@ export default function RoomDetailPage({ params }: Props) {
       }
     };
 
-    if (params.id) {
+    if (id) {
       fetchRoomData();
     }
-  }, [params.id]);
+  }, [id]);
 
 
   if (isLoading) {
@@ -386,4 +388,3 @@ export default function RoomDetailPage({ params }: Props) {
     </div>
   );
 }
-
