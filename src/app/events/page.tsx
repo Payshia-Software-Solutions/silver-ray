@@ -5,14 +5,14 @@ import { useState, useEffect } from 'react';
 import NextImage from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { getEvents, getEventImages } from '@/services/api/events';
+import { getEvents } from '@/services/api/events';
 import type { EventFromApi, EventImage } from '@/types';
 import { EventCard, type EventCardProps } from '@/components/events/EventCard';
 import { IMAGE_BASE_URL } from '@/lib/config';
 
 
 export default function EventsPage() {
-    const [events, setEvents] = useState<EventCardProps[]>([]);
+    const [events, setEvents] = useState<EventFromApi[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
@@ -20,34 +20,8 @@ export default function EventsPage() {
         const fetchEvents = async () => {
             try {
                 setIsLoading(true);
-                const [eventsData, imagesData] = await Promise.all([
-                    getEvents(),
-                    getEventImages(),
-                ]);
-
-                const imagesByEventId = (imagesData || []).reduce((acc, image) => {
-                    if (!acc[image.event_id]) {
-                        acc[image.event_id] = [];
-                    }
-                    acc[image.event_id].push(image);
-                    return acc;
-                }, {} as Record<string, EventImage[]>);
-                
-                const mappedEvents: EventCardProps[] = (eventsData || []).map(event => {
-                    const primaryImage = imagesByEventId[event.id]?.find(img => img.is_primary === "1") || imagesByEventId[event.id]?.[0];
-                    const imageUrl = primaryImage ? `${IMAGE_BASE_URL}${primaryImage.image_url.replace(/\\/g, '')}` : 'https://placehold.co/600x400.png';
-                    return {
-                        id: event.id,
-                        title: event.event_name,
-                        date: new Date(event.event_date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }),
-                        imageUrl: imageUrl,
-                        imageHint: primaryImage?.alt_text || 'event image',
-                        category: event.event_type,
-                    };
-                });
-
-                setEvents(mappedEvents);
-
+                const eventsData = await getEvents();
+                setEvents(eventsData);
             } catch(err: any) {
                 console.error("Failed to fetch events:", err);
                 setError("Failed to load events. Please try again later.");
@@ -82,7 +56,7 @@ export default function EventsPage() {
         }
 
         return events.map((event) => (
-            <EventCard key={event.id} {...event} />
+            <EventCard key={event.id} event={event} />
         ));
     };
 

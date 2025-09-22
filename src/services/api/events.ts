@@ -37,3 +37,22 @@ export async function getEventImages(): Promise<EventImage[]> {
     throw error;
   }
 }
+
+export async function getEventImagesByEventId(eventId: string): Promise<EventImage[]> {
+  try {
+    const response = await fetch(`${API_BASE_URL}/event-images/company/1/event/${eventId}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
+    const images = await handleApiResponse<EventImage[]>(response);
+     return images.map(image => ({
+        ...image,
+        image_url: cleanImageUrl(image.image_url),
+    }));
+  } catch (error) {
+    console.error(`Failed to fetch images for event ${eventId}:`, error);
+    throw error;
+  }
+}
