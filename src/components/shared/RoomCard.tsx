@@ -21,7 +21,7 @@ export function RoomCard({ room }: RoomCardProps) {
       users: true, // Placeholder for guests
   };
   
-  const imageUrl = room.room_images ? `${IMAGE_BASE_URL}${room.room_images.replace(/\\/g, '/')}` : (room.imageUrl || 'https://placehold.co/600x400.png');
+  const imageUrl = room.imageUrl && !room.imageUrl.startsWith('http') ? `${IMAGE_BASE_URL}/${room.imageUrl.replace(/\\/g, '/')}` : (room.imageUrl || 'https://placehold.co/600x400.png');
 
 
   return (

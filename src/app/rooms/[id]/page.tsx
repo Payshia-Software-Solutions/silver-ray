@@ -41,7 +41,8 @@ type Props = {
 
 // Helper to map API data to our Room type
 const mapRoomData = (apiRoom: RoomFromApi, roomImages: RoomImage[]): Room => {
-  const finalImageUrl = apiRoom.room_images ? `${IMAGE_BASE_URL}${apiRoom.room_images}` : 'https://placehold.co/1200x800.png';
+  const mainImage = apiRoom.room_images ? apiRoom.room_images.replace(/\\/g, '/') : (roomImages.find(img => String(img.room_id) === String(apiRoom.id) && img.is_primary)?.image_url || roomImages.find(img => String(img.room_id) === String(apiRoom.id))?.image_url);
+  const finalImageUrl = mainImage && !mainImage.startsWith('http') ? `${IMAGE_BASE_URL}/${mainImage}` : (mainImage || 'https://placehold.co/1200x800.png');
   
   const amenitiesMap: { [key: string]: string } = {
     '89': 'King-size Bed',
@@ -79,7 +80,7 @@ export async function generateMetadata(
     };
   }
 
-  const imageUrl = roomData.room_images ? `${IMAGE_BASE_URL}${roomData.room_images}` : 'https://placehold.co/1200x630.png';
+  const imageUrl = roomData.room_images ? `${IMAGE_BASE_URL}/${roomData.room_images.replace(/\\/g, '/')}` : 'https://placehold.co/1200x630.png';
 
   return {
     title: `${roomData.descriptive_title} | Grand Silver Ray`,
@@ -111,7 +112,7 @@ export default async function RoomDetailPage({ params }: Props) {
   const allRoomImages = await getRoomImages();
   const room = mapRoomData(apiRoom, allRoomImages);
   
-  const imagesToShow = room.images && room.images.length > 0 ? room.images.map(img => `${IMAGE_BASE_URL}${img.image_url}`) : [room.imageUrl];
+  const imagesToShow = room.images && room.images.length > 0 ? room.images.map(img => !img.image_url.startsWith('http') ? `${IMAGE_BASE_URL}/${img.image_url.replace(/\\/g, '/')}`: img.image_url) : [room.imageUrl];
   const mainImage = imagesToShow[0];
   const thumbnails = imagesToShow.slice(0, 4); // Show up to 4 thumbnails
 
@@ -207,19 +208,19 @@ export default async function RoomDetailPage({ params }: Props) {
                         <div className="grid grid-cols-2 gap-3 mb-4">
                             <div>
                                 <label className="font-body text-xs font-medium text-muted-foreground block mb-1">Check In</label>
-                                <div className="flex items-center p-2 rounded-md border border-input bg-background/50 text-sm">
+                                <div className="flex items-center p-2 h-10 rounded-md border border-input bg-background/50 text-sm">
                                     <span>Dec 15</span>
                                 </div>
                             </div>
                             <div>
                                 <label className="font-body text-xs font-medium text-muted-foreground block mb-1">Check Out</label>
-                                <div className="flex items-center p-2 rounded-md border border-input bg-background/50 text-sm">
+                                <div className="flex items-center p-2 h-10 rounded-md border border-input bg-background/50 text-sm">
                                     <span>Dec 18</span>
                                 </div>
                             </div>
                              <div className="col-span-2">
                                 <label className="font-body text-xs font-medium text-muted-foreground block mb-1">Guests</label>
-                                <div className="flex items-center p-2 rounded-md border border-input bg-background/50 text-sm">
+                                <div className="flex items-center p-2 h-10 rounded-md border border-input bg-background/50 text-sm">
                                     <span>2 Guests</span>
                                 </div>
                             </div>

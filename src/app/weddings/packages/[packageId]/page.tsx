@@ -42,7 +42,7 @@ export async function generateMetadata(
     };
   }
   
-  const heroImage = pkgData.weddinng_image ? `${IMAGE_BASE_URL}${pkgData.weddinng_image}` : 'https://placehold.co/1200x630.png';
+  const heroImage = pkgData.weddinng_image && !pkgData.weddinng_image.startsWith('http') ? `${IMAGE_BASE_URL}/${pkgData.weddinng_image.replace(/\\/g, '/')}` : (pkgData.weddinng_image || 'https://placehold.co/1200x630.png');
 
   return {
     title: `${pkgData.package_name} | Grand Silver Ray`,
@@ -101,7 +101,7 @@ export default async function WeddingPackageDetailPage({ params }: Props) {
   ];
 
   const filteredInclusionGroups = inclusionGroups.filter(group => group.items.length > 0);
-  const heroImage = pkg.weddinng_image ? `${IMAGE_BASE_URL}${pkg.weddinng_image}` : "https://placehold.co/1920x700.png";
+  const heroImage = pkg.weddinng_image && !pkg.weddinng_image.startsWith('http') ? `${IMAGE_BASE_URL}/${pkg.weddinng_image.replace(/\\/g, '/')}` : (pkg.weddinng_image || 'https://placehold.co/1920x700.png');
 
 
   return (
