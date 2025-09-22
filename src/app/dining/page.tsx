@@ -74,8 +74,8 @@ export default function DiningPage() {
     if (error) {
       return <p className="col-span-full text-center text-destructive">{error}</p>;
     }
-    return diningVenues.map((venue) => (
-      <VenueCard key={venue.id} venue={venue} />
+    return diningVenues.map((venue, index) => (
+      <VenueCard key={`${venue.id}-${index}`} venue={venue} />
     ));
   }
 
