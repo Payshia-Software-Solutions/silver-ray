@@ -98,30 +98,3 @@ export async function getRoomImages(): Promise<RoomImage[]> {
     throw error;
   }
 }
-
-/**
- * Fetches all room images for a specific room.
- * @param roomId The ID of the room.
- * @returns A promise that resolves to an array of RoomImage objects.
- */
-export async function getRoomImagesByRoomId(roomId: string): Promise<RoomImage[]> {
-    try {
-        const response = await fetch(`${API_BASE_URL}/room-images/room/${roomId}`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
-        if (!response.ok) {
-            throw new Error(`Failed to fetch images for room ${roomId}`);
-        }
-        const images = await handleApiResponse<RoomImage[]>(response);
-        return images.map(image => ({
-            ...image,
-            image_url: cleanImageUrl(image.image_url),
-        }));
-    } catch (error) {
-        console.error(`Failed to fetch images for room ${roomId}:`, error);
-        return []; // Return empty array on error to prevent crashing
-    }
-}

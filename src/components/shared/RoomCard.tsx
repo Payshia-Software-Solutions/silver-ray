@@ -11,7 +11,6 @@ import { Badge } from '@/components/ui/badge';
 import { IMAGE_BASE_URL } from '@/lib/config';
 import { useState, useEffect } from 'react';
 import { Skeleton } from '../ui/skeleton';
-import apiClient from '@/lib/apiClient';
 
 interface RoomCardProps {
   room: Room;
@@ -23,10 +22,14 @@ export function RoomCard({ room }: RoomCardProps) {
 
   useEffect(() => {
     const fetchImage = async () => {
-      if (!room.id) return;
+      if (!room.id) {
+          setIsLoading(false);
+          setImageUrl('https://placehold.co/600x400.png');
+          return;
+      };
       try {
         setIsLoading(true);
-        // Using fetch directly to construct the exact URL needed, bypassing axios client baseURL issues.
+        // Using direct fetch with the correct URL structure
         const response = await fetch(`https://silverray-server.payshia.com/room-images/company/1/room/${room.id}`);
         if (!response.ok) {
             throw new Error(`API call failed with status: ${response.status}`);
@@ -38,7 +41,7 @@ export function RoomCard({ room }: RoomCardProps) {
         if (primaryImage && primaryImage.image_url) {
           const finalUrl = primaryImage.image_url.startsWith('http') 
             ? primaryImage.image_url 
-            : `${IMAGE_BASE_URL}${primaryImage.image_url.replace(/^\//, '')}`;
+            : `${IMAGE_BASE_URL}${primaryImage.image_url.replace(/\\/g, '/').replace(/^\//, '')}`;
           setImageUrl(finalUrl);
         } else {
             setImageUrl('https://placehold.co/600x400.png');

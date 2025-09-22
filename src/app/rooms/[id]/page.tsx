@@ -1,4 +1,5 @@
 
+
 import type { Metadata, ResolvingMetadata } from 'next';
 import NextImage from 'next/image';
 import { getRoomById, getRoomImages, getRooms } from '@/services/api/rooms';
@@ -41,15 +42,25 @@ type Props = {
 
 // Helper to map API data to our Room type
 const mapRoomData = (apiRoom: RoomFromApi, roomImages: RoomImage[]): Room => {
-  const mainImage = apiRoom.room_images ? apiRoom.room_images.replace(/\\/g, '/') : (roomImages.find(img => String(img.room_id) === String(apiRoom.id) && img.is_primary)?.image_url || roomImages.find(img => String(img.room_id) === String(apiRoom.id))?.image_url);
-  const finalImageUrl = mainImage && !mainImage.startsWith('http') ? `${IMAGE_BASE_URL}/${mainImage}` : (mainImage || 'https://placehold.co/1200x800.png');
+  const mainImage = apiRoom.room_images ? `${IMAGE_BASE_URL}${apiRoom.room_images.replace(/\\/g, '/')}` : (roomImages.find(img => String(img.room_id) === String(apiRoom.id) && String(img.is_primary) === '1')?.image_url || roomImages.find(img => String(img.room_id) === String(apiRoom.id))?.image_url);
+  const finalImageUrl = mainImage && !mainImage.startsWith('http') ? `${IMAGE_BASE_URL}${mainImage.replace(/^\//, '')}` : (mainImage || 'https://placehold.co/1200x800.png');
   
   const amenitiesMap: { [key: string]: string } = {
     '89': 'King-size Bed',
+    '90': 'Rain Shower',
+    '91': 'Smart TV',
+    '92': 'High-speed Wi-Fi',
+    '93': 'Coffee Bar',
+    '94': 'Private Balcony'
     // Add other amenity IDs here as you get them from your backend
   };
 
   const amenities = apiRoom.amenities_id?.split(',').map(id => amenitiesMap[id.trim()]).filter(Boolean) || [];
+  
+  const roomWidth = parseFloat(apiRoom.room_width);
+  const roomHeight = parseFloat(apiRoom.room_height);
+  const size = !isNaN(roomWidth) && !isNaN(roomHeight) ? (roomWidth * roomHeight).toFixed(0) : 'N/A';
+
 
   return {
     ...apiRoom,
@@ -63,7 +74,7 @@ const mapRoomData = (apiRoom: RoomFromApi, roomImages: RoomImage[]): Room => {
     amenities: amenities,
     capacity: apiRoom.adults_capacity,
     beds: '1 King Bed', // This might need to be derived from room_type_id or another field
-    size: `${apiRoom.room_width}x${apiRoom.room_height} sqm`,
+    size: `${size} sqft`,
     category: 'Suite', // This might need to be derived from room_type_id
     rating: 4.8, // Placeholder
   };
@@ -91,15 +102,14 @@ export async function generateMetadata(
   };
 }
 
-const amenitiesIcons = {
+const amenitiesIcons: { [key: string]: LucideIcon } = {
   'King-size Bed': BedDouble,
   'Rain Shower': ShowerHead,
   'Smart TV': Tv,
   'High-speed Wi-Fi': Wifi,
   'Coffee Bar': Coffee,
-  'Balcony View': Mountain,
-  'Nespresso Machine': Coffee,
   'Private Balcony': Mountain,
+  'Nespresso Machine': Coffee,
 };
 
 export default async function RoomDetailPage({ params }: Props) {
@@ -112,7 +122,7 @@ export default async function RoomDetailPage({ params }: Props) {
   const allRoomImages = await getRoomImages();
   const room = mapRoomData(apiRoom, allRoomImages);
   
-  const imagesToShow = room.images && room.images.length > 0 ? room.images.map(img => !img.image_url.startsWith('http') ? `${IMAGE_BASE_URL}/${img.image_url.replace(/\\/g, '/')}`: img.image_url) : [room.imageUrl];
+  const imagesToShow = room.images && room.images.length > 0 ? room.images.map(img => !img.image_url.startsWith('http') ? `${IMAGE_BASE_URL}${img.image_url.replace(/\\/g, '/')}`: img.image_url) : [room.imageUrl];
   const mainImage = imagesToShow[0];
   const thumbnails = imagesToShow.slice(0, 4); // Show up to 4 thumbnails
 
@@ -335,3 +345,5 @@ export async function generateStaticParams() {
     id: String(room.id),
   }));
 }
+
+    
