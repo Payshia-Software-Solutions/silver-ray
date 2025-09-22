@@ -23,7 +23,11 @@ export function RoomCard({ room }: RoomCardProps) {
 
   useEffect(() => {
     const fetchImage = async () => {
-      if (!room.id) return;
+      if (!room.id) {
+          setIsLoading(false);
+          setImageUrl('https://placehold.co/600x400.png');
+          return;
+      };
       try {
         setIsLoading(true);
         // Using fetch directly to construct the exact URL needed, bypassing axios client baseURL issues.
