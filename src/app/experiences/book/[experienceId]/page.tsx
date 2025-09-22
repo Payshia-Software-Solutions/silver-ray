@@ -1,17 +1,21 @@
 
-import type { Metadata, ResolvingMetadata } from 'next';
-import { notFound } from 'next/navigation';
+'use client';
+
+import { useState, useEffect } from 'react';
 import NextImage from 'next/image';
 import Link from 'next/link';
+import { notFound } from 'next/navigation';
 
-import { getExperienceById, getExperiences } from '@/services/api/experiences';
+import { getExperienceById } from '@/services/api/experiences';
 import type { ExperienceDetail, ExperienceFromApi, BreadcrumbItem } from '@/types';
 
 import { Breadcrumbs } from '@/components/shared/Breadcrumbs';
 import { ExperienceBookingForm } from '@/components/experiences/booking/ExperienceBookingForm';
-import { Button } from '@/components/ui/button'; // For potential use
+import { Button } from '@/components/ui/button';
 import { Clock, Users, MapPin, ListChecks } from 'lucide-react';
 import { IMAGE_BASE_URL } from '@/lib/config';
+import { Skeleton } from '@/components/ui/skeleton';
+
 
 type Props = {
   params: { experienceId: string };
@@ -38,30 +42,6 @@ const mapApiToExperienceDetail = (apiData: ExperienceFromApi): ExperienceDetail 
         pricePerAdult: parseFloat(apiData.Price),
     };
 };
-
-
-export async function generateMetadata(
-  { params }: Props,
-  parent: ResolvingMetadata
-): Promise<Metadata> {
-  const experienceData = await getExperienceById(params.experienceId);
-
-  if (!experienceData) {
-    return {
-      title: 'Experience Not Found | Grand Silver Ray',
-    };
-  }
-  
-  const heroImageUrl = experienceData.experience_image ? `${IMAGE_BASE_URL}${experienceData.experience_image}` : 'https://placehold.co/1200x630.png';
-
-  return {
-    title: `${experienceData.name} | Grand Silver Ray`,
-    description: `Book the "${experienceData.name}" experience at Grand Silver Ray. ${experienceData.short_description.substring(0, 160)}...`,
-    openGraph: {
-      images: [heroImageUrl],
-    },
-  };
-}
 
 function ExperienceBookingHero({ title, imageUrl, imageHint }: { title: string, imageUrl: string, imageHint: string }) {
   return (
@@ -129,14 +109,57 @@ function ExperienceContentLayout({ experience }: { experience: ExperienceDetail 
 }
 
 
-export default async function ExperienceBookingPage({ params }: Props) {
-  const apiExperience = await getExperienceById(params.experienceId);
+export default function ExperienceBookingPage({ params }: Props) {
+  const [experience, setExperience] = useState<ExperienceDetail | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  if (!apiExperience) {
-    notFound();
+  useEffect(() => {
+    const fetchExperience = async () => {
+        try {
+            setIsLoading(true);
+            const apiExperience = await getExperienceById(params.experienceId);
+            if (!apiExperience) {
+                notFound();
+                return;
+            }
+            const mappedExperience = mapApiToExperienceDetail(apiExperience);
+            setExperience(mappedExperience);
+        } catch (err) {
+            console.error(err);
+            setError("Failed to load experience details.");
+        } finally {
+            setIsLoading(false);
+        }
+    };
+    fetchExperience();
+  }, [params.experienceId]);
+
+
+  if (isLoading) {
+    return (
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+            <Skeleton className="h-8 w-1/3 mb-8" />
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12 items-start">
+                <div className="lg:col-span-2 space-y-6">
+                    <Skeleton className="h-[400px] w-full" />
+                    <Skeleton className="h-64 w-full" />
+                </div>
+                <div className="lg:sticky lg:top-24 h-fit">
+                    <Skeleton className="h-[500px] w-full" />
+                </div>
+            </div>
+        </div>
+    );
   }
 
-  const experience = mapApiToExperienceDetail(apiExperience);
+  if (error) {
+    return <div className="container text-center py-20 text-destructive">{error}</div>;
+  }
+  
+  if (!experience) {
+    return null;
+  }
 
   const breadcrumbItems: BreadcrumbItem[] = [
     { label: 'Home', href: '/' },
@@ -169,11 +192,4 @@ export default async function ExperienceBookingPage({ params }: Props) {
       </div>
     </div>
   );
-}
-
-export async function generateStaticParams() {
-  const experiences = await getExperiences();
-  return experiences.map((exp) => ({
-    experienceId: String(exp.id),
-  }));
 }

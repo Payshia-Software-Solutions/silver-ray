@@ -1,12 +1,14 @@
 
-import type { Metadata, ResolvingMetadata } from 'next';
+'use client';
+
+import { useState, useEffect } from 'react';
 import NextImage from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
-import { getWeddingPackageById, getWeddingPackages } from '@/services/api/weddings';
+import { getWeddingPackageById } from '@/services/api/weddings';
 import { premiumWeddingAddons } from '@/data/weddingData';
-import type { WeddingPackageFromApi, WeddingImage } from '@/types';
+import type { WeddingPackageFromApi } from '@/types';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Breadcrumbs } from '@/components/shared/Breadcrumbs';
@@ -16,6 +18,8 @@ import { Utensils, Flower2, Camera, Music, BedDouble, Sparkles, Users, Clipboard
 import type { LucideIcon } from 'lucide-react';
 import { WeddingAddonCard } from '@/components/weddings/WeddingAddonCard';
 import { IMAGE_BASE_URL } from '@/lib/config';
+import { Skeleton } from '@/components/ui/skeleton';
+
 
 type Props = {
   params: { packageId: string };
@@ -28,29 +32,6 @@ const mapInclusions = (inclusions: string | null) => {
         icon: CheckCircle, // Default icon
         text: inc.trim(),
     }));
-}
-
-export async function generateMetadata(
-  { params }: Props,
-  parent: ResolvingMetadata
-): Promise<Metadata> {
-  const pkgData = await getWeddingPackageById(params.packageId);
-
-  if (!pkgData) {
-    return {
-      title: 'Wedding Package Not Found | Grand Silver Ray',
-    };
-  }
-  
-  const heroImage = pkgData.weddinng_image && !pkgData.weddinng_image.startsWith('http') ? `${IMAGE_BASE_URL}/${pkgData.weddinng_image.replace(/\\/g, '/')}` : (pkgData.weddinng_image || 'https://placehold.co/1200x630.png');
-
-  return {
-    title: `${pkgData.package_name} | Grand Silver Ray`,
-    description: pkgData.short_description || `Explore the details of our ${pkgData.package_name} wedding package.`,
-    openGraph: {
-      images: [heroImage],
-    },
-  };
 }
 
 interface IconCardProps {
@@ -73,11 +54,51 @@ interface InclusionGroup {
   items: { icon: LucideIcon; text: string }[];
 }
 
-export default async function WeddingPackageDetailPage({ params }: Props) {
-  const pkg = await getWeddingPackageById(params.packageId);
+export default function WeddingPackageDetailPage({ params }: Props) {
+  const [pkg, setPkg] = useState<WeddingPackageFromApi | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchPackage = async () => {
+      try {
+        setIsLoading(true);
+        const pkgData = await getWeddingPackageById(params.packageId);
+        if (!pkgData) {
+          notFound();
+          return;
+        }
+        setPkg(pkgData);
+      } catch (err) {
+        console.error(err);
+        setError('Failed to load wedding package details.');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchPackage();
+  }, [params.packageId]);
+
+  if (isLoading) {
+    return (
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+        <Skeleton className="h-8 w-1/2 mb-8" />
+        <Skeleton className="h-96 w-full mb-12" />
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+          <Skeleton className="h-48 w-full" />
+          <Skeleton className="h-48 w-full" />
+          <Skeleton className="h-48 w-full" />
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return <div className="container text-center py-20 text-destructive">{error}</div>;
+  }
 
   if (!pkg) {
-    notFound();
+    return null;
   }
 
   const breadcrumbItems: BreadcrumbItem[] = [
@@ -243,11 +264,4 @@ export default async function WeddingPackageDetailPage({ params }: Props) {
       </div>
     </div>
   );
-}
-
-export async function generateStaticParams() {
-  const packages = await getWeddingPackages();
-  return packages.map((pkg) => ({
-    packageId: String(pkg.id),
-  }));
 }
