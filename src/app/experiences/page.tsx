@@ -28,9 +28,10 @@ import type { LucideIcon } from 'lucide-react';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import Autoplay from 'embla-carousel-autoplay';
 import React from 'react';
-import { getExperiences, getExperienceImages } from '@/services/api/experiences';
+import { getExperiences, getExperienceImagesByExperienceId } from '@/services/api/experiences';
 import type { ExperienceFromApi, ExperienceImage, FeaturedExperience } from '@/types';
 import { IMAGE_BASE_URL } from '@/lib/config';
+import { Skeleton } from '@/components/ui/skeleton';
 
 
 interface ExperienceCategory {
@@ -73,7 +74,7 @@ const curateRecommendations: CurateRecommendation[] = [
 ];
 
 const nearbyAttractions: NearbyAttraction[] = [
-  { id: 'crystal-falls', imageUrl: 'https://images.unsplash.com/photo-1519582149095-fe7d19b2a3d2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHx3YXRlcmZhbGwlMjBuYXR1cmV8ZW58MHx8fHwxNzQ5MTQ1NDMxfDA&ixlib-rb-4.1.0&q=80&w=1080', imageHint: 'waterfall nature', title: 'Crystal Falls', distance: '2.1 km from hotel', icon: Waves },
+  { id: 'crystal-falls', imageUrl: 'https://images.unsplash.com/photo-1519582149095-fe7d19b2a3d2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHx3YXRlcmZhbGwlMjBuYXR1cmV8ZW58MHx8fHwxNzQ5MTQ1NDMxfDA&ixlib=rb-4.1.0&q=80&w=1080', imageHint: 'waterfall nature', title: 'Crystal Falls', distance: '2.1 km from hotel', icon: Waves },
   { id: 'emerald-forest', imageUrl: 'https://images.unsplash.com/photo-1640354065652-64832d9ba672?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxmb3Jlc3QlMjByZXNlcnZlJTIwdHJhaWx8ZW58MHx8fHwxNzQ5MTQ1NDMxfDA&ixlib.rb-4.1.0&q=80&w=1080', imageHint: 'forest reserve trail', title: 'Emerald Forest Reserve', distance: '4.3 km from hotel', icon: Leaf },
   { id: 'heritage-museum', imageUrl: 'https://images.unsplash.com/photo-1743881188980-4de44e2bba56?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxtdXNldW0lMjBoaXN0b3JpY2FsJTIwYnVpbGRpbmd8ZW58MHx8fHwxNzQ5MTQ1NDMxfDA&ixlib-rb-4.1.0&q=80&w=1080', imageHint: 'museum historical building', title: 'Heritage Museum', distance: '1.8 km from hotel', icon: Palette },
   { id: 'sunrise-peak', imageUrl: 'https://images.unsplash.com/photo-1466854076813-4aa9ac0fc347?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxtb3VudGFpbiUyMHBlYWslMjBzdW5yaXNlfGVufDB8fHx8MTc0OTE0NTQzMXww&ixlib-rb-4.1.0&q=80&w=1080', imageHint: 'mountain peak sunrise', title: 'Sunrise Peak', distance: '6.7 km from hotel', icon: MountainSnow },
@@ -81,30 +82,74 @@ const nearbyAttractions: NearbyAttraction[] = [
   { id: 'ancient-temple', imageUrl: 'https://images.unsplash.com/photo-1730758070932-0ad2926af54c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxhbmNpZW50JTIwdGVtcGxlJTIwcnVpbnN8ZW58MHx8fHwxNzQ5MTQ1NDMxfDA&ixlib-rb-4.1.0&q=80&w=1080', imageHint: 'ancient temple ruins', title: 'Ancient Temple', distance: '3.0 km from hotel', icon: Landmark },
 ];
 
-const FeaturedExperienceCard = ({ exp }: { exp: FeaturedExperience }) => {
-    const finalImageUrl = exp.imageUrl ? `${IMAGE_BASE_URL}${exp.imageUrl}` : 'https://placehold.co/600x400.png';
+const FeaturedExperienceCard = ({ exp }: { exp: ExperienceFromApi }) => {
+    const [imageUrl, setImageUrl] = useState<string | null>(null);
+    const [imageHint, setImageHint] = useState<string>('experience image');
+    const [isImageLoading, setIsImageLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchImage = async () => {
+            if (!exp.id) {
+                setIsImageLoading(false);
+                setImageUrl('https://placehold.co/600x400.png');
+                return;
+            }
+            try {
+                setIsImageLoading(true);
+                const images: ExperienceImage[] = await getExperienceImagesByExperienceId(String(exp.id));
+                const primaryImage = images.find(img => String(img.is_primary) === "1") || images[0];
+
+                if (primaryImage && primaryImage.image_url) {
+                    const finalUrl = primaryImage.image_url.startsWith('http')
+                        ? primaryImage.image_url
+                        : `${IMAGE_BASE_URL}${primaryImage.image_url.replace(/\\/g, '/').replace(/^\//, '')}`;
+                    setImageUrl(finalUrl);
+                    setImageHint(primaryImage.alt_text || 'experience image');
+                } else if (exp.experience_image) {
+                     const finalUrl = exp.experience_image.startsWith('http')
+                        ? exp.experience_image
+                        : `${IMAGE_BASE_URL}${exp.experience_image.replace(/\\/g, '/').replace(/^\//, '')}`;
+                    setImageUrl(finalUrl);
+                } else {
+                    setImageUrl('https://placehold.co/600x400.png');
+                }
+            } catch (error) {
+                console.error(`Failed to fetch image for experience ${exp.id}:`, error);
+                setImageUrl('https://placehold.co/600x400.png');
+            } finally {
+                setIsImageLoading(false);
+            }
+        };
+
+        fetchImage();
+    }, [exp.id, exp.experience_image]);
+
 
     return (
         <Card className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col bg-card rounded-xl h-full border-none">
             <CardHeader className="p-0 relative aspect-video">
-                <NextImage
-                src={finalImageUrl}
-                alt={exp.title}
-                data-ai-hint={exp.imageHint}
-                fill
-                className="object-cover"
-                unoptimized
-                />
+                 {isImageLoading ? (
+                    <Skeleton className="w-full h-full" />
+                ) : (
+                    <NextImage
+                        src={imageUrl || 'https://placehold.co/600x400.png'}
+                        alt={exp.name}
+                        data-ai-hint={imageHint}
+                        fill
+                        className="object-cover"
+                        unoptimized
+                    />
+                )}
             </CardHeader>
             <CardContent className="p-5 flex flex-col flex-grow">
-                <CardTitle className="font-headline text-xl mb-2">{exp.title}</CardTitle>
+                <CardTitle className="font-headline text-xl mb-2">{exp.name}</CardTitle>
                 <CardDescription className="font-body text-sm text-muted-foreground mb-4 flex-grow line-clamp-3">
-                {exp.description}
+                {exp.short_description}
                 </CardDescription>
                 <div className="font-body text-xs text-muted-foreground space-y-1.5 mb-4 grid grid-cols-2">
                     <div className="flex items-center"><Clock className="w-3.5 h-3.5 mr-1.5 text-primary" /> {exp.duration}</div>
-                    <div className="flex items-center"><Users className="w-3.5 h-3.5 mr-1.5 text-primary" /> {exp.pricePerPerson}</div>
-                    <div className="flex items-center col-span-2"><CalendarCheck className="w-3.5 h-3.5 mr-1.5 text-primary" /> {exp.bookingDetails}</div>
+                    <div className="flex items-center"><Users className="w-3.5 h-3.5 mr-1.5 text-primary" /> LKR {parseFloat(exp.Price).toLocaleString()}</div>
+                    <div className="flex items-center col-span-2"><CalendarCheck className="w-3.5 h-3.5 mr-1.5 text-primary" /> {exp.advance_booking_required ? 'Advance Booking Required' : 'Walk-ins Welcome'}</div>
                 </div>
                 <Button asChild className="w-full mt-auto bg-primary text-primary-foreground hover:bg-primary/90 rounded-full h-11">
                     <Link href={`/experiences/book/${exp.id}`}>Book This Experience</Link>
@@ -126,7 +171,7 @@ const ExperienceCategoryCard = ({ category }: { category: ExperienceCategory }) 
 
 
 function ExperiencesPage() {
-    const [featuredExperiences, setFeaturedExperiences] = useState<FeaturedExperience[]>([]);
+    const [allExperiences, setAllExperiences] = useState<ExperienceFromApi[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
@@ -138,35 +183,8 @@ function ExperiencesPage() {
         const fetchExperiences = async () => {
             try {
                 setIsLoading(true);
-                const [experiencesData, imagesData] = await Promise.all([
-                    getExperiences(),
-                    getExperienceImages(),
-                ]);
-
-                const imagesByExperienceId = (imagesData || []).reduce((acc, image) => {
-                    if (!acc[image.experience_id]) {
-                        acc[image.experience_id] = [];
-                    }
-                    acc[image.experience_id].push(image);
-                    return acc;
-                }, {} as Record<number, ExperienceImage[]>);
-
-                const experiences: FeaturedExperience[] = (experiencesData || []).map(exp => {
-                    const primaryImage = imagesByExperienceId[exp.id]?.find(img => img.is_primary === 1) || imagesByExperienceId[exp.id]?.[0];
-                    const imageUrl = primaryImage ? primaryImage.image_url : exp.experience_image ||'';
-                    return {
-                        id: String(exp.id),
-                        title: exp.name,
-                        description: exp.short_description,
-                        imageUrl: imageUrl,
-                        imageHint: primaryImage?.alt_text || 'experience image',
-                        duration: exp.duration,
-                        pricePerPerson: `LKR ${parseFloat(exp.Price).toLocaleString()}`,
-                        bookingDetails: exp.advance_booking_required ? 'Advance Booking Required' : 'Walk-ins Welcome',
-                    };
-                });
-                
-                setFeaturedExperiences(experiences);
+                const experiencesData = await getExperiences();
+                setAllExperiences(experiencesData);
             } catch (err: any) {
                 console.error("Failed to fetch experiences:", err);
                 setError("Failed to load experiences. Please try again later.");
@@ -254,12 +272,12 @@ function ExperiencesPage() {
             {error && <p className="text-center font-body text-lg text-destructive">{error}</p>}
             {!isLoading && !error && (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                  {featuredExperiences.slice(0, 3).map((exp) => ( 
+                  {allExperiences.slice(0, 3).map((exp) => ( 
                     <FeaturedExperienceCard key={exp.id} exp={exp} />
                   ))}
                 </div>
             )}
-            {!isLoading && !error && featuredExperiences.length > 3 && (
+            {!isLoading && !error && allExperiences.length > 3 && (
                 <div className="text-center mt-12">
                     <Button variant="outline" className="rounded-full text-base h-auto py-2 px-6 border-muted-foreground/50 text-muted-foreground hover:bg-muted/10 hover:text-foreground">
                         Load More
@@ -363,3 +381,5 @@ function ExperiencesPage() {
 
 // You must export default from a page file
 export default ExperiencesPage;
+
+    

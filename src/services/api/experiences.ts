@@ -63,3 +63,28 @@ export async function getExperienceImages(): Promise<ExperienceImage[]> {
     throw error;
   }
 }
+
+export async function getExperienceImagesByExperienceId(experienceId: string): Promise<ExperienceImage[]> {
+  try {
+    const serverRoot = API_BASE_URL.split('/company/')[0];
+    const response = await fetch(`${serverRoot}/experience-images/company/1/experience/${experienceId}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
+    if (response.status === 404) {
+      return [];
+    }
+    const images = await handleApiResponse<ExperienceImage[]>(response);
+     return images.map(image => ({
+        ...image,
+        image_url: cleanImageUrl(image.image_url),
+    }));
+  } catch (error) {
+    console.error(`Failed to fetch images for experience ${experienceId}:`, error);
+    return [];
+  }
+}
+
+    
