@@ -9,7 +9,7 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 import Autoplay from "embla-carousel-autoplay";
 import React, { useState, useEffect } from 'react';
 import type { Room, RoomImage, RoomFromApi } from '@/types';
-import { getRooms, getRoomImages } from '@/services/api/rooms';
+import { getRooms } from '@/services/api/rooms';
 import { IMAGE_BASE_URL } from '@/lib/config';
 
 export function FeaturedRoomsSection() {
@@ -21,27 +21,14 @@ export function FeaturedRoomsSection() {
     const fetchFeaturedRooms = async () => {
       try {
         setIsLoading(true);
-        const [roomsData, imagesData] = await Promise.all([
-          getRooms(),
-          getRoomImages()
-        ]);
-
-        const imagesByRoomId = (imagesData || []).reduce((acc, image) => {
-          if (!acc[image.room_id]) {
-            acc[image.room_id] = [];
-          }
-          acc[image.room_id].push(image);
-          return acc;
-        }, {} as Record<number, RoomImage[]>);
-
-        const roomsWithImages: Room[] = (roomsData as RoomFromApi[]).map(room => {
-            const primaryImage = imagesByRoomId[room.id]?.find(img => String(img.is_primary) === "1") || imagesByRoomId[room.id]?.[0];
-            const imageUrl = primaryImage ? primaryImage.image_url : (room.room_images || '');
+        const roomsData = await getRooms();
+        
+        const rooms: Room[] = roomsData.map(room => {
             return {
               ...room,
-              imageUrl: imageUrl,
-              images: imagesByRoomId[room.id] || [],
-              amenities: [], 
+              imageUrl: '', // Will be fetched in RoomCard
+              images: [],
+              amenities: [],
               capacity: room.adults_capacity,
               beds: '1 King Bed',
               size: `${room.room_width}x${room.room_height} sqm`,
@@ -49,7 +36,7 @@ export function FeaturedRoomsSection() {
             };
         });
 
-        setFeaturedRooms(roomsWithImages.slice(0, 3)); // Take first 3 for featured section
+        setFeaturedRooms(rooms.slice(0, 3)); // Take first 3 for featured section
       } catch (err: any) {
         console.error('Failed to fetch featured rooms:', err);
         setError('Could not load featured rooms.');
@@ -151,5 +138,3 @@ export function FeaturedRoomsSection() {
     </section>
   );
 }
-
-    

@@ -1,42 +1,77 @@
 
+'use client';
+
 import NextImage from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import type { Room } from '@/types';
-import { BedDouble, Users, Maximize, Wifi, Coffee, Tv } from 'lucide-react';
+import type { Room, RoomImage } from '@/types';
+import { Wifi, Coffee, Tv, Users } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { IMAGE_BASE_URL } from '@/lib/config';
+import { useState, useEffect } from 'react';
+import { Skeleton } from '../ui/skeleton';
 
 interface RoomCardProps {
   room: Room;
 }
 
 export function RoomCard({ room }: RoomCardProps) {
-  // Assuming amenities are strings. This can be improved if amenities are structured objects.
+  const [imageUrl, setImageUrl] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchImage = async () => {
+      try {
+        setIsLoading(true);
+        const response = await fetch(`https://silverray-server.payshia.com/company/1/room-images/room/${room.id}`);
+        if (!response.ok) {
+          throw new Error('Failed to fetch image');
+        }
+        const images: RoomImage[] = await response.json();
+        const primaryImage = images.find(img => String(img.is_primary) === "1") || images[0];
+        
+        if (primaryImage && primaryImage.image_url) {
+          const finalUrl = primaryImage.image_url.startsWith('http') 
+            ? primaryImage.image_url 
+            : `${IMAGE_BASE_URL}${primaryImage.image_url.replace(/^\//, '')}`;
+          setImageUrl(finalUrl);
+        } else {
+            setImageUrl('https://placehold.co/600x400.png');
+        }
+      } catch (error) {
+        console.error(`Failed to fetch image for room ${room.id}:`, error);
+        setImageUrl('https://placehold.co/600x400.png'); // Fallback image
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchImage();
+  }, [room.id]);
+
   const amenities = {
       wifi: room.amenities?.includes('High-speed Wi-Fi') || room.amenities?.includes('WiFi'),
       tv: room.amenities?.includes('Smart TV'),
       coffee: room.amenities?.includes('Nespresso Machine'),
-      users: true, // Placeholder for guests
+      users: true,
   };
-  
-  const imageUrl = room.imageUrl && !room.imageUrl.startsWith('http') 
-    ? `${IMAGE_BASE_URL}${room.imageUrl.replace(/^\//, '')}` 
-    : (room.imageUrl || 'https://placehold.co/600x400.png');
-
 
   return (
     <Card className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col h-full rounded-2xl bg-card border-none">
       <CardHeader className="p-0 relative aspect-[4/3]">
-        <NextImage
-          src={imageUrl}
-          alt={`Image of ${room.descriptive_title}`}
-          data-ai-hint={room.imageHint || `${room.category?.toLowerCase()} room scenic view`}
-          fill
-          className="object-cover rounded-t-2xl"
-          unoptimized
-        />
+        {isLoading ? (
+            <Skeleton className="w-full h-full rounded-t-2xl" />
+        ) : (
+            <NextImage
+                src={imageUrl || 'https://placehold.co/600x400.png'}
+                alt={`Image of ${room.descriptive_title}`}
+                data-ai-hint={room.imageHint || `${room.category?.toLowerCase()} room scenic view`}
+                fill
+                className="object-cover rounded-t-2xl"
+                unoptimized
+            />
+        )}
       </CardHeader>
       <CardContent className="p-4 sm:p-6 flex-grow">
          <div className="flex justify-between items-start mb-2">

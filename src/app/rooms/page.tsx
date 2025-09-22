@@ -187,34 +187,21 @@ export default function RoomsPage() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchRoomsAndImages = async () => {
+    const fetchRoomsData = async () => {
       try {
         setIsLoading(true);
-        const [roomsData, imagesData] = await Promise.all([
-          getRooms(),
-          getRoomImages()
-        ]);
-
-        const imagesByRoomId = (imagesData || []).reduce((acc, image) => {
-          if (!acc[image.room_id]) {
-            acc[image.room_id] = [];
-          }
-          acc[image.room_id].push(image);
-          return acc;
-        }, {} as Record<number, RoomImage[]>);
-
-        const roomsWithImages: Room[] = (roomsData as RoomFromApi[]).map(room => {
-            const primaryImage = imagesByRoomId[room.id]?.find(img => String(img.is_primary) === "1") || imagesByRoomId[room.id]?.[0];
-            const imageUrl = primaryImage ? primaryImage.image_url : (room.room_images || '');
+        const roomsData = await getRooms();
+        
+        const roomsWithImages: Room[] = roomsData.map(room => {
             return {
               ...room,
-              imageUrl: imageUrl,
-              images: imagesByRoomId[room.id] || [],
-              amenities: [], // This needs to be mapped from amenities_id if there's an amenities endpoint
+              imageUrl: '', // Will be fetched in RoomCard
+              images: [],
+              amenities: [],
               capacity: room.adults_capacity,
-              beds: '1 King Bed', // Placeholder, needs data from backend
+              beds: '1 King Bed',
               size: `${room.room_width}x${room.room_height} sqm`,
-              category: 'Standard', // Placeholder, needs to be mapped from room_type_id
+              category: 'Standard', 
             };
         });
 
@@ -227,7 +214,7 @@ export default function RoomsPage() {
       }
     };
 
-    fetchRoomsAndImages();
+    fetchRoomsData();
   }, []);
 
   const renderContent = () => {
@@ -289,5 +276,3 @@ export default function RoomsPage() {
     </>
   );
 }
-
-    
