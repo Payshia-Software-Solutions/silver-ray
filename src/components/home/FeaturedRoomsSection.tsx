@@ -36,7 +36,7 @@ export function FeaturedRoomsSection() {
 
         const roomsWithImages: Room[] = (roomsData as RoomFromApi[]).map(room => {
             const primaryImage = imagesByRoomId[room.id]?.find(img => String(img.is_primary) === "1") || imagesByRoomId[room.id]?.[0];
-            const imageUrl = primaryImage ? primaryImage.image_url : '';
+            const imageUrl = primaryImage ? primaryImage.image_url : (room.room_images || '');
             return {
               ...room,
               imageUrl: imageUrl,
@@ -151,3 +151,5 @@ export function FeaturedRoomsSection() {
     </section>
   );
 }
+
+    
