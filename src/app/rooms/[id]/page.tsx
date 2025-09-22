@@ -41,11 +41,16 @@ type Props = {
 
 // Helper to map API data to our Room type
 const mapRoomData = (apiRoom: RoomFromApi, roomImages: RoomImage[]): Room => {
-  const mainImage = apiRoom.room_images ? apiRoom.room_images.replace(/\\/g, '/') : (roomImages.find(img => String(img.room_id) === String(apiRoom.id) && img.is_primary)?.image_url || roomImages.find(img => String(img.room_id) === String(apiRoom.id))?.image_url);
-  const finalImageUrl = mainImage && !mainImage.startsWith('http') ? `${IMAGE_BASE_URL}/${mainImage}` : (mainImage || 'https://placehold.co/1200x800.png');
+  const mainImage = apiRoom.room_images ? `${IMAGE_BASE_URL}${apiRoom.room_images.replace(/\\/g, '/')}` : (roomImages.find(img => String(img.room_id) === String(apiRoom.id) && String(img.is_primary) === '1')?.image_url || roomImages.find(img => String(img.room_id) === String(apiRoom.id))?.image_url);
+  const finalImageUrl = mainImage && !mainImage.startsWith('http') ? `${IMAGE_BASE_URL}${mainImage.replace(/^\//, '')}` : (mainImage || 'https://placehold.co/1200x800.png');
   
   const amenitiesMap: { [key: string]: string } = {
     '89': 'King-size Bed',
+    '90': 'Rain Shower',
+    '91': 'Smart TV',
+    '92': 'High-speed Wi-Fi',
+    '93': 'Coffee Bar',
+    '94': 'Private Balcony'
     // Add other amenity IDs here as you get them from your backend
   };
 
@@ -91,15 +96,14 @@ export async function generateMetadata(
   };
 }
 
-const amenitiesIcons = {
+const amenitiesIcons: { [key: string]: LucideIcon } = {
   'King-size Bed': BedDouble,
   'Rain Shower': ShowerHead,
   'Smart TV': Tv,
   'High-speed Wi-Fi': Wifi,
   'Coffee Bar': Coffee,
-  'Balcony View': Mountain,
-  'Nespresso Machine': Coffee,
   'Private Balcony': Mountain,
+  'Nespresso Machine': Coffee,
 };
 
 export default async function RoomDetailPage({ params }: Props) {
@@ -112,7 +116,7 @@ export default async function RoomDetailPage({ params }: Props) {
   const allRoomImages = await getRoomImages();
   const room = mapRoomData(apiRoom, allRoomImages);
   
-  const imagesToShow = room.images && room.images.length > 0 ? room.images.map(img => !img.image_url.startsWith('http') ? `${IMAGE_BASE_URL}/${img.image_url.replace(/\\/g, '/')}`: img.image_url) : [room.imageUrl];
+  const imagesToShow = room.images && room.images.length > 0 ? room.images.map(img => !img.image_url.startsWith('http') ? `${IMAGE_BASE_URL}${img.image_url.replace(/\\/g, '/')}`: img.image_url) : [room.imageUrl];
   const mainImage = imagesToShow[0];
   const thumbnails = imagesToShow.slice(0, 4); // Show up to 4 thumbnails
 
@@ -335,3 +339,5 @@ export async function generateStaticParams() {
     id: String(room.id),
   }));
 }
+
+    
