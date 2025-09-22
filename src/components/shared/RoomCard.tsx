@@ -11,6 +11,7 @@ import { Badge } from '@/components/ui/badge';
 import { IMAGE_BASE_URL } from '@/lib/config';
 import { useState, useEffect } from 'react';
 import { Skeleton } from '../ui/skeleton';
+import apiClient from '@/lib/apiClient';
 
 interface RoomCardProps {
   room: Room;
@@ -22,13 +23,13 @@ export function RoomCard({ room }: RoomCardProps) {
 
   useEffect(() => {
     const fetchImage = async () => {
+      if (!room.id) return;
       try {
         setIsLoading(true);
-        const response = await fetch(`https://silverray-server.payshia.com/company/1/room-images/room/${room.id}`);
-        if (!response.ok) {
-          throw new Error('Failed to fetch image');
-        }
-        const images: RoomImage[] = await response.json();
+        // Corrected the endpoint to be relative to the apiClient's baseURL
+        const response = await apiClient.get(`/room-images/room/${room.id}`);
+        const images: RoomImage[] = response.data;
+        
         const primaryImage = images.find(img => String(img.is_primary) === "1") || images[0];
         
         if (primaryImage && primaryImage.image_url) {
