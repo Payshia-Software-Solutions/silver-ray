@@ -32,19 +32,24 @@ export function RoomCard({ room }: RoomCardProps) {
         // Using direct fetch with the correct URL structure
         const response = await fetch(`https://silverray-server.payshia.com/room-images/company/1/room/${room.id}`);
         if (!response.ok) {
-            throw new Error(`API call failed with status: ${response.status}`);
-        }
-        const images: RoomImage[] = await response.json();
-        
-        const primaryImage = images.find(img => String(img.is_primary) === "1") || images[0];
-        
-        if (primaryImage && primaryImage.image_url) {
-          const finalUrl = primaryImage.image_url.startsWith('http') 
-            ? primaryImage.image_url 
-            : `${IMAGE_BASE_URL}${primaryImage.image_url.replace(/\\/g, '/').replace(/^\//, '')}`;
-          setImageUrl(finalUrl);
+            if (response.status === 404) {
+                console.warn(`No images found for room ${room.id}. Using placeholder.`);
+                setImageUrl('https://placehold.co/600x400.png');
+            } else {
+                throw new Error(`API call failed with status: ${response.status}`);
+            }
         } else {
-            setImageUrl('https://placehold.co/600x400.png');
+            const images: RoomImage[] = await response.json();
+            const primaryImage = images.find(img => String(img.is_primary) === "1") || images[0];
+            
+            if (primaryImage && primaryImage.image_url) {
+              const finalUrl = primaryImage.image_url.startsWith('http') 
+                ? primaryImage.image_url 
+                : `${IMAGE_BASE_URL}${primaryImage.image_url.replace(/\\/g, '/').replace(/^\//, '')}`;
+              setImageUrl(finalUrl);
+            } else {
+                setImageUrl('https://placehold.co/600x400.png');
+            }
         }
       } catch (error) {
         console.error(`Failed to fetch image for room ${room.id}:`, error);
