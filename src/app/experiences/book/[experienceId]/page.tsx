@@ -6,8 +6,8 @@ import NextImage from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
-import { getExperienceById } from '@/services/api/experiences';
-import type { ExperienceDetail, ExperienceFromApi, BreadcrumbItem } from '@/types';
+import { getExperienceById, getExperienceImages } from '@/services/api/experiences';
+import type { ExperienceDetail, ExperienceFromApi, BreadcrumbItem, ExperienceImage } from '@/types';
 
 import { Breadcrumbs } from '@/components/shared/Breadcrumbs';
 import { ExperienceBookingForm } from '@/components/experiences/booking/ExperienceBookingForm';
@@ -21,8 +21,16 @@ type Props = {
   params: { experienceId: string };
 };
 
-const mapApiToExperienceDetail = (apiData: ExperienceFromApi): ExperienceDetail => {
+const mapApiToExperienceDetail = (apiData: ExperienceFromApi, allImages: ExperienceImage[]): ExperienceDetail => {
     const heroImageUrl = apiData.experience_image ? `${IMAGE_BASE_URL}${apiData.experience_image}` : 'https://placehold.co/1920x500.png';
+    const galleryImages = allImages
+        .filter(img => String(img.experience_id) === String(apiData.id))
+        .map(img => ({
+            src: `${IMAGE_BASE_URL}${img.image_url}`,
+            alt: img.alt_text,
+            hint: img.alt_text || 'experience gallery',
+        }));
+
     return {
         id: String(apiData.id),
         pageTitle: `Book: ${apiData.name}`,
@@ -37,7 +45,7 @@ const mapApiToExperienceDetail = (apiData: ExperienceFromApi): ExperienceDetail 
             { icon: ListChecks, label: 'Inclusions', value: apiData.advance_booking_required ? 'Advance Booking' : 'Walk-ins Welcome' },
             { icon: MapPin, label: 'Meeting Point', value: apiData.meeting_Point },
         ],
-        galleryImages: [], // This would need another API call or to be included in the main one
+        galleryImages: galleryImages,
         defaultAdults: apiData.min_participants,
         pricePerAdult: parseFloat(apiData.Price),
     };
@@ -98,6 +106,7 @@ function ExperienceContentLayout({ experience }: { experience: ExperienceDetail 
                   data-ai-hint={image.hint}
                   fill
                   className="object-cover transition-transform duration-300 group-hover:scale-105"
+                  unoptimized
                 />
               </div>
             ))}
@@ -118,12 +127,16 @@ export default function ExperienceBookingPage({ params }: Props) {
     const fetchExperience = async () => {
         try {
             setIsLoading(true);
-            const apiExperience = await getExperienceById(params.experienceId);
+            const [apiExperience, allImages] = await Promise.all([
+                getExperienceById(params.experienceId),
+                getExperienceImages()
+            ]);
+
             if (!apiExperience) {
                 notFound();
                 return;
             }
-            const mappedExperience = mapApiToExperienceDetail(apiExperience);
+            const mappedExperience = mapApiToExperienceDetail(apiExperience, allImages);
             setExperience(mappedExperience);
         } catch (err) {
             console.error(err);
