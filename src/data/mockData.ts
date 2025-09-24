@@ -58,11 +58,7 @@ export const mockRooms: Room[] = [
     pricePerNight: 320,
     imageUrl: 'https://images.unsplash.com/photo-1536494126589-29fadf0d7e3c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxzdGFuZGFyZCUyMHJvb20lMjBzY2VuaWMlMjB2aWV3fGVufDB8fHx8MTc0OTE0NDgxM3ww&ixlib=rb-4.1.0&q=80&w=1080',
     imageHint: 'standard room scenic view',
-    images: [
-      'https://placehold.co/1200x800.png',
-      'https://placehold.co/600x400.png',
-      'https://placehold.co/600x400.png',
-    ],
+    images: [],
     amenities: ['2 Queen Beds', 'Garden Access', 'WiFi', 'Air Conditioning', 'Smart TV', 'Kids Welcome Kit', 'Gaming Console (on request)'],
     capacity: 4,
     beds: '2 Queen Beds',
@@ -72,7 +68,7 @@ export const mockRooms: Room[] = [
     features: ['Garden Access', 'Family Friendly'],
     viewType: 'Lush Garden Courtyard',
     enhanceYourStay: ['Kids Club Access', 'Babysitting Service Available'],
-    roomLayoutImageUrl: 'https://placehold.co/600x300.png',
+    roomLayoutImageUrl: '',
   },
    {
     id: 'presidential-villa',
@@ -82,12 +78,7 @@ export const mockRooms: Room[] = [
     pricePerNight: 1500,
     imageUrl: 'https://images.unsplash.com/photo-1467043153537-a4fba2cd39ef?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHx2aWxsYSUyMHJvb20lMjBzY2VuaWMlMjB2aWV3fGVufDB8fHx8MTc0OTE0NDgxMnww&ixlib=rb-4.1.0&q=80&w=1080',
     imageHint: 'villa room scenic view',
-    images: [
-      'https://placehold.co/1200x800.png',
-      'https://placehold.co/600x400.png',
-      'https://placehold.co/600x400.png',
-      'https://placehold.co/600x400.png',
-    ],
+    images: [],
     amenities: ['Multiple Bedrooms', 'Private Pool', 'Butler Service', 'Full Kitchen', 'Oceanfront', 'WiFi', 'Home Cinema', 'Private Gym'],
     capacity: 6,
     beds: '2 King Beds, 2 Twin Beds',
@@ -97,7 +88,7 @@ export const mockRooms: Room[] = [
     features: ['Private Pool', 'Butler Service', 'Oceanfront', 'Full Kitchen'],
     viewType: 'Unobstructed Ocean & Coastline',
     enhanceYourStay: ['Private Chef', 'In-Villa Spa Treatments', 'Personal Chauffeur'],
-    roomLayoutImageUrl: 'https://placehold.co/700x350.png',
+    roomLayoutImageUrl: '',
   },
   {
     id: 'junior-suite',
@@ -107,10 +98,7 @@ export const mockRooms: Room[] = [
     pricePerNight: 300,
     imageUrl: 'https://images.unsplash.com/photo-1506377295352-e3154d43ea9e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxzdWl0ZSUyMHJvb20lMjBzY2VuaWMlMjB2aWV3fGVufDB8fHx8MTc0OTE0NDgxMnww&ixlib=rb-4.1.0&q=80&w=1080',
     imageHint: 'suite room scenic view',
-    images: [
-      'https://placehold.co/1200x800.png',
-      'https://placehold.co/600x400.png',
-    ],
+    images: [],
     amenities: ['Queen Bed', 'Partial Sea View', 'WiFi', 'Air Conditioning', 'Mini Bar', 'Seating Area'],
     capacity: 2,
     beds: '1 Queen Bed',
@@ -120,7 +108,7 @@ export const mockRooms: Room[] = [
     features: ['Partial Sea View'],
     viewType: 'Side Ocean Glimpse',
     enhanceYourStay: ['Welcome Fruit Basket', 'Late Checkout Option'],
-    roomLayoutImageUrl: 'https://placehold.co/500x250.png',
+    roomLayoutImageUrl: '',
   },
   {
     id: 'superior-room',
@@ -130,10 +118,7 @@ export const mockRooms: Room[] = [
     pricePerNight: 280,
     imageUrl: 'https://images.unsplash.com/photo-1536494126589-29fadf0d7e3c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxkZWx1eGUlMjByb29tJTIwc2NlbmljJTIwdmlld3xlbnwwfHx8fDE3NDkxNDQ4MTN8MA&ixlib=rb-4.1.0&q=80&w=1080',
     imageHint: 'deluxe room scenic view',
-    images: [
-      'https://placehold.co/1200x800.png',
-      'https://placehold.co/600x400.png',
-    ],
+    images: [],
     amenities: ['King Bed or 2 Twin Beds', 'City Skyline View', 'WiFi', 'Air Conditioning', 'Writing Desk', 'Blackout Curtains'],
     capacity: 2,
     beds: '1 King or 2 Twins',
@@ -143,7 +128,7 @@ export const mockRooms: Room[] = [
     features: ['City Skyline View', 'Large Windows'],
     viewType: 'Expansive City Skyline',
     enhanceYourStay: ['Daily Turndown Service', 'Pillow Menu'],
-    roomLayoutImageUrl: 'https://placehold.co/600x300.png',
+    roomLayoutImageUrl: '',
   },
   {
     id: 'premium-suite',
@@ -153,11 +138,7 @@ export const mockRooms: Room[] = [
     pricePerNight: 650,
     imageUrl: 'https://images.unsplash.com/photo-1455792244736-3ed96c3d7f7e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxzdWl0ZSUyMHJvb20lMjBzY2VuaWMlMjB2aWV3fGVufDB8fHx8MTc0OTE0NDgxMnww&ixlib=rb-4.1.0&q=80&w=1080',
     imageHint: 'suite room scenic view',
-    images: [
-      'https://placehold.co/1200x800.png',
-      'https://placehold.co/600x400.png',
-      'https://placehold.co/600x400.png',
-    ],
+    images: [],
     amenities: ['King Bed', 'Panoramic Ocean View', 'Large Balcony', 'WiFi', 'Living Room', 'Premium Minibar', 'Walk-in Closet', 'Jacuzzi Tub'],
     capacity: 2,
     beds: '1 King Bed',
@@ -167,7 +148,7 @@ export const mockRooms: Room[] = [
     features: ['Panoramic Ocean View', 'Large Balcony', 'Separate Living Room'],
     viewType: 'Full Ocean Panorama & Sunset View',
     enhanceYourStay: ['Personalized Concierge', 'In-Suite Dining Options', 'Premium Spa Product Selection'],
-    roomLayoutImageUrl: 'https://placehold.co/650x320.png',
+    roomLayoutImageUrl: '',
   }
 ];
 
@@ -197,4 +178,3 @@ export const mockTestimonials: Testimonial[] = [
     rating: 4,
   },
 ];
-

@@ -49,8 +49,9 @@ const mapRoomData = (apiRoom: RoomFromApi, roomImages: RoomImage[]): Room => {
   
   const constructImageUrl = (imagePath: string) => {
     if (!imagePath) return '';
-    const cleanedUrl = imagePath.replace(/\\/g, '/').replace(/^\//, '');
-    return `${IMAGE_BASE_URL}${cleanedUrl}`;
+    // The path from the API is already structured like "room-images/81/image.jpg"
+    // So we just prepend the base URL.
+    return `${IMAGE_BASE_URL}${imagePath}`;
   };
 
   const finalImageUrl = primaryImage ? constructImageUrl(primaryImage.image_url) : '';

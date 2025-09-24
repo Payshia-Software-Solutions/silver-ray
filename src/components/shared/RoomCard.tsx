@@ -24,7 +24,7 @@ export function RoomCard({ room }: RoomCardProps) {
     const fetchImage = async () => {
       if (!room.id) {
           setIsLoading(false);
-          setImageUrl('https://placehold.co/600x400.png');
+          setImageUrl(null);
           return;
       };
       try {
@@ -33,8 +33,8 @@ export function RoomCard({ room }: RoomCardProps) {
         const response = await fetch(`https://silverray-server.payshia.com/room-images/company/1/room/${room.id}`);
         if (!response.ok) {
             if (response.status === 404) {
-                console.warn(`No images found for room ${room.id}. Using placeholder.`);
-                setImageUrl('https://placehold.co/600x400.png');
+                console.warn(`No images found for room ${room.id}.`);
+                setImageUrl(null);
             } else {
                 throw new Error(`API call failed with status: ${response.status}`);
             }
@@ -48,12 +48,12 @@ export function RoomCard({ room }: RoomCardProps) {
                 : `${IMAGE_BASE_URL}${primaryImage.image_url.replace(/\\/g, '/').replace(/^\//, '')}`;
               setImageUrl(finalUrl);
             } else {
-                setImageUrl('https://placehold.co/600x400.png');
+                setImageUrl(null);
             }
         }
       } catch (error) {
         console.error(`Failed to fetch image for room ${room.id}:`, error);
-        setImageUrl('https://placehold.co/600x400.png'); // Fallback image
+        setImageUrl(null); // Fallback to no image
       } finally {
         setIsLoading(false);
       }
@@ -74,15 +74,19 @@ export function RoomCard({ room }: RoomCardProps) {
       <CardHeader className="p-0 relative aspect-[4/3]">
         {isLoading ? (
             <Skeleton className="w-full h-full rounded-t-2xl" />
-        ) : (
+        ) : imageUrl ? (
             <NextImage
-                src={imageUrl || 'https://placehold.co/600x400.png'}
+                src={imageUrl}
                 alt={`Image of ${room.descriptive_title}`}
                 data-ai-hint={room.imageHint || `${room.category?.toLowerCase()} room scenic view`}
                 fill
                 className="object-cover rounded-t-2xl"
                 unoptimized
             />
+        ) : (
+            <div className="w-full h-full bg-muted flex items-center justify-center text-muted-foreground rounded-t-2xl">
+              No Image
+            </div>
         )}
       </CardHeader>
       <CardContent className="p-4 sm:p-6 flex-grow">
