@@ -3,7 +3,7 @@
 
 import { useState, useEffect } from 'react';
 import NextImage from 'next/image';
-import { getRoomById, getRoomImages } from '@/services/api/rooms';
+import { getRoomById, getRoomImagesByRoomId } from '@/services/api/rooms';
 import type { Room, RoomFromApi, RoomImage } from '@/types';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -122,8 +122,8 @@ export default function RoomDetailPage() {
           return;
         }
 
-        const allRoomImages = await getRoomImages();
-        const mappedRoom = mapRoomData(apiRoom, allRoomImages);
+        const roomImages = await getRoomImagesByRoomId(id);
+        const mappedRoom = mapRoomData(apiRoom, roomImages);
         setRoom(mappedRoom);
 
       } catch (err) {
@@ -173,7 +173,7 @@ export default function RoomDetailPage() {
   
   const imagesToShow = room.images && room.images.length > 0 
     ? room.images.map(img => img.image_url) 
-    : [room.imageUrl];
+    : (room.imageUrl ? [room.imageUrl] : []);
 
   const mainImage = imagesToShow[0] || '';
   const thumbnails = imagesToShow.slice(0, 4); 
@@ -398,3 +398,5 @@ export default function RoomDetailPage() {
     </div>
   );
 }
+
+    
