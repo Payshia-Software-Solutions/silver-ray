@@ -126,9 +126,13 @@ export default function RoomDetailPage() {
         const mappedRoom = mapRoomData(apiRoom, roomImages);
         setRoom(mappedRoom);
 
-      } catch (err) {
+      } catch (err: any) {
         console.error(err);
-        setError("Failed to load room details. Please try again later.");
+        if (err.message && err.message.includes("404")) {
+          notFound();
+        } else {
+          setError("Failed to load room details. Please try again later.");
+        }
       } finally {
         setIsLoading(false);
       }
@@ -398,5 +402,3 @@ export default function RoomDetailPage() {
     </div>
   );
 }
-
-    
