@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { ChevronDown, SlidersHorizontal } from 'lucide-react';
 import { RoomsPageHero } from '@/components/rooms/RoomsPageHero';
 import { NotificationBanner } from '@/components/rooms/NotificationBanner';
-import type { Room, RoomFromApi, RoomImage } from '@/types';
+import type { Room, RoomFromApi } from '@/types';
 import {
   Accordion,
   AccordionContent,
@@ -22,8 +22,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { Label } from '@/components/ui/label';
-import { getRooms, getRoomImages } from '@/services/api/rooms';
-import { IMAGE_BASE_URL } from '@/lib/config';
+import { getRooms } from '@/services/api/rooms';
 
 
 function DesktopRoomFilters() {
@@ -191,22 +190,26 @@ export default function RoomsPage() {
     const fetchRoomsData = async () => {
       try {
         setIsLoading(true);
-        const roomsData = await getRooms();
+        const roomsData: RoomFromApi[] = await getRooms();
         
-        const roomsWithImages: Room[] = roomsData.map(room => {
+        const mappedRooms: Room[] = roomsData.map(apiRoom => {
+            const roomSize = (parseFloat(apiRoom.room_width) * parseFloat(apiRoom.room_height) / 10.764).toFixed(0);
             return {
-              ...room,
-              imageUrl: '', // Will be fetched in RoomCard
-              images: [],
-              amenities: [],
-              capacity: room.adults_capacity,
-              beds: '1 King Bed',
-              size: `${room.room_width}x${room.room_height} sqm`,
-              category: 'Standard', 
+              ...apiRoom,
+              id: String(apiRoom.id), // Ensure id is a string
+              name: apiRoom.descriptive_title,
+              description: apiRoom.short_description,
+              pricePerNight: parseFloat(apiRoom.price_per_night),
+              capacity: apiRoom.adults_capacity,
+              imageUrl: '', // This is handled by RoomCard internally
+              amenities: apiRoom.amenities_id?.split(',').map(a => a.trim()) || [],
+              beds: '1 King Bed', // Placeholder, adjust if API provides this
+              size: `${roomSize} sqft`,
+              category: apiRoom.room_type?.type_name as any || 'Standard',
             };
         });
 
-        setRooms(roomsWithImages);
+        setRooms(mappedRooms);
       } catch (err: any) {
         console.error('Failed to fetch room data:', err);
         setError(err.message || 'Failed to load rooms. Please try again later.');
@@ -283,3 +286,4 @@ export default function RoomsPage() {
     </>
   );
 }
+
