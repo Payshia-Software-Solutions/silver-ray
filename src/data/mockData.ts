@@ -10,11 +10,7 @@ export const mockRooms: Room[] = [
     pricePerNight: 250,
     imageUrl: 'https://images.unsplash.com/photo-1557733686-3f8641465d21?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxkZWx1eGUlMjByb29tJTIwc2NlbmljJTIwdmlld3xlbnwwfHx8fDE3NDkxNDQ4MTN8MA&ixlib=rb-4.1.0&q=80&w=1080',
     imageHint: 'deluxe room scenic view',
-    images: [
-      'https://images.unsplash.com/photo-1562663464-36b958487cd6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxkZWx1eGUlMjByb29tJTIwaW50ZXJpb3IlMjBkZXRhaWx8ZW58MHx8fHwxNzQ5MTQ1NzU3fDA&ixlib=rb-4.1.0&q=80&w=1080', // New Image 1
-      'https://images.unsplash.com/photo-1471476730017-8169d050fa19?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxkZWx1eGUlMjByb29tJTIwaW50ZXJpb3IlMjBkZXRhaWx8ZW58MHx8fHwxNzQ5MTQ1NzU3fDA&ixlib=rb-4.1.0&q=80&w=1080', // New Image 2
-      'https://images.unsplash.com/photo-1559294094-ef9682194038?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxkZWx1eGUlMjByb29tJTIwaW50ZXJpb3IlMjBkZXRhaWx8ZW58MHx8fHwxNzQ5MTQ1NzU3fDA&ixlib=rb-4.1.0&q=80&w=1080', // New Image 3
-    ],
+    images: [],
     amenities: ['King-size Bed', 'High-speed Wi-Fi', 'Smart TV', 'Rain Shower', 'Nespresso Machine', 'Private Balcony', 'Luxury Linens', 'Climate Control', 'In-room Safe', 'Air Conditioning', 'Mini Bar', 'Flat-screen TV', 'Work Desk'],
     capacity: 2,
     beds: '1 King Bed',
@@ -34,11 +30,7 @@ export const mockRooms: Room[] = [
     pricePerNight: 450,
     imageUrl: 'https://images.unsplash.com/photo-1455792244736-3ed96c3d7f7e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxzdWl0ZSUyMHJvb20lMjBzY2VuaWMlMjB2aWV3fGVufDB8fHx8MTc0OTE0NDgxMnww&ixlib=rb-4.1.0&q=80&w=1080',
     imageHint: 'suite room scenic view',
-    images: [
-      'https://images.unsplash.com/photo-1532323544230-7191fd51bc1b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxzdWl0ZSUyMHJvb20lMjBpbnRlcmlvciUyMGRldGFpbHxlbnwwfHx8fDE3NDkxNDU2NDF8MA&ixlib=rb-4.1.0&q=80&w=1080',
-      'https://images.unsplash.com/photo-1488813340362-2a31b5522ebe?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxzdWl0ZSUyMHJvb20lMjBpbnRlcmlvciUyMGRldGFpbHxlbnwwfHx8fDE3NDkxNDU2NDF8MA&ixlib=rb-4.1.0&q=80&w=1080',
-      'https://images.unsplash.com/photo-1514053026555-49ce8886ae41?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxzdWl0ZSUyMHJvb20lMjBpbnRlcmlvciUyMGRldGFpbHxlbnwwfHx8fDE3NDkxNDU2NDF8MA&ixlib=rb-4.1.0&q=80&w=1080',
-    ],
+    images: [],
     amenities: ['King Bed', 'Ocean View', 'Private Balcony', 'WiFi', 'Air Conditioning', 'Nespresso Machine', 'Soaking Tub', 'Living Area'],
     capacity: 3,
     beds: '1 King Bed + Sofa Bed',
@@ -116,7 +108,7 @@ export const mockRooms: Room[] = [
     description: 'Well-appointed room with large windows and city skyline views.',
     longDescription: 'Our Superior Room offers a bright and airy space with large windows showcasing the city skyline. It features a comfortable king bed (or two twin beds on request) and modern decor, providing a serene environment for your stay.',
     pricePerNight: 280,
-    imageUrl: 'https://images.unsplash.com/photo-1536494126589-29fadf0d7e3c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxkZWx1eGUlMjByb29tJTIwc2NlbmljJTIwdmlld3xlbnwwfHx8fDE3NDkxNDQ4MTN8MA&ixlib=rb-4.1.0&q=80&w=1080',
+    imageUrl: 'https://images.unsplash.com/photo-1536494126589-29fadf0d7e3c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxkZWx1eGUlMjByb29tJTIwc2NlbmljJTIwdmlld3xlbnwwfHx8fDE3NDkxNDQ4MTN8MA&ixlib-rb-4.1.0&q=80&w=1080',
     imageHint: 'deluxe room scenic view',
     images: [],
     amenities: ['King Bed or 2 Twin Beds', 'City Skyline View', 'WiFi', 'Air Conditioning', 'Writing Desk', 'Blackout Curtains'],
@@ -148,6 +140,26 @@ export const mockRooms: Room[] = [
     features: ['Panoramic Ocean View', 'Large Balcony', 'Separate Living Room'],
     viewType: 'Full Ocean Panorama & Sunset View',
     enhanceYourStay: ['Personalized Concierge', 'In-Suite Dining Options', 'Premium Spa Product Selection'],
+    roomLayoutImageUrl: '',
+  },
+  {
+    id: 'king-suiteee',
+    name: 'King Suiteee',
+    description: 'lkytfwdhjqgwkjhdkjklk;dkqldk\'l',
+    longDescription: 'The King Suiteee offers unparalleled luxury with a spacious living area and stunning ocean views.',
+    pricePerNight: 300000,
+    imageUrl: 'https://images.unsplash.com/photo-1629828325356-784862e1903e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxyZWQlMjBhYnN0cmFjdCUyMGdsYXNzfGVufDB8fHx8MTc0OTMyMjYyN3ww&ixlib=rb-4.1.0&q=80&w=1080',
+    imageHint: 'red abstract glass',
+    images: [],
+    amenities: ['King Bed', 'Ocean View', 'WiFi'],
+    capacity: 2,
+    beds: '1 King Bed',
+    size: '80 sqm',
+    category: 'Suite',
+    rating: 4.9,
+    features: ['Ocean View'],
+    viewType: 'Ocean View',
+    enhanceYourStay: [],
     roomLayoutImageUrl: '',
   }
 ];
