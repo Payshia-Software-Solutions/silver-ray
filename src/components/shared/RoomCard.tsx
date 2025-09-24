@@ -8,7 +8,7 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/componen
 import type { Room, RoomImage } from '@/types';
 import { Wifi, Coffee, Tv, Users } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
-import { IMAGE_BASE_URL } from '@/lib/config';
+import { API_BASE_URL, IMAGE_BASE_URL } from '@/lib/config';
 import { useState, useEffect } from 'react';
 import { Skeleton } from '../ui/skeleton';
 
@@ -30,7 +30,8 @@ export function RoomCard({ room }: RoomCardProps) {
       try {
         setIsLoading(true);
         // Using direct fetch with the correct URL structure
-        const response = await fetch(`https://silverray-server.payshia.com/room-images/company/1/room/${room.id}`);
+        const serverRoot = API_BASE_URL.split('/company/')[0];
+        const response = await fetch(`${serverRoot}/room-images/company/1/room/${room.id}`);
         if (!response.ok) {
             if (response.status === 404) {
                 console.warn(`No images found for room ${room.id}.`);
