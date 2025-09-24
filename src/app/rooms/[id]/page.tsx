@@ -48,12 +48,12 @@ const mapRoomData = (apiRoom: RoomFromApi, roomImages: RoomImage[]): Room => {
   const primaryImage = imagesForThisRoom.find(img => String(img.is_primary) === '1') || imagesForThisRoom[0];
   
   const constructImageUrl = (imagePath: string) => {
-    if (!imagePath) return 'https://placehold.co/1200x800.png';
+    if (!imagePath) return '';
     const cleanedUrl = imagePath.replace(/\\/g, '/').replace(/^\//, '');
     return `${IMAGE_BASE_URL}${cleanedUrl}`;
   };
 
-  const finalImageUrl = primaryImage ? constructImageUrl(primaryImage.image_url) : 'https://placehold.co/1200x800.png';
+  const finalImageUrl = primaryImage ? constructImageUrl(primaryImage.image_url) : '';
 
   const amenitiesMap: { [key: string]: string } = {
     '89': 'King-size Bed',
@@ -175,7 +175,7 @@ export default function RoomDetailPage() {
     ? room.images.map(img => img.image_url) 
     : [room.imageUrl];
 
-  const mainImage = imagesToShow[0] || 'https://placehold.co/1200x800.png';
+  const mainImage = imagesToShow[0] || '';
   const thumbnails = imagesToShow.slice(0, 4); 
 
   return (
@@ -204,15 +204,19 @@ export default function RoomDetailPage() {
                 {/* --- Image Carousel --- */}
                 <div className="relative mb-6">
                     <div className="relative aspect-[4/3] w-full rounded-xl overflow-hidden shadow-lg">
-                        <NextImage
-                            src={mainImage}
-                            alt={`${room.name} Main Image`}
-                            data-ai-hint={`${room.category.toLowerCase()} room interior detail`}
-                            fill
-                            className="object-cover"
-                            priority
-                            unoptimized
-                        />
+                        {mainImage ? (
+                          <NextImage
+                              src={mainImage}
+                              alt={`${room.name} Main Image`}
+                              data-ai-hint={`${room.category.toLowerCase()} room interior detail`}
+                              fill
+                              className="object-cover"
+                              priority
+                              unoptimized
+                          />
+                        ) : (
+                          <div className="w-full h-full bg-muted flex items-center justify-center text-muted-foreground">No Image Available</div>
+                        )}
                          <div className="absolute bottom-4 left-4">
                             <Button variant="secondary" className="bg-black/50 text-white backdrop-blur-sm hover:bg-black/70 border-white/20">
                                 <Camera className="w-4 h-4 mr-2" /> 360° Tour
@@ -222,14 +226,18 @@ export default function RoomDetailPage() {
                     <div className="mt-2 grid grid-cols-4 gap-2">
                         {thumbnails.map((img, index) => (
                              <div key={index} className="relative aspect-video w-full rounded-md overflow-hidden cursor-pointer border-2 border-transparent hover:border-primary">
-                                <NextImage
-                                    src={img}
-                                    alt={`${room.name} - Thumbnail ${index + 1}`}
-                                    data-ai-hint={`${room.category.toLowerCase()} room interior thumbnail`}
-                                    fill
-                                    className="object-cover"
-                                    unoptimized
-                                />
+                                {img ? (
+                                  <NextImage
+                                      src={img}
+                                      alt={`${room.name} - Thumbnail ${index + 1}`}
+                                      data-ai-hint={`${room.category.toLowerCase()} room interior thumbnail`}
+                                      fill
+                                      className="object-cover"
+                                      unoptimized
+                                  />
+                                ) : (
+                                  <div className="w-full h-full bg-muted"></div>
+                                )}
                             </div>
                         ))}
                     </div>
@@ -390,4 +398,3 @@ export default function RoomDetailPage() {
     </div>
   );
 }
-
