@@ -185,6 +185,7 @@ export default function RoomsPage() {
   const [rooms, setRooms] = useState<Room[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [visibleCount, setVisibleCount] = useState(6);
 
   useEffect(() => {
     const fetchRoomsData = async () => {
@@ -217,11 +218,15 @@ export default function RoomsPage() {
     fetchRoomsData();
   }, []);
 
+  const handleLoadMore = () => {
+    setVisibleCount(rooms.length);
+  };
+
   const renderContent = () => {
     if (isLoading) {
       return (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {[...Array(3)].map((_, i) => (
+          {[...Array(6)].map((_, i) => (
             <div key={i} className="bg-card rounded-lg shadow animate-pulse">
               <div className="aspect-[4/3] bg-muted rounded-t-lg"></div>
               <div className="p-6 space-y-3">
@@ -247,7 +252,7 @@ export default function RoomsPage() {
     }
     return (
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {rooms.map((room) => (
+        {rooms.slice(0, visibleCount).map((room) => (
           <RoomCard key={room.id} room={room} />
         ))}
       </div>
@@ -265,11 +270,13 @@ export default function RoomsPage() {
           
           {renderContent()}
 
-           <div className="text-center mt-12">
-            <Button variant="outline" className="rounded-full px-6 py-3 h-auto">
-              Load More <ChevronDown className="w-4 h-4 ml-2" />
-            </Button>
-          </div>
+          {!isLoading && !error && visibleCount < rooms.length && (
+            <div className="text-center mt-12">
+              <Button variant="outline" className="rounded-full px-6 py-3 h-auto" onClick={handleLoadMore}>
+                Load More <ChevronDown className="w-4 h-4 ml-2" />
+              </Button>
+            </div>
+          )}
 
         </div>
       </div>
