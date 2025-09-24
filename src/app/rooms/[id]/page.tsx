@@ -47,11 +47,13 @@ const mapRoomData = (apiRoom: RoomFromApi, roomImages: RoomImage[]): Room => {
   const imagesForThisRoom = roomImages.filter(img => String(img.room_id) === String(apiRoom.id));
   const primaryImage = imagesForThisRoom.find(img => String(img.is_primary) === '1') || imagesForThisRoom[0];
   
-  let finalImageUrl = 'https://placehold.co/1200x800.png'; // Fallback
-  if (primaryImage?.image_url) {
-      const cleanedUrl = primaryImage.image_url.replace(/\\/g, '/').replace(/^\//, '');
-      finalImageUrl = `${IMAGE_BASE_URL}${cleanedUrl}`;
-  }
+  const constructImageUrl = (imagePath: string) => {
+    if (!imagePath) return 'https://placehold.co/1200x800.png';
+    const cleanedUrl = imagePath.replace(/\\/g, '/').replace(/^\//, '');
+    return `${IMAGE_BASE_URL}${cleanedUrl}`;
+  };
+
+  const finalImageUrl = primaryImage ? constructImageUrl(primaryImage.image_url) : 'https://placehold.co/1200x800.png';
 
   const amenitiesMap: { [key: string]: string } = {
     '89': 'King-size Bed',
@@ -79,7 +81,7 @@ const mapRoomData = (apiRoom: RoomFromApi, roomImages: RoomImage[]): Room => {
     longDescription: apiRoom.short_description, 
     pricePerNight: parseFloat(apiRoom.price_per_night),
     imageUrl: finalImageUrl,
-    images: imagesForThisRoom.map(img => ({ ...img, image_url: `${IMAGE_BASE_URL}${img.image_url.replace(/\\/g, '/').replace(/^\//, '')}`})),
+    images: imagesForThisRoom.map(img => ({ ...img, image_url: constructImageUrl(img.image_url)})),
     amenities: amenities,
     capacity: Number(apiRoom.adults_capacity),
     beds: '1 King Bed',
@@ -388,3 +390,4 @@ export default function RoomDetailPage() {
     </div>
   );
 }
+
