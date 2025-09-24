@@ -4,7 +4,7 @@
 import { useState, useEffect } from 'react';
 import NextImage from 'next/image';
 import Link from 'next/link';
-import { notFound } from 'next/navigation';
+import { notFound, useParams } from 'next/navigation';
 
 import { getExperienceById, getExperienceImages } from '@/services/api/experiences';
 import type { ExperienceDetail, ExperienceFromApi, BreadcrumbItem, ExperienceImage } from '@/types';
@@ -16,10 +16,6 @@ import { Clock, Users, MapPin, ListChecks } from 'lucide-react';
 import { IMAGE_BASE_URL } from '@/lib/config';
 import { Skeleton } from '@/components/ui/skeleton';
 
-
-type Props = {
-  params: { experienceId: string };
-};
 
 const mapApiToExperienceDetail = (apiData: ExperienceFromApi, allImages: ExperienceImage[]): ExperienceDetail => {
     const heroImageUrl = apiData.experience_image ? `${IMAGE_BASE_URL}${apiData.experience_image}` : 'https://placehold.co/1920x500.png';
@@ -118,17 +114,22 @@ function ExperienceContentLayout({ experience }: { experience: ExperienceDetail 
 }
 
 
-export default function ExperienceBookingPage({ params }: Props) {
+export default function ExperienceBookingPage() {
+  const params = useParams();
+  const experienceId = params.experienceId as string;
+
   const [experience, setExperience] = useState<ExperienceDetail | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    if (!experienceId) return;
+
     const fetchExperience = async () => {
         try {
             setIsLoading(true);
             const [apiExperience, allImages] = await Promise.all([
-                getExperienceById(params.experienceId),
+                getExperienceById(experienceId),
                 getExperienceImages()
             ]);
 
@@ -146,7 +147,7 @@ export default function ExperienceBookingPage({ params }: Props) {
         }
     };
     fetchExperience();
-  }, [params.experienceId]);
+  }, [experienceId]);
 
 
   if (isLoading) {
