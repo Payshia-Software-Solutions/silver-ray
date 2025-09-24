@@ -3,7 +3,7 @@
 
 import { useState, useEffect } from 'react';
 import { notFound, useParams } from 'next/navigation';
-import { getRestaurantById, getRestaurantImages } from '@/services/api/dining';
+import { getRestaurantById, getRestaurantImagesByVenueId } from '@/services/api/dining';
 import type { RestaurantFromApi, RestaurantImage } from '@/types';
 import { VenueDetailClient } from '@/components/dining/menu/VenueDetailClient';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -26,17 +26,15 @@ export default function RestaurantMenuPage() {
         setIsLoading(true);
         setError(null);
         
-        const [venueData, allImages] = await Promise.all([
+        const [venueData, venueImages] = await Promise.all([
           getRestaurantById(venueId),
-          getRestaurantImages()
+          getRestaurantImagesByVenueId(venueId)
         ]);
 
         if (!venueData) {
           notFound();
           return;
         }
-
-        const venueImages = allImages.filter(img => String(img.restaurant_id) === String(venueId));
 
         setVenue(venueData);
         setImages(venueImages);
