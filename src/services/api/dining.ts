@@ -22,6 +22,27 @@ export async function getRestaurants(): Promise<RestaurantFromApi[]> {
   }
 }
 
+export async function getRestaurantById(id: string): Promise<RestaurantFromApi> {
+  try {
+    const response = await fetch(`${API_BASE_URL}/restaurant/${id}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    const venue = await handleApiResponse<RestaurantFromApi>(response);
+    const singleVenue = Array.isArray(venue) ? venue[0] : venue;
+     return {
+        ...singleVenue,
+        'restaurant _image': cleanImageUrl(singleVenue['restaurant _image']),
+    };
+  } catch (error) {
+    console.error(`Failed to fetch restaurant with id ${id}:`, error);
+    throw error;
+  }
+}
+
+
 export async function getRestaurantImages(): Promise<RestaurantImage[]> {
   try {
     const response = await fetch(`${API_BASE_URL}/restaurant-images`, {
