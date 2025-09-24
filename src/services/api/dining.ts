@@ -64,6 +64,7 @@ export async function getRestaurantImages(): Promise<RestaurantImage[]> {
 
 export async function getRestaurantImagesByVenueId(venueId: string): Promise<RestaurantImage[]> {
   try {
+    // Correctly constructs the URL from the server root, not the company-specific base URL
     const serverRoot = API_BASE_URL.split('/company/')[0];
     const response = await fetch(`${serverRoot}/restaurant-images/company/1/restaurant/${venueId}`, {
         method: 'GET',
