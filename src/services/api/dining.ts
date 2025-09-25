@@ -11,7 +11,11 @@ export async function getRestaurants(): Promise<RestaurantFromApi[]> {
             'Content-Type': 'application/json',
         },
     });
-    const restaurants = await handleApiResponse<RestaurantFromApi[]>(response);
+    const data = await handleApiResponse<RestaurantFromApi[] | RestaurantFromApi>(response);
+    
+    // Ensure the data is always an array before mapping
+    const restaurants = Array.isArray(data) ? data : [data];
+
     return restaurants.map(restaurant => ({
         ...restaurant,
         'restaurant _image': cleanImageUrl(restaurant['restaurant _image']),
