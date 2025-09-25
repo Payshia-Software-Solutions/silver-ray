@@ -26,7 +26,7 @@ const signatureDishes: DishProps[] = [
     id: 'molten-lava-cake',
     name: 'Molten Chocolate Lava Cake',
     description: 'Rich chocolate cake with a warm, gooey center, garnished with gold leaf and fresh berries.',
-    imageUrl: 'https://images.unsplash.com/photo-1514517521153-1be72277b32f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxjaG9jb2xhdGUlMjBsYXZhJTIwY2FrZSUyMGRlc3NlcnR8ZW58MHx8fHwxNzQ5MTQ1MTY0fDA&ixlib-rb-4.1.0&q=80&w=1080',
+    imageUrl: 'https://images.unsplash.com/photo-1514517521153-1be72277b32f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxjaG9jb2xhdGUlMjBsYXZhJTIwY2FrZSUyMGRlc3NlcnR8ZW58MHx8fHwxNzQ5MTQ1MTY0fDA&ixlib=rb-4.1.0&q=80&w=1080',
     imageHint: 'chocolate lava cake dessert',
   },
   {
@@ -42,7 +42,7 @@ export default function DiningPage() {
   const [diningVenues, setDiningVenues] = useState<RestaurantFromApi[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [visibleCount, setVisibleCount] = useState(3);
+  const [visibleCount, setVisibleCount] = useState(6);
 
   useEffect(() => {
     const fetchDiningData = async () => {
@@ -67,7 +67,7 @@ export default function DiningPage() {
   
   const renderVenues = () => {
     if (isLoading) {
-      return [...Array(3)].map((_, i) => (
+      return [...Array(6)].map((_, i) => (
          <div key={i} className="bg-card rounded-xl shadow-lg animate-pulse">
             <div className="aspect-[4/3] bg-muted rounded-t-xl"></div>
             <div className="p-6 space-y-3">
