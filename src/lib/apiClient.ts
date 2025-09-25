@@ -36,6 +36,8 @@ export async function handleApiResponse<T>(response: Response): Promise<T> {
   }
   
   const text = await response.text();
+  // If the response body is empty, return an empty array for list calls 
+  // or handle as appropriate, instead of trying to parse it.
   if (!text) {
       return [] as T;
   }
