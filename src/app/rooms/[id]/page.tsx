@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -55,19 +56,10 @@ const mapRoomData = (apiRoom: RoomFromApi, roomImages: RoomImage[]): Room => {
 
   const finalImageUrl = primaryImage ? constructImageUrl(primaryImage.image_url) : '';
 
-  const amenitiesMap: { [key: string]: string } = {
-    '89': 'King-size Bed',
-    '90': 'Rain Shower',
-    '91': 'Smart TV',
-    '92': 'High-speed Wi-Fi',
-    '93': 'Coffee Bar',
-    '94': 'Private Balcony',
-    '20': 'Air Conditioning',
-    '22': 'Free Wi-Fi'
-  };
+  const amenities = Array.isArray(apiRoom.amenities) 
+    ? apiRoom.amenities.map(a => a.amenity_name)
+    : [];
 
-  const amenities = apiRoom.amenities_id?.split(',').map(id => amenitiesMap[id.trim()]).filter(Boolean) || [];
-  
   const roomWidth = parseFloat(apiRoom.room_width);
   const roomHeight = parseFloat(apiRoom.room_height);
   const size = !isNaN(roomWidth) && !isNaN(roomHeight) ? (roomWidth * roomHeight / 10.764).toFixed(0) : 'N/A';
@@ -100,7 +92,9 @@ const amenitiesIcons: { [key: string]: LucideIcon } = {
   'Private Balcony': Mountain,
   'Nespresso Machine': Coffee,
   'Air Conditioning': Wifi, // Using Wifi icon as a placeholder
-  'Free Wi-Fi': Wifi
+  'Free Wi-Fi': Wifi,
+  'Pet Friendly': Bed, // Using Bed as placeholder
+  'Housekeeping': CheckCircle, // Using Check as placeholder
 };
 
 export default function RoomDetailPage() {

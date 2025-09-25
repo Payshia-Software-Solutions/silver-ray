@@ -1,5 +1,18 @@
 
+
 import type { LucideIcon } from 'lucide-react';
+
+export interface Amenity {
+  id: string;
+  amenity_name: string;
+  company_id: string;
+  description: string;
+  is_active: string;
+  created_at: string;
+  updated_at: string;
+  created_by: string;
+  updated_by: string | null;
+}
 
 export interface RoomType {
   id: string;
@@ -25,6 +38,7 @@ export interface RoomFromApi {
   room_width: string;
   room_height: string;
   amenities_id: string; // Comma-separated string of amenity IDs
+  amenities: Amenity[];
   room_images: string | null;
   company_id: string;
   created_by: string;
