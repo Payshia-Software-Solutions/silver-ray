@@ -41,16 +41,7 @@ export async function handleApiResponse<T>(response: Response): Promise<T> {
   }
 
   try {
-    const data = JSON.parse(text);
-    // Ensure the function always returns an array-like structure for .map()
-    if (Array.isArray(data)) {
-        return data as T;
-    } else if (typeof data === 'object' && data !== null) {
-        // If the API returns a single object, wrap it in an array for consistency
-        return [data] as T;
-    }
-    // Return an empty array if the data is not in a recognized format
-    return [] as T;
+    return JSON.parse(text);
   } catch (error) {
     console.error("Failed to parse JSON:", text);
     throw new Error("Invalid JSON response from server.");
