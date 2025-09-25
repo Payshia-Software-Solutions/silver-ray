@@ -5,7 +5,7 @@ import NextImage from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Users } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { IMAGE_BASE_URL } from '@/lib/config';
 import type { RestaurantFromApi, RestaurantImage } from '@/types';
@@ -18,7 +18,7 @@ export interface VenueCardProps {
 }
 
 export function VenueCard({ venue }: VenueCardProps) {
-  const { id, venue_name, status, short_description } = venue;
+  const { id, venue_name, status, short_description, capacity } = venue;
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [imageHint, setImageHint] = useState<string>('restaurant interior');
   const [isLoading, setIsLoading] = useState(true);
@@ -82,6 +82,10 @@ export function VenueCard({ venue }: VenueCardProps) {
         <p className="font-body text-muted-foreground text-sm mb-4 flex-grow line-clamp-2">
           {short_description}
         </p>
+        <div className="flex items-center text-sm text-muted-foreground mb-4">
+          <Users className="w-4 h-4 mr-2 text-primary" />
+          <span>Capacity: {capacity} guests</span>
+        </div>
         <Button asChild variant="link" className="font-body text-sm text-primary hover:text-primary/80 p-0 justify-start h-auto group mt-auto">
           <Link href={viewMoreLink}>
             View More 

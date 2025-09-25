@@ -42,7 +42,6 @@ export default function DiningPage() {
   const [diningVenues, setDiningVenues] = useState<RestaurantFromApi[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [visibleCount, setVisibleCount] = useState(6);
 
   useEffect(() => {
     const fetchDiningData = async () => {
@@ -60,10 +59,6 @@ export default function DiningPage() {
 
     fetchDiningData();
   }, []);
-
-  const handleLoadMore = () => {
-    setVisibleCount(diningVenues.length);
-  };
   
   const renderVenues = () => {
     if (isLoading) {
@@ -81,7 +76,7 @@ export default function DiningPage() {
     if (error) {
       return <p className="col-span-full text-center text-destructive">{error}</p>;
     }
-    return diningVenues.slice(0, visibleCount).map((venue, index) => (
+    return diningVenues.map((venue, index) => (
       <VenueCard key={`${venue.id}-${index}`} venue={venue} />
     ));
   }
@@ -101,13 +96,6 @@ export default function DiningPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {renderVenues()}
           </div>
-          {!isLoading && !error && visibleCount < diningVenues.length && (
-            <div className="text-center mt-12">
-              <Button onClick={handleLoadMore} variant="outline" className="rounded-full px-6 py-3 h-auto">
-                Load More <ChevronDown className="w-4 h-4 ml-2" />
-              </Button>
-            </div>
-          )}
         </div>
       </section>
 
