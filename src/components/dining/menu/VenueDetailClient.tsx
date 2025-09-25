@@ -44,66 +44,19 @@ export function VenueDetailClient({ venue, images }: VenueDetailClientProps) {
     return (
         <div className="bg-background">
             <MenuHero 
-                venueName={venue.venue_name}
-                venueDescription={venue.short_description}
-                heroImageUrl={heroImageUrl}
-                heroImageHint={primaryImage?.alt_text || 'restaurant interior'}
+                venueName={menuData?.venueName || venue.venue_name}
+                venueDescription={menuData?.venueDescription || venue.short_description}
+                heroImageUrl={menuData?.heroImageUrl || heroImageUrl}
+                heroImageHint={menuData?.heroImageHint || primaryImage?.alt_text || 'restaurant interior'}
             />
             
             <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-6">
                 <Breadcrumbs items={breadcrumbItems} />
             </div>
 
-            {menuData && <MenuCategoryNavigation categories={menuData.categories} /> }
+            {menuData && menuData.categories.length > 0 && <MenuCategoryNavigation categories={menuData.categories} /> }
 
-            <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12">
-                    <div className="lg:col-span-2">
-                        <p className="font-body text-foreground/80 text-base leading-relaxed mb-8">
-                            {venue.detailed_description}
-                        </p>
-                        
-                        {images.length > 1 && (
-                            <div className="mb-8">
-                                <h2 className="font-headline text-2xl font-bold mb-4">Gallery</h2>
-                                <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                                {images.map((image) => (
-                                    <div key={image.id} className="relative aspect-video rounded-lg overflow-hidden shadow-md group">
-                                        <NextImage
-                                            src={`${IMAGE_BASE_URL}${image.image_url}`}
-                                            alt={image.alt_text}
-                                            data-ai-hint={image.alt_text || 'restaurant detail'}
-                                            fill
-                                            className="object-cover transition-transform duration-300 group-hover:scale-105"
-                                            unoptimized
-                                        />
-                                    </div>
-                                ))}
-                                </div>
-                            </div>
-                        )}
-                    </div>
-                    
-                    <div className="lg:sticky lg:top-24 h-fit">
-                        <div className="bg-card p-6 rounded-xl shadow-lg border">
-                            <h3 className="font-headline text-xl font-semibold mb-4">Venue Information</h3>
-                             <div className="space-y-3 font-body text-sm">
-                                {details.map((detail, index) => (
-                                <div key={index} className="flex items-start">
-                                    <detail.icon className="w-5 h-5 text-primary mr-3 mt-0.5 flex-shrink-0" />
-                                    <div>
-                                    <span className="font-medium text-foreground/90">{detail.label}:</span>{' '}
-                                    <span className="text-muted-foreground">{detail.value}</span>
-                                    </div>
-                                </div>
-                                ))}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </main>
-            
-            {menuData && (
+            {menuData ? (
                  <div className="bg-secondary/20">
                     {regularCategories.map((category) => (
                     <MenuSection key={category.id} category={category} />
@@ -112,6 +65,53 @@ export function VenueDetailClient({ venue, images }: VenueDetailClientProps) {
                     <MenuSection key={chefSpecialsCategory.id} category={chefSpecialsCategory} isChefSpecialsSection={true} />
                     )}
                 </div>
+            ) : (
+                 <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12">
+                        <div className="lg:col-span-2">
+                            <p className="font-body text-foreground/80 text-base leading-relaxed mb-8">
+                                {venue.detailed_description || "Details for this venue are coming soon."}
+                            </p>
+                            
+                            {images.length > 1 && (
+                                <div className="mb-8">
+                                    <h2 className="font-headline text-2xl font-bold mb-4">Gallery</h2>
+                                    <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                                    {images.map((image) => (
+                                        <div key={image.id} className="relative aspect-video rounded-lg overflow-hidden shadow-md group">
+                                            <NextImage
+                                                src={`${IMAGE_BASE_URL}${image.image_url}`}
+                                                alt={image.alt_text}
+                                                data-ai-hint={image.alt_text || 'restaurant detail'}
+                                                fill
+                                                className="object-cover transition-transform duration-300 group-hover:scale-105"
+                                                unoptimized
+                                            />
+                                        </div>
+                                    ))}
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                        
+                        <div className="lg:sticky lg:top-24 h-fit">
+                            <div className="bg-card p-6 rounded-xl shadow-lg border">
+                                <h3 className="font-headline text-xl font-semibold mb-4">Venue Information</h3>
+                                <div className="space-y-3 font-body text-sm">
+                                    {details.map((detail, index) => (
+                                    <div key={index} className="flex items-start">
+                                        <detail.icon className="w-5 h-5 text-primary mr-3 mt-0.5 flex-shrink-0" />
+                                        <div>
+                                        <span className="font-medium text-foreground/90">{detail.label}:</span>{' '}
+                                        <span className="text-muted-foreground">{detail.value}</span>
+                                        </div>
+                                    </div>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </main>
             )}
         </div>
     );
