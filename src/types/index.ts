@@ -158,6 +158,17 @@ export interface ExperienceDetail {
   pricePerChild?: number; // Optional: for dynamic pricing display
 }
 
+export interface PackageInclusion {
+    id: string;
+    inclusion_type: string;
+    company_id: string;
+    description: string;
+    created_at: string;
+    updated_at: string;
+    created_by: string;
+    updated_by: string | null;
+}
+
 export interface WeddingPackageFromApi {
     id: number;
     package_name: string;
@@ -174,6 +185,7 @@ export interface WeddingPackageFromApi {
     updated_by: string | null;
     created_at: string;
     updated_at: string;
+    package_inclusions: PackageInclusion[] | null;
 }
 
 export interface WeddingImage {

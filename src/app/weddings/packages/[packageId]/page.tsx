@@ -8,7 +8,7 @@ import { notFound, useParams } from 'next/navigation';
 
 import { getWeddingPackageById, getWeddingImagesByPackageId } from '@/services/api/weddings';
 import { premiumWeddingAddons } from '@/data/weddingData';
-import type { WeddingPackageFromApi, WeddingImage } from '@/types';
+import type { WeddingPackageFromApi, WeddingImage, PackageInclusion } from '@/types';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Breadcrumbs } from '@/components/shared/Breadcrumbs';
@@ -21,12 +21,11 @@ import { IMAGE_BASE_URL } from '@/lib/config';
 import { Skeleton } from '@/components/ui/skeleton';
 
 
-const mapInclusions = (inclusions: string | null) => {
-    if (!inclusions) return [];
-    // This is a placeholder. You'll need a more robust way to map inclusion IDs/names to icons.
-    return inclusions.split(',').map(inc => ({
+const mapInclusions = (inclusions: PackageInclusion[] | null) => {
+    if (!inclusions || !Array.isArray(inclusions)) return [];
+    return inclusions.map(inc => ({
         icon: CheckCircle, // Default icon
-        text: inc.trim(),
+        text: inc.inclusion_type.trim(),
     }));
 }
 
@@ -124,7 +123,7 @@ export default function WeddingPackageDetailPage() {
     { icon: Users, label: `${pkg.max_guests} Guests` }, // Updated label
   ];
 
-  const pkgInclusions = mapInclusions(pkg.inclusions);
+  const pkgInclusions = mapInclusions(pkg.package_inclusions);
 
   // This grouping is a placeholder. You'd need a more robust system.
   const inclusionGroups: InclusionGroup[] = [
