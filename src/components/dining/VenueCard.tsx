@@ -5,7 +5,7 @@ import NextImage from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { ArrowRight, Users } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { IMAGE_BASE_URL } from '@/lib/config';
 import type { RestaurantFromApi, RestaurantImage } from '@/types';
@@ -18,7 +18,7 @@ export interface VenueCardProps {
 }
 
 export function VenueCard({ venue }: VenueCardProps) {
-  const { id, venue_name, status, short_description, capacity } = venue;
+  const { id, venue_name, status, short_description } = venue;
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [imageHint, setImageHint] = useState<string>('restaurant interior');
   const [isLoading, setIsLoading] = useState(true);
@@ -59,8 +59,8 @@ export function VenueCard({ venue }: VenueCardProps) {
   const viewMoreLink = `/dining/menu/${id}`;
 
   return (
-    <Card className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col h-full rounded-xl bg-card border-none">
-      <CardHeader className="p-0 relative aspect-[4/3]">
+    <Card className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col h-full rounded-xl bg-card border-border">
+      <CardHeader className="p-0 relative aspect-video">
         {isLoading ? (
           <Skeleton className="w-full h-full rounded-t-xl" />
         ) : (
@@ -73,23 +73,19 @@ export function VenueCard({ venue }: VenueCardProps) {
             unoptimized
           />
         )}
+        <Badge variant="secondary" className="absolute top-3 left-3 bg-background/80 text-foreground/80 backdrop-blur-sm border-border">
+          {tag}
+        </Badge>
       </CardHeader>
-      <CardContent className="p-6 flex flex-col flex-grow">
-        <div className="flex justify-between items-center mb-2">
-            <CardTitle className="font-headline text-xl ">{venue_name}</CardTitle>
-            <Badge variant="outline" className="border-primary text-primary">{tag}</Badge>
-        </div>
+      <CardContent className="p-6 flex flex-col flex-grow text-center">
+        <CardTitle className="font-headline text-2xl mb-2">{venue_name}</CardTitle>
         <p className="font-body text-muted-foreground text-sm mb-4 flex-grow line-clamp-2">
           {short_description}
         </p>
-        <div className="flex items-center text-sm text-muted-foreground mb-4">
-          <Users className="w-4 h-4 mr-2 text-primary" />
-          <span>Capacity: {capacity} guests</span>
-        </div>
-        <Button asChild variant="link" className="font-body text-sm text-primary hover:text-primary/80 p-0 justify-start h-auto group mt-auto">
+        <Button asChild variant="outline" className="font-body text-sm text-primary border-primary hover:bg-primary/10 hover:text-primary p-0 justify-center h-auto group mt-auto w-fit mx-auto px-4 py-2 rounded-lg">
           <Link href={viewMoreLink}>
-            View More 
-            <ArrowRight className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1" />
+            View Menu
+            <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
           </Link>
         </Button>
       </CardContent>

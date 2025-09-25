@@ -3,16 +3,13 @@
 
 import { useState, useEffect } from 'react';
 import { DiningHero } from '@/components/dining/DiningHero';
-import { VenueCard, type VenueCardProps } from '@/components/dining/VenueCard';
+import { VenueCard } from '@/components/dining/VenueCard';
 import { DishCard, type DishProps } from '@/components/dining/DishCard';
 import { ReservationSection } from '@/components/dining/ReservationSection';
 import { InfoBar } from '@/components/dining/InfoBar';
 import type { RestaurantFromApi } from '@/types';
 import { getRestaurants } from '@/services/api/dining';
 import { Skeleton } from '@/components/ui/skeleton';
-import { Button } from '@/components/ui/button';
-import { ChevronDown } from 'lucide-react';
-
 
 const signatureDishes: DishProps[] = [
   {
@@ -26,7 +23,7 @@ const signatureDishes: DishProps[] = [
     id: 'molten-lava-cake',
     name: 'Molten Chocolate Lava Cake',
     description: 'Rich chocolate cake with a warm, gooey center, garnished with gold leaf and fresh berries.',
-    imageUrl: 'https://images.unsplash.com/photo-1514517521153-1be72277b32f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxjaG9jb2xhdGUlMjBsYXZhJTIwY2FrZSUyMGRlc3NlcnR8ZW58MHx8fHwxNzQ5MTQ1MTY0fDA&ixlib-rb-4.1.0&q=80&w=1080',
+    imageUrl: 'https://images.unsplash.com/photo-1514517521153-1be72277b32f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxjaG9jb2xhdGUlMjBsYXZhJTIwY2FrZSUyMGRlc3NlcnR8ZW58MHx8fHwxNzQ5MTQ1MTY0fDA&ixlib=rb-4.1.0&q=80&w=1080',
     imageHint: 'chocolate lava cake dessert',
   },
   {
@@ -48,7 +45,9 @@ export default function DiningPage() {
       try {
         setIsLoading(true);
         const restaurantsData = await getRestaurants();
-        setDiningVenues(restaurantsData);
+        // Ensure the data is always an array before setting state
+        const venues = Array.isArray(restaurantsData) ? restaurantsData : [restaurantsData];
+        setDiningVenues(venues);
       } catch (err: any) {
         console.error("Failed to fetch dining venues:", err);
         setError("Failed to load dining venues. Please try again later.");
@@ -62,7 +61,7 @@ export default function DiningPage() {
   
   const renderVenues = () => {
     if (isLoading) {
-      return [...Array(6)].map((_, i) => (
+      return [...Array(3)].map((_, i) => (
          <div key={i} className="bg-card rounded-xl shadow-lg animate-pulse">
             <div className="aspect-[4/3] bg-muted rounded-t-xl"></div>
             <div className="p-6 space-y-3">
@@ -76,7 +75,7 @@ export default function DiningPage() {
     if (error) {
       return <p className="col-span-full text-center text-destructive">{error}</p>;
     }
-    if (diningVenues.length === 0) {
+    if (!diningVenues || diningVenues.length === 0) {
         return <p className="col-span-full text-center text-muted-foreground">No dining venues found.</p>;
     }
     return diningVenues.map((venue, index) => (
@@ -92,8 +91,8 @@ export default function DiningPage() {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="font-headline text-3xl sm:text-4xl font-bold mb-3">Our Dining Venues</h2>
-            <p className="font-body text-lg text-muted-foreground max-w-xl mx-auto">
-              From lavish buffets to rooftop cocktails, each venue offers a unique ambiance and culinary experiences to delight every palate.
+            <p className="font-body text-lg text-muted-foreground max-w-2xl mx-auto">
+              From lavish buffets to rooftop cocktails, each venue offers a unique ambiance and culinary experience to delight every palate.
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -106,7 +105,7 @@ export default function DiningPage() {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="font-headline text-3xl sm:text-4xl font-bold mb-3">Chef's Signature Dishes</h2>
-            <p className="font-body text-lg text-muted-foreground max-w-xl mx-auto">
+            <p className="font-body text-lg text-muted-foreground max-w-2xl mx-auto">
               Indulge in our chef's most celebrated creations and seasonal specialties, crafted with passion and the finest ingredients.
             </p>
           </div>
