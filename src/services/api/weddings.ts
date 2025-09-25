@@ -1,6 +1,6 @@
 
 import type { WeddingPackageFromApi, WeddingImage } from '@/types';
-import { API_BASE_URL } from '@/lib/config';
+import { API_BASE_URL, IMAGE_BASE_URL } from '@/lib/config';
 import { handleApiResponse, cleanImageUrl } from '@/lib/apiClient';
 
 
@@ -59,7 +59,7 @@ export async function getWeddingImages(): Promise<WeddingImage[]> {
     const images = await handleApiResponse<WeddingImage[]>(response);
     return images.map(image => ({
         ...image,
-        image_url: cleanImageUrl(image.image_url),
+        image_url: `${IMAGE_BASE_URL}${cleanImageUrl(image.image_url)}`,
     }));
   } catch (error) {
     console.error(`Failed to fetch wedding images for company:`, error);
@@ -82,7 +82,7 @@ export async function getWeddingImagesByPackageId(packageId: string): Promise<We
     const images = await handleApiResponse<WeddingImage[]>(response);
      return images.map(image => ({
         ...image,
-        image_url: cleanImageUrl(image.image_url),
+        image_url: `${IMAGE_BASE_URL}${cleanImageUrl(image.image_url)}`,
     }));
   } catch (error) {
     console.error(`Failed to fetch images for wedding package ${packageId}:`, error);
