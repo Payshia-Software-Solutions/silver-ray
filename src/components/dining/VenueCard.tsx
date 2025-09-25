@@ -55,7 +55,6 @@ export function VenueCard({ venue }: VenueCardProps) {
     fetchImage();
   }, [id]);
 
-  const tag = status === 'Active' ? 'Fine Dining' : 'Coming Soon';
   const viewMoreLink = `/dining/menu/${id}`;
 
   return (
@@ -73,9 +72,6 @@ export function VenueCard({ venue }: VenueCardProps) {
             unoptimized
           />
         )}
-        <Badge variant="secondary" className="absolute top-3 left-3 bg-background/80 text-foreground/80 backdrop-blur-sm border-border">
-          {tag}
-        </Badge>
       </CardHeader>
       <CardContent className="p-6 flex flex-col flex-grow text-center">
         <CardTitle className="font-headline text-2xl mb-2">{venue_name}</CardTitle>
