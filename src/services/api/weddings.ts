@@ -24,7 +24,7 @@ export async function getWeddingPackages(): Promise<WeddingPackageFromApi[]> {
   }
 }
 
-export async function getWeddingPackageById(id: string): Promise<WeddingPackageFromApi> {
+export async function getWeddingPackageById(id: string): Promise<WeddingPackageFromApi | null> {
   try {
     const response = await fetch(`${API_BASE_URL}/weddingpackages/${id}`, {
       method: 'GET',
@@ -32,6 +32,9 @@ export async function getWeddingPackageById(id: string): Promise<WeddingPackageF
         'Content-Type': 'application/json',
       },
     });
+    if (response.status === 404) {
+        return null;
+    }
     const pkg = await handleApiResponse<WeddingPackageFromApi>(response);
     const singlePackage = Array.isArray(pkg) ? pkg[0] : pkg;
     return {

@@ -6,9 +6,9 @@ import NextImage from 'next/image';
 import Link from 'next/link';
 import { notFound, useParams } from 'next/navigation';
 
-import { getWeddingPackageById } from '@/services/api/weddings';
+import { getWeddingPackageById, getWeddingImagesByPackageId } from '@/services/api/weddings';
 import { premiumWeddingAddons } from '@/data/weddingData';
-import type { WeddingPackageFromApi } from '@/types';
+import type { WeddingPackageFromApi, WeddingImage } from '@/types';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Breadcrumbs } from '@/components/shared/Breadcrumbs';
@@ -55,6 +55,7 @@ export default function WeddingPackageDetailPage() {
   const packageId = params.packageId as string;
 
   const [pkg, setPkg] = useState<WeddingPackageFromApi | null>(null);
+  const [images, setImages] = useState<WeddingImage[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -63,15 +64,24 @@ export default function WeddingPackageDetailPage() {
     const fetchPackage = async () => {
       try {
         setIsLoading(true);
-        const pkgData = await getWeddingPackageById(packageId);
+        const [pkgData, imagesData] = await Promise.all([
+          getWeddingPackageById(packageId),
+          getWeddingImagesByPackageId(packageId)
+        ]);
+
         if (!pkgData) {
           notFound();
           return;
         }
         setPkg(pkgData);
+        setImages(imagesData);
       } catch (err) {
         console.error(err);
-        setError('Failed to load wedding package details.');
+        if (err instanceof Error && err.message.includes('404')) {
+            notFound();
+        } else {
+            setError('Failed to load wedding package details.');
+        }
       } finally {
         setIsLoading(false);
       }
@@ -122,7 +132,11 @@ export default function WeddingPackageDetailPage() {
   ];
 
   const filteredInclusionGroups = inclusionGroups.filter(group => group.items.length > 0);
-  const heroImage = pkg.weddinng_image && !pkg.weddinng_image.startsWith('http') ? `${IMAGE_BASE_URL}/${pkg.weddinng_image.replace(/\\/g, '/')}` : (pkg.weddinng_image || 'https://placehold.co/1920x700.png');
+  
+  const primaryImage = images.find(img => String(img.is_primary) === '1') || images[0];
+  const heroImage = primaryImage 
+    ? primaryImage.image_url 
+    : (pkg.weddinng_image ? `${IMAGE_BASE_URL}${pkg.weddinng_image}` : 'https://placehold.co/1920x700.png');
 
 
   return (
@@ -132,7 +146,7 @@ export default function WeddingPackageDetailPage() {
         <NextImage
           src={heroImage}
           alt={pkg.package_name}
-          data-ai-hint={"wedding venue celebration"}
+          data-ai-hint={primaryImage?.alt_text || "wedding venue celebration"}
           fill
           className="object-cover"
           priority
@@ -265,5 +279,3 @@ export default function WeddingPackageDetailPage() {
     </div>
   );
 }
-
-    
