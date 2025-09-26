@@ -141,7 +141,11 @@ export default function ExperienceBookingPage() {
             setExperience(mappedExperience);
         } catch (err) {
             console.error(err);
-            setError("Failed to load experience details.");
+            if (err instanceof Error && err.message.includes('404')) {
+                notFound();
+            } else {
+                setError("Failed to load experience details.");
+            }
         } finally {
             setIsLoading(false);
         }
