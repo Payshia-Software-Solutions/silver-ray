@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -157,7 +158,7 @@ export default function WeddingPackageDetailPage() {
             {pkg.package_name}
           </h1>
           <p className="font-body text-lg sm:text-xl text-white/90 mb-8" style={{textShadow: '0 1px 3px rgba(0,0,0,0.5)'}}>
-            Your Dream Wedding Begins Here
+            {pkg.short_description || "Your Dream Wedding Begins Here"}
           </p>
           <Button asChild size="lg" className="font-body text-lg px-8 py-3 bg-primary/90 hover:bg-primary text-primary-foreground transform hover:scale-105 transition-transform duration-300 rounded-md">
             <Link href={`/contact?subject=Wedding Package Inquiry: ${pkg.package_name}`}>Book Your Wedding Package</Link>
@@ -180,7 +181,7 @@ export default function WeddingPackageDetailPage() {
                 </div>
               )}
               <p className="font-body text-foreground/80 leading-relaxed max-w-xl mx-auto md:mx-0 mb-6">
-                {pkg.short_description}
+                {pkg.detailed_description || pkg.short_description}
               </p>
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
