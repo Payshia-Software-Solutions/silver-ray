@@ -53,7 +53,8 @@ export async function getExperienceImages(): Promise<ExperienceImage[]> {
             'Content-Type': 'application/json',
         },
     });
-    const images = await handleApiResponse<ExperienceImage[]>(response);
+    const data = await handleApiResponse<ExperienceImage[] | ExperienceImage>(response);
+    const images = Array.isArray(data) ? data : [data];
     return images.map(image => ({
         ...image,
         image_url: cleanImageUrl(image.image_url),
