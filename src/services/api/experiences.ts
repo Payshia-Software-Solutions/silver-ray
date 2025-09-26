@@ -86,5 +86,3 @@ export async function getExperienceImagesByExperienceId(experienceId: string): P
     return [];
   }
 }
-
-    

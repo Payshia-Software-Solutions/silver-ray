@@ -285,5 +285,3 @@ export function ExperienceBookingForm({ experienceId, defaultAdults = 1 }: Exper
     </Form>
   );
 }
-
-    
