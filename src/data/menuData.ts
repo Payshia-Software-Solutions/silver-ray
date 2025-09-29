@@ -5,7 +5,7 @@ const mainRestaurantMenu: RestaurantMenuType = {
   venueId: 'main-restaurant',
   venueName: 'Main Restaurant',
   venueDescription: "Experience our diverse culinary offerings, offering lovely international selections and authentic Sri Lankan delights in a vibrant and elegant setting.",
-  heroImageUrl: 'https://images.unsplash.com/photo-1528908929486-dfaa209c6986?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8ZWxlZ2FudCUyMHJlc3RhdXJhbnQlMjBpbnRlcmlvciUyMHRhYmxlc3xlbnwwfHx8fDE3NDkxNDYwNzZ8MA&ixlib-rb-4.1.0&q=80&w=1080',
+  heroImageUrl: 'https://images.unsplash.com/photo-1528908929486-dfaa209c6986?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8ZWxlZ2FudCUyMHJlc3RhdXJhbnQlMjBpbnRlcmlvciUyMHRhYmxlc3xlbnwwfHx8fDE3NDkxNDYwNzZ8MA&ixlib=rb-4.1.0&q=80&w=1080',
   heroImageHint: 'elegant restaurant interior tables',
   categories: [
     {
@@ -75,7 +75,7 @@ const mainRestaurantMenu: RestaurantMenuType = {
           name: 'Mushroom Risotto',
           description: 'Creamy Arborio rice cooked with a medley of wild mushrooms, parmesan cheese, and a hint of truffle oil.',
           price: 'LKR 3,900',
-          imageUrl: 'https://images.unsplash.com/photo-1488327092868-3dbcb3cacba6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxtdXNocm9vbSUyMHJpc290dG8lMjBnb3VybWV0fGVufDB8fHx8MTc0OTE0NjA3Nnww&ixlib=rb-4.1.0&q=80&w=1080',
+          imageUrl: 'https://images.unsplash.com/photo-1488327092868-3dbcb3cacba6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxtdXNocm9vbSUyMHJpc290dG8lMjBnb3VybWV0fGVufDB8fHx8MTc0OTE0NjA3Nnww&ixlib-rb-4.1.0&q=80&w=1080',
           imageHint: 'mushroom risotto gourmet',
           dietaryIndicators: [{ type: 'vegetarian', label: 'Vegetarian', color: 'bg-green-500' }],
           isChefSpecial: true,
@@ -116,7 +116,7 @@ const mainRestaurantMenu: RestaurantMenuType = {
           name: 'Mushroom Risotto (Chef Recommended)',
           description: 'Creamy Arborio rice cooked with a medley of wild mushrooms, parmesan cheese, and a hint of truffle oil. Highlighted by our Chef.',
           price: 'LKR 3,900',
-          imageUrl: 'https://images.unsplash.com/photo-1543904856-8257e34283d9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8bXVzaHJvb20lMjByaXNvdHRvJTIwZ291cm1ldHxlbnwwfHx8fDE3NDkxNDYwNzZ8MA&ixlib=rb-4.1.0&q=80&w=1080',
+          imageUrl: 'https://images.unsplash.com/photo-1543904856-8257e34283d9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8bXVzaHJvb20lMjByaXNvdHRvJTIwZ291cm1ldHxlbnwwfHx8fDE3NDkxNDYwNzZ8MA&ixlib-rb-4.1.0&q=80&w=1080',
           imageHint: 'mushroom risotto gourmet',
           dietaryIndicators: [{ type: 'vegetarian', label: 'Vegetarian', color: 'bg-green-500' }],
           isChefSpecial: true,

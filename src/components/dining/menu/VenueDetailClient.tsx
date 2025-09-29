@@ -21,7 +21,7 @@ export function VenueDetailClient({ venue, images }: VenueDetailClientProps) {
     const menuData = getMenuByVenueId(String(venue.id));
 
     const primaryImage = images.find(img => String(img.is_primary) === '1') || images[0];
-    const heroImageUrl = primaryImage ? `${IMAGE_BASE_URL}${primaryImage.image_url}` : (venue['restaurant _image'] ? `${IMAGE_BASE_URL}${venue['restaurant _image']}` : 'https://placehold.co/1920x700.png');
+    const heroImageUrl = menuData?.heroImageUrl || (primaryImage ? `${IMAGE_BASE_URL}${primaryImage.image_url}` : (venue['restaurant _image'] ? `${IMAGE_BASE_URL}${venue['restaurant _image']}` : 'https://placehold.co/1920x700.png'));
     
     const breadcrumbItems: BreadcrumbItem[] = [
         { label: 'Home', href: '/' },
@@ -46,7 +46,7 @@ export function VenueDetailClient({ venue, images }: VenueDetailClientProps) {
             <MenuHero 
                 venueName={menuData?.venueName || venue.venue_name}
                 venueDescription={menuData?.venueDescription || venue.short_description}
-                heroImageUrl={menuData?.heroImageUrl || heroImageUrl}
+                heroImageUrl={heroImageUrl}
                 heroImageHint={menuData?.heroImageHint || primaryImage?.alt_text || 'restaurant interior'}
             />
             
@@ -58,12 +58,12 @@ export function VenueDetailClient({ venue, images }: VenueDetailClientProps) {
 
             {menuData ? (
                  <div className="bg-secondary/20">
-                    {regularCategories.map((category) => (
-                    <MenuSection key={category.id} category={category} />
-                    ))}
                     {chefSpecialsCategory && (
-                    <MenuSection key={chefSpecialsCategory.id} category={chefSpecialsCategory} isChefSpecialsSection={true} />
+                        <MenuSection key={chefSpecialsCategory.id} category={chefSpecialsCategory} isChefSpecialsSection={true} />
                     )}
+                    {regularCategories.map((category) => (
+                        <MenuSection key={category.id} category={category} />
+                    ))}
                 </div>
             ) : (
                  <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
