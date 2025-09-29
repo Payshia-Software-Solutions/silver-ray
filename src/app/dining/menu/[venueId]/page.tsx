@@ -39,13 +39,9 @@ export default function RestaurantMenuPage() {
         setVenue(venueData);
         setImages(venueImages);
 
-      } catch (err: any) {
+      } catch (err) {
         console.error(err);
-        if (err.message && err.message.includes("404")) {
-          notFound();
-        } else {
-          setError("Failed to load venue details. Please try again later.");
-        }
+        setError("Failed to load venue details. Please try again later.");
       } finally {
         setIsLoading(false);
       }
