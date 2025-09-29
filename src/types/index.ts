@@ -136,6 +136,22 @@ export interface GalleryImageItem {
   hint: string;
 }
 
+export interface GalleryApiImage {
+  id: string;
+  company_id: string;
+  image_name: string;
+  image_url: string;
+  file_size: string;
+  alt_text: string;
+  is_primary: string;
+  display_order: string;
+  uploaded_by: string;
+  updated_by: string | null;
+  created_at: string;
+  updated_at: string;
+  is_active: string;
+}
+
 export interface ExperienceDetailItem {
   icon: LucideIcon;
   label: string;
