@@ -57,20 +57,40 @@ export function VenueCard({ venue }: VenueCardProps) {
 
   const viewMoreLink = `/dining/menu/${id}`;
 
+  const getStatusBadgeVariant = (status: string) => {
+    switch (status.toLowerCase()) {
+        case 'active':
+            return 'bg-green-100 text-green-700 border-green-300';
+        case 'seasonal':
+            return 'bg-blue-100 text-blue-700 border-blue-300';
+        case 'coming soon':
+            return 'bg-yellow-100 text-yellow-700 border-yellow-300';
+        default:
+            return 'bg-gray-100 text-gray-700 border-gray-300';
+    }
+  }
+
   return (
     <Card className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col h-full rounded-xl bg-card border-border">
       <CardHeader className="p-0 relative aspect-video">
         {isLoading ? (
           <Skeleton className="w-full h-full rounded-t-xl" />
         ) : (
-          <NextImage
-            src={imageUrl || 'https://placehold.co/600x400.png'}
-            alt={`Image of ${venue_name}`}
-            data-ai-hint={imageHint}
-            fill
-            className="object-cover"
-            unoptimized
-          />
+          <>
+            <NextImage
+              src={imageUrl || 'https://placehold.co/600x400.png'}
+              alt={`Image of ${venue_name}`}
+              data-ai-hint={imageHint}
+              fill
+              className="object-cover"
+              unoptimized
+            />
+            {status && (
+                <Badge className={`absolute top-3 right-3 text-xs ${getStatusBadgeVariant(status)}`}>
+                    {status}
+                </Badge>
+            )}
+          </>
         )}
       </CardHeader>
       <CardContent className="p-6 flex flex-col flex-grow text-center">
