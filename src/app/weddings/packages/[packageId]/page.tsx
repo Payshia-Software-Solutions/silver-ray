@@ -11,6 +11,7 @@ import { getWeddingPackageById, getWeddingImagesByPackageId } from '@/services/a
 import { premiumWeddingAddons } from '@/data/weddingData';
 import type { WeddingPackageFromApi, WeddingImage, PackageInclusion } from '@/types';
 import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Breadcrumbs } from '@/components/shared/Breadcrumbs';
 import type { BreadcrumbItem } from '@/types';
@@ -49,6 +50,20 @@ interface InclusionGroup {
   icon: LucideIcon;
   items: { icon: LucideIcon; text: string }[];
 }
+
+const getStatusBadgeVariant = (status?: string) => {
+    if (!status) return 'bg-gray-100 text-gray-700 border-gray-300';
+    switch (status.toLowerCase()) {
+        case 'active':
+            return 'bg-green-100 text-green-700 border-green-300';
+        case 'seasonal':
+            return 'bg-blue-100 text-blue-700 border-blue-300';
+        case 'coming soon':
+            return 'bg-yellow-100 text-yellow-700 border-yellow-300';
+        default:
+            return 'bg-gray-100 text-gray-700 border-gray-300';
+    }
+};
 
 export default function WeddingPackageDetailPage() {
   const params = useParams();
@@ -172,7 +187,10 @@ export default function WeddingPackageDetailPage() {
         {/* Overview Section */}
         <section className="mb-12 md:mb-16 bg-card p-6 sm:p-8 md:p-10 rounded-xl shadow-lg">
             <div className="text-center md:text-left">
-              <h2 className="font-headline text-3xl font-bold text-primary mb-2">{pkg.package_name}</h2>
+                <div className="flex flex-col md:flex-row md:items-center md:gap-4 mb-2">
+                    <h2 className="font-headline text-3xl font-bold text-primary">{pkg.package_name}</h2>
+                    {pkg.status && <Badge className={`text-sm ${getStatusBadgeVariant(pkg.status)}`}>{pkg.status}</Badge>}
+                </div>
               {pkg.price && (
                 <div className="inline-block relative">
                     <p className="font-body text-lg text-muted-foreground mb-3">
