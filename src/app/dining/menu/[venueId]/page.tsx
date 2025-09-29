@@ -41,7 +41,11 @@ export default function RestaurantMenuPage() {
 
       } catch (err) {
         console.error(err);
-        setError("Failed to load venue details. Please try again later.");
+        if (err instanceof Error && (err.message.includes('404') || err.message.toLowerCase().includes('not found'))) {
+            notFound();
+        } else {
+            setError("Failed to load venue details. Please try again later.");
+        }
       } finally {
         setIsLoading(false);
       }
