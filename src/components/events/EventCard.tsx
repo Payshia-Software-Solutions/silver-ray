@@ -85,7 +85,7 @@ export function EventCard({ event }: EventCardProps) {
             </div>
         </div>
         <Button asChild className="w-full mt-auto bg-primary text-primary-foreground hover:bg-primary/90 rounded-full h-11">
-          <Link href={`/contact?subject=Inquiry about ${event_name}`}>Inquire Now</Link>
+          <Link href={`/events/${id}`}>View Details</Link>
         </Button>
       </CardContent>
     </Card>
