@@ -28,9 +28,18 @@ const mapApiToExperienceDetail = (apiData: ExperienceFromApi, allImages: Experie
         }));
 
     const primaryGalleryImage = galleryImages.find(img => String(img.is_primary) === '1');
-    const heroImageUrl = apiData.experience_image ? 
-      (apiData.experience_image.startsWith('http') ? apiData.experience_image : `${IMAGE_BASE_URL}${apiData.experience_image}`)
-      : (primaryGalleryImage?.src || 'https://placehold.co/1920x500.png');
+    
+    // Simplified and corrected heroImageUrl logic
+    let heroImageUrl = 'https://placehold.co/1920x500.png';
+    if (apiData.experience_image) {
+        if (apiData.experience_image.startsWith('http')) {
+            heroImageUrl = apiData.experience_image;
+        } else {
+            heroImageUrl = `${IMAGE_BASE_URL}${apiData.experience_image}`;
+        }
+    } else if (primaryGalleryImage?.src) {
+        heroImageUrl = primaryGalleryImage.src;
+    }
 
 
     return {
@@ -66,7 +75,6 @@ function ExperienceBookingHero({ title, imageUrl, imageHint }: { title: string, 
         fill
         className="object-cover"
         priority
-        unoptimized
       />
       <div className="absolute inset-0 bg-black/50" />
       <div className="relative z-10 p-6 max-w-4xl">
@@ -109,7 +117,6 @@ function ExperienceContentLayout({ experience }: { experience: ExperienceDetail 
                   data-ai-hint={image.hint}
                   fill
                   className="object-cover transition-transform duration-300 group-hover:scale-105"
-                  unoptimized
                 />
               </div>
             ))}
