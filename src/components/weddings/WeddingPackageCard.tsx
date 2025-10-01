@@ -55,9 +55,8 @@ export function WeddingPackageCard({ packageItem }: WeddingPackageCardProps) {
   }, [id]);
 
   return (
-    <Card className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col h-full rounded-xl bg-card text-center items-center">
-      <CardHeader className="pt-6 pb-3 items-center">
-        <div className="relative w-20 h-20 mb-3 rounded-full overflow-hidden border-2 border-primary/30 flex items-center justify-center bg-secondary/50">
+    <Card className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col h-full rounded-xl bg-card border-border">
+      <CardHeader className="p-0 relative aspect-square">
           {isLoading ? (
             <Skeleton className="w-full h-full" />
           ) : imageUrl ? (
@@ -65,26 +64,28 @@ export function WeddingPackageCard({ packageItem }: WeddingPackageCardProps) {
               src={imageUrl}
               alt={`${package_name} icon`}
               data-ai-hint={imageHint}
-              width={80}
-              height={80}
-              className="object-contain p-2"
+              fill
+              className="object-cover"
               unoptimized
             />
           ) : (
-            <Gift className="w-10 h-10 text-primary" />
+            <div className="w-full h-full bg-secondary/30 flex items-center justify-center">
+                <Gift className="w-16 h-16 text-muted-foreground" />
+            </div>
           )}
-        </div>
-        <CardTitle className="font-headline text-lg">{package_name}</CardTitle>
-        {price && (
-          <CardDescription className="font-body text-sm text-muted-foreground">
-            Starting from LKR {parseFloat(price).toLocaleString()}
-          </CardDescription>
-        )}
       </CardHeader>
-      <CardContent className="px-5 pb-5 flex flex-col flex-grow w-full">
-        <p className="font-body text-xs text-muted-foreground mb-4 text-left flex-grow line-clamp-4">
-          {short_description}
-        </p>
+      <CardContent className="p-5 flex flex-col flex-grow text-left">
+        <div>
+            <CardTitle className="font-headline text-lg mb-1">{package_name}</CardTitle>
+            {price && (
+            <CardDescription className="font-body text-sm text-muted-foreground">
+                Starting from LKR {parseFloat(price).toLocaleString()}
+            </CardDescription>
+            )}
+            <p className="font-body text-xs text-muted-foreground mt-3 mb-4 flex-grow line-clamp-3">
+                {short_description}
+            </p>
+        </div>
         <Button asChild className="w-full mt-auto bg-primary text-primary-foreground hover:bg-primary/90 rounded-full text-sm py-2 h-auto">
           <Link href={`/weddings/packages/${id}`}>View Full Details</Link>
         </Button>
