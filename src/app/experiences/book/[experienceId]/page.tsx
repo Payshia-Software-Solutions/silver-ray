@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -18,11 +19,11 @@ import { Skeleton } from '@/components/ui/skeleton';
 
 
 const mapApiToExperienceDetail = (apiData: ExperienceFromApi, allImages: ExperienceImage[]): ExperienceDetail => {
-    const heroImageUrl = apiData.experience_image ? `${IMAGE_BASE_URL}${apiData.experience_image}` : 'https://placehold.co/1920x500.png';
+    const heroImageUrl = apiData.experience_image || 'https://placehold.co/1920x500.png';
     const galleryImages = allImages
         .filter(img => String(img.experience_id) === String(apiData.id))
         .map(img => ({
-            src: `${IMAGE_BASE_URL}${img.image_url}`,
+            src: img.image_url,
             alt: img.alt_text,
             hint: img.alt_text || 'experience gallery',
         }));

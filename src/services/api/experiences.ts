@@ -1,7 +1,16 @@
 
+
 import type { ExperienceFromApi, ExperienceImage } from '@/types';
-import { API_BASE_URL } from '@/lib/config';
+import { API_BASE_URL, IMAGE_BASE_URL } from '@/lib/config';
 import { handleApiResponse, cleanImageUrl } from '@/lib/apiClient';
+
+function constructExperienceImageUrl(imagePath: string | null): string {
+    if (!imagePath) return '';
+    if (imagePath.startsWith('http')) {
+        return imagePath;
+    }
+    return `${IMAGE_BASE_URL}${cleanImageUrl(imagePath)}`;
+}
 
 export async function getExperiences(): Promise<ExperienceFromApi[]> {
   try {
@@ -14,7 +23,7 @@ export async function getExperiences(): Promise<ExperienceFromApi[]> {
     const experiences = await handleApiResponse<ExperienceFromApi[]>(response);
     return experiences.map(exp => ({
         ...exp,
-        experience_image: cleanImageUrl(exp.experience_image),
+        experience_image: constructExperienceImageUrl(exp.experience_image),
     }));
   } catch (error) {
     console.error('Failed to fetch experiences:', error);
@@ -35,7 +44,7 @@ export async function getExperienceById(id: string): Promise<ExperienceFromApi> 
 
         return {
             ...singleExperience,
-            experience_image: cleanImageUrl(singleExperience.experience_image),
+            experience_image: constructExperienceImageUrl(singleExperience.experience_image),
         };
 
     } catch (error) {
@@ -57,7 +66,7 @@ export async function getExperienceImages(): Promise<ExperienceImage[]> {
     const images = Array.isArray(data) ? data : [data];
     return images.map(image => ({
         ...image,
-        image_url: cleanImageUrl(image.image_url),
+        image_url: constructExperienceImageUrl(image.image_url),
     }));
   } catch (error) {
     console.error('Failed to fetch experience images:', error);
@@ -80,7 +89,7 @@ export async function getExperienceImagesByExperienceId(experienceId: string): P
     const images = await handleApiResponse<ExperienceImage[]>(response);
      return images.map(image => ({
         ...image,
-        image_url: cleanImageUrl(image.image_url),
+        image_url: constructExperienceImageUrl(image.image_url),
     }));
   } catch (error) {
     console.error(`Failed to fetch images for experience ${experienceId}:`, error);
