@@ -12,7 +12,7 @@ import type { ExperienceDetail, ExperienceFromApi, BreadcrumbItem, ExperienceIma
 import { Breadcrumbs } from '@/components/shared/Breadcrumbs';
 import { ExperienceBookingForm } from '@/components/experiences/booking/ExperienceBookingForm';
 import { Button } from '@/components/ui/button';
-import { Clock, Users, MapPin, ListChecks } from 'lucide-react';
+import { Clock, Users, MapPin, ListChecks, CalendarDays, XCircle, ShoppingBag } from 'lucide-react';
 import { IMAGE_BASE_URL } from '@/lib/config';
 import { Skeleton } from '@/components/ui/skeleton';
 
@@ -29,7 +29,7 @@ const mapApiToExperienceDetail = (apiData: ExperienceFromApi, allImages: Experie
 
     return {
         id: String(apiData.id),
-        pageTitle: `Book: ${apiData.name}`,
+        pageTitle: `Book Your ${apiData.name}`,
         heroImageUrl: heroImageUrl,
         heroImageHint: 'experience event',
         overviewTitle: `${apiData.name} - Overview`,
@@ -37,8 +37,11 @@ const mapApiToExperienceDetail = (apiData: ExperienceFromApi, allImages: Experie
         highlightsContent: apiData.schedule_note,
         details: [
             { icon: Clock, label: 'Duration', value: apiData.duration },
-            { icon: Users, label: 'Participants', value: `${apiData.min_participants} - ${apiData.max_participants}` },
-            { icon: ListChecks, label: 'Inclusions', value: apiData.advance_booking_required ? 'Advance Booking' : 'Walk-ins Welcome' },
+            { icon: CalendarDays, label: 'Availability', value: 'Weekly (Fridays & Saturdays)' }, // Placeholder
+            { icon: Users, label: 'Participants', value: `Minimum ${apiData.min_participants}, Maximum ${apiData.max_participants}` },
+            { icon: ListChecks, label: 'Inclusions', value: apiData.advance_booking_required ? 'Performance, Live Music, Refreshments' : 'Walk-ins Welcome' }, // Placeholder
+            { icon: XCircle, label: 'Exclusions', value: 'Personal expenses, Gratuities' }, // Placeholder
+            { icon: ShoppingBag, label: 'What to Bring', value: 'Camera, Comfortable Attire' }, // Placeholder
             { icon: MapPin, label: 'Meeting Point', value: apiData.meeting_Point },
         ],
         galleryImages: galleryImages,
@@ -75,7 +78,6 @@ function ExperienceContentLayout({ experience }: { experience: ExperienceDetail 
       <h2 className="font-headline text-2xl text-primary font-semibold mb-4">{experience.overviewTitle}</h2>
       <p className="font-body text-foreground/80 mb-6">{experience.overviewContent}</p>
       
-      <h3 className="font-headline text-xl font-semibold mb-3">Highlights</h3>
       <p className="font-body text-foreground/80 mb-8">{experience.highlightsContent}</p>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4 mb-8 font-body text-sm">
@@ -92,7 +94,6 @@ function ExperienceContentLayout({ experience }: { experience: ExperienceDetail 
 
       {experience.galleryImages && experience.galleryImages.length > 0 && (
         <div>
-          <h3 className="font-headline text-xl font-semibold mb-4">Gallery</h3>
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
             {experience.galleryImages.map((image, index) => (
               <div key={index} className="relative aspect-video rounded-lg overflow-hidden shadow-md group">
@@ -193,14 +194,14 @@ export default function ExperienceBookingPage() {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
         <Breadcrumbs items={breadcrumbItems} className="mb-8" />
         
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12 items-start">
-          <div className="lg:col-span-2">
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-12 items-start">
+          <div className="lg:col-span-3">
             <ExperienceContentLayout experience={experience} />
           </div>
-          <div className="lg:sticky lg:top-24 h-fit">
+          <div className="lg:col-span-2 lg:sticky lg:top-24 h-fit">
             <div className="bg-card p-6 sm:p-8 rounded-xl shadow-2xl">
-              <h2 className="font-headline text-2xl font-semibold mb-1 text-center">Book Your Experience</h2>
-              <p className="font-body text-sm text-muted-foreground mb-6 text-center">
+              <h2 className="font-headline text-2xl font-semibold mb-1">Book Your Experience</h2>
+              <p className="font-body text-sm text-muted-foreground mb-6">
                 Please fill out the form below to confirm your booking. Our team will contact you shortly.
               </p>
               <ExperienceBookingForm experienceId={experience.id} defaultAdults={experience.defaultAdults} />

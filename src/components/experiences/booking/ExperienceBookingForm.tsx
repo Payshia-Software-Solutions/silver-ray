@@ -88,7 +88,7 @@ export function ExperienceBookingForm({ experienceId, defaultAdults = 1 }: Exper
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
         <FormField
           control={form.control}
           name="fullName"
@@ -120,7 +120,7 @@ export function ExperienceBookingForm({ experienceId, defaultAdults = 1 }: Exper
           name="phone"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Phone Number <span className="text-muted-foreground text-xs">(Optional)</span></FormLabel>
+              <FormLabel>Phone Number</FormLabel>
               <FormControl>
                 <Input type="tel" placeholder="Phone number" {...field} />
               </FormControl>
@@ -146,9 +146,9 @@ export function ExperienceBookingForm({ experienceId, defaultAdults = 1 }: Exper
                         )}
                       >
                         {field.value ? (
-                          format(field.value, "PPP")
+                          format(field.value, "MM/dd/yyyy")
                         ) : (
-                          <span>Pick a date</span>
+                          <span>mm/dd/yyyy</span>
                         )}
                         <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                       </Button>
@@ -199,18 +199,9 @@ export function ExperienceBookingForm({ experienceId, defaultAdults = 1 }: Exper
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Number of Adults</FormLabel>
-                <Select onValueChange={(value) => field.onChange(Number(value))} defaultValue={String(field.value)}>
-                  <FormControl>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Adults" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    {[...Array(10).keys()].map(i => (
-                      <SelectItem key={i + 1} value={String(i + 1)}>{i + 1}</SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                 <FormControl>
+                    <Input type="number" {...field} />
+                </FormControl>
                 <FormMessage />
               </FormItem>
             )}
@@ -221,18 +212,9 @@ export function ExperienceBookingForm({ experienceId, defaultAdults = 1 }: Exper
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Number of Children</FormLabel>
-                <Select onValueChange={(value) => field.onChange(Number(value))} defaultValue={String(field.value || 0)}>
-                  <FormControl>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Children" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    {[...Array(6).keys()].map(i => (
-                      <SelectItem key={i} value={String(i)}>{i}</SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                <FormControl>
+                    <Input type="number" {...field} />
+                </FormControl>
                 <FormDescription className="text-xs">Children (4-12 years)</FormDescription>
                 <FormMessage />
               </FormItem>
@@ -244,10 +226,10 @@ export function ExperienceBookingForm({ experienceId, defaultAdults = 1 }: Exper
           name="specialRequests"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Special Requests / Notes <span className="text-muted-foreground text-xs">(Optional)</span></FormLabel>
+              <FormLabel>Special Requests / Notes</FormLabel>
               <FormControl>
                 <Textarea
-                  placeholder="e.g., Dietary restrictions, accessibility needs, specific preferences..."
+                  placeholder="Dietary restrictions, accessibility needs, specific preferences..."
                   className="min-h-[100px]"
                   {...field}
                 />
@@ -260,7 +242,7 @@ export function ExperienceBookingForm({ experienceId, defaultAdults = 1 }: Exper
           control={form.control}
           name="agreeToTerms"
           render={({ field }) => (
-            <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4 shadow-sm bg-secondary/20">
+            <FormItem className="flex flex-row items-center space-x-2 space-y-0">
               <FormControl>
                 <Checkbox
                   checked={field.value}
@@ -268,10 +250,10 @@ export function ExperienceBookingForm({ experienceId, defaultAdults = 1 }: Exper
                 />
               </FormControl>
               <div className="space-y-1 leading-none">
-                <FormLabel className="font-normal">
+                <FormLabel className="font-normal text-sm">
                   I agree to the{" "}
-                  <Link href="/privacy#terms" className="underline hover:text-primary">Terms & Conditions</Link> and{" "}
-                  <Link href="/privacy#cancellation" className="underline hover:text-primary">Cancellation Policy</Link>.
+                  <Link href="/privacy" className="underline hover:text-primary">Terms & Conditions</Link> and{" "}
+                  <Link href="/privacy" className="underline hover:text-primary">Cancellation Policy</Link>.
                 </FormLabel>
                 <FormMessage />
               </div>
