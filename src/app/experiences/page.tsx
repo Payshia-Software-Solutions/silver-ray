@@ -206,7 +206,7 @@ function ExperiencesPage() {
       {/* Hero Section */}
       <section className="relative h-[60vh] min-h-[450px] md:h-[70vh] lg:h-[80vh] flex items-center justify-center text-center text-white">
         <NextImage
-          src="https://placehold.co/1920x1080.png"
+          src="https://content-provider.payshia.com/silver-ray/gallery-images/1/expirincesecover-68da36409faca.jpg"
           alt="People enjoying a serene sunset experience, possibly yoga or meditation"
           data-ai-hint="yoga sunset wellness"
           fill
@@ -386,6 +386,8 @@ function ExperiencesPage() {
 
 // You must export default from a page file
 export default ExperiencesPage;
+
+    
 
     
 
