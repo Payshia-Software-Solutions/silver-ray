@@ -6,9 +6,11 @@ import { handleApiResponse, cleanImageUrl } from '@/lib/apiClient';
 
 function constructExperienceImageUrl(imagePath: string | null): string {
     if (!imagePath) return '';
+    // If it's already a full URL, return it directly.
     if (imagePath.startsWith('http')) {
         return imagePath;
     }
+    // Otherwise, construct the full URL.
     return `${IMAGE_BASE_URL}${cleanImageUrl(imagePath)}`;
 }
 
