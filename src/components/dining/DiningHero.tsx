@@ -9,7 +9,7 @@ export function DiningHero() {
   return (
     <section className="relative h-[60vh] min-h-[400px] md:min-h-[500px] lg:min-h-[550px] flex items-center justify-center text-center text-white overflow-hidden">
       <NextImage
-        src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxmb29kJTIwd2luZSUyMGZpbmUlMjBkaW5pbmd8ZW58MHx8fHwxNzQ5MjA2ODQzfDA&ixlib=rb-4.1.0&q=80&w=1080"
+        src="https://content-provider.payshia.com/silver-ray/gallery-images/1/Diningcover-68da3641c363b.jpg"
         alt="A collage of fine dining food and wine"
         data-ai-hint="food wine fine dining"
         fill
