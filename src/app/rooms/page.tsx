@@ -209,40 +209,7 @@ export default function RoomsPage() {
             };
         });
 
-        // Manually add the new room card
-        const newRoom: Room = {
-          id: 'king-suiteee',
-          descriptive_title: 'King Suiteee',
-          name: 'King Suiteee',
-          description: 'lkytfwdhjqgwkjhdkjklk;dkqldk\'l',
-          pricePerNight: 300000,
-          imageUrl: 'https://images.unsplash.com/photo-1629828325356-784862e1903e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxyZWQlMjBhYnN0cmFjdCUyMGdsYXNzfGVufDB8fHx8MTc0OTMyMjYyN3ww&ixlib=rb-4.1.0&q=80&w=1080',
-          imageHint: 'red abstract glass',
-          amenities: ['WiFi'],
-          capacity: 2,
-          beds: '1 King Bed',
-          size: '80 sqm',
-          category: 'Suite',
-          rating: 4.9,
-          // Add other required fields from Room/RoomFromApi if necessary
-          room_number: 'N/A',
-          current_status: 'Available',
-          currency: 'LKR',
-          room_type_id: 0,
-          short_description: 'lkytfwdhjqgwkjhdkjklk;dkqldk\'l',
-          adults_capacity: 2,
-          children_capacity: 0,
-          room_width: '0',
-          room_height: '0',
-          amenities_id: '',
-          room_images: null,
-          company_id: '1',
-          created_by: 'system',
-          updated_by: null,
-          is_active: 1,
-        };
-
-        setRooms([...mappedRooms, newRoom]);
+        setRooms(mappedRooms);
 
       } catch (err: any) {
         console.error('Failed to fetch room data:', err);
