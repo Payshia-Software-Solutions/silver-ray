@@ -7,7 +7,7 @@ export function RoomsPageHero() {
   return (
     <section className="relative h-[40vh] min-h-[300px] md:min-h-[350px] lg:min-h-[400px] flex items-center justify-center text-center text-white overflow-hidden">
       <NextImage
-        src="https://placehold.co/1920x500.png" 
+        src="https://content-provider.payshia.com/silver-ray/gallery-images/1/Roomcover-68dd4bf5ca125.jpg" 
         alt="Comfortable hotel room interior"
         data-ai-hint="hotel room luxury"
         fill
