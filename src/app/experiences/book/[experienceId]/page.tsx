@@ -31,7 +31,7 @@ const mapApiToExperienceDetail = (apiData: ExperienceFromApi, allImages: Experie
     
     let heroImageUrl = 'https://placehold.co/1920x500.png';
     if (apiData.experience_image) {
-        heroImageUrl = apiData.experience_image;
+        heroImageUrl = `${IMAGE_BASE_URL}${apiData.experience_image}`;
     } else if (primaryGalleryImage?.src) {
         heroImageUrl = primaryGalleryImage.src;
     }

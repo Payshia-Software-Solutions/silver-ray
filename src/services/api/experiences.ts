@@ -1,16 +1,13 @@
 
-
 import type { ExperienceFromApi, ExperienceImage } from '@/types';
 import { API_BASE_URL, IMAGE_BASE_URL } from '@/lib/config';
 import { handleApiResponse, cleanImageUrl } from '@/lib/apiClient';
 
 function constructExperienceImageUrl(imagePath: string | null): string {
     if (!imagePath) return '';
-    // If it's already a full URL, return it directly.
     if (imagePath.startsWith('http')) {
         return imagePath;
     }
-    // Otherwise, construct the full URL.
     return `${IMAGE_BASE_URL}${cleanImageUrl(imagePath)}`;
 }
 
@@ -44,9 +41,10 @@ export async function getExperienceById(id: string): Promise<ExperienceFromApi> 
         const exp = await handleApiResponse<ExperienceFromApi>(response);
         const singleExperience = Array.isArray(exp) ? exp[0] : exp;
 
+        // Return the cleaned path without the base URL
         return {
             ...singleExperience,
-            experience_image: constructExperienceImageUrl(singleExperience.experience_image),
+            experience_image: cleanImageUrl(singleExperience.experience_image),
         };
 
     } catch (error) {
