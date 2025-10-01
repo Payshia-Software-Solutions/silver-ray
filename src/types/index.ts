@@ -328,3 +328,19 @@ export interface RestaurantImage {
     updated_at: string;
     is_active: number;
 }
+
+export interface EventFromApi {
+    id: string;
+    event_name: string;
+    event_type: string;
+    event_date: string;
+    start_time: string;
+    end_time: string;
+    venue_name: string;
+    number_of_guests: number;
+    short_description: string;
+    detailed_description: string;
+    status: string;
+    contact_person_name: string;
+    event_image: string | null;
+}
