@@ -22,17 +22,16 @@ const mapApiToExperienceDetail = (apiData: ExperienceFromApi, allImages: Experie
     const galleryImages = allImages
         .filter(img => String(img.experience_id) === String(apiData.id))
         .map(img => ({
-            src: img.image_url,
+            src: img.image_url.startsWith('http') ? img.image_url : `${IMAGE_BASE_URL}${img.image_url}`,
             alt: img.alt_text,
             hint: img.alt_text || 'experience gallery',
         }));
 
     const primaryGalleryImage = galleryImages.find(img => String(img.is_primary) === '1');
     
-    // Simplified and corrected heroImageUrl logic
     let heroImageUrl = 'https://placehold.co/1920x500.png';
     if (apiData.experience_image) {
-        if (apiData.experience_image.startsWith('http')) {
+         if (apiData.experience_image.startsWith('http')) {
             heroImageUrl = apiData.experience_image;
         } else {
             heroImageUrl = `${IMAGE_BASE_URL}${apiData.experience_image}`;
