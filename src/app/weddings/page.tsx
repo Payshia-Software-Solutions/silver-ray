@@ -18,7 +18,7 @@ function WeddingHero() {
   return (
     <section className="relative h-[70vh] min-h-[500px] md:min-h-[600px] flex items-center justify-center text-center text-white overflow-hidden">
       <NextImage
-        src="https://placehold.co/1920x700.png"
+        src="https://content-provider.payshia.com/silver-ray/gallery-images/1/weddingcover-68dd4bf6634a3.jpg"
         alt="Elegant wedding ceremony setup"
         data-ai-hint="wedding ceremony setup"
         fill
