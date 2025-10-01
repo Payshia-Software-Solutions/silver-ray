@@ -27,8 +27,10 @@ const mapApiToExperienceDetail = (apiData: ExperienceFromApi, allImages: Experie
             hint: img.alt_text || 'experience gallery',
         }));
 
-    const primaryGalleryImage = galleryImages.find(img => img.src.includes('primary')); // Simple check for primary image in gallery
-    const heroImageUrl = apiData.experience_image || primaryGalleryImage?.src || 'https://placehold.co/1920x500.png';
+    const primaryGalleryImage = galleryImages.find(img => String(img.is_primary) === '1');
+    const heroImageUrl = apiData.experience_image ? 
+      (apiData.experience_image.startsWith('http') ? apiData.experience_image : `${IMAGE_BASE_URL}${apiData.experience_image}`)
+      : (primaryGalleryImage?.src || 'https://placehold.co/1920x500.png');
 
 
     return {
