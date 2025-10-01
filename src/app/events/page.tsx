@@ -9,6 +9,7 @@ import { getEvents } from '@/services/api/events';
 import type { EventFromApi, EventImage } from '@/types';
 import { EventCard, type EventCardProps } from '@/components/events/EventCard';
 import { IMAGE_BASE_URL } from '@/lib/config';
+import { EventsPageHero } from '@/components/events/EventsPageHero';
 
 
 export default function EventsPage() {
@@ -61,28 +62,32 @@ export default function EventsPage() {
     };
 
     return (
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
-            <div className="text-center mb-12">
-                <h1 className="font-headline text-4xl sm:text-5xl font-bold mb-4">
-                Events at Grand Silver Ray
-                </h1>
-                <p className="font-body text-lg text-muted-foreground max-w-2xl mx-auto">
-                From grand celebrations to intimate gatherings, our versatile event spaces and dedicated team ensure a memorable occasion.
-                </p>
-            </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {renderContent()}
-            </div>
+        <>
+            <EventsPageHero />
+            <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
+                <div className="text-center mb-12">
+                    <h1 className="font-headline text-4xl sm:text-5xl font-bold mb-4">
+                    Events at Grand Silver Ray
+                    </h1>
+                    <p className="font-body text-lg text-muted-foreground max-w-2xl mx-auto">
+                    From grand celebrations to intimate gatherings, our versatile event spaces and dedicated team ensure a memorable occasion.
+                    </p>
+                </div>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    {renderContent()}
+                </div>
 
-            <div className="text-center mt-16">
-                <p className="font-body text-lg text-muted-foreground mb-4">
-                    Interested in hosting your own event with us?
-                </p>
-                <Button asChild>
-                    <Link href="/contact?subject=Event+Inquiry">Plan Your Event</Link>
-                </Button>
+                <div className="text-center mt-16">
+                    <p className="font-body text-lg text-muted-foreground mb-4">
+                        Interested in hosting your own event with us?
+                    </p>
+                    <Button asChild>
+                        <Link href="/contact?subject=Event+Inquiry">Plan Your Event</Link>
+                    </Button>
+                </div>
             </div>
-        </div>
+        </>
     );
 }
+
