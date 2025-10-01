@@ -19,7 +19,6 @@ import { Skeleton } from '@/components/ui/skeleton';
 
 
 const mapApiToExperienceDetail = (apiData: ExperienceFromApi, allImages: ExperienceImage[]): ExperienceDetail => {
-    const heroImageUrl = apiData.experience_image || 'https://placehold.co/1920x500.png';
     const galleryImages = allImages
         .filter(img => String(img.experience_id) === String(apiData.id))
         .map(img => ({
@@ -27,6 +26,10 @@ const mapApiToExperienceDetail = (apiData: ExperienceFromApi, allImages: Experie
             alt: img.alt_text,
             hint: img.alt_text || 'experience gallery',
         }));
+
+    const primaryGalleryImage = galleryImages.find(img => img.src.includes('primary')); // Simple check for primary image in gallery
+    const heroImageUrl = apiData.experience_image || primaryGalleryImage?.src || 'https://placehold.co/1920x500.png';
+
 
     return {
         id: String(apiData.id),
