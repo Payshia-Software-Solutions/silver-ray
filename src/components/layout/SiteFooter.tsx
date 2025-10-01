@@ -152,7 +152,7 @@ const DesktopFooter = () => (
             <div className="space-y-4">
                 <div className="mb-4 hidden lg:block">
                 <NextImage
-                    src="https://placehold.co/120x80.png"
+                    src="https://content-provider.payshia.com/silver-ray/gallery-images/1/logopng-68dd3a98e6243.png"
                     alt="Grand Silver Ray Logo"
                     data-ai-hint="hotel logo monogram"
                     width={120}
@@ -194,7 +194,7 @@ const DesktopFooter = () => (
 const MobileFooter = () => (
   <div className="flex flex-col items-center text-center py-10 px-4">
     <NextImage
-      src="https://placehold.co/150x100.png?text=SR+Logo"
+      src="https://content-provider.payshia.com/silver-ray/gallery-images/1/logopng-68dd3a98e6243.png"
       alt="Grand Silver Ray Logo"
       data-ai-hint="hotel logo monogram"
       width={150}
