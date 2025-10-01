@@ -37,6 +37,7 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 import { Separator } from '@/components/ui/separator';
 import { IMAGE_BASE_URL } from '@/lib/config';
 import { Skeleton } from '@/components/ui/skeleton';
+import { cn } from '@/lib/utils';
 
 
 type Props = {
@@ -103,6 +104,7 @@ export default function RoomDetailPage() {
   const [room, setRoom] = useState<Room | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [mainImage, setMainImage] = useState<string | null>(null);
   
   useEffect(() => {
     const fetchRoomData = async () => {
@@ -119,6 +121,11 @@ export default function RoomDetailPage() {
         const roomImages = await getRoomImagesByRoomId(id);
         const mappedRoom = mapRoomData(apiRoom, roomImages);
         setRoom(mappedRoom);
+        
+        const imagesToShow = mappedRoom.images && mappedRoom.images.length > 0 
+            ? mappedRoom.images.map(img => img.image_url) 
+            : (mappedRoom.imageUrl ? [mappedRoom.imageUrl] : []);
+        setMainImage(imagesToShow[0] || null);
 
       } catch (err: any) {
         console.error(err);
@@ -173,7 +180,6 @@ export default function RoomDetailPage() {
     ? room.images.map(img => img.image_url) 
     : (room.imageUrl ? [room.imageUrl] : []);
 
-  const mainImage = imagesToShow[0] || '';
   const thumbnails = imagesToShow.slice(0, 4); 
 
   return (
@@ -223,7 +229,11 @@ export default function RoomDetailPage() {
                     </div>
                     <div className="mt-2 grid grid-cols-4 gap-2">
                         {thumbnails.map((img, index) => (
-                             <div key={index} className="relative aspect-video w-full rounded-md overflow-hidden cursor-pointer border-2 border-transparent hover:border-primary">
+                             <div 
+                                key={index} 
+                                className={cn("relative aspect-video w-full rounded-md overflow-hidden cursor-pointer border-2 hover:border-primary", mainImage === img ? 'border-primary' : 'border-transparent')}
+                                onClick={() => setMainImage(img)}
+                             >
                                 {img ? (
                                   <NextImage
                                       src={img}
