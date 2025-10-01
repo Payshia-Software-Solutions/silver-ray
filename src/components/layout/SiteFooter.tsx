@@ -61,31 +61,6 @@ const socialLinks = [
 ];
 
 const FooterLinkColumn = ({ title, links }: { title: string, links: { href: string, label: string }[] }) => {
-  const isMobile = useIsMobile();
-
-  if (isMobile) {
-    return (
-      <Accordion type="single" collapsible className="w-full">
-        <AccordionItem value="item-1" className="border-b border-slate-700">
-          <AccordionTrigger className="font-headline text-xl font-semibold text-slate-100 hover:no-underline py-3">
-            {title}
-          </AccordionTrigger>
-          <AccordionContent className="pt-2">
-            <ul className="space-y-2 text-base">
-              {links.map((link) => (
-                <li key={link.href}>
-                  <Link href={link.href} className="text-slate-400 hover:text-primary transition-colors">
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </AccordionContent>
-        </AccordionItem>
-      </Accordion>
-    );
-  }
-
   return (
     <div>
       <h3 className="font-headline text-xl font-semibold text-slate-100 mb-4">{title}</h3>
@@ -102,8 +77,9 @@ const FooterLinkColumn = ({ title, links }: { title: string, links: { href: stri
   );
 };
 
+
 const DesktopFooter = () => (
-    <>
+    <div className="hidden md:block">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12 mb-8">
             {/* Column 1: Hotel Info */}
             <div className="space-y-4 md:col-span-2 lg:col-span-1">
@@ -161,13 +137,13 @@ const DesktopFooter = () => (
                 />
                 </div>
                 <div>
-                <label htmlFor="newsletter-email" className="block text-sm font-medium mb-1.5 text-slate-100">
+                <label htmlFor="newsletter-email-desktop" className="block text-sm font-medium mb-1.5 text-slate-100">
                     Enter your email for updates
                 </label>
                 <form className="flex space-x-2">
                     <Input
                     type="email"
-                    id="newsletter-email"
+                    id="newsletter-email-desktop"
                     placeholder="your.email@example.com"
                     className="bg-slate-800 border-slate-700 text-slate-200 placeholder-slate-500 text-sm h-10 rounded-full"
                     aria-label="Email for newsletter"
@@ -187,68 +163,104 @@ const DesktopFooter = () => (
                 &copy; {new Date().getFullYear()} Grand Silver Ray. All Rights Reserved.
             </p>
         </div>
-    </>
+    </div>
 );
 
 
 const MobileFooter = () => (
-  <div className="flex flex-col items-center text-center py-10 px-4">
-    <NextImage
-      src="https://content-provider.payshia.com/silver-ray/gallery-images/1/logopng-68dd3a98e6243.png"
-      alt="Grand Silver Ray Logo"
-      data-ai-hint="hotel logo monogram"
-      width={150}
-      height={100}
-      className="mb-4"
-    />
-    <h2 className="font-headline text-2xl font-semibold text-slate-100 mb-4 border-b-2 border-primary pb-2">
-      Grand Silver Ray
-    </h2>
-    <div className="text-sm text-slate-300 space-y-1 mb-6">
-      <p>123 Oceanfront Avenue, Silver Bay</p>
-      <a href="mailto:reservations@grandsilverray.com" className="hover:text-primary transition-colors">reservations@grandsilverray.com</a>
-      <p>+1 (555) 123-4567</p>
-    </div>
-    <div className="flex space-x-6 mb-8">
-      {socialLinks.map((social) => (
-        <a key={social.label} href={social.href} aria-label={social.label} className="text-slate-400 hover:text-primary transition-colors">
-          <social.icon size={24} />
-        </a>
-      ))}
-    </div>
-    <nav className="flex flex-wrap justify-center gap-x-6 gap-y-2 mb-8 font-body text-slate-300">
-      {mobileQuickLinks.map(link => (
-          <Link key={link.label} href={link.href} className="hover:text-primary transition-colors">{link.label}</Link>
-      ))}
-    </nav>
-    <form className="flex flex-col sm:flex-row items-center w-full max-w-sm gap-2 mb-8">
-      <Input
-        type="email"
-        placeholder="Subscribe to newsletter"
-        className="bg-slate-800 border-slate-700 text-slate-200 placeholder-slate-500 h-12 text-center w-full rounded-full"
-        aria-label="Email for newsletter"
+  <div className="block md:hidden">
+    <div className="flex flex-col items-center text-center py-10 px-4">
+      <NextImage
+        src="https://content-provider.payshia.com/silver-ray/gallery-images/1/logopng-68dd3a98e6243.png"
+        alt="Grand Silver Ray Logo"
+        data-ai-hint="hotel logo monogram"
+        width={150}
+        height={100}
+        className="mb-4"
       />
-      <Button type="submit" className="bg-primary hover:bg-primary/90 text-primary-foreground h-12 w-full sm:w-auto px-6 rounded-full">
-        Subscribe
-      </Button>
-    </form>
-    <p className="text-xs text-slate-500">
-      &copy; {new Date().getFullYear()} Grand Silver Ray. All rights reserved.
-    </p>
-  </div>
+      <h2 className="font-headline text-2xl font-semibold text-slate-100 mb-4 border-b-2 border-primary pb-2">
+        Grand Silver Ray
+      </h2>
+      <div className="text-sm text-slate-300 space-y-1 mb-6">
+        <p>123 Oceanfront Avenue, Silver Bay</p>
+        <a href="mailto:reservations@grandsilverray.com" className="hover:text-primary transition-colors">reservations@grandsilverray.com</a>
+        <p>+1 (555) 123-4567</p>
+      </div>
+      <div className="flex space-x-6 mb-8">
+        {socialLinks.map((social) => (
+          <a key={social.label} href={social.href} aria-label={social.label} className="text-slate-400 hover:text-primary transition-colors">
+            <social.icon size={24} />
+          </a>
+        ))}
+      </div>
+      <nav className="flex flex-wrap justify-center gap-x-6 gap-y-2 mb-8 font-body text-slate-300">
+        {mobileQuickLinks.map(link => (
+            <Link key={link.label} href={link.href} className="hover:text-primary transition-colors">{link.label}</Link>
+        ))}
+      </nav>
+       <Accordion type="single" collapsible className="w-full mb-8">
+        <AccordionItem value="quick-links" className="border-b border-slate-700">
+          <AccordionTrigger className="font-headline text-xl font-semibold text-slate-100 hover:no-underline py-3">
+            Quick Links
+          </AccordionTrigger>
+          <AccordionContent className="pt-2">
+            <ul className="space-y-2 text-base">
+              {quickLinks.map((link) => (
+                <li key={link.href}>
+                  <Link href={link.href} className="text-slate-400 hover:text-primary transition-colors">
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </AccordionContent>
+        </AccordionItem>
+        <AccordionItem value="information" className="border-b border-slate-700">
+           <AccordionTrigger className="font-headline text-xl font-semibold text-slate-100 hover:no-underline py-3">
+            Information
+          </AccordionTrigger>
+          <AccordionContent className="pt-2">
+            <ul className="space-y-2 text-base">
+              {informationLinks.map((link) => (
+                <li key={link.href}>
+                  <Link href={link.href} className="text-slate-400 hover:text-primary transition-colors">
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </AccordionContent>
+        </AccordionItem>
+      </Accordion>
+      <form className="flex flex-col sm:flex-row items-center w-full max-w-sm gap-2 mb-8">
+        <Input
+          type="email"
+          id="newsletter-email-mobile"
+          placeholder="Subscribe to newsletter"
+          className="bg-slate-800 border-slate-700 text-slate-200 placeholder-slate-500 h-12 text-center w-full rounded-full"
+          aria-label="Email for newsletter"
+        />
+        <Button type="submit" className="bg-primary hover:bg-primary/90 text-primary-foreground h-12 w-full sm:w-auto px-6 rounded-full">
+          Subscribe
+        </Button>
+      </form>
+      <p className="text-xs text-slate-500">
+        &copy; {new Date().getFullYear()} Grand Silver Ray. All rights reserved.
+      </p>
+    </div>
+    </div>
 );
 
 
 export function SiteFooter() {
-  const isMobile = useIsMobile();
-
   return (
     <footer className="bg-slate-900 text-slate-300">
       <div className="bg-slate-800 py-3"> 
         {/* Optional: Top Accent Bar */}
       </div>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 md:py-16">
-        {isMobile ? <MobileFooter /> : <DesktopFooter />}
+        <DesktopFooter />
+        <MobileFooter />
       </div>
     </footer>
   );
