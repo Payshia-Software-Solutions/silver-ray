@@ -12,10 +12,16 @@ export async function getRestaurants(): Promise<RestaurantFromApi[]> {
             'Content-Type': 'application/json',
         },
     });
-    const data = await handleApiResponse<RestaurantFromApi[] | RestaurantFromApi>(response);
     
-    // Ensure the data is always an array before mapping
-    const restaurants = Array.isArray(data) ? data : [data];
+    // The API response is an object with a 'data' property containing the array of restaurants
+    const responsePayload = await handleApiResponse<{ success: boolean, data: RestaurantFromApi[] }>(response);
+
+    if (!responsePayload || !responsePayload.data) {
+        console.warn('Restaurant API response is not in the expected format or has no data.');
+        return [];
+    }
+    
+    const restaurants = Array.isArray(responsePayload.data) ? responsePayload.data : [responsePayload.data];
 
     return restaurants.map(restaurant => ({
         ...restaurant,
