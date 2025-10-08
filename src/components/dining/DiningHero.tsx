@@ -9,9 +9,9 @@ export function DiningHero() {
   return (
     <section className="relative h-[60vh] min-h-[400px] md:min-h-[500px] lg:min-h-[550px] flex items-center justify-center text-center text-white overflow-hidden">
       <NextImage
-        src="https://content-provider.payshia.com/silver-ray/gallery-images/1/dinning5-68dd361dd4771.jpg"
-        alt="A collage of fine dining food and wine"
-        data-ai-hint="food wine fine dining"
+        src="https://content-provider.payshia.com/silver-ray/gallery-images/1/dining8-68dd3625346e6.jpg"
+        alt="Elegant dining setting with beautifully arranged tables"
+        data-ai-hint="elegant dining tables"
         fill
         className="object-cover"
         priority
