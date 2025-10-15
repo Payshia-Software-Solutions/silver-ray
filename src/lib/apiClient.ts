@@ -1,9 +1,10 @@
+
 // src/lib/apiClient.ts
 import axios from 'axios';
 import { API_BASE_URL } from './config';
 
 const apiClient = axios.create({
-  baseURL: API_BASE_URL,
+  baseURL: '/api', // Use relative path to hit Next.js API routes
   headers: {
     'Content-Type': 'application/json',
   },
@@ -49,6 +50,29 @@ export async function handleApiResponse<T>(response: Response): Promise<T> {
     throw new Error("Invalid JSON response from server.");
   }
 }
+
+/**
+ * A function to handle POST requests.
+ * @param url The URL to post to.
+ * @param data The data to post.
+ * @returns A promise that resolves with the response data.
+ */
+apiClient.post = async function<T>(url: string, data: any): Promise<{ data: T }> {
+  try {
+    const response = await axios.post(`/api${url}`, data, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    return response;
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.response) {
+      // Re-throw with a more informative error message from the server if possible
+      throw new Error(error.response.data.message || error.message);
+    }
+    throw error;
+  }
+};
 
 
 export default apiClient;

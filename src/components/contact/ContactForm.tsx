@@ -16,7 +16,9 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/hooks/use-toast";
-import { Send } from "lucide-react"; // Added Send icon
+import { Send } from "lucide-react";
+import apiClient from "@/lib/apiClient";
+import { useState } from "react";
 
 const contactFormSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters."),
@@ -28,6 +30,7 @@ const contactFormSchema = z.object({
 type ContactFormValues = z.infer<typeof contactFormSchema>;
 
 export function ContactForm() {
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const form = useForm<ContactFormValues>({
     resolver: zodResolver(contactFormSchema),
     defaultValues: {
@@ -38,14 +41,27 @@ export function ContactForm() {
     },
   });
 
-  function onSubmit(data: ContactFormValues) {
-    console.log(data);
-    toast({
-      title: "Message Sent!",
-      description: "Thank you for contacting us. We will get back to you soon.",
-      variant: "default",
-    });
-    form.reset();
+  async function onSubmit(data: ContactFormValues) {
+    setIsSubmitting(true);
+    try {
+      const response = await apiClient.post('/contacts', data);
+      console.log(response.data);
+      toast({
+        title: "Message Sent!",
+        description: "Thank you for contacting us. We will get back to you soon.",
+        variant: "default",
+      });
+      form.reset();
+    } catch (error) {
+      console.error("Failed to send message:", error);
+      toast({
+        title: "Error Sending Message",
+        description: "There was a problem sending your message. Please try again later.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   return (
@@ -105,8 +121,8 @@ export function ContactForm() {
             </FormItem>
           )}
         />
-        <Button type="submit" size="lg" className="w-full font-body text-base">
-          <Send className="mr-2 h-4 w-4" /> Send Message
+        <Button type="submit" size="lg" className="w-full font-body text-base" disabled={isSubmitting}>
+          <Send className="mr-2 h-4 w-4" /> {isSubmitting ? 'Sending...' : 'Send Message'}
         </Button>
       </form>
     </Form>
