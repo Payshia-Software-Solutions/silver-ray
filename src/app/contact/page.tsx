@@ -15,7 +15,7 @@ export default function ContactPage() {
       {/* Hero Section */}
       <section className="relative h-[50vh] min-h-[300px] md:h-[60vh] lg:h-[350px] flex items-center justify-center text-center text-white">
         <NextImage
-          src="https://placehold.co/1920x500.png"
+          src="https://content-provider.payshia.com/silver-ray/gallery-images/1/contact-68dd6a5542ad8.jpg"
           alt="Grand Silver Ray Hotel Entrance"
           data-ai-hint="hotel entrance lobby"
           fill

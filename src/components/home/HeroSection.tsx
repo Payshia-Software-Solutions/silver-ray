@@ -1,3 +1,4 @@
+
 "use client";
 
 import NextImage from 'next/image';
@@ -8,7 +9,7 @@ export function HeroSection() {
   return (
     <section className="relative h-[calc(100vh-5rem)] min-h-[500px] md:min-h-[600px] lg:min-h-[700px] flex items-center justify-center text-center text-white overflow-hidden">
       <NextImage
-        src="https://placehold.co/1920x1080.png"
+        src="https://content-provider.payshia.com/silver-ray/gallery-images/1/leadingpagecover-68da3641c35a4.jpg"
         alt="Luxurious hotel lobby"
         data-ai-hint="hotel lobby"
         fill

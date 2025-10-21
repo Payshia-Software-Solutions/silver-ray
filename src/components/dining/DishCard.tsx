@@ -12,7 +12,7 @@ export interface DishProps {
 
 export function DishCard({ name, description, imageUrl, imageHint }: DishProps) {
   return (
-    <Card className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col h-full rounded-xl bg-card">
+    <Card className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col h-full rounded-xl bg-card border-border">
       <CardHeader className="p-0 relative aspect-[4/3]">
         <NextImage
           src={imageUrl}
@@ -22,7 +22,7 @@ export function DishCard({ name, description, imageUrl, imageHint }: DishProps) 
           className="object-cover"
         />
       </CardHeader>
-      <CardContent className="p-6 flex flex-col flex-grow bg-secondary/30">
+      <CardContent className="p-6 flex flex-col flex-grow text-center">
         <CardTitle className="font-headline text-xl mb-2">{name}</CardTitle>
         <p className="font-body text-muted-foreground text-sm line-clamp-3">
           {description}

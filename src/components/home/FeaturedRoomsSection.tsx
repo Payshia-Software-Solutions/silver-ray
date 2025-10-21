@@ -1,11 +1,116 @@
+
+"use client";
+
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { RoomCard } from '@/components/shared/RoomCard';
-import { mockRooms } from '@/data/mockData';
 import { ChevronRight } from 'lucide-react';
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
+import Autoplay from "embla-carousel-autoplay";
+import React, { useState, useEffect } from 'react';
+import type { Room, RoomImage, RoomFromApi } from '@/types';
+import { getRooms } from '@/services/api/rooms';
+import { IMAGE_BASE_URL } from '@/lib/config';
 
 export function FeaturedRoomsSection() {
-  const featuredRooms = mockRooms.slice(0, 3); // Display first 3 rooms
+  const [featuredRooms, setFeaturedRooms] = useState<Room[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchFeaturedRooms = async () => {
+      try {
+        setIsLoading(true);
+        const roomsData = await getRooms();
+        
+        const rooms: Room[] = roomsData.map(room => {
+            return {
+              ...room,
+              imageUrl: '', // Will be fetched in RoomCard
+              images: [],
+              amenities: [],
+              capacity: room.adults_capacity,
+              beds: '1 King Bed',
+              size: `${room.room_width}x${room.room_height} sqm`,
+              category: 'Standard',
+            };
+        });
+
+        setFeaturedRooms(rooms.slice(0, 3)); // Take first 3 for featured section
+      } catch (err: any) {
+        console.error('Failed to fetch featured rooms:', err);
+        setError('Could not load featured rooms.');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchFeaturedRooms();
+  }, []);
+
+  const plugin = React.useRef(
+    Autoplay({ delay: 3000, stopOnInteraction: true, stopOnHover: true })
+  );
+
+  const renderContent = () => {
+    if (isLoading) {
+      return (
+        <div className="hidden md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {[...Array(3)].map((_, i) => (
+            <div key={i} className="bg-card rounded-lg shadow animate-pulse">
+              <div className="aspect-[4/3] bg-muted rounded-t-lg"></div>
+              <div className="p-6 space-y-3">
+                <div className="h-6 bg-muted rounded w-3/4"></div>
+                <div className="h-4 bg-muted rounded w-full"></div>
+                <div className="h-4 bg-muted rounded w-1/2"></div>
+                <div className="h-10 bg-muted rounded-full mt-4"></div>
+              </div>
+            </div>
+          ))}
+        </div>
+      );
+    }
+    if (error) {
+       return <p className="text-center text-destructive">{error}</p>
+    }
+
+    return (
+      <>
+        {/* Mobile Carousel */}
+        <div className="md:hidden mb-12">
+          <Carousel
+            opts={{
+              align: "start",
+              loop: featuredRooms.length > 1,
+            }}
+            plugins={[plugin.current]}
+            className="w-full max-w-sm mx-auto"
+            onMouseEnter={plugin.current.stop}
+            onMouseLeave={plugin.current.reset}
+          >
+            <CarouselContent className="-ml-4">
+              {featuredRooms.map((room) => (
+                <CarouselItem key={room.id} className="pl-4">
+                  <div className="p-1 h-full">
+                    <RoomCard room={room} />
+                  </div>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious />
+            <CarouselNext />
+          </Carousel>
+        </div>
+
+        {/* Desktop Grid */}
+        <div className="hidden md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+          {featuredRooms.map((room) => (
+            <RoomCard key={room.id} room={room} />
+          ))}
+        </div>
+      </>
+    );
+  };
 
   return (
     <section className="py-16 lg:py-24 bg-secondary/30">
@@ -19,11 +124,7 @@ export function FeaturedRoomsSection() {
           </p>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
-          {featuredRooms.map((room) => (
-            <RoomCard key={room.id} room={room} />
-          ))}
-        </div>
+        {renderContent()}
 
         <div className="text-center">
           <Button asChild size="lg" variant="outline" className="font-body text-lg group border-primary text-primary hover:bg-primary hover:text-primary-foreground transition-all duration-300">

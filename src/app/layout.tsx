@@ -1,9 +1,8 @@
 
 import type { Metadata } from 'next';
 import './globals.css';
-import { SiteHeader } from '@/components/layout/SiteHeader';
-import { SiteFooter } from '@/components/layout/SiteFooter';
 import { Toaster } from "@/components/ui/toaster";
+import { ConditionalLayoutWrapper } from '@/components/layout/ConditionalLayoutWrapper';
 
 export const metadata: Metadata = {
   title: {
@@ -26,12 +25,10 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=PT+Sans:wght@400;700&display=swap" rel="stylesheet" />
       </head>
-      <body className="font-body antialiased min-h-screen flex flex-col">
-        <SiteHeader />
-        <main className="flex-grow">
+      <body className="font-body antialiased min-h-screen flex flex-col" suppressHydrationWarning={true}>
+        <ConditionalLayoutWrapper>
           {children}
-        </main>
-        <SiteFooter />
+        </ConditionalLayoutWrapper>
         <Toaster />
       </body>
     </html>

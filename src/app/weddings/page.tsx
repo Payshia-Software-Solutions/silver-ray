@@ -1,24 +1,24 @@
 
-import type { Metadata } from 'next';
+'use client';
+
+import { useState, useEffect } from 'react';
 import NextImage from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { WeddingVenueCard } from '@/components/weddings/WeddingVenueCard';
 import { WeddingPackageCard } from '@/components/weddings/WeddingPackageCard';
-import { weddingVenues, weddingPackages, weddingServices, weddingTestimonials } from '@/data/weddingData';
-import { TestimonialCard } from '@/components/shared/TestimonialCard';
-import { Utensils, Flower2, ClipboardCheck, BedDouble as GuestAccommodationIcon } from 'lucide-react'; // Renamed BedDouble to avoid conflict
-
-export const metadata: Metadata = {
-  title: 'Weddings at Grand Silver Ray',
-  description: 'Host your dream wedding at Grand Silver Ray. Discover our stunning venues and bespoke wedding packages.',
-};
+import { weddingVenues, weddingServices } from '@/data/weddingData';
+import { TestimonialsCarousel } from '@/components/weddings/TestimonialsCarousel';
+import type { WeddingPackageFromApi } from '@/types';
+import { getWeddingPackages } from '@/services/api/weddings';
+import { Gift } from 'lucide-react';
+import { IMAGE_BASE_URL } from '@/lib/config';
 
 function WeddingHero() {
   return (
     <section className="relative h-[70vh] min-h-[500px] md:min-h-[600px] flex items-center justify-center text-center text-white overflow-hidden">
       <NextImage
-        src="https://placehold.co/1920x700.png"
+        src="https://content-provider.payshia.com/silver-ray/gallery-images/1/weddingcover-68dd4bf6634a3.jpg"
         alt="Elegant wedding ceremony setup"
         data-ai-hint="wedding ceremony setup"
         fill
@@ -33,7 +33,7 @@ function WeddingHero() {
         <p className="font-body text-lg sm:text-xl mb-8 max-w-xl mx-auto" style={{textShadow: '0 1px 3px rgba(0,0,0,0.5)'}}>
           Unforgettable weddings begin at Grand Silver Ray. Let us craft your perfect day.
         </p>
-        <Button asChild size="lg" className="font-body text-lg px-8 py-3 bg-primary/80 backdrop-blur-sm text-primary-foreground hover:bg-primary transform hover:scale-105 transition-transform duration-300 rounded-md">
+        <Button asChild size="lg" className="font-body text-lg px-8 py-3 bg-primary/80 backdrop-blur-sm text-primary-foreground hover:bg-primary transform hover:scale-105 transition-transform duration-300 rounded-full">
           <Link href="/contact?subject=Wedding+Proposal+Inquiry">Request a Proposal</Link>
         </Button>
       </div>
@@ -42,6 +42,27 @@ function WeddingHero() {
 }
 
 export default function WeddingsPage() {
+  const [packages, setPackages] = useState<WeddingPackageFromApi[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchWeddingData = async () => {
+      try {
+        setIsLoading(true);
+        const packagesData = await getWeddingPackages();
+        setPackages(packagesData);
+      } catch (err: any) {
+        console.error("Failed to fetch wedding data:", err);
+        setError("Failed to load wedding packages. Please try again later.");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchWeddingData();
+  }, []);
+
   return (
     <div className="bg-background">
       <WeddingHero />
@@ -65,16 +86,33 @@ export default function WeddingsPage() {
       <section className="py-16 lg:py-24 bg-secondary/20">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="font-headline text-3xl sm:text-4xl font-bold mb-3">Our Wedding Package Collections</h2>
+            <h2 className="font-headline text-3xl sm:text-4xl font-bold mb-3">Our Wedding Package Collection</h2>
             <p className="font-body text-lg text-muted-foreground max-w-2xl mx-auto">
               Choose from our exquisite packages – each crafted to suit your vision, guest count, and style. All packages can be personalized to create your perfect day.
             </p>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {weddingPackages.map((pkg) => (
-              <WeddingPackageCard key={pkg.id} packageItem={pkg} />
-            ))}
-          </div>
+          {isLoading && (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+              {[...Array(4)].map((_, i) => (
+                <div key={i} className="bg-card rounded-lg shadow animate-pulse">
+                  <div className="aspect-square bg-muted rounded-t-lg"></div>
+                  <div className="p-6 space-y-3">
+                    <div className="h-6 bg-muted rounded w-3/4"></div>
+                    <div className="h-4 bg-muted rounded w-full"></div>
+                    <div className="h-10 bg-muted rounded-full mt-4"></div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+          {error && <p className="text-center font-body text-lg text-destructive">{error}</p>}
+          {!isLoading && !error && (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+              {packages.map((pkg) => (
+                <WeddingPackageCard key={pkg.id} packageItem={pkg} />
+              ))}
+            </div>
+          )}
         </div>
       </section>
 
@@ -102,31 +140,17 @@ export default function WeddingsPage() {
         </div>
       </section>
 
-      <section className="py-16 lg:py-24 bg-secondary/20">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="font-headline text-3xl sm:text-4xl font-bold mb-3">Love Stories at Silver Ray</h2>
-            <p className="font-body text-lg text-muted-foreground max-w-xl mx-auto">
-              Hear from couples who celebrated their special day with us.
-            </p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-            {weddingTestimonials.map((testimonial) => (
-              <TestimonialCard key={testimonial.id} testimonial={testimonial} />
-            ))}
-          </div>
-        </div>
-      </section>
+      <TestimonialsCarousel />
 
-      <section className="py-16 lg:py-24 bg-primary/">
+      <section className="py-16 lg:py-20 bg-secondary/20">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="font-headline text-3xl sm:text-4xl font-bold mb-4 text-primary-foreground/90">
+          <h2 className="font-headline text-3xl sm:text-4xl font-bold mb-4 text-foreground">
             Ready to Begin Your Forever?
           </h2>
-          <p className="font-body text-lg text-primary-foreground/80 mb-8 max-w-xl mx-auto">
-            Let our expert team help you craft the wedding of your dreams. Share your vision, and we'll bring it to life.
+          <p className="font-body text-lg text-muted-foreground mb-8 max-w-xl mx-auto">
+            Let our expert team help you create the wedding of your dreams. Share your vision, and we'll bring it to life.
           </p>
-          <Button asChild size="lg" className="font-body text-lg px-8 py-3 bg-accent text-accent-foreground hover:bg-accent/90 transform hover:scale-105 transition-transform duration-300 rounded-md">
+          <Button asChild size="lg" className="font-body text-lg px-8 py-3 bg-primary text-primary-foreground hover:bg-primary/90 transform hover:scale-105 transition-transform duration-300 rounded-full">
             <Link href="/contact?subject=Wedding+Consultation+Inquiry">Contact Our Wedding Team</Link>
           </Button>
         </div>

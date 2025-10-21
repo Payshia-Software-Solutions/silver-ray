@@ -42,6 +42,7 @@ export function MenuItemCard({ item, className }: MenuItemCardProps) {
           data-ai-hint={item.imageHint}
           fill
           className="object-cover"
+          unoptimized
         />
         {item.isChefSpecial && (
           <Badge variant="default" className="absolute top-2 right-2 bg-primary/90 text-primary-foreground text-xs">

@@ -1,5 +1,7 @@
+
 import type { Metadata } from 'next';
 import { BookingForm } from '@/components/booking/BookingForm';
+import React from 'react'; // Import React for Suspense
 
 export const metadata: Metadata = {
   title: 'Book Your Stay',
@@ -19,7 +21,9 @@ export default function BookingPage() {
               We're excited to welcome you to LuxeStay. Please fill out the form below to complete your booking.
             </p>
           </div>
-          <BookingForm />
+          <React.Suspense fallback={<div className="text-center font-body text-muted-foreground p-8">Loading booking form...</div>}>
+            <BookingForm />
+          </React.Suspense>
         </div>
       </div>
     </div>

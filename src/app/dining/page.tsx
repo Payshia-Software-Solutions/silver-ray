@@ -1,42 +1,15 @@
 
-import type { Metadata } from 'next';
+'use client';
+
+import { useState, useEffect } from 'react';
 import { DiningHero } from '@/components/dining/DiningHero';
-import { VenueCard, type VenueProps } from '@/components/dining/VenueCard';
+import { VenueCard } from '@/components/dining/VenueCard';
 import { DishCard, type DishProps } from '@/components/dining/DishCard';
 import { ReservationSection } from '@/components/dining/ReservationSection';
 import { InfoBar } from '@/components/dining/InfoBar';
-
-export const metadata: Metadata = {
-  title: 'Culinary Experiences',
-  description: 'Discover unforgettable flavors and exquisite settings at Grand Silver Ray Hotel. Explore our celebrated restaurants and bars.',
-};
-
-const diningVenues: VenueProps[] = [
-  {
-    id: 'main-restaurant',
-    name: 'Main Restaurant',
-    description: 'Elegant dining crafted to symphony taste buds.',
-    imageUrl: 'https://images.unsplash.com/photo-1743793055663-5aee4edc16d3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxlbGVnYW50JTIwcmVzdGF1cmFudCUyMGludGVyaW9yfGVufDB8fHx8MTc0OTE0NTA4MHww&ixlib=rb-4.1.0&q=80&w=1080',
-    imageHint: 'elegant restaurant interior',
-    viewMoreLink: '/dining/menu/main-restaurant',
-  },
-  {
-    id: 'cafe-101',
-    name: 'Cafe 101',
-    description: 'Authentic, traditional dishes in a relaxed atmosphere.',
-    imageUrl: 'https://images.unsplash.com/photo-1742427605886-18fc2eb3ef71?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxjb3p5JTIwY2FmZSUyMGFtYmlhbmNlfGVufDB8fHx8MTc0OTE0NTA4MHww&ixlib=rb-4.1.0&q=80&w=1080',
-    imageHint: 'cozy cafe ambiance',
-    viewMoreLink: '/dining/menu/cafe-101',
-  },
-  {
-    id: 'indian-restaurant',
-    name: 'Indian Restaurant',
-    description: 'Traditional Indian flavors brought to life.',
-    imageUrl: 'https://images.unsplash.com/photo-1620268835770-1e9c62832a49?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxpbmRpYW4lMjBjdWlzaW5lJTIwcHJlc2VudGF0aW9ufGVufDB8fHx8MTc0OTE0NTA4MHww&ixlib=rb-4.1.0&q=80&w=1080',
-    imageHint: 'indian cuisine presentation',
-    viewMoreLink: '/dining/menu/indian-restaurant',
-  },
-];
+import type { RestaurantFromApi } from '@/types';
+import { getRestaurants } from '@/services/api/dining';
+import { Skeleton } from '@/components/ui/skeleton';
 
 const signatureDishes: DishProps[] = [
   {
@@ -57,12 +30,59 @@ const signatureDishes: DishProps[] = [
     id: 'prime-ribeye',
     name: 'Prime Ribeye with Truffle Mash',
     description: 'Juicy ribeye steak, truffle-infused mashed potatoes, and seasonal vegetables.',
-    imageUrl: 'https://images.unsplash.com/photo-1625937329368-9c6e55f665ba?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxyaWJleWUlMjBzdGVhayUyMG1lYWx8ZW58MHx8fHwxNzQ5MTQ1MTY0fDA&ixlib=rb-4.1.0&q=80&w=1080',
+    imageUrl: 'https://images.unsplash.com/photo-1625937329368-9c6e55f665ba?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxyaWJleWUlMjBzdGVhayUyMG1lYWx8ZW58MHx8fHwxNzQ5MTQ1MTY0fDA&ixlib.rb-4.1.0&q=80&w=1080',
     imageHint: 'ribeye steak meal',
   },
 ];
 
 export default function DiningPage() {
+  const [diningVenues, setDiningVenues] = useState<RestaurantFromApi[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchDiningData = async () => {
+      try {
+        setIsLoading(true);
+        const restaurantsData = await getRestaurants();
+        // Ensure the data is always an array before setting state
+        const venues = Array.isArray(restaurantsData) ? restaurantsData : [restaurantsData];
+        setDiningVenues(venues);
+      } catch (err: any) {
+        console.error("Failed to fetch dining venues:", err);
+        setError("Failed to load dining venues. Please try again later.");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchDiningData();
+  }, []);
+  
+  const renderVenues = () => {
+    if (isLoading) {
+      return [...Array(3)].map((_, i) => (
+         <div key={i} className="bg-card rounded-xl shadow-lg animate-pulse">
+            <div className="aspect-[4/3] bg-muted rounded-t-xl"></div>
+            <div className="p-6 space-y-3">
+              <div className="h-6 bg-muted rounded w-3/4"></div>
+              <div className="h-4 bg-muted rounded w-full"></div>
+              <div className="h-4 bg-muted rounded w-1/2"></div>
+            </div>
+        </div>
+      ));
+    }
+    if (error) {
+      return <p className="col-span-full text-center text-destructive">{error}</p>;
+    }
+    if (!diningVenues || diningVenues.length === 0) {
+        return <p className="col-span-full text-center text-muted-foreground">No dining venues found.</p>;
+    }
+    return diningVenues.map((venue, index) => (
+      <VenueCard key={`${venue.id}-${index}`} venue={venue} />
+    ));
+  }
+
   return (
     <div className="bg-background">
       <DiningHero />
@@ -71,14 +91,12 @@ export default function DiningPage() {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="font-headline text-3xl sm:text-4xl font-bold mb-3">Our Dining Venues</h2>
-            <p className="font-body text-lg text-muted-foreground max-w-xl mx-auto">
-              From lavish buffets to rooftop cocktails, each venue offers a unique ambiance and culinary experiences to delight every palate.
+            <p className="font-body text-lg text-muted-foreground max-w-2xl mx-auto">
+              From lavish buffets to rooftop cocktails, each venue offers a unique ambiance and culinary experience to delight every palate.
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {diningVenues.map((venue) => (
-              <VenueCard key={venue.id} {...venue} />
-            ))}
+            {renderVenues()}
           </div>
         </div>
       </section>
@@ -87,7 +105,7 @@ export default function DiningPage() {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="font-headline text-3xl sm:text-4xl font-bold mb-3">Chef's Signature Dishes</h2>
-            <p className="font-body text-lg text-muted-foreground max-w-xl mx-auto">
+            <p className="font-body text-lg text-muted-foreground max-w-2xl mx-auto">
               Indulge in our chef's most celebrated creations and seasonal specialties, crafted with passion and the finest ingredients.
             </p>
           </div>

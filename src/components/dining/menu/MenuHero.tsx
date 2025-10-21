@@ -20,11 +20,12 @@ export function MenuHero({ venueName, venueDescription, heroImageUrl, heroImageH
         fill
         className="object-cover"
         priority
+        unoptimized
       />
       <div className="absolute inset-0 bg-black/60" />
       <div className="relative z-10 p-6 max-w-3xl">
         <h1 className="font-headline text-4xl sm:text-5xl md:text-6xl font-bold mb-4 leading-tight shadow-text">
-          {venueName} Menu
+          {venueName}
         </h1>
         {venueDescription && (
           <p className="font-body text-lg sm:text-xl max-w-xl mx-auto shadow-text">

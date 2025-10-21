@@ -1,3 +1,4 @@
+
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -26,10 +27,11 @@ import { toast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 import { CalendarIcon, Users, BedDouble } from "lucide-react";
 import { format } from "date-fns";
-import { mockRooms } from "@/data/mockData";
-import type { Room } from "@/types";
+import { getRoomsWithTypes } from "@/services/api/rooms";
+import type { RoomFromApi } from "@/types";
 import { useSearchParams } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import apiClient from "@/lib/apiClient";
 
 
 const bookingFormSchema = z.object({
@@ -52,6 +54,9 @@ type BookingFormValues = z.infer<typeof bookingFormSchema>;
 export function BookingForm() {
   const searchParams = useSearchParams();
   const preselectedRoomId = searchParams.get('roomId');
+  const [rooms, setRooms] = useState<RoomFromApi[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const form = useForm<BookingFormValues>({
     resolver: zodResolver(bookingFormSchema),
@@ -66,6 +71,26 @@ export function BookingForm() {
     },
   });
 
+  useEffect(() => {
+    const fetchRooms = async () => {
+      try {
+        setIsLoading(true);
+        const roomsData = await getRoomsWithTypes();
+        setRooms(roomsData);
+      } catch (error) {
+        console.error("Failed to fetch rooms:", error);
+        toast({
+          title: "Error",
+          description: "Could not load rooms. Please try again later.",
+          variant: "destructive",
+        });
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchRooms();
+  }, []);
+
  useEffect(() => {
     if (preselectedRoomId) {
       form.setValue("roomId", preselectedRoomId);
@@ -73,14 +98,53 @@ export function BookingForm() {
   }, [preselectedRoomId, form]);
 
 
-  function onSubmit(data: BookingFormValues) {
-    console.log(data);
-    toast({
-      title: "Booking Submitted!",
-      description: "Your room reservation has been successfully submitted. We will contact you shortly.",
-      variant: "default",
-    });
-    form.reset();
+  async function onSubmit(data: BookingFormValues) {
+    setIsSubmitting(true);
+    const selectedRoom = rooms.find(room => String(room.id) === data.roomId);
+    if (!selectedRoom) {
+      toast({
+        title: "Error",
+        description: "Selected room not found. Please refresh and try again.",
+        variant: "destructive",
+      });
+      setIsSubmitting(false);
+      return;
+    }
+
+    const payload = {
+      room_type: selectedRoom.descriptive_title, // Corresponds to room_type in your JSON
+      company_id: "1", // Hardcoded as per your URL structure
+      num_guests: String(data.guests),
+      check_in_date: format(data.checkInDate, "yyyy-MM-dd"),
+      check_out_date: format(data.checkOutDate, "yyyy-MM-dd"),
+      first_name: data.firstName,
+      last_name: data.lastName,
+      email: data.email,
+      phone_number: data.phone || '',
+      special_requests: data.specialRequests || '',
+      total_price: selectedRoom.price_per_night, // Placeholder price
+      booking_status: "Pending", // Default status
+    };
+
+    try {
+      const response = await apiClient.post('/bookings', payload);
+      console.log('Booking successful:', response.data);
+      toast({
+        title: "Booking Submitted!",
+        description: "Your room reservation has been successfully submitted. We will contact you shortly.",
+        variant: "default",
+      });
+      form.reset();
+    } catch (error) {
+      console.error("Failed to create booking:", error);
+      toast({
+        title: "Booking Failed",
+        description: "There was a problem submitting your reservation. Please try again later.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   return (
@@ -93,16 +157,16 @@ export function BookingForm() {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Room Type</FormLabel>
-                <Select onValueChange={field.onChange} defaultValue={field.value} value={field.value}>
+                <Select onValueChange={field.onChange} defaultValue={field.value} value={field.value} disabled={isLoading}>
                   <FormControl>
                     <SelectTrigger>
-                      <SelectValue placeholder="Select a room type" />
+                      <SelectValue placeholder={isLoading ? "Loading rooms..." : "Select a room type"} />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    {mockRooms.map((room: Room) => (
-                      <SelectItem key={room.id} value={room.id}>
-                        {room.name} (${room.pricePerNight}/night)
+                    {rooms.map((room: RoomFromApi) => (
+                      <SelectItem key={room.id} value={String(room.id)}>
+                        {room.descriptive_title} ({room.currency} {parseFloat(room.price_per_night).toFixed(2)}/night)
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -291,8 +355,8 @@ export function BookingForm() {
             )}
           />
 
-        <Button type="submit" size="lg" className="w-full md:w-auto font-body text-lg transform hover:scale-105 transition-transform duration-300">
-          Confirm Reservation
+        <Button type="submit" size="lg" className="w-full md:w-auto font-body text-lg transform hover:scale-105 transition-transform duration-300" disabled={isSubmitting}>
+          {isSubmitting ? 'Submitting...' : 'Confirm Reservation'}
         </Button>
       </form>
     </Form>

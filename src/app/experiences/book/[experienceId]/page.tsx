@@ -1,40 +1,69 @@
 
-import type { Metadata, ResolvingMetadata } from 'next';
-import { notFound } from 'next/navigation';
+
+'use client';
+
+import { useState, useEffect } from 'react';
 import NextImage from 'next/image';
 import Link from 'next/link';
+import { notFound, useParams } from 'next/navigation';
 
-import { allExperienceDetails, getExperienceDetailById } from '@/data/experienceDetailsData';
-import type { ExperienceDetail, BreadcrumbItem } from '@/types';
+import { getExperienceById, getExperienceImages } from '@/services/api/experiences';
+import type { ExperienceDetail, ExperienceFromApi, BreadcrumbItem, ExperienceImage } from '@/types';
 
 import { Breadcrumbs } from '@/components/shared/Breadcrumbs';
 import { ExperienceBookingForm } from '@/components/experiences/booking/ExperienceBookingForm';
-import { Button } from '@/components/ui/button'; // For potential use
+import { Button } from '@/components/ui/button';
+import { Clock, Users, MapPin, ListChecks, CalendarDays, XCircle, ShoppingBag } from 'lucide-react';
+import { IMAGE_BASE_URL } from '@/lib/config';
+import { Skeleton } from '@/components/ui/skeleton';
 
-type Props = {
-  params: { experienceId: string };
-};
 
-export async function generateMetadata(
-  { params }: Props,
-  parent: ResolvingMetadata
-): Promise<Metadata> {
-  const experience = getExperienceDetailById(params.experienceId);
+const mapApiToExperienceDetail = (apiData: ExperienceFromApi, allImages: ExperienceImage[]): ExperienceDetail => {
+    const galleryImages = allImages
+        .filter(img => String(img.experience_id) === String(apiData.id))
+        .map(img => ({
+            src: img.image_url,
+            alt: img.alt_text,
+            hint: img.alt_text || 'experience gallery',
+        }));
 
-  if (!experience) {
+    const primaryGalleryImage = galleryImages.find(img => String(img.is_primary) === '1');
+    
+    let heroImageUrl = 'https://placehold.co/1920x500.png';
+    if (apiData.experience_image) {
+        // Correctly handle if the path is already a full URL or just a path segment
+        if (apiData.experience_image.startsWith('http')) {
+            heroImageUrl = apiData.experience_image;
+        } else {
+            heroImageUrl = `${IMAGE_BASE_URL}${apiData.experience_image}`;
+        }
+    } else if (primaryGalleryImage?.src) {
+        heroImageUrl = primaryGalleryImage.src;
+    }
+
+
     return {
-      title: 'Experience Not Found | Grand Silver Ray',
+        id: String(apiData.id),
+        pageTitle: `Book Your ${apiData.name}`,
+        heroImageUrl: heroImageUrl,
+        heroImageHint: 'experience event',
+        overviewTitle: `${apiData.name} - Overview`,
+        overviewContent: apiData.detailed_description,
+        highlightsContent: apiData.schedule_note,
+        details: [
+            { icon: Clock, label: 'Duration', value: apiData.duration },
+            { icon: CalendarDays, label: 'Availability', value: 'Weekly (Fridays & Saturdays)' }, // Placeholder
+            { icon: Users, label: 'Participants', value: `Minimum ${apiData.min_participants}, Maximum ${apiData.max_participants}` },
+            { icon: ListChecks, label: 'Inclusions', value: apiData.advance_booking_required ? 'Performance, Live Music, Refreshments' : 'Walk-ins Welcome' }, // Placeholder
+            { icon: XCircle, label: 'Exclusions', value: 'Personal expenses, Gratuities' }, // Placeholder
+            { icon: ShoppingBag, label: 'What to Bring', value: 'Camera, Comfortable Attire' }, // Placeholder
+            { icon: MapPin, label: 'Meeting Point', value: apiData.meeting_Point },
+        ],
+        galleryImages: galleryImages,
+        defaultAdults: apiData.min_participants,
+        pricePerAdult: parseFloat(apiData.Price),
     };
-  }
-
-  return {
-    title: `${experience.pageTitle} | Grand Silver Ray`,
-    description: `Book the "${experience.overviewTitle.replace(' - Overview', '')}" experience at Grand Silver Ray. ${experience.overviewContent.substring(0, 160)}...`,
-    openGraph: {
-      images: [experience.heroImageUrl],
-    },
-  };
-}
+};
 
 function ExperienceBookingHero({ title, imageUrl, imageHint }: { title: string, imageUrl: string, imageHint: string }) {
   return (
@@ -63,7 +92,6 @@ function ExperienceContentLayout({ experience }: { experience: ExperienceDetail 
       <h2 className="font-headline text-2xl text-primary font-semibold mb-4">{experience.overviewTitle}</h2>
       <p className="font-body text-foreground/80 mb-6">{experience.overviewContent}</p>
       
-      <h3 className="font-headline text-xl font-semibold mb-3">Highlights</h3>
       <p className="font-body text-foreground/80 mb-8">{experience.highlightsContent}</p>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4 mb-8 font-body text-sm">
@@ -80,7 +108,6 @@ function ExperienceContentLayout({ experience }: { experience: ExperienceDetail 
 
       {experience.galleryImages && experience.galleryImages.length > 0 && (
         <div>
-          <h3 className="font-headline text-xl font-semibold mb-4">Gallery</h3>
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
             {experience.galleryImages.map((image, index) => (
               <div key={index} className="relative aspect-video rounded-lg overflow-hidden shadow-md group">
@@ -101,11 +128,69 @@ function ExperienceContentLayout({ experience }: { experience: ExperienceDetail 
 }
 
 
-export default function ExperienceBookingPage({ params }: Props) {
-  const experience = getExperienceDetailById(params.experienceId);
+export default function ExperienceBookingPage() {
+  const params = useParams();
+  const experienceId = params.experienceId as string;
 
+  const [experience, setExperience] = useState<ExperienceDetail | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!experienceId) return;
+
+    const fetchExperience = async () => {
+        try {
+            setIsLoading(true);
+            const [apiExperience, allImages] = await Promise.all([
+                getExperienceById(experienceId),
+                getExperienceImages()
+            ]);
+
+            if (!apiExperience) {
+                notFound();
+                return;
+            }
+            const mappedExperience = mapApiToExperienceDetail(apiExperience, allImages);
+            setExperience(mappedExperience);
+        } catch (err) {
+            console.error(err);
+            if (err instanceof Error && err.message.includes('404')) {
+                notFound();
+            } else {
+                setError("Failed to load experience details.");
+            }
+        } finally {
+            setIsLoading(false);
+        }
+    };
+    fetchExperience();
+  }, [experienceId]);
+
+
+  if (isLoading) {
+    return (
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+            <Skeleton className="h-8 w-1/3 mb-8" />
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12 items-start">
+                <div className="lg:col-span-2 space-y-6">
+                    <Skeleton className="h-[400px] w-full" />
+                    <Skeleton className="h-64 w-full" />
+                </div>
+                <div className="lg:sticky lg:top-24 h-fit">
+                    <Skeleton className="h-[500px] w-full" />
+                </div>
+            </div>
+        </div>
+    );
+  }
+
+  if (error) {
+    return <div className="container text-center py-20 text-destructive">{error}</div>;
+  }
+  
   if (!experience) {
-    notFound();
+    return null;
   }
 
   const breadcrumbItems: BreadcrumbItem[] = [
@@ -122,14 +207,14 @@ export default function ExperienceBookingPage({ params }: Props) {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
         <Breadcrumbs items={breadcrumbItems} className="mb-8" />
         
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12 items-start">
-          <div className="lg:col-span-2">
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-12 items-start">
+          <div className="lg:col-span-3">
             <ExperienceContentLayout experience={experience} />
           </div>
-          <div className="lg:sticky lg:top-24 h-fit">
+          <div className="lg:col-span-2 lg:sticky lg:top-24 h-fit">
             <div className="bg-card p-6 sm:p-8 rounded-xl shadow-2xl">
-              <h2 className="font-headline text-2xl font-semibold mb-1 text-center">Book Your Experience</h2>
-              <p className="font-body text-sm text-muted-foreground mb-6 text-center">
+              <h2 className="font-headline text-2xl font-semibold mb-1">Book Your Experience</h2>
+              <p className="font-body text-sm text-muted-foreground mb-6">
                 Please fill out the form below to confirm your booking. Our team will contact you shortly.
               </p>
               <ExperienceBookingForm experienceId={experience.id} defaultAdults={experience.defaultAdults} />
@@ -140,11 +225,3 @@ export default function ExperienceBookingPage({ params }: Props) {
     </div>
   );
 }
-
-export async function generateStaticParams() {
-  return allExperienceDetails.map((exp) => ({
-    experienceId: exp.id,
-  }));
-}
-
-    

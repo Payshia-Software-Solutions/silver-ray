@@ -1,26 +1,87 @@
 
+
 import type { LucideIcon } from 'lucide-react';
 
-export interface Room {
+export interface Amenity {
   id: string;
-  name: string;
+  amenity_name: string;
+  company_id: string;
   description: string;
-  longDescription: string;
-  pricePerNight: number;
-  imageUrl: string;
-  imageHint?: string; // Added this line
-  images: string[];
-  amenities: string[];
-  capacity: number; // e.g., 2 adults, 1 child
-  beds: string; // e.g., "1 King Bed" or "2 Queen Beds"
-  size: string; // e.g., "45 sqm"
-  category: 'Standard' | 'Deluxe' | 'Suite' | 'Villa';
-  rating?: number; // 1-5 stars
-  features?: string[]; // e.g., "Ocean View", "Balcony"
-  viewType?: string; // e.g., "Oceanfront and the lush green mountains"
-  enhanceYourStay?: string[]; // e.g., ["Close to the Spa", "Ideal for Honeymooners"]
-  roomLayoutImageUrl?: string; // URL for the floor plan image
+  is_active: string;
+  created_at: string;
+  updated_at: string;
+  created_by: string;
+  updated_by: string | null;
 }
+
+export interface RoomType {
+  id: string;
+  room_type_id: string;
+  company_id: string;
+  type_name: string;
+  created_at: string;
+  updated_at: string;
+  created_by: string;
+  updated_by: string | null;
+}
+export interface RoomFromApi {
+  id: number;
+  room_number: string;
+  descriptive_title: string;
+  current_status: 'Available' | 'Booked' | 'Under Maintenance';
+  price_per_night: string;
+  currency: string;
+  room_type_id: number;
+  short_description: string;
+  adults_capacity: number;
+  children_capacity: number;
+  room_width: string;
+  room_height: string;
+  amenities_id: string; // Comma-separated string of amenity IDs
+  amenities: Amenity[];
+  room_images: string | null;
+  company_id: string;
+  created_by: string;
+  updated_by: string | null;
+  is_active: number;
+  room_type?: RoomType;
+}
+
+export interface Room extends RoomFromApi {
+  imageUrl: string;
+  imageHint?: string;
+  images?: RoomImage[];
+  amenities: string[];
+  capacity: number;
+  beds: string;
+  size: string;
+  category: 'Standard' | 'Deluxe' | 'Suite' | 'Villa';
+  rating?: number;
+  features?: string[];
+  viewType?: string;
+  enhanceYourStay?: string[];
+  roomLayoutImageUrl?: string;
+  longDescription?: string;
+}
+
+
+export interface RoomImage {
+  id: number;
+  room_id: number;
+  company_id: string;
+  image_name: string;
+  image_url: string;
+  file_size: number;
+  alt_text: string;
+  is_primary: number | string;
+  display_order: number;
+  uploaded_by: number;
+  updated_by: number;
+  created_at: string;
+  updated_at: string;
+  is_active: number;
+}
+
 
 export interface Testimonial {
   id: string;
@@ -75,6 +136,22 @@ export interface GalleryImageItem {
   hint: string;
 }
 
+export interface GalleryApiImage {
+  id: string;
+  company_id: string;
+  image_name: string;
+  image_url: string;
+  file_size: string;
+  alt_text: string;
+  is_primary: string;
+  display_order: string;
+  uploaded_by: string;
+  updated_by: string | null;
+  created_at: string;
+  updated_at: string;
+  is_active: string;
+}
+
 export interface ExperienceDetailItem {
   icon: LucideIcon;
   label: string;
@@ -97,4 +174,157 @@ export interface ExperienceDetail {
   pricePerChild?: number; // Optional: for dynamic pricing display
 }
 
-    
+export interface PackageInclusion {
+    id: string;
+    inclusion_type: string;
+    company_id: string;
+    description: string;
+    created_at: string;
+    updated_at: string;
+    created_by: string;
+    updated_by: string | null;
+}
+
+export interface WeddingPackageFromApi {
+    id: number;
+    package_name: string;
+    hall_id: string;
+    company_id: string;
+    status: string;
+    short_description: string;
+    detailed_description: string;
+    price: string;
+    max_guests: number;
+    inclusions: string | null;
+    weddinng_image: string | null;
+    created_by: string;
+    updated_by: string | null;
+    created_at: string;
+    updated_at: string;
+    package_inclusions: PackageInclusion[] | null;
+}
+
+export interface WeddingImage {
+    id: number;
+    wedding_id: number;
+    company_id: string;
+    image_name: string;
+    image_url: string;
+    file_size: number;
+    alt_text: string;
+    is_primary: number | string;
+    display_order: number;
+    uploaded_by: string;
+    updated_by: string;
+    created_at: string;
+    updated_at: string;
+    is_active: number;
+}
+
+
+export interface WeddingPackageInclusion {
+  icon: LucideIcon;
+  text: string;
+}
+export interface WeddingPackage {
+  id: string;
+  name: string;
+  price?: string;
+  icon: LucideIcon;
+  iconImageUrl?: string;
+  imageHint: string;
+  inclusions: WeddingPackageInclusion[];
+  shortDescription?: string;
+  heroImage?: string;
+  heroImageHint?: string;
+}
+
+
+export interface ExperienceFromApi {
+    id: number;
+    name: string;
+    company_id: string;
+    meeting_Point: string;
+    short_description: string;
+    detailed_description: string;
+    duration: string;
+    Price: string;
+    pricing_basis: string;
+    min_participants: number;
+    max_participants: number;
+    advance_booking_required: number;
+    walk_in_available: number;
+    day_of_week: string;
+    is_available: number;
+    schedule_note: string;
+    status: string;
+    experience_image: string | null;
+    time_slot: string;
+    created_at: string;
+    updated_at: string;
+    created_by: string;
+    updated_by: string | null;
+}
+
+export interface ExperienceImage {
+    id: number;
+    experience_id: number;
+    company_id: string;
+    image_name: string;
+    image_url: string;
+    file_size: number;
+    alt_text: string;
+    is_primary: number | string;
+    display_order: number;
+    uploaded_by: string;
+    updated_by: string | null;
+    created_at: string;
+    updated_at: string;
+    is_active: number;
+}
+
+export interface FeaturedExperience {
+  id: string;
+  imageUrl: string;
+  imageHint: string;
+  title: string;
+  description: string;
+  duration: string;
+  pricePerPerson: string;
+  bookingDetails: string;
+}
+
+export interface RestaurantFromApi {
+    id: number;
+    venue_name: string;
+    short_description: string;
+    detailed_description: string;
+    capacity: string;
+    operating_hours_id: string;
+    feature_id: string;
+    "restaurant _image": string | null;
+    status: string;
+    status_notes: string;
+    company_id: string;
+    created_by: string;
+    updated_by: string | null;
+    created_at: string;
+    updated_at: string;
+}
+
+export interface RestaurantImage {
+    id: number;
+    restaurant_id: number;
+    company_id: number;
+    image_name: string;
+    image_url: string;
+    file_size: number;
+    alt_text: string;
+    is_primary: number;
+    display_order: number;
+    uploaded_by: number;
+    updated_by: number;
+    created_at: string;
+    updated_at: string;
+    is_active: number;
+}
