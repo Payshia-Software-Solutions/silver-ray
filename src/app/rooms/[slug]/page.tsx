@@ -1,3 +1,5 @@
+
+
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -106,6 +108,11 @@ export default function RoomDetailPage() {
   
   useEffect(() => {
     const fetchRoomData = async () => {
+      if (!slug) {
+        setIsLoading(false);
+        setError("Room not found.");
+        return;
+      }
       try {
         setIsLoading(true);
         setError(null);
@@ -137,9 +144,7 @@ export default function RoomDetailPage() {
       }
     };
 
-    if (slug) {
-      fetchRoomData();
-    }
+    fetchRoomData();
   }, [slug]);
 
 
@@ -404,3 +409,4 @@ export default function RoomDetailPage() {
     </div>
   );
 }
+

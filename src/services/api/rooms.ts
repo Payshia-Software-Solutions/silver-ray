@@ -50,6 +50,42 @@ export async function getRoomsWithTypes(): Promise<RoomFromApi[]> {
 
 
 /**
+ * Fetches a single room by its slug from the back-end.
+ * @param slug The slug of the room to fetch.
+ * @returns A promise that resolves to a RoomFromApi object or null if not found.
+ */
+export async function getRoomBySlug(slug: string): Promise<RoomFromApi | null> {
+  try {
+    const serverRoot = API_BASE_URL.split('/company/')[0];
+    const response = await fetch(`${serverRoot}/slug/rooms/details/${slug}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    
+    if (response.status === 404) {
+      return null;
+    }
+    
+    const roomData = await handleApiResponse<RoomFromApi | RoomFromApi[]>(response);
+    // The API might return an array with one item for a single ID
+    const singleRoom = Array.isArray(roomData) ? roomData[0] : roomData;
+
+    if (!singleRoom) return null;
+
+    return {
+        ...singleRoom,
+        room_images: cleanImageUrl(singleRoom.room_images),
+    };
+
+  } catch (error) {
+    console.error(`Failed to fetch room with slug ${slug}:`, error);
+    throw error; // Re-throw to be handled by the calling component
+  }
+}
+
+/**
  * Fetches a single room by its ID from the back-end.
  * @param id The ID of the room to fetch.
  * @returns A promise that resolves to a RoomFromApi object.
@@ -76,6 +112,7 @@ export async function getRoomById(id: string): Promise<RoomFromApi> {
     throw error;
   }
 }
+
 
 /**
  * Fetches all room images for a given company.
