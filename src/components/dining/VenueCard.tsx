@@ -85,7 +85,7 @@ export function VenueCard({ venue }: VenueCardProps) {
               className="object-cover"
               unoptimized
             />
-            {status && (
+            {status && status.toLowerCase() !== 'active' && (
                 <Badge className={`absolute top-3 right-3 text-xs ${getStatusBadgeVariant(status)}`}>
                     {status}
                 </Badge>
