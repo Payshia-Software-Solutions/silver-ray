@@ -262,6 +262,12 @@ export function SiteFooter() {
         <DesktopFooter />
         <MobileFooter />
       </div>
+      <div className="bg-sky-200 py-2 text-center text-sm">
+        <span className="text-slate-600">Powered by </span>
+        <a href="https://payshia.com" target="_blank" rel="noopener noreferrer" className="font-semibold text-slate-800 hover:underline">
+          Payshia Software Solutions
+        </a>
+      </div>
     </footer>
   );
 }
