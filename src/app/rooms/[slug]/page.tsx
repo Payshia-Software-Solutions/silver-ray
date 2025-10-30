@@ -56,9 +56,11 @@ const mapRoomData = (apiRoom: RoomFromApi, roomImages: RoomImage[]): Room => {
 
   const finalImageUrl = primaryImage ? constructImageUrl(primaryImage.image_url) : (apiRoom.room_images ? constructImageUrl(apiRoom.room_images) : '');
 
+  // Handle amenities, checking if it's an array of objects
   const amenities = Array.isArray(apiRoom.amenities) 
     ? apiRoom.amenities.map(a => a.amenity_name)
-    : (apiRoom.amenities_id ? apiRoom.amenities_id.split(',').map(a => a.trim()) : []);
+    : (typeof apiRoom.amenities_id === 'string' ? apiRoom.amenities_id.split(',').map(a => a.trim()) : []);
+
 
   const roomWidth = parseFloat(apiRoom.room_width);
   const roomHeight = parseFloat(apiRoom.room_height);
@@ -409,5 +411,3 @@ export default function RoomDetailPage() {
     </div>
   );
 }
-
-    

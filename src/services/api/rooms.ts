@@ -77,13 +77,15 @@ export async function getRoomById(id: string): Promise<RoomFromApi | null> {
  */
 export async function getRoomBySlug(slug: string): Promise<RoomFromApi | null> {
   try {
+    // This now directly uses the slug in the URL as requested.
     const response = await fetch(`${API_BASE_URL}/rooms/${slug}`);
     if (response.status === 404) {
       return null;
     }
-    const room = await handleApiResponse<RoomFromApi>(response);
-    // The API might return an array even for a single slug lookup
-    const singleRoom = Array.isArray(room) ? room[0] : room;
+    const roomData = await handleApiResponse<RoomFromApi>(response);
+    
+    // The API might return an array with one item, or just the item itself.
+    const singleRoom = Array.isArray(roomData) ? roomData[0] : roomData;
 
     if (!singleRoom) {
       return null;
@@ -96,7 +98,7 @@ export async function getRoomBySlug(slug: string): Promise<RoomFromApi | null> {
 
   } catch (error) {
     console.error(`Failed to fetch room with slug ${slug}:`, error);
-    // Return null instead of throwing an error to allow the page to handle the "not found" state.
+    // Return null to allow the page to handle the "not found" state gracefully.
     return null;
   }
 }
