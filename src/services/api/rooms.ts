@@ -46,13 +46,14 @@ export async function getRoomsWithTypes(): Promise<RoomFromApi[]> {
 }
 
 /**
- * Fetches a single room by its ID from the back-end.
- * @param id The ID of the room to fetch.
- * @returns A promise that resolves to a RoomFromApi object.
+ * Fetches a single room by its slug from the back-end.
+ * @param slug The slug of the room to fetch.
+ * @returns A promise that resolves to a RoomFromApi object or null if not found.
  */
-export async function getRoomById(id: string): Promise<RoomFromApi | null> {
+export async function getRoomBySlug(slug: string): Promise<RoomFromApi | null> {
   try {
-    const response = await fetch(`${API_BASE_URL}/rooms/${id}`, {
+    const serverRoot = API_BASE_URL.split('/company/')[0];
+    const response = await fetch(`${serverRoot}/slug/rooms/${slug}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -62,7 +63,6 @@ export async function getRoomById(id: string): Promise<RoomFromApi | null> {
       return null;
     }
     const room = await handleApiResponse<RoomFromApi>(response);
-    // The API returns an array with a single object for a single room request
     const singleRoom = Array.isArray(room) ? room[0] : room;
 
     return {
@@ -71,7 +71,7 @@ export async function getRoomById(id: string): Promise<RoomFromApi | null> {
     };
 
   } catch (error) {
-    console.error(`Failed to fetch room with id ${id}:`, error);
+    console.error(`Failed to fetch room with slug ${slug}:`, error);
     throw error;
   }
 }
@@ -127,3 +127,5 @@ export async function getRoomImagesByRoomId(roomId: string): Promise<RoomImage[]
     return [];
   }
 }
+
+    
