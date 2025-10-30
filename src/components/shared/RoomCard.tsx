@@ -108,9 +108,11 @@ export function RoomCard({ room }: RoomCardProps) {
       </CardContent>
       <CardFooter className="p-4 sm:p-6 pt-0 mt-auto">
         <Button asChild className="w-full rounded-full font-body text-base py-3 h-auto bg-primary text-primary-foreground hover:bg-primary/90 transition-transform duration-300 hover:scale-105">
-          <Link href={`/rooms/${room.id}`}>View Details</Link>
+          <Link href={`/rooms/${room.slug}`}>View Details</Link>
         </Button>
       </CardFooter>
     </Card>
   );
 }
+
+    

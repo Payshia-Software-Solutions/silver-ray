@@ -70,6 +70,37 @@ export async function getRoomById(id: string): Promise<RoomFromApi | null> {
   }
 }
 
+/**
+ * Fetches a single room by its slug from the back-end.
+ * @param slug The slug of the room to fetch.
+ * @returns A promise that resolves to a RoomFromApi object or null if not found.
+ */
+export async function getRoomBySlug(slug: string): Promise<RoomFromApi | null> {
+  try {
+    const serverRoot = API_BASE_URL.split('/company/')[0];
+    const response = await fetch(`${serverRoot}/slug/rooms/${slug}`);
+    if (response.status === 404) {
+      return null;
+    }
+    const room = await handleApiResponse<RoomFromApi>(response);
+    // The endpoint for a single slug might return the object directly
+    const singleRoom = Array.isArray(room) ? room[0] : room;
+
+    if (!singleRoom) {
+      return null;
+    }
+
+    return {
+        ...singleRoom,
+        room_images: cleanImageUrl(singleRoom.room_images),
+    };
+
+  } catch (error) {
+    console.error(`Failed to fetch room with slug ${slug}:`, error);
+    throw error;
+  }
+}
+
 
 /**
  * Fetches all room images for a given company.
@@ -121,3 +152,5 @@ export async function getRoomImagesByRoomId(roomId: string): Promise<RoomImage[]
     return [];
   }
 }
+
+    

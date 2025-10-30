@@ -3,7 +3,7 @@
 
 import { useState, useEffect } from 'react';
 import NextImage from 'next/image';
-import { getRoomById, getRoomImagesByRoomId } from '@/services/api/rooms';
+import { getRoomBySlug, getRoomImagesByRoomId } from '@/services/api/rooms';
 import type { Room, RoomFromApi, RoomImage } from '@/types';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -40,7 +40,7 @@ import { cn } from '@/lib/utils';
 
 
 type Props = {
-  params: { id: string };
+  params: { slug: string };
 };
 
 // Helper to map API data to our Room type
@@ -99,7 +99,7 @@ const amenitiesIcons: { [key: string]: LucideIcon } = {
 
 export default function RoomDetailPage() {
   const params = useParams();
-  const id = params.id as string;
+  const slug = params.slug as string;
   const [room, setRoom] = useState<Room | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -107,16 +107,16 @@ export default function RoomDetailPage() {
   
   useEffect(() => {
     const fetchRoomData = async () => {
-      if (!id) {
+      if (!slug) {
           setIsLoading(false);
-          setError("Room ID not provided.");
+          setError("Room slug not provided.");
           return;
       }
       try {
         setIsLoading(true);
         setError(null);
         
-        const apiRoom = await getRoomById(id);
+        const apiRoom = await getRoomBySlug(slug);
         if (!apiRoom) {
           notFound();
           return;
@@ -144,7 +144,7 @@ export default function RoomDetailPage() {
     };
 
     fetchRoomData();
-  }, [id]);
+  }, [slug]);
 
 
   if (isLoading) {
@@ -408,3 +408,5 @@ export default function RoomDetailPage() {
     </div>
   );
 }
+
+    
