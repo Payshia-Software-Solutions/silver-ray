@@ -1,4 +1,5 @@
 
+
 import type { RoomFromApi, RoomImage } from '@/types';
 import { API_BASE_URL } from '@/lib/config';
 import { handleApiResponse, cleanImageUrl } from '@/lib/apiClient';
@@ -164,5 +165,3 @@ export async function getRoomImagesByRoomId(roomId: string): Promise<RoomImage[]
     return [];
   }
 }
-
-    

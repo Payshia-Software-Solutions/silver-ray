@@ -16,6 +16,11 @@ interface RoomCardProps {
   room: Room;
 }
 
+const generateSlug = (name: string) => {
+    if (!name) return '';
+    return name.toLowerCase().replace(/ & /g, ' and ').replace(/ /g, '-').replace(/[^\w-]+/g, '');
+}
+
 export function RoomCard({ room }: RoomCardProps) {
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -69,6 +74,8 @@ export function RoomCard({ room }: RoomCardProps) {
       coffee: room.amenities?.includes('Nespresso Machine'),
       users: true,
   };
+  
+  const slug = generateSlug(room.descriptive_title);
 
   return (
     <Card className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col h-full rounded-2xl bg-card border-none">
@@ -107,11 +114,9 @@ export function RoomCard({ room }: RoomCardProps) {
       </CardContent>
       <CardFooter className="p-4 sm:p-6 pt-0 mt-auto">
         <Button asChild className="w-full rounded-full font-body text-base py-3 h-auto bg-primary text-primary-foreground hover:bg-primary/90 transition-transform duration-300 hover:scale-105">
-          <Link href={`/rooms/${room.id}`}>View Details</Link>
+          <Link href={`/rooms/${slug}`}>View Details</Link>
         </Button>
       </CardFooter>
     </Card>
   );
 }
-
-    
