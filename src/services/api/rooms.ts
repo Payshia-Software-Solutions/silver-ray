@@ -46,15 +46,15 @@ export async function getRoomsWithTypes(): Promise<RoomFromApi[]> {
 }
 
 /**
- * Fetches a single room by its slug from the back-end.
- * @param slug The slug of the room to fetch.
+ * Fetches a single room by its ID from the back-end.
+ * @param id The ID of the room to fetch.
  * @returns A promise that resolves to a RoomFromApi object or null if not found.
  */
-export async function getRoomBySlug(slug: string): Promise<RoomFromApi | null> {
+export async function getRoomById(id: string): Promise<RoomFromApi | null> {
   try {
-    const response = await fetch(`${API_BASE_URL}/rooms/${slug}`);
+    const response = await fetch(`${API_BASE_URL}/rooms/${id}`);
     if (response.status === 404) {
-      console.warn(`Room with slug "${slug}" not found.`);
+      console.warn(`Room with id "${id}" not found.`);
       return null;
     }
     const roomData = await handleApiResponse<RoomFromApi>(response);
@@ -72,7 +72,7 @@ export async function getRoomBySlug(slug: string): Promise<RoomFromApi | null> {
     };
 
   } catch (error) {
-    console.error(`Failed to fetch room with slug ${slug}:`, error);
+    console.error(`Failed to fetch room with id ${id}:`, error);
     // Return null to allow the page to handle the "not found" state gracefully.
     return null;
   }
@@ -129,6 +129,3 @@ export async function getRoomImagesByRoomId(roomId: string): Promise<RoomImage[]
     return [];
   }
 }
-
-// This function is no longer needed with slug-based routing
-// export async function getRoomById(id: string): Promise<RoomFromApi | null> { ... }
