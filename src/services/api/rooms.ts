@@ -18,16 +18,38 @@ export async function getRooms(): Promise<RoomFromApi[]> {
         },
     });
     const rooms = await handleApiResponse<RoomFromApi[]>(response);
-    return rooms.map(room => ({
-        ...room,
-        // The main room list doesn't seem to have its own image URL in the provided structure,
-        // so we don't clean it here. It's constructed later from the room images.
-    }));
+    return rooms;
   } catch (error) {
     console.error('Failed to fetch rooms:', error);
     throw error;
   }
 }
+
+/**
+ * Fetches a single room by its slug from the back-end.
+ * @param slug The slug of the room to fetch.
+ * @returns A promise that resolves to a RoomFromApi object or null if not found.
+ */
+export async function getRoomBySlug(slug: string): Promise<RoomFromApi | null> {
+  try {
+    const serverRoot = API_BASE_URL.split('/company/')[0];
+    const response = await fetch(`${serverRoot}/slug/rooms/${slug}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+     if (response.status === 404) {
+      return null;
+    }
+    const room = await handleApiResponse<RoomFromApi>(response);
+    return Array.isArray(room) ? room[0] : room;
+  } catch (error) {
+    console.error(`Failed to fetch room with slug ${slug}:`, error);
+    throw error;
+  }
+}
+
 
 /**
  * Fetches all rooms with their associated room types from the back-end.
