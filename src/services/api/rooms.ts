@@ -6,12 +6,12 @@ import { handleApiResponse, cleanImageUrl } from '@/lib/apiClient';
 
 /**
  * Fetches all rooms from the back-end.
+ * This now correctly points to the endpoint that provides room slugs.
  * @returns A promise that resolves to an array of RoomFromApi objects.
  */
 export async function getRooms(): Promise<RoomFromApi[]> {
   try {
-    const serverRoot = API_BASE_URL.split('/company/')[0];
-    const response = await fetch(`${serverRoot}/rooms`, {
+    const response = await fetch(`${API_BASE_URL}/rooms`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -46,45 +46,20 @@ export async function getRoomsWithTypes(): Promise<RoomFromApi[]> {
 }
 
 /**
- * Fetches a single room by its ID from the back-end.
- * @param id The ID of the room to fetch.
- * @returns A promise that resolves to a RoomFromApi object or null if not found.
- */
-export async function getRoomById(id: string): Promise<RoomFromApi | null> {
-  try {
-    const response = await fetch(`${API_BASE_URL}/rooms/${id}`);
-    if (response.status === 404) {
-      return null;
-    }
-    const room = await handleApiResponse<RoomFromApi>(response);
-    const singleRoom = Array.isArray(room) ? room[0] : room;
-
-    return {
-        ...singleRoom,
-        room_images: cleanImageUrl(singleRoom.room_images),
-    };
-
-  } catch (error) {
-    console.error(`Failed to fetch room with id ${id}:`, error);
-    throw error;
-  }
-}
-
-/**
  * Fetches a single room by its slug from the back-end.
  * @param slug The slug of the room to fetch.
  * @returns A promise that resolves to a RoomFromApi object or null if not found.
  */
 export async function getRoomBySlug(slug: string): Promise<RoomFromApi | null> {
   try {
-    // This now directly uses the slug in the URL as requested.
     const response = await fetch(`${API_BASE_URL}/rooms/${slug}`);
     if (response.status === 404) {
+      console.warn(`Room with slug "${slug}" not found.`);
       return null;
     }
     const roomData = await handleApiResponse<RoomFromApi>(response);
     
-    // The API might return an array with one item, or just the item itself.
+    // The API might return an array with one item, or just the item itself. This handles both cases.
     const singleRoom = Array.isArray(roomData) ? roomData[0] : roomData;
 
     if (!singleRoom) {
@@ -154,3 +129,6 @@ export async function getRoomImagesByRoomId(roomId: string): Promise<RoomImage[]
     return [];
   }
 }
+
+// This function is no longer needed with slug-based routing
+// export async function getRoomById(id: string): Promise<RoomFromApi | null> { ... }
