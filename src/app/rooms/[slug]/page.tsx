@@ -54,11 +54,11 @@ const mapRoomData = (apiRoom: RoomFromApi, roomImages: RoomImage[]): Room => {
     return `${IMAGE_BASE_URL}${cleanedPath}`;
   };
 
-  const finalImageUrl = primaryImage ? constructImageUrl(primaryImage.image_url) : '';
+  const finalImageUrl = primaryImage ? constructImageUrl(primaryImage.image_url) : (apiRoom.room_images ? constructImageUrl(apiRoom.room_images) : '');
 
   const amenities = Array.isArray(apiRoom.amenities) 
     ? apiRoom.amenities.map(a => a.amenity_name)
-    : [];
+    : (apiRoom.amenities_id ? apiRoom.amenities_id.split(',').map(a => a.trim()) : []);
 
   const roomWidth = parseFloat(apiRoom.room_width);
   const roomHeight = parseFloat(apiRoom.room_height);
@@ -69,6 +69,7 @@ const mapRoomData = (apiRoom: RoomFromApi, roomImages: RoomImage[]): Room => {
     ...apiRoom,
     id: String(apiRoom.id),
     name: apiRoom.descriptive_title,
+    slug: apiRoom.slug,
     description: apiRoom.short_description,
     longDescription: apiRoom.short_description, 
     pricePerNight: parseFloat(apiRoom.price_per_night),
@@ -78,7 +79,7 @@ const mapRoomData = (apiRoom: RoomFromApi, roomImages: RoomImage[]): Room => {
     capacity: Number(apiRoom.adults_capacity),
     beds: '1 King Bed',
     size: `${size} sqft`,
-    category: 'Suite', 
+    category: apiRoom.room_type?.type_name as any || 'Standard',
     rating: 4.8, 
   };
 };
@@ -133,7 +134,6 @@ export default function RoomDetailPage() {
 
       } catch (err: any) {
         console.error(err);
-        // This catch block might be redundant if getRoomBySlug handles it, but good for safety
         if (err.message.includes('404')) {
           notFound();
         } else {
@@ -176,9 +176,7 @@ export default function RoomDetailPage() {
   }
   
   if (!room) {
-    // This will be caught by the notFound() call in useEffect, but it's good practice
-    // for type safety and to prevent rendering with null data.
-    return null;
+    return notFound();
   }
   
   const imagesToShow = room.images && room.images.length > 0 
@@ -217,7 +215,7 @@ export default function RoomDetailPage() {
                           <NextImage
                               src={mainImage}
                               alt={`${room.name} Main Image`}
-                              data-ai-hint={`${room.category.toLowerCase()} room interior detail`}
+                              data-ai-hint={`${room.category?.toLowerCase()} room interior detail`}
                               fill
                               className="object-cover"
                               priority
@@ -243,7 +241,7 @@ export default function RoomDetailPage() {
                                   <NextImage
                                       src={img}
                                       alt={`${room.name} - Thumbnail ${index + 1}`}
-                                      data-ai-hint={`${room.category.toLowerCase()} room interior thumbnail`}
+                                      data-ai-hint={`${room.category?.toLowerCase()} room interior thumbnail`}
                                       fill
                                       className="object-cover"
                                       unoptimized
@@ -411,3 +409,5 @@ export default function RoomDetailPage() {
     </div>
   );
 }
+
+    
