@@ -69,15 +69,14 @@ export async function getRoomBySlug(slug: string): Promise<RoomFromApi | null> {
       return null;
     }
     
-    const roomData = await handleApiResponse<RoomFromApi | RoomFromApi[]>(response);
-    // The API might return an array with one item for a single ID
-    const singleRoom = Array.isArray(roomData) ? roomData[0] : roomData;
+    // The API returns a single object, not an array.
+    const roomData = await handleApiResponse<RoomFromApi>(response);
 
-    if (!singleRoom) return null;
+    if (!roomData) return null;
 
     return {
-        ...singleRoom,
-        room_images: cleanImageUrl(singleRoom.room_images),
+        ...roomData,
+        room_images: cleanImageUrl(roomData.room_images),
     };
 
   } catch (error) {

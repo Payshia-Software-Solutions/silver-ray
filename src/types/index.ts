@@ -26,6 +26,7 @@ export interface RoomType {
 }
 export interface RoomFromApi {
   id: number;
+  slug?: string;
   room_number: string;
   descriptive_title: string;
   current_status: 'Available' | 'Booked' | 'Under Maintenance';

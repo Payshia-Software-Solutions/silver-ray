@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -62,7 +63,7 @@ const mapRoomData = (apiRoom: RoomFromApi, roomImages: RoomImage[]): Room => {
 
   const roomWidth = parseFloat(apiRoom.room_width);
   const roomHeight = parseFloat(apiRoom.room_height);
-  const size = !isNaN(roomWidth) && !isNaN(roomHeight) ? (roomWidth * roomHeight / 10.764).toFixed(0) : 'N/A';
+  const size = !isNaN(roomWidth) && !isNaN(roomHeight) && roomWidth > 0 && roomHeight > 0 ? (roomWidth * roomHeight / 10.764).toFixed(0) : 'N/A';
 
 
   return {

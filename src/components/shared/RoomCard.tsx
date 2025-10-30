@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import NextImage from 'next/image';
@@ -18,7 +19,7 @@ interface RoomCardProps {
 
 const generateSlug = (name: string) => {
     if (!name) return '';
-    return name.toLowerCase().replace(/ & /g, ' and ').replace(/ /g, '-').replace(/[^\w-]+/g, '');
+    return name.trim().toLowerCase().replace(/ & /g, ' and ').replace(/ /g, '-').replace(/[^\w-]+/g, '');
 }
 
 export function RoomCard({ room }: RoomCardProps) {
@@ -75,7 +76,7 @@ export function RoomCard({ room }: RoomCardProps) {
       users: true,
   };
   
-  const slug = generateSlug(room.descriptive_title);
+  const slug = room.slug || generateSlug(room.descriptive_title);
 
   return (
     <Card className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col h-full rounded-2xl bg-card border-none">
