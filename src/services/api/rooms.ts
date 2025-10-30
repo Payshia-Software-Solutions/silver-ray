@@ -1,5 +1,4 @@
 
-
 import type { RoomFromApi, RoomImage } from '@/types';
 import { API_BASE_URL } from '@/lib/config';
 import { handleApiResponse, cleanImageUrl } from '@/lib/apiClient';
@@ -16,6 +15,7 @@ export async function getRooms(): Promise<RoomFromApi[]> {
         headers: {
             'Content-Type': 'application/json',
         },
+        cache: 'no-store', // Ensure fresh data on every request
     });
     const rooms = await handleApiResponse<RoomFromApi[]>(response);
     return rooms;
@@ -24,6 +24,42 @@ export async function getRooms(): Promise<RoomFromApi[]> {
     throw error;
   }
 }
+
+/**
+ * Fetches a single room by its ID from the back-end.
+ * @param id The ID of the room to fetch.
+ * @returns A promise that resolves to a RoomFromApi object or null if not found.
+ */
+export async function getRoomById(id: string): Promise<RoomFromApi | null> {
+  try {
+    const response = await fetch(`${API_BASE_URL}/rooms/${id}`, {
+      cache: 'no-store',
+    });
+    if (response.status === 404) {
+      console.warn(`Room with id "${id}" not found.`);
+      return null;
+    }
+    const roomData = await handleApiResponse<RoomFromApi>(response);
+    
+    // The API might return an array with one item for a single ID
+    const singleRoom = Array.isArray(roomData) ? roomData[0] : roomData;
+
+    if (!singleRoom) {
+      return null;
+    }
+
+    return {
+        ...singleRoom,
+        room_images: cleanImageUrl(singleRoom.room_images),
+    };
+
+  } catch (error) {
+    console.error(`Failed to fetch room with id ${id}:`, error);
+    // Return null to allow the page to handle the "not found" state gracefully.
+    return null;
+  }
+}
+
 
 /**
  * Fetches all rooms with their associated room types from the back-end.
@@ -43,39 +79,6 @@ export async function getRoomsWithTypes(): Promise<RoomFromApi[]> {
         console.error('Failed to fetch rooms with types:', error);
         throw error;
     }
-}
-
-/**
- * Fetches a single room by its ID from the back-end.
- * @param id The ID of the room to fetch.
- * @returns A promise that resolves to a RoomFromApi object or null if not found.
- */
-export async function getRoomById(id: string): Promise<RoomFromApi | null> {
-  try {
-    const response = await fetch(`${API_BASE_URL}/rooms/${id}`);
-    if (response.status === 404) {
-      console.warn(`Room with id "${id}" not found.`);
-      return null;
-    }
-    const roomData = await handleApiResponse<RoomFromApi>(response);
-    
-    // The API might return an array with one item, or just the item itself. This handles both cases.
-    const singleRoom = Array.isArray(roomData) ? roomData[0] : roomData;
-
-    if (!singleRoom) {
-      return null;
-    }
-
-    return {
-        ...singleRoom,
-        room_images: cleanImageUrl(singleRoom.room_images),
-    };
-
-  } catch (error) {
-    console.error(`Failed to fetch room with id ${id}:`, error);
-    // Return null to allow the page to handle the "not found" state gracefully.
-    return null;
-  }
 }
 
 
