@@ -133,6 +133,7 @@ export default function RoomDetailPage() {
 
       } catch (err: any) {
         console.error(err);
+        // This catch block might be redundant if getRoomBySlug handles it, but good for safety
         if (err.message.includes('404')) {
           notFound();
         } else {
@@ -175,7 +176,9 @@ export default function RoomDetailPage() {
   }
   
   if (!room) {
-    return notFound();
+    // This will be caught by the notFound() call in useEffect, but it's good practice
+    // for type safety and to prevent rendering with null data.
+    return null;
   }
   
   const imagesToShow = room.images && room.images.length > 0 
@@ -408,5 +411,3 @@ export default function RoomDetailPage() {
     </div>
   );
 }
-
-    

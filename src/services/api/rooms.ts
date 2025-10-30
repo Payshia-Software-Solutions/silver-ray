@@ -77,13 +77,12 @@ export async function getRoomById(id: string): Promise<RoomFromApi | null> {
  */
 export async function getRoomBySlug(slug: string): Promise<RoomFromApi | null> {
   try {
-    const serverRoot = API_BASE_URL.split('/company/')[0];
-    const response = await fetch(`${serverRoot}/slug/rooms/${slug}`);
+    const response = await fetch(`${API_BASE_URL}/rooms/${slug}`);
     if (response.status === 404) {
       return null;
     }
     const room = await handleApiResponse<RoomFromApi>(response);
-    // The endpoint for a single slug might return the object directly
+    // The API might return an array even for a single slug lookup
     const singleRoom = Array.isArray(room) ? room[0] : room;
 
     if (!singleRoom) {
@@ -97,7 +96,8 @@ export async function getRoomBySlug(slug: string): Promise<RoomFromApi | null> {
 
   } catch (error) {
     console.error(`Failed to fetch room with slug ${slug}:`, error);
-    throw error;
+    // Return null instead of throwing an error to allow the page to handle the "not found" state.
+    return null;
   }
 }
 
@@ -152,5 +152,3 @@ export async function getRoomImagesByRoomId(roomId: string): Promise<RoomImage[]
     return [];
   }
 }
-
-    
