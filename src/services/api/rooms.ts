@@ -54,7 +54,7 @@ export async function getRoomsWithTypes(): Promise<RoomFromApi[]> {
  * @param id The ID of the room to fetch.
  * @returns A promise that resolves to a RoomFromApi object.
  */
-export async function getRoomById(id: string): Promise<RoomFromApi> {
+export async function getRoomById(id: string): Promise<RoomFromApi | null> {
   try {
     const response = await fetch(`${API_BASE_URL}/rooms/${id}`, {
       method: 'GET',
@@ -62,6 +62,9 @@ export async function getRoomById(id: string): Promise<RoomFromApi> {
         'Content-Type': 'application/json',
       },
     });
+     if (response.status === 404) {
+      return null;
+    }
     const room = await handleApiResponse<RoomFromApi>(response);
     // The API returns an array with a single object for a single room request
     const singleRoom = Array.isArray(room) ? room[0] : room;

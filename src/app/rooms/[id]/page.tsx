@@ -134,11 +134,8 @@ export default function RoomDetailPage() {
 
       } catch (err: any) {
         console.error(err);
-        if (err.message && err.message.includes("404")) {
-          notFound();
-        } else {
-          setError("Failed to load room details. Please try again later.");
-        }
+        // The notFound() call is now the primary way to handle 404s
+        setError("Failed to load room details. Please try again later.");
       } finally {
         setIsLoading(false);
       }
@@ -176,7 +173,8 @@ export default function RoomDetailPage() {
   }
   
   if (!room) {
-    return null; // Or a 'not found' component
+    // This case is now handled by notFound() in useEffect, but as a fallback:
+    return notFound();
   }
   
   const imagesToShow = room.images && room.images.length > 0 
