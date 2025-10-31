@@ -24,9 +24,9 @@ export async function getWeddingPackages(): Promise<WeddingPackageFromApi[]> {
   }
 }
 
-export async function getWeddingPackageById(id: string): Promise<WeddingPackageFromApi | null> {
+export async function getWeddingPackageBySlug(slug: string): Promise<WeddingPackageFromApi | null> {
   try {
-    const response = await fetch(`${API_BASE_URL}/weddingpackages/${id}`, {
+    const response = await fetch(`${API_BASE_URL}/weddingpackages/${slug}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -42,7 +42,7 @@ export async function getWeddingPackageById(id: string): Promise<WeddingPackageF
         weddinng_image: cleanImageUrl(singlePackage.weddinng_image),
     };
   } catch (error) {
-    console.error(`Failed to fetch wedding package with id ${id}:`, error);
+    console.error(`Failed to fetch wedding package with slug ${slug}:`, error);
     throw error;
   }
 }

@@ -17,7 +17,7 @@ interface WeddingPackageCardProps {
 }
 
 export function WeddingPackageCard({ packageItem }: WeddingPackageCardProps) {
-  const { id, package_name, price, short_description } = packageItem;
+  const { id, package_name, price, short_description, slug } = packageItem;
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [imageHint, setImageHint] = useState<string>('wedding package icon');
   const [isLoading, setIsLoading] = useState(true);
@@ -87,7 +87,7 @@ export function WeddingPackageCard({ packageItem }: WeddingPackageCardProps) {
             </p>
         </div>
         <Button asChild className="w-full mt-auto bg-primary text-primary-foreground hover:bg-primary/90 rounded-full text-sm py-2 h-auto">
-          <Link href={`/weddings/packages/${id}`}>View Full Details</Link>
+          <Link href={`/weddings/packages/${slug}`}>View Full Details</Link>
         </Button>
       </CardContent>
     </Card>

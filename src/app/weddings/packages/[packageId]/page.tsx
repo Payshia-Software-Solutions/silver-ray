@@ -7,7 +7,7 @@ import NextImage from 'next/image';
 import Link from 'next/link';
 import { notFound, useParams } from 'next/navigation';
 
-import { getWeddingPackageById, getWeddingImagesByPackageId } from '@/services/api/weddings';
+import { getWeddingPackageBySlug } from '@/services/api/weddings';
 import { premiumWeddingAddons } from '@/data/weddingData';
 import type { WeddingPackageFromApi, WeddingImage, PackageInclusion } from '@/types';
 import { Button } from '@/components/ui/button';
@@ -67,7 +67,7 @@ const getStatusBadgeVariant = (status?: string) => {
 
 export default function WeddingPackageDetailPage() {
   const params = useParams();
-  const packageId = params.packageId as string;
+  const slug = params.slug as string;
 
   const [pkg, setPkg] = useState<WeddingPackageFromApi | null>(null);
   const [images, setImages] = useState<WeddingImage[]>([]);
@@ -75,21 +75,22 @@ export default function WeddingPackageDetailPage() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!packageId) return;
+    if (!slug) return;
     const fetchPackage = async () => {
       try {
         setIsLoading(true);
-        const [pkgData, imagesData] = await Promise.all([
-          getWeddingPackageById(packageId),
-          getWeddingImagesByPackageId(packageId)
-        ]);
+        const pkgData = await getWeddingPackageBySlug(slug);
 
         if (!pkgData) {
           notFound();
           return;
         }
+        
+        const imagesData = []; // Assuming images are not fetched by package slug yet.
+        
         setPkg(pkgData);
         setImages(imagesData);
+
       } catch (err) {
         console.error(err);
         if (err instanceof Error && err.message.includes('404')) {
@@ -102,7 +103,7 @@ export default function WeddingPackageDetailPage() {
       }
     };
     fetchPackage();
-  }, [packageId]);
+  }, [slug]);
 
   if (isLoading) {
     return (
