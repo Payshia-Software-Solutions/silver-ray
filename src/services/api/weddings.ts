@@ -12,7 +12,9 @@ export async function getWeddingPackages(): Promise<WeddingPackageFromApi[]> {
             'Content-Type': 'application/json',
         },
     });
-    const packages = await handleApiResponse<WeddingPackageFromApi[]>(response);
+    const data = await handleApiResponse<WeddingPackageFromApi[] | WeddingPackageFromApi>(response);
+    const packages = Array.isArray(data) ? data : [data];
+    
     return packages.map(pkg => ({
         ...pkg,
         weddinng_image: cleanImageUrl(pkg.weddinng_image),
