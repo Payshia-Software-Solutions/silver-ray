@@ -18,7 +18,7 @@ export interface VenueCardProps {
 }
 
 export function VenueCard({ venue }: VenueCardProps) {
-  const { id, venue_name, status, short_description } = venue;
+  const { id, venue_name, status, short_description, slug } = venue;
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [imageHint, setImageHint] = useState<string>('restaurant interior');
   const [isLoading, setIsLoading] = useState(true);
@@ -55,7 +55,7 @@ export function VenueCard({ venue }: VenueCardProps) {
     fetchImage();
   }, [id]);
 
-  const viewMoreLink = `/dining/menu/${id}`;
+  const viewMoreLink = `/dining/menu/${slug}`;
 
   const getStatusBadgeVariant = (status: string) => {
     switch (status.toLowerCase()) {

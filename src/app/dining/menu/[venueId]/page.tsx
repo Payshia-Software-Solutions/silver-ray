@@ -3,7 +3,7 @@
 
 import { useState, useEffect } from 'react';
 import { notFound, useParams } from 'next/navigation';
-import { getRestaurantById, getRestaurantImagesByVenueId } from '@/services/api/dining';
+import { getRestaurantBySlug, getRestaurantImagesByVenueId } from '@/services/api/dining';
 import type { RestaurantFromApi, RestaurantImage } from '@/types';
 import { VenueDetailClient } from '@/components/dining/menu/VenueDetailClient';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -11,7 +11,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 
 export default function RestaurantMenuPage() {
   const params = useParams();
-  const venueId = params.venueId as string;
+  const slug = params.slug as string;
 
   const [venue, setVenue] = useState<RestaurantFromApi | null>(null);
   const [images, setImages] = useState<RestaurantImage[]>([]);
@@ -19,22 +19,21 @@ export default function RestaurantMenuPage() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!venueId) return;
+    if (!slug) return;
 
     const fetchVenueData = async () => {
       try {
         setIsLoading(true);
         setError(null);
         
-        const [venueData, venueImages] = await Promise.all([
-          getRestaurantById(venueId),
-          getRestaurantImagesByVenueId(venueId)
-        ]);
+        const venueData = await getRestaurantBySlug(slug);
 
         if (!venueData) {
           notFound();
           return;
         }
+        
+        const venueImages = await getRestaurantImagesByVenueId(String(venueData.id));
 
         setVenue(venueData);
         setImages(venueImages);
@@ -52,7 +51,7 @@ export default function RestaurantMenuPage() {
     };
 
     fetchVenueData();
-  }, [venueId]);
+  }, [slug]);
 
   if (isLoading) {
     return (
