@@ -5,15 +5,13 @@ import { handleApiResponse, cleanImageUrl } from '@/lib/apiClient';
 
 export async function getRestaurants(): Promise<RestaurantFromApi[]> {
   try {
-    const serverRoot = API_BASE_URL.split('/company/')[0];
-    const response = await fetch(`${serverRoot}/restaurant`, {
+    const response = await fetch(`${API_BASE_URL}/restaurant`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
         },
     });
     
-    // The API response is an object with a 'data' property containing the array of restaurants
     const responsePayload = await handleApiResponse<{ success: boolean, data: RestaurantFromApi[] }>(response);
 
     if (!responsePayload || !responsePayload.data) {
