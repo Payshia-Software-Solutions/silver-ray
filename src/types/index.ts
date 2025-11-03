@@ -156,7 +156,7 @@ export interface GalleryApiImage {
 export interface ExperienceDetailItem {
   icon: LucideIcon;
   label: string;
-  value: string;
+  value: React.ReactNode;
 }
 export interface ExperienceDetail {
   id: string; // Should match an ID from featuredExperiences
@@ -188,6 +188,7 @@ export interface PackageInclusion {
 
 export interface WeddingPackageFromApi {
     id: number;
+    slug?: string;
     package_name: string;
     hall_id: string;
     company_id: string;
@@ -298,6 +299,7 @@ export interface FeaturedExperience {
 
 export interface RestaurantFromApi {
     id: number;
+    slug?: string;
     venue_name: string;
     short_description: string;
     detailed_description: string;
