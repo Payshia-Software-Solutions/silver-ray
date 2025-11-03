@@ -342,12 +342,12 @@ export interface EventFromApi {
     event_date: string;
     start_time: string;
     end_time: string;
-    venue_name: string;
-    number_of_guests: number;
-    status: string;
-    contact_person_name: string;
-    short_description: string;
-    detailed_description?: string;
+    hall_id: string;
+    guest_count: string;
+    booking_status: string;
+    created_by: string;
+    short_description?: string; // Optional since it's not in the provided JSON
+    detailed_description?: string; // Optional
 }
 
 
