@@ -17,7 +17,7 @@ export interface EventCardProps {
 }
 
 export function EventCard({ event }: EventCardProps) {
-  const { id, event_name, event_date, event_type } = event;
+  const { id, event_name, event_date, event_type, slug } = event;
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [imageHint, setImageHint] = useState<string>('event image');
   const [isLoading, setIsLoading] = useState(true);
@@ -31,7 +31,7 @@ export function EventCard({ event }: EventCardProps) {
       }
       try {
         setIsLoading(true);
-        const images: EventImage[] = await getEventImagesByEventId(id);
+        const images: EventImage[] = await getEventImagesByEventId(String(id));
         const primaryImage = images.find(img => String(img.is_primary) === "1") || images[0];
         
         if (primaryImage && primaryImage.image_url) {
@@ -55,6 +55,7 @@ export function EventCard({ event }: EventCardProps) {
   }, [id]);
   
   const formattedDate = new Date(event_date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+  const detailUrl = slug ? `/events/${slug}` : `/events/${id}`;
 
   return (
     <Card className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col h-full rounded-xl bg-card border-none">
@@ -85,7 +86,7 @@ export function EventCard({ event }: EventCardProps) {
             </div>
         </div>
         <Button asChild className="w-full mt-auto bg-primary text-primary-foreground hover:bg-primary/90 rounded-full h-11">
-          <Link href={`/events/${id}`}>View Details</Link>
+          <Link href={detailUrl}>View Details</Link>
         </Button>
       </CardContent>
     </Card>
