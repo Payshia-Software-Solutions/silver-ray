@@ -55,6 +55,9 @@ export function WeddingPackageCard({ packageItem }: WeddingPackageCardProps) {
     fetchImage();
   }, [id]);
 
+  // Use the slug for the link if it exists, otherwise fallback to id
+  const detailUrl = slug ? `/weddings/packages/${slug}` : `/weddings/packages/${id}`;
+
   return (
     <Card className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col h-full rounded-xl bg-card border-border">
       <CardHeader className="p-0 relative aspect-square">
@@ -88,7 +91,7 @@ export function WeddingPackageCard({ packageItem }: WeddingPackageCardProps) {
             </p>
         </div>
         <Button asChild className="w-full mt-auto bg-primary text-primary-foreground hover:bg-primary/90 rounded-full text-sm py-2 h-auto">
-          <Link href={`/weddings/packages/${slug}`}>View Full Details</Link>
+          <Link href={detailUrl}>View Full Details</Link>
         </Button>
       </CardContent>
     </Card>

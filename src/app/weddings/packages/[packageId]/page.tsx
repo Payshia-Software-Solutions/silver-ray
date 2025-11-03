@@ -23,7 +23,7 @@ import { IMAGE_BASE_URL } from '@/lib/config';
 import { Skeleton } from '@/components/ui/skeleton';
 
 
-const mapInclusions = (inclusions: PackageInclusion[] | null) => {
+const mapInclusions = (inclusions: PackageInclusion[] | null | undefined): { icon: LucideIcon; text: string }[] => {
     if (!inclusions || !Array.isArray(inclusions)) return [];
     return inclusions.map(inc => ({
         icon: CheckCircle, // Default icon
