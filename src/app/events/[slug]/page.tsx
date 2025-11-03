@@ -5,7 +5,7 @@
 import { useState, useEffect } from 'react';
 import NextImage from 'next/image';
 import { notFound, useParams } from 'next/navigation';
-import { getEventById, getEventImagesByEventId } from '@/services/api/events';
+import { getEventBySlug, getEventImagesByEventId } from '@/services/api/events';
 import type { EventFromApi, EventImage, BreadcrumbItem } from '@/types';
 import { IMAGE_BASE_URL } from '@/lib/config';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -89,19 +89,19 @@ function EventContentLayout({ event }: { event: EventDetail }) {
 
 export default function EventDetailPage() {
   const params = useParams();
-  const eventId = params.slug as string; // 'slug' is now the event ID from the folder name
+  const slug = params.slug as string;
 
   const [event, setEvent] = useState<EventDetail | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!eventId) return;
+    if (!slug) return;
 
     const fetchEventData = async () => {
       try {
         setIsLoading(true);
-        const apiEvent = await getEventById(eventId);
+        const apiEvent = await getEventBySlug(slug);
 
         if (!apiEvent) {
           notFound();
@@ -154,7 +154,7 @@ export default function EventDetailPage() {
       }
     };
     fetchEventData();
-  }, [eventId]);
+  }, [slug]);
 
   if (isLoading) {
     return (
@@ -216,3 +216,5 @@ export default function EventDetailPage() {
     </div>
   );
 }
+
+    

@@ -336,7 +336,7 @@ export interface RestaurantImage {
 
 export interface EventFromApi {
     id: string;
-    slug?: string;
+    slug: string;
     event_name: string;
     event_type: string;
     event_date: string;
@@ -346,8 +346,8 @@ export interface EventFromApi {
     guest_count: string;
     booking_status: string;
     created_by: string;
-    short_description?: string; // Optional since it's not in the provided JSON
-    detailed_description?: string; // Optional
+    short_description?: string;
+    detailed_description?: string;
 }
 
 
@@ -367,3 +367,5 @@ export interface EventImage {
     updated_at: string;
     is_active: number;
 }
+
+    
