@@ -55,7 +55,7 @@ export function EventCard({ event }: EventCardProps) {
   }, [id]);
   
   const formattedDate = new Date(event_date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
-  const detailUrl = slug ? `/events/${slug}` : `/events/${id}`;
+  const detailUrl = `/events/${id}`;
 
   return (
     <Card className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col h-full rounded-xl bg-card border-none">
