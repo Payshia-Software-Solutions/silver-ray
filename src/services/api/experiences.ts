@@ -53,6 +53,34 @@ export async function getExperienceById(id: string): Promise<ExperienceFromApi> 
     }
 }
 
+export async function getExperienceBySlug(slug: string): Promise<ExperienceFromApi | null> {
+  try {
+    const response = await fetch(`${API_BASE_URL}/experiences/${slug}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    if (response.status === 404) {
+      return null;
+    }
+    const exp = await handleApiResponse<ExperienceFromApi>(response);
+    const singleExperience = Array.isArray(exp) ? exp[0] : exp;
+    
+    if (!singleExperience) {
+        return null;
+    }
+    
+    return {
+        ...singleExperience,
+        experience_image: cleanImageUrl(singleExperience.experience_image),
+    };
+  } catch (error) {
+    console.error(`Failed to fetch experience with slug ${slug}:`, error);
+    throw error;
+  }
+}
+
 
 export async function getExperienceImages(): Promise<ExperienceImage[]> {
   try {
