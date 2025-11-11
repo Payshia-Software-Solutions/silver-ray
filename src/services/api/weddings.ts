@@ -1,4 +1,5 @@
 
+
 import type { WeddingPackageFromApi, WeddingImage } from '@/types';
 import { API_BASE_URL, IMAGE_BASE_URL } from '@/lib/config';
 import { handleApiResponse, cleanImageUrl } from '@/lib/apiClient';
@@ -12,7 +13,9 @@ export async function getWeddingPackages(): Promise<WeddingPackageFromApi[]> {
             'Content-Type': 'application/json',
         },
     });
-    const packages = await handleApiResponse<WeddingPackageFromApi[]>(response);
+    const data = await handleApiResponse<WeddingPackageFromApi[] | WeddingPackageFromApi>(response);
+    const packages = Array.isArray(data) ? data : [data];
+    
     return packages.map(pkg => ({
         ...pkg,
         weddinng_image: cleanImageUrl(pkg.weddinng_image),
@@ -24,9 +27,9 @@ export async function getWeddingPackages(): Promise<WeddingPackageFromApi[]> {
   }
 }
 
-export async function getWeddingPackageById(id: string): Promise<WeddingPackageFromApi | null> {
+export async function getWeddingPackageBySlug(slug: string): Promise<WeddingPackageFromApi | null> {
   try {
-    const response = await fetch(`${API_BASE_URL}/weddingpackages/${id}`, {
+    const response = await fetch(`${API_BASE_URL}/weddingpackages/${slug}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -42,7 +45,7 @@ export async function getWeddingPackageById(id: string): Promise<WeddingPackageF
         weddinng_image: cleanImageUrl(singlePackage.weddinng_image),
     };
   } catch (error) {
-    console.error(`Failed to fetch wedding package with id ${id}:`, error);
+    console.error(`Failed to fetch wedding package with slug ${slug}:`, error);
     throw error;
   }
 }

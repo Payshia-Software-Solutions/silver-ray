@@ -40,6 +40,26 @@ export async function getEventById(id: string): Promise<EventFromApi | null> {
     }
 }
 
+export async function getEventBySlug(slug: string): Promise<EventFromApi | null> {
+    try {
+        const response = await fetch(`${API_BASE_URL}/events/${slug}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+        if (response.status === 404) {
+            return null;
+        }
+        const eventData = await handleApiResponse<EventFromApi | EventFromApi[]>(response);
+        // The API might return an array with one item for a single ID
+        return Array.isArray(eventData) ? eventData[0] : eventData;
+    } catch (error) {
+        console.error(`Failed to fetch event with slug ${slug}:`, error);
+        throw error;
+    }
+}
+
 
 export async function getEventImages(): Promise<EventImage[]> {
   try {
@@ -85,5 +105,4 @@ export async function getEventImagesByEventId(eventId: string): Promise<EventIma
   }
 }
 
-
-
+    

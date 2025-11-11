@@ -32,6 +32,7 @@ import { getExperiences, getExperienceImagesByExperienceId } from '@/services/ap
 import type { ExperienceFromApi, ExperienceImage, FeaturedExperience } from '@/types';
 import { IMAGE_BASE_URL } from '@/lib/config';
 import { Skeleton } from '@/components/ui/skeleton';
+import { AnimatedInView } from '@/components/shared/AnimatedInView';
 
 
 interface ExperienceCategory {
@@ -76,10 +77,10 @@ const curateRecommendations: CurateRecommendation[] = [
 const nearbyAttractions: NearbyAttraction[] = [
   { id: 'crystal-falls', imageUrl: 'https://images.unsplash.com/photo-1519582149095-fe7d19b2a3d2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHx3YXRlcmZhbGwlMjBuYXR1cmV8ZW58MHx8fHwxNzQ5MTQ1NDMxfDA&ixlib=rb-4.1.0&q=80&w=1080', imageHint: 'waterfall nature', title: 'Crystal Falls', distance: '2.1 km from hotel', icon: Waves },
   { id: 'emerald-forest', imageUrl: 'https://images.unsplash.com/photo-1640354065652-64832d9ba672?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxmb3Jlc3QlMjByZXNlcnZlJTIwdHJhaWx8ZW58MHx8fHwxNzQ5MTQ1NDMxfDA&ixlib.rb-4.1.0&q=80&w=1080', imageHint: 'forest reserve trail', title: 'Emerald Forest Reserve', distance: '4.3 km from hotel', icon: Leaf },
-  { id: 'heritage-museum', imageUrl: 'https://images.unsplash.com/photo-1743881188980-4de44e2bba56?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxtdXNldW0lMjBoaXN0b3JpY2FsJTIwYnVpbGRpbmd8ZW58MHx8fHwxNzQ5MTQ1NDMxfDA&ixlib.rb-4.1.0&q=80&w=1080', imageHint: 'museum historical building', title: 'Heritage Museum', distance: '1.8 km from hotel', icon: Palette },
+  { id: 'heritage-museum', imageUrl: 'https://images.unsplash.com/photo-1743881188980-4de44e2bba56?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxtdXNldW0lMjBoaXN0b3JpY2FsJTIwYnVpbGRpbmd8ZW58MHx8fHwxNzQ5MTQ1NDMxfDA&ixlib-rb-4.1.0&q=80&w=1080', imageHint: 'museum historical building', title: 'Heritage Museum', distance: '1.8 km from hotel', icon: Palette },
   { id: 'sunrise-peak', imageUrl: 'https://images.unsplash.com/photo-1466854076813-4aa9ac0fc347?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxtb3VudGFpbiUyMHBlYWslMjBzdW5yaXNlfGVufDB8fHx8MTc0OTE0NTQzMXww&ixlib.rb-4.1.0&q=80&w=1080', imageHint: 'mountain peak sunrise', title: 'Sunrise Peak', distance: '6.7 km from hotel', icon: MountainSnow },
   { id: 'local-market', imageUrl: 'https://images.unsplash.com/photo-1533264533981-8aead62802fd?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxsb2NhbCUyMG1hcmtldCUyMHN0YWxsc3xlbnwwfHx8fDE3NDkxNDU0MzF8MA&ixlib.rb-4.1.0&q=80&w=1080', imageHint: 'local market stalls', title: 'Local Market', distance: '0.9 km from hotel', icon: Utensils },
-  { id: 'ancient-temple', imageUrl: 'https://images.unsplash.com/photo-1730758070932-0ad2926af54c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxhbmNpZW50JTIwdGVtcGxlJTIwcnVpbnN8ZW58MHx8fHwxNzQ5MTQ1NDMxfDA&ixlib.rb-4.1.0&q=80&w=1080', imageHint: 'ancient temple ruins', title: 'Ancient Temple', distance: '3.0 km from hotel', icon: Landmark },
+  { id: 'ancient-temple', imageUrl: 'https://images.unsplash.com/photo-1730758070932-0ad2926af54c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxhbmNpZW50JTIwdGVtcGxlJTIwcnVpbnN8ZW58MHx8fHwxNzQ5MTQ1NDMxfDA&ixlib-rb-4.1.0&q=80&w=1080', imageHint: 'ancient temple ruins', title: 'Ancient Temple', distance: '3.0 km from hotel', icon: Landmark },
 ];
 
 const FeaturedExperienceCard = ({ exp }: { exp: ExperienceFromApi }) => {
@@ -152,7 +153,7 @@ const FeaturedExperienceCard = ({ exp }: { exp: ExperienceFromApi }) => {
                     <div className="flex items-center col-span-2"><CalendarCheck className="w-3.5 h-3.5 mr-1.5 text-primary" /> {exp.advance_booking_required ? 'Advance Booking Required' : 'Walk-ins Welcome'}</div>
                 </div>
                 <Button asChild className="w-full mt-auto bg-primary text-primary-foreground hover:bg-primary/90 rounded-full h-11">
-                    <Link href={`/experiences/book/${exp.id}`}>Book This Experience</Link>
+                    <Link href={`/experiences/book/${exp.slug}`}>Book This Experience</Link>
                 </Button>
             </CardContent>
         </Card>
@@ -242,11 +243,11 @@ function ExperiencesPage() {
                   onMouseLeave={plugin.current.reset}
                 >
                   <CarouselContent className="-ml-4">
-                    {experienceCategories.map((category) => (
+                    {experienceCategories.map((category, index) => (
                       <CarouselItem key={category.id} className="pl-4 md:basis-1/3 lg:basis-1/4">
-                         <div className="p-1 h-full">
+                         <AnimatedInView delay={index * 0.1} className="p-1 h-full">
                             <ExperienceCategoryCard category={category} />
-                        </div>
+                        </AnimatedInView>
                       </CarouselItem>
                     ))}
                   </CarouselContent>
@@ -277,8 +278,10 @@ function ExperiencesPage() {
             {error && <p className="text-center font-body text-lg text-destructive">{error}</p>}
             {!isLoading && !error && (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                  {allExperiences.slice(0, visibleCount).map((exp) => ( 
-                    <FeaturedExperienceCard key={exp.id} exp={exp} />
+                  {allExperiences.slice(0, visibleCount).map((exp, index) => ( 
+                    <AnimatedInView key={exp.id} delay={index * 0.1}>
+                      <FeaturedExperienceCard exp={exp} />
+                    </AnimatedInView>
                   ))}
                 </div>
             )}
@@ -312,21 +315,23 @@ function ExperiencesPage() {
             ))}
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-            {curateRecommendations.map((rec) => (
-              <Card key={rec.id} className="bg-secondary/30 border-border shadow-md rounded-xl">
-                <CardContent className="p-6 flex items-start space-x-4">
-                  <div className="p-3 bg-primary/20 rounded-lg">
-                     <rec.icon className="w-7 h-7 text-primary" />
-                  </div>
-                  <div>
-                    <h3 className="font-headline text-lg font-semibold mb-1">{rec.title}</h3>
-                    <p className="font-body text-sm text-muted-foreground mb-3">{rec.description}</p>
-                    <Button asChild variant="link" className="p-0 h-auto text-primary">
-                      <Link href={rec.link}>{rec.linkText}</Link>
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
+            {curateRecommendations.map((rec, index) => (
+              <AnimatedInView key={rec.id} delay={index * 0.1}>
+                <Card className="bg-secondary/30 border-border shadow-md rounded-xl h-full">
+                  <CardContent className="p-6 flex items-start space-x-4">
+                    <div className="p-3 bg-primary/20 rounded-lg">
+                       <rec.icon className="w-7 h-7 text-primary" />
+                    </div>
+                    <div>
+                      <h3 className="font-headline text-lg font-semibold mb-1">{rec.title}</h3>
+                      <p className="font-body text-sm text-muted-foreground mb-3">{rec.description}</p>
+                      <Button asChild variant="link" className="p-0 h-auto text-primary">
+                        <Link href={rec.link}>{rec.linkText}</Link>
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+              </AnimatedInView>
             ))}
           </div>
         </div>
@@ -354,8 +359,8 @@ function ExperiencesPage() {
           </div>
            {/* Desktop Card View */}
             <div className="hidden md:grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6 gap-x-6 gap-y-10 items-start">
-            {nearbyAttractions.map((attraction) => (
-              <div key={attraction.id} className="flex flex-col items-center text-center group">
+            {nearbyAttractions.map((attraction, index) => (
+              <AnimatedInView key={attraction.id} delay={index * 0.05} className="flex flex-col items-center text-center group h-full">
                 {attraction.icon && <attraction.icon className="w-8 h-8 text-primary mb-2 transition-colors group-hover:text-primary/80" />}
                 <h3 className="font-headline text-lg font-semibold text-foreground mb-0.5 transition-colors group-hover:text-primary">
                   {attraction.title}
@@ -375,7 +380,7 @@ function ExperiencesPage() {
                     />
                   </div>
                 </Link>
-              </div>
+              </AnimatedInView>
             ))}
           </div>
         </div>
@@ -386,11 +391,3 @@ function ExperiencesPage() {
 
 // You must export default from a page file
 export default ExperiencesPage;
-
-    
-
-    
-
-    
-
-    

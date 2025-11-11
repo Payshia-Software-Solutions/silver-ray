@@ -11,6 +11,7 @@ import React, { useState, useEffect } from 'react';
 import type { Room, RoomImage, RoomFromApi } from '@/types';
 import { getRooms } from '@/services/api/rooms';
 import { IMAGE_BASE_URL } from '@/lib/config';
+import { AnimatedInView } from '../shared/AnimatedInView';
 
 export function FeaturedRoomsSection() {
   const [featuredRooms, setFeaturedRooms] = useState<Room[]>([]);
@@ -104,8 +105,10 @@ export function FeaturedRoomsSection() {
 
         {/* Desktop Grid */}
         <div className="hidden md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
-          {featuredRooms.map((room) => (
-            <RoomCard key={room.id} room={room} />
+          {featuredRooms.map((room, index) => (
+            <AnimatedInView key={room.id} delay={index * 0.1}>
+              <RoomCard room={room} />
+            </AnimatedInView>
           ))}
         </div>
       </>

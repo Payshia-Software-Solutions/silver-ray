@@ -10,6 +10,7 @@ import type { EventFromApi, EventImage } from '@/types';
 import { EventCard, type EventCardProps } from '@/components/events/EventCard';
 import { IMAGE_BASE_URL } from '@/lib/config';
 import { EventsPageHero } from '@/components/events/EventsPageHero';
+import { AnimatedInView } from '@/components/shared/AnimatedInView';
 
 
 export default function EventsPage() {
@@ -56,8 +57,10 @@ export default function EventsPage() {
             return <p className="col-span-full text-center text-muted-foreground">No upcoming events found.</p>
         }
 
-        return events.map((event) => (
-            <EventCard key={event.id} event={event} />
+        return events.map((event, index) => (
+            <AnimatedInView key={event.id} delay={index * 0.1}>
+                <EventCard event={event} />
+            </AnimatedInView>
         ));
     };
 
@@ -90,4 +93,3 @@ export default function EventsPage() {
         </>
     );
 }
-

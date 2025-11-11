@@ -5,15 +5,13 @@ import { handleApiResponse, cleanImageUrl } from '@/lib/apiClient';
 
 export async function getRestaurants(): Promise<RestaurantFromApi[]> {
   try {
-    const serverRoot = API_BASE_URL.split('/company/')[0];
-    const response = await fetch(`${serverRoot}/restaurant`, {
+    const response = await fetch(`${API_BASE_URL}/restaurant`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
         },
     });
     
-    // The API response is an object with a 'data' property containing the array of restaurants
     const responsePayload = await handleApiResponse<{ success: boolean, data: RestaurantFromApi[] }>(response);
 
     if (!responsePayload || !responsePayload.data) {
@@ -33,14 +31,17 @@ export async function getRestaurants(): Promise<RestaurantFromApi[]> {
   }
 }
 
-export async function getRestaurantById(id: string): Promise<RestaurantFromApi> {
+export async function getRestaurantBySlug(slug: string): Promise<RestaurantFromApi | null> {
   try {
-    const response = await fetch(`${API_BASE_URL}/restaurant/${id}`, {
+    const response = await fetch(`${API_BASE_URL}/restaurant/${slug}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
       },
     });
+    if (response.status === 404) {
+      return null;
+    }
     const venue = await handleApiResponse<RestaurantFromApi>(response);
     const singleVenue = Array.isArray(venue) ? venue[0] : venue;
      return {
@@ -48,7 +49,7 @@ export async function getRestaurantById(id: string): Promise<RestaurantFromApi> 
         'restaurant _image': cleanImageUrl(singleVenue['restaurant _image']),
     };
   } catch (error) {
-    console.error(`Failed to fetch restaurant with id ${id}:`, error);
+    console.error(`Failed to fetch restaurant with slug ${slug}:`, error);
     throw error;
   }
 }

@@ -7,7 +7,7 @@ import NextImage from 'next/image';
 import Link from 'next/link';
 import { notFound, useParams } from 'next/navigation';
 
-import { getExperienceById, getExperienceImages } from '@/services/api/experiences';
+import { getExperienceBySlug, getExperienceImagesByExperienceId } from '@/services/api/experiences';
 import type { ExperienceDetail, ExperienceFromApi, BreadcrumbItem, ExperienceImage } from '@/types';
 
 import { Breadcrumbs } from '@/components/shared/Breadcrumbs';
@@ -130,27 +130,27 @@ function ExperienceContentLayout({ experience }: { experience: ExperienceDetail 
 
 export default function ExperienceBookingPage() {
   const params = useParams();
-  const experienceId = params.experienceId as string;
+  const slug = params.slug as string;
 
   const [experience, setExperience] = useState<ExperienceDetail | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!experienceId) return;
+    if (!slug) return;
 
     const fetchExperience = async () => {
         try {
             setIsLoading(true);
-            const [apiExperience, allImages] = await Promise.all([
-                getExperienceById(experienceId),
-                getExperienceImages()
-            ]);
-
+            const apiExperience = await getExperienceBySlug(slug);
+            
             if (!apiExperience) {
                 notFound();
                 return;
             }
+
+            const allImages = await getExperienceImagesByExperienceId(String(apiExperience.id));
+
             const mappedExperience = mapApiToExperienceDetail(apiExperience, allImages);
             setExperience(mappedExperience);
         } catch (err) {
@@ -165,7 +165,7 @@ export default function ExperienceBookingPage() {
         }
     };
     fetchExperience();
-  }, [experienceId]);
+  }, [slug]);
 
 
   if (isLoading) {
@@ -196,7 +196,7 @@ export default function ExperienceBookingPage() {
   const breadcrumbItems: BreadcrumbItem[] = [
     { label: 'Home', href: '/' },
     { label: 'Experiences', href: '/experiences' },
-    { label: experience.overviewTitle.replace(' - Overview', ''), href: `/experiences/book/${experience.id}` },
+    { label: experience.overviewTitle.replace(' - Overview', ''), href: `/experiences/book/${slug}` },
     { label: 'Book Now' },
   ];
 

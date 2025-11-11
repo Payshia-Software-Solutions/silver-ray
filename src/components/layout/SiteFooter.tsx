@@ -158,9 +158,15 @@ const DesktopFooter = () => (
                 </p>
             </div>
         </div>
-         <div className="border-t border-slate-700 pt-8 text-center">
-            <p className="text-sm">
+         <div className="border-t border-slate-700 pt-8 text-center text-sm">
+            <p className="mb-2">
                 &copy; {new Date().getFullYear()} Grand Silver Ray. All Rights Reserved.
+            </p>
+            <p>
+                <span className="text-slate-400">Powered by </span>
+                <a href="https://payshia.com" target="_blank" rel="noopener noreferrer" className="font-semibold text-slate-300 hover:text-primary hover:underline">
+                Payshia Software Solutions
+                </a>
             </p>
         </div>
     </div>
@@ -244,9 +250,15 @@ const MobileFooter = () => (
           Subscribe
         </Button>
       </form>
-      <p className="text-xs text-slate-500">
-        &copy; {new Date().getFullYear()} Grand Silver Ray. All rights reserved.
-      </p>
+        <div className="text-xs text-slate-500 space-y-2">
+            <p>&copy; {new Date().getFullYear()} Grand Silver Ray. All rights reserved.</p>
+            <p>
+                <span className="text-slate-500">Powered by </span>
+                <a href="https://payshia.com" target="_blank" rel="noopener noreferrer" className="font-semibold text-slate-400 hover:underline hover:text-primary">
+                Payshia Software Solutions
+                </a>
+            </p>
+        </div>
     </div>
     </div>
 );

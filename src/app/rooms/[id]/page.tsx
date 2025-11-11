@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -39,11 +38,6 @@ import { IMAGE_BASE_URL } from '@/lib/config';
 import { Skeleton } from '@/components/ui/skeleton';
 import { cn } from '@/lib/utils';
 
-
-type Props = {
-  params: { id: string };
-};
-
 // Helper to map API data to our Room type
 const mapRoomData = (apiRoom: RoomFromApi, roomImages: RoomImage[]): Room => {
   const imagesForThisRoom = roomImages.filter(img => String(img.room_id) === String(apiRoom.id));
@@ -55,21 +49,24 @@ const mapRoomData = (apiRoom: RoomFromApi, roomImages: RoomImage[]): Room => {
     return `${IMAGE_BASE_URL}${cleanedPath}`;
   };
 
-  const finalImageUrl = primaryImage ? constructImageUrl(primaryImage.image_url) : '';
+  const finalImageUrl = primaryImage ? constructImageUrl(primaryImage.image_url) : (apiRoom.room_images ? constructImageUrl(apiRoom.room_images) : '');
 
+  // Handle amenities, checking if it's an array of objects
   const amenities = Array.isArray(apiRoom.amenities) 
     ? apiRoom.amenities.map(a => a.amenity_name)
-    : [];
+    : (typeof apiRoom.amenities_id === 'string' ? apiRoom.amenities_id.split(',').map(a => a.trim()) : []);
+
 
   const roomWidth = parseFloat(apiRoom.room_width);
   const roomHeight = parseFloat(apiRoom.room_height);
-  const size = !isNaN(roomWidth) && !isNaN(roomHeight) ? (roomWidth * roomHeight / 10.764).toFixed(0) : 'N/A';
+  const size = !isNaN(roomWidth) && !isNaN(roomHeight) && roomWidth > 0 && roomHeight > 0 ? (roomWidth * roomHeight / 10.764).toFixed(0) : 'N/A';
 
 
   return {
     ...apiRoom,
     id: String(apiRoom.id),
     name: apiRoom.descriptive_title,
+    slug: apiRoom.slug,
     description: apiRoom.short_description,
     longDescription: apiRoom.short_description, 
     pricePerNight: parseFloat(apiRoom.price_per_night),
@@ -79,7 +76,7 @@ const mapRoomData = (apiRoom: RoomFromApi, roomImages: RoomImage[]): Room => {
     capacity: Number(apiRoom.adults_capacity),
     beds: '1 King Bed',
     size: `${size} sqft`,
-    category: 'Suite', 
+    category: apiRoom.room_type?.type_name as any || 'Standard',
     rating: 4.8, 
   };
 };
@@ -108,6 +105,11 @@ export default function RoomDetailPage() {
   
   useEffect(() => {
     const fetchRoomData = async () => {
+      if (!id) {
+          setIsLoading(false);
+          setError("Room ID not provided.");
+          return;
+      }
       try {
         setIsLoading(true);
         setError(null);
@@ -118,7 +120,7 @@ export default function RoomDetailPage() {
           return;
         }
 
-        const roomImages = await getRoomImagesByRoomId(id);
+        const roomImages = await getRoomImagesByRoomId(String(apiRoom.id));
         const mappedRoom = mapRoomData(apiRoom, roomImages);
         setRoom(mappedRoom);
         
@@ -129,7 +131,7 @@ export default function RoomDetailPage() {
 
       } catch (err: any) {
         console.error(err);
-        if (err.message && err.message.includes("404")) {
+        if (err.message.includes('404')) {
           notFound();
         } else {
           setError("Failed to load room details. Please try again later.");
@@ -139,9 +141,7 @@ export default function RoomDetailPage() {
       }
     };
 
-    if (id) {
-      fetchRoomData();
-    }
+    fetchRoomData();
   }, [id]);
 
 
@@ -173,7 +173,7 @@ export default function RoomDetailPage() {
   }
   
   if (!room) {
-    return null; // Or a 'not found' component
+    return notFound();
   }
   
   const imagesToShow = room.images && room.images.length > 0 
@@ -212,7 +212,7 @@ export default function RoomDetailPage() {
                           <NextImage
                               src={mainImage}
                               alt={`${room.name} Main Image`}
-                              data-ai-hint={`${room.category.toLowerCase()} room interior detail`}
+                              data-ai-hint={`${room.category?.toLowerCase()} room interior detail`}
                               fill
                               className="object-cover"
                               priority
@@ -238,7 +238,7 @@ export default function RoomDetailPage() {
                                   <NextImage
                                       src={img}
                                       alt={`${room.name} - Thumbnail ${index + 1}`}
-                                      data-ai-hint={`${room.category.toLowerCase()} room interior thumbnail`}
+                                      data-ai-hint={`${room.category?.toLowerCase()} room interior thumbnail`}
                                       fill
                                       className="object-cover"
                                       unoptimized

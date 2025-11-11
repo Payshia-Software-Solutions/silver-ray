@@ -1,10 +1,11 @@
 
+
 'use client';
 
 import { useState, useEffect } from 'react';
 import NextImage from 'next/image';
 import { notFound, useParams } from 'next/navigation';
-import { getEventById, getEventImagesByEventId } from '@/services/api/events';
+import { getEventBySlug, getEventImagesByEventId } from '@/services/api/events';
 import type { EventFromApi, EventImage, BreadcrumbItem } from '@/types';
 import { IMAGE_BASE_URL } from '@/lib/config';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -88,27 +89,26 @@ function EventContentLayout({ event }: { event: EventDetail }) {
 
 export default function EventDetailPage() {
   const params = useParams();
-  const eventId = params.eventId as string;
+  const slug = params.slug as string;
 
   const [event, setEvent] = useState<EventDetail | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!eventId) return;
+    if (!slug) return;
 
     const fetchEventData = async () => {
       try {
         setIsLoading(true);
-        const [apiEvent, allImages] = await Promise.all([
-          getEventById(eventId),
-          getEventImagesByEventId(eventId)
-        ]);
+        const apiEvent = await getEventBySlug(slug);
 
         if (!apiEvent) {
           notFound();
           return;
         }
+
+        const allImages = await getEventImagesByEventId(String(apiEvent.id));
 
         const galleryImages = allImages
           .filter(img => String(img.is_primary) !== '1') // Exclude primary image from gallery
@@ -131,12 +131,12 @@ export default function EventDetailPage() {
             details: [
                 { icon: Calendar, label: 'Date', value: new Date(apiEvent.event_date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) },
                 { icon: Clock, label: 'Time', value: `${apiEvent.start_time} - ${apiEvent.end_time}` },
-                { icon: MapPin, label: 'Venue', value: apiEvent.venue_name },
+                { icon: MapPin, label: 'Venue ID', value: apiEvent.hall_id },
                 { icon: Tag, label: 'Event Type', value: <Badge variant="outline" className="text-sm">{apiEvent.event_type}</Badge> },
-                { icon: Users, label: 'Guests', value: `${apiEvent.number_of_guests} Attendees` },
-                { icon: Ticket, label: 'Tickets', value: apiEvent.status === 'Active' ? 'Available' : 'Unavailable' },
-                { icon: Info, label: 'Status', value: <Badge className={apiEvent.status === 'Active' ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'}>{apiEvent.status}</Badge> },
-                { icon: Edit, label: 'Contact', value: apiEvent.contact_person_name },
+                { icon: Users, label: 'Guests', value: `${apiEvent.guest_count} Attendees` },
+                { icon: Ticket, label: 'Tickets', value: apiEvent.booking_status === 'Confirmed' ? 'Available' : 'Unavailable' },
+                { icon: Info, label: 'Status', value: <Badge className={apiEvent.booking_status === 'Confirmed' ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'}>{apiEvent.booking_status}</Badge> },
+                { icon: Edit, label: 'Contact', value: apiEvent.created_by },
             ]
         };
 
@@ -154,7 +154,7 @@ export default function EventDetailPage() {
       }
     };
     fetchEventData();
-  }, [eventId]);
+  }, [slug]);
 
   if (isLoading) {
     return (
@@ -217,3 +217,4 @@ export default function EventDetailPage() {
   );
 }
 
+    

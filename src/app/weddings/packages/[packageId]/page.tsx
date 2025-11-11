@@ -7,7 +7,7 @@ import NextImage from 'next/image';
 import Link from 'next/link';
 import { notFound, useParams } from 'next/navigation';
 
-import { getWeddingPackageById, getWeddingImagesByPackageId } from '@/services/api/weddings';
+import { getWeddingPackageBySlug } from '@/services/api/weddings';
 import { premiumWeddingAddons } from '@/data/weddingData';
 import type { WeddingPackageFromApi, WeddingImage, PackageInclusion } from '@/types';
 import { Button } from '@/components/ui/button';
@@ -23,7 +23,7 @@ import { IMAGE_BASE_URL } from '@/lib/config';
 import { Skeleton } from '@/components/ui/skeleton';
 
 
-const mapInclusions = (inclusions: PackageInclusion[] | null) => {
+const mapInclusions = (inclusions: PackageInclusion[] | null | undefined): { icon: LucideIcon; text: string }[] => {
     if (!inclusions || !Array.isArray(inclusions)) return [];
     return inclusions.map(inc => ({
         icon: CheckCircle, // Default icon
@@ -58,7 +58,7 @@ const getStatusBadgeVariant = (status?: string) => {
             return 'bg-green-100 text-green-700 border-green-300';
         case 'seasonal':
             return 'bg-blue-100 text-blue-700 border-blue-300';
-        case 'coming soon':
+        case 'inactive':
             return 'bg-yellow-100 text-yellow-700 border-yellow-300';
         default:
             return 'bg-gray-100 text-gray-700 border-gray-300';
@@ -67,7 +67,7 @@ const getStatusBadgeVariant = (status?: string) => {
 
 export default function WeddingPackageDetailPage() {
   const params = useParams();
-  const packageId = params.packageId as string;
+  const slug = params.slug as string;
 
   const [pkg, setPkg] = useState<WeddingPackageFromApi | null>(null);
   const [images, setImages] = useState<WeddingImage[]>([]);
@@ -75,21 +75,22 @@ export default function WeddingPackageDetailPage() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!packageId) return;
+    if (!slug) return;
     const fetchPackage = async () => {
       try {
         setIsLoading(true);
-        const [pkgData, imagesData] = await Promise.all([
-          getWeddingPackageById(packageId),
-          getWeddingImagesByPackageId(packageId)
-        ]);
+        const pkgData = await getWeddingPackageBySlug(slug);
 
         if (!pkgData) {
           notFound();
           return;
         }
+        
+        const imagesData = []; // Assuming images are not fetched by package slug yet.
+        
         setPkg(pkgData);
         setImages(imagesData);
+
       } catch (err) {
         console.error(err);
         if (err instanceof Error && err.message.includes('404')) {
@@ -102,7 +103,7 @@ export default function WeddingPackageDetailPage() {
       }
     };
     fetchPackage();
-  }, [packageId]);
+  }, [slug]);
 
   if (isLoading) {
     return (

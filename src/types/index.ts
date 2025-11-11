@@ -26,6 +26,7 @@ export interface RoomType {
 }
 export interface RoomFromApi {
   id: number;
+  slug?: string;
   room_number: string;
   descriptive_title: string;
   current_status: 'Available' | 'Booked' | 'Under Maintenance';
@@ -155,7 +156,7 @@ export interface GalleryApiImage {
 export interface ExperienceDetailItem {
   icon: LucideIcon;
   label: string;
-  value: string;
+  value: React.ReactNode;
 }
 export interface ExperienceDetail {
   id: string; // Should match an ID from featuredExperiences
@@ -187,6 +188,7 @@ export interface PackageInclusion {
 
 export interface WeddingPackageFromApi {
     id: number;
+    slug?: string;
     package_name: string;
     hall_id: string;
     company_id: string;
@@ -242,6 +244,7 @@ export interface WeddingPackage {
 
 export interface ExperienceFromApi {
     id: number;
+    slug?: string;
     name: string;
     company_id: string;
     meeting_Point: string;
@@ -296,6 +299,7 @@ export interface FeaturedExperience {
 
 export interface RestaurantFromApi {
     id: number;
+    slug?: string;
     venue_name: string;
     short_description: string;
     detailed_description: string;
@@ -328,3 +332,40 @@ export interface RestaurantImage {
     updated_at: string;
     is_active: number;
 }
+
+
+export interface EventFromApi {
+    id: string;
+    slug: string;
+    event_name: string;
+    event_type: string;
+    event_date: string;
+    start_time: string;
+    end_time: string;
+    hall_id: string;
+    guest_count: string;
+    booking_status: string;
+    created_by: string;
+    short_description?: string;
+    detailed_description?: string;
+}
+
+
+export interface EventImage {
+    id: number;
+    event_id: string;
+    company_id: string;
+    image_name: string;
+    image_url: string;
+    file_size: number;
+    alt_text: string;
+    is_primary: number | string;
+    display_order: number;
+    uploaded_by: string;
+    updated_by: string | null;
+    created_at: string;
+    updated_at: string;
+    is_active: number;
+}
+
+    
