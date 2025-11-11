@@ -12,10 +12,10 @@ interface AnimatedInViewProps {
 
 export function AnimatedInView({ children, className, delay = 0, once = true }: AnimatedInViewProps) {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once });
+  const isInView = useInView(ref, { once, amount: 0.2 });
 
   const variants = {
-    hidden: { opacity: 0, y: 20 },
+    hidden: { opacity: 0, y: 30 },
     visible: { opacity: 1, y: 0 },
   };
 
@@ -25,7 +25,7 @@ export function AnimatedInView({ children, className, delay = 0, once = true }: 
       variants={variants}
       initial="hidden"
       animate={isInView ? 'visible' : 'hidden'}
-      transition={{ duration: 0.5, delay }}
+      transition={{ duration: 0.6, delay, ease: "easeOut" }}
       className={className}
     >
       {children}
