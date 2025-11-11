@@ -10,6 +10,7 @@ import { InfoBar } from '@/components/dining/InfoBar';
 import type { RestaurantFromApi } from '@/types';
 import { getRestaurants } from '@/services/api/dining';
 import { Skeleton } from '@/components/ui/skeleton';
+import { AnimatedInView } from '@/components/shared/AnimatedInView';
 
 const signatureDishes: DishProps[] = [
   {
@@ -79,7 +80,9 @@ export default function DiningPage() {
         return <p className="col-span-full text-center text-muted-foreground">No dining venues found.</p>;
     }
     return diningVenues.map((venue, index) => (
-      <VenueCard key={`${venue.id}-${index}`} venue={venue} />
+      <AnimatedInView key={`${venue.id}-${index}`} delay={index * 0.1}>
+        <VenueCard venue={venue} />
+      </AnimatedInView>
     ));
   }
 
@@ -110,8 +113,10 @@ export default function DiningPage() {
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {signatureDishes.map((dish) => (
-              <DishCard key={dish.id} {...dish} />
+            {signatureDishes.map((dish, index) => (
+              <AnimatedInView key={dish.id} delay={index * 0.1}>
+                <DishCard {...dish} />
+              </AnimatedInView>
             ))}
           </div>
         </div>
