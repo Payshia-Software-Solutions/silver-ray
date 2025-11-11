@@ -23,6 +23,7 @@ import {
 } from "@/components/ui/select"
 import { Label } from '@/components/ui/label';
 import { getRooms } from '@/services/api/rooms';
+import { AnimatedInView } from '@/components/shared/AnimatedInView';
 
 
 function DesktopRoomFilters() {
@@ -256,8 +257,10 @@ export default function RoomsPage() {
     }
     return (
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {rooms.slice(0, visibleCount).map((room) => (
-          <RoomCard key={room.id} room={room} />
+        {rooms.slice(0, visibleCount).map((room, index) => (
+          <AnimatedInView key={room.id} delay={index % 3 * 0.1}>
+            <RoomCard room={room} />
+          </AnimatedInView>
         ))}
       </div>
     );

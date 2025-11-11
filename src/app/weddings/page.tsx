@@ -13,6 +13,7 @@ import type { WeddingPackageFromApi } from '@/types';
 import { getWeddingPackages } from '@/services/api/weddings';
 import { Gift } from 'lucide-react';
 import { IMAGE_BASE_URL } from '@/lib/config';
+import { AnimatedInView } from '@/components/shared/AnimatedInView';
 
 function WeddingHero() {
   return (
@@ -76,8 +77,10 @@ export default function WeddingsPage() {
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {weddingVenues.map((venue) => (
-              <WeddingVenueCard key={venue.id} venue={venue} />
+            {weddingVenues.map((venue, index) => (
+              <AnimatedInView key={venue.id} delay={index * 0.1}>
+                <WeddingVenueCard venue={venue} />
+              </AnimatedInView>
             ))}
           </div>
         </div>
@@ -108,8 +111,10 @@ export default function WeddingsPage() {
           {error && <p className="text-center font-body text-lg text-destructive">{error}</p>}
           {!isLoading && !error && (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-              {packages.map((pkg) => (
-                <WeddingPackageCard key={pkg.id} packageItem={pkg} />
+              {packages.map((pkg, index) => (
+                <AnimatedInView key={pkg.id} delay={index * 0.1}>
+                  <WeddingPackageCard packageItem={pkg} />
+                </AnimatedInView>
               ))}
             </div>
           )}
@@ -125,16 +130,18 @@ export default function WeddingsPage() {
             </p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 text-center">
-            {weddingServices.map((service) => (
-              <div key={service.title} className="flex flex-col items-center p-6 bg-card rounded-xl shadow-lg hover:shadow-xl transition-shadow">
-                <div className="p-4 bg-primary/10 rounded-full mb-4 inline-flex">
-                  <service.icon className="w-8 h-8 text-primary" />
+            {weddingServices.map((service, index) => (
+              <AnimatedInView key={service.title} delay={index * 0.1}>
+                <div className="flex flex-col items-center p-6 bg-card rounded-xl shadow-lg hover:shadow-xl transition-shadow h-full">
+                  <div className="p-4 bg-primary/10 rounded-full mb-4 inline-flex">
+                    <service.icon className="w-8 h-8 text-primary" />
+                  </div>
+                  <h3 className="font-headline text-xl font-semibold mb-2">{service.title}</h3>
+                  <p className="font-body text-sm text-muted-foreground leading-relaxed">
+                    {service.description}
+                  </p>
                 </div>
-                <h3 className="font-headline text-xl font-semibold mb-2">{service.title}</h3>
-                <p className="font-body text-sm text-muted-foreground leading-relaxed">
-                  {service.description}
-                </p>
-              </div>
+              </AnimatedInView>
             ))}
           </div>
         </div>
