@@ -9,6 +9,7 @@ import { ArrowRight } from 'lucide-react';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
 import React from 'react';
+import { AnimatedInView } from '../shared/AnimatedInView';
 
 
 interface Offer {
@@ -33,7 +34,7 @@ const offers: Offer[] = [
     id: 'weekend-getaway',
     title: 'Weekend Getaway',
     description: 'Rejuvenate with a two-night stay, complimentary breakfast, and spa treatment.',
-    imageUrl: 'https://images.unsplash.com/photo-1528154291023-a6525fabe5b4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxsdXh1cnklMjBwb29sJTIwY29ja3RhaWx8ZW58MHx8fHwxNzQ5MTkxNjI5fDA&ixlib-rb-4.1.0&q=80&w=1080',
+    imageUrl: 'https://images.unsplash.com/photo-1528154291023-a6525fabe5b4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxsdXh1cnklMjBwb29sJTIwY29ja3RhaWx8ZW58MHx8fHwxNzQ5MTkxNjI5fDA&ixlib=rb-4.1.0&q=80&w=1080',
     imageHint: 'luxury pool cocktail',
     link: '/booking?offer=weekend-getaway',
   },
@@ -118,8 +119,10 @@ export function LatestOffersSection() {
 
         {/* Desktop Grid */}
         <div className="hidden md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {offers.map((offer) => (
-            <OfferCard key={offer.id} offer={offer} />
+          {offers.map((offer, index) => (
+            <AnimatedInView key={offer.id} delay={index * 0.1}>
+              <OfferCard offer={offer} />
+            </AnimatedInView>
           ))}
         </div>
       </div>
