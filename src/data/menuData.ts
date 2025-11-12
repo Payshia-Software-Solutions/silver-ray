@@ -2,7 +2,7 @@
 import type { RestaurantMenuType, MenuItemType } from '@/types';
 
 const mainRestaurantMenu: RestaurantMenuType = {
-  venueId: 'main-restaurant',
+  venueId: '47',
   venueName: 'Main Restaurant',
   venueDescription: "Experience our diverse culinary offerings, offering lovely international selections and authentic Sri Lankan delights in a vibrant and elegant setting.",
   heroImageUrl: 'https://images.unsplash.com/photo-1528908929486-dfaa209c6986?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8ZWxlZ2FudCUyMHJlc3RhdXJhbnQlMjBpbnRlcmlvciUyMHRhYmxlc3xlbnwwfHx8fDE3NDkxNDYwNzZ8MA&ixlib=rb-4.1.0&q=80&w=1080',

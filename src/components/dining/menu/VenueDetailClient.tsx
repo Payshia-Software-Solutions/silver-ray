@@ -18,6 +18,7 @@ interface VenueDetailClientProps {
 
 export function VenueDetailClient({ venue, images }: VenueDetailClientProps) {
 
+    // Attempt to find a menu by the numeric ID, if not found, fall back to 'main-restaurant'
     const menuData = getMenuByVenueId(String(venue.id)) || getMenuByVenueId('main-restaurant');
 
     const primaryImage = images.find(img => String(img.is_primary) === '1') || images[0];
