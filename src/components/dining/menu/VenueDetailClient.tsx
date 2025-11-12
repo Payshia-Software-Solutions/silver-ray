@@ -18,7 +18,7 @@ interface VenueDetailClientProps {
 
 export function VenueDetailClient({ venue, images }: VenueDetailClientProps) {
 
-    const menuData = getMenuByVenueId(String(venue.id));
+    const menuData = getMenuByVenueId(String(venue.id)) || getMenuByVenueId('main-restaurant');
 
     const primaryImage = images.find(img => String(img.is_primary) === '1') || images[0];
     const heroImageUrl = menuData?.heroImageUrl || (primaryImage ? `${IMAGE_BASE_URL}${primaryImage.image_url}` : (venue['restaurant _image'] ? `${IMAGE_BASE_URL}${venue['restaurant _image']}` : 'https://placehold.co/1920x700.png'));
