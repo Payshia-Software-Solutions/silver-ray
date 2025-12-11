@@ -20,11 +20,6 @@ const heroImages = [
     src: "https://content-provider.payshia.com/silver-ray/other/EXTERIOR-2.webp",
     alt: "Exterior view of the Grand Silver Ray hotel",
     hint: "hotel exterior building"
-  },
-  {
-    src: "https://content-provider.payshia.com/silver-ray/gallery-images/1/weddingcover-68dd4bf6634a3.jpg",
-    alt: "Elegant wedding ceremony setup with flowers",
-    hint: "wedding ceremony flowers"
   }
 ];
 
