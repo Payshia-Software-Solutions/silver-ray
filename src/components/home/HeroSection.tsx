@@ -4,94 +4,21 @@
 import NextImage from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { Carousel, CarouselContent, CarouselItem, CarouselApi } from "@/components/ui/carousel";
-import Autoplay from "embla-carousel-autoplay";
-import React, { useState, useEffect } from 'react';
-import { cn } from '@/lib/utils';
-
-
-const heroImages = [
-  {
-    src: "http://content-provider.payshia.com/silver-ray/gallery-images/1/leadingpagecover-68da3641c35a4.jpg",
-    alt: "Elegant wedding reception",
-    hint: "wedding reception elegant"
-  },
-  {
-    src: "https://content-provider.payshia.com/silver-ray/other/EXTERIOR-2.webp",
-    alt: "Exterior view of the Grand Silver Ray hotel",
-    hint: "hotel exterior building"
-  }
-];
 
 export function HeroSection() {
-  const plugin = React.useRef(
-    Autoplay({ delay: 5000, stopOnInteraction: true, stopOnHover: true })
-  );
-
-  const [api, setApi] = useState<CarouselApi>();
-  const [current, setCurrent] = useState(0);
-
-  useEffect(() => {
-    if (!api) {
-      return;
-    }
-
-    setCurrent(api.selectedScrollSnap());
-
-    const onSelect = () => {
-      setCurrent(api.selectedScrollSnap());
-    };
-
-    api.on("select", onSelect);
-
-    return () => {
-      api.off("select", onSelect);
-    };
-  }, [api]);
-
-
   return (
     <section className="relative h-[calc(100vh-5rem)] min-h-[500px] md:min-h-[600px] lg:min-h-[700px] flex items-center justify-center text-center text-white overflow-hidden">
-      <Carousel
-        setApi={setApi}
-        opts={{ loop: true }}
-        plugins={[plugin.current]}
-        className="absolute inset-0 w-full h-full"
-      >
-        <CarouselContent className='h-full'>
-          {heroImages.map((image, index) => (
-            <CarouselItem key={index} className='h-full'>
-              <div className="relative w-full h-full">
-                <NextImage
-                  src={image.src}
-                  alt={image.alt}
-                  data-ai-hint={image.hint}
-                  fill
-                  className="object-cover"
-                  priority={index === 0}
-                  unoptimized
-                />
-              </div>
-            </CarouselItem>
-          ))}
-        </CarouselContent>
-      </Carousel>
+      <NextImage
+        src="https://content-provider.payshia.com/silver-ray/gallery-images/1/leadingpagecover-68da3641c35a4.jpg"
+        alt="Elegant wedding reception"
+        data-ai-hint="wedding reception elegant"
+        fill
+        className="object-cover"
+        priority
+        unoptimized
+      />
       
       <div className="absolute inset-0 bg-black/50" />
-
-      <div className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 z-20 flex flex-col items-center gap-2">
-        {heroImages.map((_, index) => (
-          <button
-            key={index}
-            onClick={() => api?.scrollTo(index)}
-            className={cn(
-              "rounded-full transition-all duration-300",
-              index === current ? 'w-1 h-6 bg-white' : 'w-2 h-2 bg-white/50 hover:bg-white'
-            )}
-            aria-label={`Go to slide ${index + 1}`}
-          />
-        ))}
-      </div>
 
       <div className="relative z-10 p-6 max-w-3xl">
         <h1 className="font-headline text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight shadow-text">
