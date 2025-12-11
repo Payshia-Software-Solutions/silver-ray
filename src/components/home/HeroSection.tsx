@@ -66,14 +66,16 @@ export function HeroSection() {
         <CarouselContent className='h-full'>
           {heroImages.map((image, index) => (
             <CarouselItem key={index} className='h-full'>
-              <NextImage
-                src={image.src}
-                alt={image.alt}
-                data-ai-hint={image.hint}
-                fill
-                className="object-cover"
-                priority={index === 0}
-              />
+              <div className="relative w-full h-full">
+                <NextImage
+                  src={image.src}
+                  alt={image.alt}
+                  data-ai-hint={image.hint}
+                  fill
+                  className="object-cover"
+                  priority={index === 0}
+                />
+              </div>
             </CarouselItem>
           ))}
         </CarouselContent>
@@ -81,7 +83,7 @@ export function HeroSection() {
       
       <div className="absolute inset-0 bg-black/50" />
 
-      <div className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 z-20 flex flex-col items-center gap-2">
+      <div className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 z-20 flex flex-col items-center gap-2">
         {heroImages.map((_, index) => (
           <button
             key={index}
