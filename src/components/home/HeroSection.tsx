@@ -4,7 +4,7 @@
 import NextImage from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
 import React from 'react';
 
@@ -18,6 +18,11 @@ const heroImages = [
     src: "https://content-provider.payshia.com/silver-ray/other/EXTERIOR-2.webp",
     alt: "Exterior view of the Grand Silver Ray hotel",
     hint: "hotel exterior building"
+  },
+  {
+    src: "https://content-provider.payshia.com/silver-ray/gallery-images/1/weddingcover-68dd4bf6634a3.jpg",
+    alt: "Elegant wedding ceremony setup with flowers",
+    hint: "wedding ceremony flowers"
   }
 ];
 
@@ -47,6 +52,8 @@ export function HeroSection() {
             </CarouselItem>
           ))}
         </CarouselContent>
+        <CarouselPrevious className="absolute left-4 text-white bg-black/30 hover:bg-black/50 border-white/50 hover:text-white" />
+        <CarouselNext className="absolute right-4 text-white bg-black/30 hover:bg-black/50 border-white/50 hover:text-white" />
       </Carousel>
       
       <div className="absolute inset-0 bg-black/50" />
