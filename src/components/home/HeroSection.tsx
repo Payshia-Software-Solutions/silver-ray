@@ -62,18 +62,16 @@ export function HeroSection() {
         >
             <CarouselContent>
                 {carouselImages.map((image, index) => (
-                    <CarouselItem key={index}>
-                        <div className="relative w-full h-[calc(100vh-5rem)] min-h-[500px] md:min-h-[600px] lg:min-h-[700px]">
-                            <NextImage
-                                src={image.src}
-                                alt={image.alt}
-                                data-ai-hint={image.hint}
-                                fill
-                                className="object-cover"
-                                priority={index === 0}
-                                unoptimized
-                            />
-                        </div>
+                    <CarouselItem key={index} className="relative w-full h-[calc(100vh-5rem)] min-h-[500px] md:min-h-[600px] lg:min-h-[700px]">
+                        <NextImage
+                            src={image.src}
+                            alt={image.alt}
+                            data-ai-hint={image.hint}
+                            fill
+                            className="object-cover"
+                            priority={index === 0}
+                            unoptimized
+                        />
                     </CarouselItem>
                 ))}
             </CarouselContent>
@@ -84,17 +82,17 @@ export function HeroSection() {
       <div className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none">
         <div className="p-6 max-w-3xl">
           <h1 className="font-headline text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight shadow-text">
-            Experience Unparalleled Luxury
+            Celebrate Your Unforgettable Moments
           </h1>
           <p className="font-body text-lg sm:text-xl md:text-2xl mb-10 max-w-2xl mx-auto shadow-text">
-            Discover a sanctuary of elegance and comfort, where impeccable service and breathtaking views create an unforgettable escape.
+            From intimate gatherings to grand celebrations, our elegant venues and dedicated team ensure a memorable occasion.
           </p>
           <div className="space-x-4 pointer-events-auto">
             <Button asChild size="lg" className="font-body text-lg px-8 py-3 transform hover:scale-105 transition-transform duration-300">
-              <Link href="/booking">Book Your Stay</Link>
+              <Link href="/weddings/venues">See Venues</Link>
             </Button>
             <Button asChild variant="outline" size="lg" className="font-body text-lg px-8 py-3 bg-transparent border-white text-white hover:bg-white hover:text-primary transform hover:scale-105 transition-transform duration-300">
-              <Link href="/rooms">Explore Rooms</Link>
+              <Link href="/dining">See Menu</Link>
             </Button>
           </div>
         </div>
