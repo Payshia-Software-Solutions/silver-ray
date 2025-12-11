@@ -12,7 +12,7 @@ import { cn } from '@/lib/utils';
 
 const heroImages = [
   {
-    src: "https://content-provider.payshia.com/silver-ray/gallery-images/1/leadingpagecover-68da3641c35a4.jpg",
+    src: "http://content-provider.payshia.com/silver-ray/gallery-images/1/leadingpagecover-68da3641c35a4.jpg",
     alt: "Elegant wedding reception",
     hint: "wedding reception elegant"
   },
