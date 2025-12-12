@@ -23,28 +23,40 @@ interface VenueHighlight {
 
 const venueHighlights: VenueHighlight[] = [
   {
-    id: 'grand-ballroom',
-    name: 'The Grand Ballroom',
-    description: 'An opulent space with soaring ceilings and sparkling chandeliers, perfect for lavish celebrations.',
-    imageUrl: 'https://images.unsplash.com/photo-1517456363055-5d162a453d6d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxncmFuZCUyMGJhbGxyb29tJTIwd2VkZGluZ3xlbnwwfHx8fDE3NDkxOTI0MjN8MA&ixlib=rb-4.1.0&q=80&w=1080',
-    imageHint: 'grand ballroom wedding',
+    id: 'crystal-hall',
+    name: 'The Crystal Hall',
+    description: 'A magnificent hall with classic decor, perfect for grand weddings and corporate galas.',
+    imageUrl: 'http://content-provider.payshia.com/silver-ray/other/BANQUET-1.webp',
+    imageHint: 'elegant banquet hall setup',
     features: [
-      { icon: Users, text: 'Up to 300 guests' },
-      { icon: Disc, text: 'Spacious Dance Floor' },
+      { icon: Users, text: 'Up to 500 guests' },
+      { icon: Disc, text: 'Advanced AV System' },
     ],
-    link: '/weddings/venues/grand-ballroom',
+    link: '/weddings/venues/crystal-hall',
   },
   {
-    id: 'garden-terrace',
-    name: 'The Garden Terrace',
-    description: 'Exchange vows amidst lush greenery in an intimate and romantic open-air setting under the stars.',
-    imageUrl: 'https://images.unsplash.com/photo-1525258946800-98cfd641d0de?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxnYXJkZW4lMjB3ZWRkaW5nJTIwdGVycmFjZXxlbnwwfHx8fDE3NDkxOTI0MjN8MA&ixlib-rb-4.1.0&q=80&w=1080',
-    imageHint: 'garden wedding terrace',
+    id: 'sapphire-hall',
+    name: 'The Sapphire Hall',
+    description: 'A versatile space with modern aesthetics, ideal for conferences and elegant receptions.',
+    imageUrl: 'http://content-provider.payshia.com/silver-ray/other/BANQUET-2.webp',
+    imageHint: 'modern banquet hall reception',
     features: [
-      { icon: Users, text: 'Up to 100 guests' },
-      { icon: Trees, text: 'Outdoor Setting' },
+      { icon: Users, text: 'Up to 250 guests' },
+      { icon: Trees, text: 'Adjustable Lighting' },
     ],
-    link: '/weddings/venues/garden-terrace',
+    link: '/weddings/venues/sapphire-hall',
+  },
+   {
+    id: 'emerald-hall',
+    name: 'The Emerald Hall',
+    description: 'An intimate setting with lush decor, perfect for smaller weddings, workshops, and private dinners.',
+    imageUrl: 'http://content-provider.payshia.com/silver-ray/other/BANQUET-3.webp',
+    imageHint: 'intimate banquet setting',
+    features: [
+      { icon: Users, text: 'Up to 150 guests' },
+      { icon: Disc, text: 'Cozy Ambiance' },
+    ],
+    link: '/weddings/venues/emerald-hall',
   },
 ];
 
@@ -95,7 +107,7 @@ export function BanquetsAndWeddingsSection() {
           </p>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12 max-w-4xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12 max-w-7xl mx-auto">
           {venueHighlights.map((venue, index) => (
             <AnimatedInView key={venue.id} delay={index * 0.1}>
               <VenueHighlightCard venue={venue} />
