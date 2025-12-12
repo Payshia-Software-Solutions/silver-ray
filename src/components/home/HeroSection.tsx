@@ -1,4 +1,3 @@
-
 "use client";
 
 import NextImage from 'next/image';
@@ -57,7 +56,7 @@ export function HeroSection() {
 
       <div className="relative z-10 p-6 max-w-3xl">
         <h1 className="font-headline text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight shadow-text">
-          Celebrate Your <br /> Unforgettable Moments
+          Celebrate Your Unforgettable <br /> Moments
         </h1>
         <p className="font-body text-lg sm:text-xl md:text-2xl mb-10 max-w-2xl mx-auto shadow-text">
           From intimate gatherings to grand celebrations, our elegant venues and dedicated team ensure a memorable occasion.
