@@ -94,25 +94,23 @@ export default function WeddingsPage() {
       </section>
 
       <section className="py-16 lg:py-24 bg-secondary/20">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-12">
-                <h2 className="font-headline text-3xl sm:text-4xl font-bold mb-3">Wedding Moments</h2>
-                <p className="font-body text-lg text-muted-foreground max-w-xl mx-auto">
-                    See the magic of weddings at Grand Silver Ray.
-                </p>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                {videoUrls.map((url, index) => (
-                    <AnimatedInView key={index} delay={index * 0.1}>
-                        <div className="rounded-xl overflow-hidden shadow-lg">
-                            <video controls width="100%">
-                                <source src={url} type="video/mp4" />
-                                Your browser does not support the video tag.
-                            </video>
-                        </div>
-                    </AnimatedInView>
-                ))}
-            </div>
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center mb-12">
+            <h2 className="font-headline text-3xl sm:text-4xl font-bold mb-3">Wedding Moments</h2>
+            <p className="font-body text-lg text-muted-foreground max-w-xl mx-auto">
+                See the magic of weddings at Grand Silver Ray.
+            </p>
+        </div>
+        <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-0">
+            {videoUrls.map((url, index) => (
+                <AnimatedInView key={index} delay={index * 0.1}>
+                    <div>
+                        <video controls width="100%" className="w-full h-full object-cover">
+                            <source src={url} type="video/mp4" />
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                </AnimatedInView>
+            ))}
         </div>
       </section>
 
