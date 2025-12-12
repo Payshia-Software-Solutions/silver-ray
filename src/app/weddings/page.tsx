@@ -42,6 +42,13 @@ function WeddingHero() {
   );
 }
 
+const videoUrls = [
+    'https://content-provider.payshia.com/silver-ray/other/wedding-1.mp4',
+    'https://content-provider.payshia.com/silver-ray/other/wedding-2.mp4',
+    'https://content-provider.payshia.com/silver-ray/other/wedding-3.mp4',
+    'https://content-provider.payshia.com/silver-ray/other/wedding-4.mp4',
+]
+
 export default function WeddingsPage() {
   const [packages, setPackages] = useState<WeddingPackageFromApi[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -88,6 +95,29 @@ export default function WeddingsPage() {
 
       <section className="py-16 lg:py-24 bg-secondary/20">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-12">
+                <h2 className="font-headline text-3xl sm:text-4xl font-bold mb-3">Wedding Moments</h2>
+                <p className="font-body text-lg text-muted-foreground max-w-xl mx-auto">
+                    See the magic of weddings at Grand Silver Ray.
+                </p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                {videoUrls.map((url, index) => (
+                    <AnimatedInView key={index} delay={index * 0.1}>
+                        <div className="rounded-xl overflow-hidden shadow-lg">
+                            <video controls width="100%">
+                                <source src={url} type="video/mp4" />
+                                Your browser does not support the video tag.
+                            </video>
+                        </div>
+                    </AnimatedInView>
+                ))}
+            </div>
+        </div>
+      </section>
+
+      <section className="py-16 lg:py-24 bg-background">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="font-headline text-3xl sm:text-4xl font-bold mb-3">Our Wedding Package Collection</h2>
             <p className="font-body text-lg text-muted-foreground max-w-2xl mx-auto">
@@ -121,7 +151,7 @@ export default function WeddingsPage() {
         </div>
       </section>
 
-      <section className="py-16 lg:py-24 bg-background">
+      <section className="py-16 lg:py-24 bg-secondary/20">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="font-headline text-3xl sm:text-4xl font-bold mb-3">Our Wedding Services</h2>
@@ -149,7 +179,7 @@ export default function WeddingsPage() {
 
       <TestimonialsCarousel />
 
-      <section className="py-16 lg:py-20 bg-secondary/20">
+      <section className="py-16 lg:py-20 bg-background">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="font-headline text-3xl sm:text-4xl font-bold mb-4 text-foreground">
             Ready to Begin Your Forever?
