@@ -1,4 +1,3 @@
-
 "use client";
 
 import NextImage from 'next/image';
@@ -44,24 +43,22 @@ export function HeroSection() {
             Your browser does not support the video tag.
         </video>
       
-      <div className="absolute inset-0 bg-black/50" />
+      <div className="absolute inset-0 bg-black/40" />
 
-      <div className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none">
-        <div className="p-6 max-w-3xl">
-          <h1 className="font-headline text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight shadow-text">
-            Celebrate Your Unforgettable Moments
-          </h1>
-          <p className="font-body text-lg sm:text-xl md:text-2xl mb-10 max-w-2xl mx-auto shadow-text">
-            From intimate gatherings to grand celebrations, our elegant venues and dedicated team ensure a memorable occasion.
-          </p>
-          <div className="space-x-4 pointer-events-auto">
-            <Button asChild size="lg" className="font-body text-lg px-8 py-3 transform hover:scale-105 transition-transform duration-300">
-              <Link href="/weddings/venues">See Venues</Link>
-            </Button>
-            <Button asChild variant="outline" size="lg" className="font-body text-lg px-8 py-3 bg-transparent border-white text-white hover:bg-white hover:text-primary transform hover:scale-105 transition-transform duration-300">
-              <Link href="/weddings">Explore Packages</Link>
-            </Button>
-          </div>
+      <div className="absolute z-10 p-6 max-w-3xl">
+        <h1 className="font-headline text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight shadow-text">
+          Celebrate Your Unforgettable Moments
+        </h1>
+        <p className="font-body text-lg sm:text-xl md:text-2xl mb-10 max-w-2xl mx-auto shadow-text">
+          From intimate gatherings to grand celebrations, our elegant venues and dedicated team ensure a memorable occasion.
+        </p>
+        <div className="space-x-4">
+          <Button asChild size="lg" className="font-body text-lg px-8 py-3 transform hover:scale-105 transition-transform duration-300">
+            <Link href="/weddings/venues">See Venues</Link>
+          </Button>
+          <Button asChild variant="outline" size="lg" className="font-body text-lg px-8 py-3 bg-transparent border-white text-white hover:bg-white hover:text-primary transform hover:scale-105 transition-transform duration-300">
+            <Link href="/weddings">Explore Packages</Link>
+          </Button>
         </div>
       </div>
 
