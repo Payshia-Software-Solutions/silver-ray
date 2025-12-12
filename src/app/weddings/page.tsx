@@ -94,7 +94,7 @@ export default function WeddingsPage() {
       </section>
 
       <section className="py-16 lg:py-24 bg-secondary/20">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center mb-12">
+        <div className="text-center mb-12 container mx-auto px-4 sm:px-6 lg:px-8">
             <h2 className="font-headline text-3xl sm:text-4xl font-bold mb-3">Wedding Moments</h2>
             <p className="font-body text-lg text-muted-foreground max-w-xl mx-auto">
                 See the magic of weddings at Grand Silver Ray.
@@ -104,7 +104,7 @@ export default function WeddingsPage() {
             {videoUrls.map((url, index) => (
                 <AnimatedInView key={index} delay={index * 0.1}>
                     <div>
-                        <video controls width="100%" className="w-full h-full object-cover">
+                        <video autoPlay loop muted playsInline width="100%" className="w-full h-full object-cover">
                             <source src={url} type="video/mp4" />
                             Your browser does not support the video tag.
                         </video>
