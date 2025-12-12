@@ -5,6 +5,7 @@ import { SiteHeader } from '@/components/layout/SiteHeader';
 import { SiteFooter } from '@/components/layout/SiteFooter';
 import { usePathname } from 'next/navigation';
 import type React from 'react';
+import { TopBar } from '@/components/layout/TopBar';
 
 export function ConditionalLayoutWrapper({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -20,6 +21,7 @@ export function ConditionalLayoutWrapper({ children }: { children: React.ReactNo
   // For non-admin pages, this wrapper provides the header, main content area, and footer.
   return (
     <>
+      <TopBar />
       <SiteHeader />
       <main className="flex-grow">
         {children}
