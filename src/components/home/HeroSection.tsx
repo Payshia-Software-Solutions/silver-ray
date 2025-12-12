@@ -31,6 +31,14 @@ export function HeroSection() {
     const scrollTo = (index: number) => {
         api?.scrollTo(index);
     }
+    
+    const handleScrollDown = () => {
+      const nextSection = document.getElementById('next-section');
+      if (nextSection) {
+        nextSection.scrollIntoView({ behavior: 'smooth' });
+      }
+    };
+
 
   return (
     <section className="relative h-[calc(100vh-5rem)] min-h-[500px] md:min-h-[600px] lg:min-h-[700px] flex items-center justify-center text-center text-white overflow-hidden">
@@ -64,7 +72,11 @@ export function HeroSection() {
         </div>
       </div>
         
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20">
+      <div 
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 cursor-pointer"
+        onClick={handleScrollDown}
+        aria-label="Scroll to next section"
+      >
           <div className="animate-bounce bg-white/20 p-2 w-10 h-10 ring-1 ring-slate-200/20 shadow-lg rounded-full flex items-center justify-center">
               <ChevronDown className="w-6 h-6 text-white" />
           </div>

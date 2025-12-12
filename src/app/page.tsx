@@ -15,7 +15,9 @@ export default function HomePage() {
   return (
     <>
       <HeroSection />
-      <BanquetsAndWeddingsSection />
+      <section id="next-section">
+        <BanquetsAndWeddingsSection />
+      </section>
       <FeaturedRoomsSection />
       <TestimonialsSection />
       <LatestOffersSection />
