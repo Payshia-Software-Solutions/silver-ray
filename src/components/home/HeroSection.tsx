@@ -8,6 +8,7 @@ import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from "@/com
 import Autoplay from "embla-carousel-autoplay";
 import React from "react";
 import { cn } from '@/lib/utils';
+import { ChevronDown } from 'lucide-react';
 
 export function HeroSection() {
     const [api, setApi] = React.useState<CarouselApi>()
@@ -61,6 +62,12 @@ export function HeroSection() {
             <Link href="/weddings">Explore Packages</Link>
           </Button>
         </div>
+      </div>
+        
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20">
+          <div className="animate-bounce bg-white/20 p-2 w-10 h-10 ring-1 ring-slate-200/20 shadow-lg rounded-full flex items-center justify-center">
+              <ChevronDown className="w-6 h-6 text-white" />
+          </div>
       </div>
 
       <style jsx global>{`
