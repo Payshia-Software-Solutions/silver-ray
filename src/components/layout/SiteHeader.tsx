@@ -38,9 +38,9 @@ export function SiteHeader() {
             alt="Grand Silver Ray Logo"
             width={40}
             height={40}
-            className="h-10 w-10"
+            className="h-10 w-10 filter"
+            style={{ filter: 'brightness(0) invert(0)' }}
           />
-          <span className="font-headline text-3xl font-bold text-foreground">Grand Silver Ray</span>
         </Link>
 
         <nav className="hidden md:flex items-center space-x-5">
@@ -81,9 +81,9 @@ export function SiteHeader() {
                             alt="Grand Silver Ray Logo"
                             width={32}
                             height={32}
-                            className="h-8 w-8"
+                            className="h-8 w-8 filter"
+                            style={{ filter: 'brightness(0) invert(0)' }}
                         />
-                        <span className="font-headline text-2xl font-bold text-foreground">Grand Silver Ray</span>
                     </Link>
                  </SheetTitle>
               </SheetHeader>
