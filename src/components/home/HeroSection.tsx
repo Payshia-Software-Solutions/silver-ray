@@ -1,3 +1,4 @@
+
 "use client";
 
 import NextImage from 'next/image';
@@ -8,27 +9,10 @@ import Autoplay from "embla-carousel-autoplay";
 import React from "react";
 import { cn } from '@/lib/utils';
 
-const carouselImages = [
-    {
-        src: "https://content-provider.payshia.com/silver-ray/gallery-images/1/leadingpagecover-68da3641c35a4.jpg",
-        alt: "Elegant hotel suite with a beautiful view",
-        hint: "hotel suite view"
-    },
-    {
-        src: "https://content-provider.payshia.com/silver-ray/other/EXTERIOR-2.webp",
-        alt: "Exterior view of the Grand Silver Ray hotel",
-        hint: "hotel exterior building"
-    }
-];
-
 export function HeroSection() {
     const [api, setApi] = React.useState<CarouselApi>()
     const [current, setCurrent] = React.useState(0)
     const [count, setCount] = React.useState(0)
-
-    const plugin = React.useRef(
-      Autoplay({ delay: 5000, stopOnInteraction: true, stopOnHover: true })
-    );
 
     React.useEffect(() => {
         if (!api) {
@@ -48,34 +32,17 @@ export function HeroSection() {
     }
 
   return (
-    <section className="relative h-[calc(100vh-5rem)] min-h-[500px] md:min-h-[600px] lg:min-h-[700px] text-center text-white overflow-hidden">
-        <Carousel
-            setApi={setApi}
-            opts={{
-                align: "start",
-                loop: true,
-            }}
-            plugins={[plugin.current]}
-            className="w-full h-full"
-            onMouseEnter={plugin.current.stop}
-            onMouseLeave={plugin.current.reset}
+    <section className="relative h-[calc(100vh-5rem)] min-h-[500px] md:min-h-[600px] lg:min-h-[700px] flex items-center justify-center text-center text-white overflow-hidden">
+        <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="absolute z-0 w-full h-full object-cover"
         >
-            <CarouselContent>
-                {carouselImages.map((image, index) => (
-                    <CarouselItem key={index} className="relative w-full h-[calc(100vh-5rem)] min-h-[500px] md:min-h-[600px] lg:min-h-[700px]">
-                        <NextImage
-                            src={image.src}
-                            alt={image.alt}
-                            data-ai-hint={image.hint}
-                            fill
-                            className="object-cover"
-                            priority={index === 0}
-                            unoptimized
-                        />
-                    </CarouselItem>
-                ))}
-            </CarouselContent>
-        </Carousel>
+            <source src="https://content-provider.payshia.com/silver-ray/other/hero-video-silver-ray.mp4" type="video/mp4" />
+            Your browser does not support the video tag.
+        </video>
       
       <div className="absolute inset-0 bg-black/50" />
 
@@ -96,21 +63,6 @@ export function HeroSection() {
             </Button>
           </div>
         </div>
-      </div>
-      
-      {/* Custom Dot Navigation */}
-      <div className="absolute right-8 top-1/2 -translate-y-1/2 z-20 flex flex-col gap-3">
-        {Array.from({ length: count }).map((_, index) => (
-          <button
-            key={index}
-            onClick={() => scrollTo(index)}
-            className={cn(
-              "h-2.5 w-2.5 rounded-full transition-all duration-300",
-              current === index ? 'bg-white scale-125' : 'bg-white/50 hover:bg-white/80'
-            )}
-            aria-label={`Go to slide ${index + 1}`}
-          />
-        ))}
       </div>
 
       <style jsx global>{`
