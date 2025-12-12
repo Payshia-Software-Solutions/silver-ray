@@ -103,11 +103,12 @@ export default function WeddingsPage() {
         <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-0">
             {videoUrls.map((url, index) => (
                 <AnimatedInView key={index} delay={index * 0.1}>
-                    <div className="overflow-hidden group">
+                    <div className="overflow-hidden group relative">
                         <video autoPlay loop muted playsInline width="100%" className="w-full h-full object-cover transition-transform duration-300 ease-in-out group-hover:scale-105">
                             <source src={url} type="video/mp4" />
                             Your browser does not support the video tag.
                         </video>
+                        <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                     </div>
                 </AnimatedInView>
             ))}
