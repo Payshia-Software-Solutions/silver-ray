@@ -14,6 +14,7 @@ interface VenueHighlight {
   description: string;
   imageUrl: string;
   imageHint: string;
+  price: string;
   features: {
     icon: React.ElementType;
     text: string;
@@ -28,6 +29,7 @@ const venueHighlights: VenueHighlight[] = [
     description: 'A magnificent hall with classic decor, perfect for grand weddings and corporate galas.',
     imageUrl: 'http://content-provider.payshia.com/silver-ray/other/BANQUET-1.webp',
     imageHint: 'elegant banquet hall setup',
+    price: 'LKR 500,000',
     features: [
       { icon: Users, text: 'Up to 500 guests' },
       { icon: Disc, text: 'Advanced AV System' },
@@ -40,6 +42,7 @@ const venueHighlights: VenueHighlight[] = [
     description: 'A versatile space with modern aesthetics, ideal for conferences and elegant receptions.',
     imageUrl: 'http://content-provider.payshia.com/silver-ray/other/BANQUET-2.webp',
     imageHint: 'modern banquet hall reception',
+    price: 'LKR 350,000',
     features: [
       { icon: Users, text: 'Up to 250 guests' },
       { icon: Trees, text: 'Adjustable Lighting' },
@@ -52,6 +55,7 @@ const venueHighlights: VenueHighlight[] = [
     description: 'An intimate setting with lush decor, perfect for smaller weddings, workshops, and private dinners.',
     imageUrl: 'http://content-provider.payshia.com/silver-ray/other/BANQUET-3.webp',
     imageHint: 'intimate banquet setting',
+    price: 'LKR 200,000',
     features: [
       { icon: Users, text: 'Up to 150 guests' },
       { icon: Disc, text: 'Cozy Ambiance' },
@@ -76,6 +80,10 @@ const VenueHighlightCard = ({ venue }: { venue: VenueHighlight }) => (
         <p className="font-body text-sm text-muted-foreground mb-4 flex-grow line-clamp-2">
           {venue.description}
         </p>
+        <div className="mb-4">
+          <p className="font-body text-xs text-muted-foreground">Rates Starting From</p>
+          <p className="font-semibold text-lg text-primary">{venue.price}</p>
+        </div>
         <div className="space-y-2 mb-4">
           {venue.features.map(feature => (
             <div key={feature.text} className="flex items-center text-sm text-muted-foreground">
