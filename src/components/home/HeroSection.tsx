@@ -64,10 +64,10 @@ export function HeroSection() {
         </p>
         <div className="space-x-4">
           <Button asChild size="lg" className="font-body text-lg px-8 py-3 transform hover:scale-105 transition-transform duration-300">
-            <Link href="/weddings/venues">See Venues</Link>
+            <Link href="/weddings">See Venues</Link>
           </Button>
           <Button asChild variant="outline" size="lg" className="font-body text-lg px-8 py-3 bg-transparent border-white text-white hover:bg-white hover:text-primary transform hover:scale-105 transition-transform duration-300">
-            <Link href="/weddings">Explore Packages</Link>
+            <Link href="/weddings/packages">Explore Packages</Link>
           </Button>
         </div>
       </div>
