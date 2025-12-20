@@ -3,7 +3,6 @@ import type { Metadata } from 'next';
 import { HeroSection } from '@/components/home/HeroSection';
 import { FeaturedRoomsSection } from '@/components/home/FeaturedRoomsSection';
 import { TestimonialsSection } from '@/components/home/TestimonialsSection';
-import { LatestOffersSection } from '@/components/home/LatestOffersSection';
 import { BanquetsAndWeddingsSection } from '@/components/home/BanquetsAndWeddingsSection';
 import { EngagementSection } from '@/components/home/EngagementSection';
 
@@ -22,7 +21,6 @@ export default function HomePage() {
       <EngagementSection />
       <FeaturedRoomsSection />
       <TestimonialsSection />
-      <LatestOffersSection />
     </>
   );
 }
