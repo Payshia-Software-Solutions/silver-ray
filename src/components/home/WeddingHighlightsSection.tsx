@@ -5,8 +5,9 @@ import NextImage from 'next/image';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { AnimatedInView } from '../shared/AnimatedInView';
-import { ArrowRight, ChevronDown } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import Link from 'next/link';
+import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 
 const allWeddingImages = [
   {
@@ -59,8 +60,8 @@ const allWeddingImages = [
   },
 ];
 
-
 export function WeddingHighlightsSection() {
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
   return (
     <section className="py-16 lg:py-24 bg-secondary/20">
@@ -74,20 +75,31 @@ export function WeddingHighlightsSection() {
             </p>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 auto-rows-[250px] gap-4">
-            {allWeddingImages.map((image, index) => (
-                <AnimatedInView key={index} delay={index * 0.05} className={`group relative overflow-hidden rounded-xl shadow-lg ${image.className}`}>
-                    <NextImage
-                        src={image.src}
-                        alt={image.alt}
-                        data-ai-hint={image.hint}
-                        fill
-                        className="object-cover transition-transform duration-500 ease-in-out group-hover:scale-110"
-                    />
-                    <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                </AnimatedInView>
-            ))}
-        </div>
+        <Dialog open={!!selectedImage} onOpenChange={(isOpen) => !isOpen && setSelectedImage(null)}>
+            <div className="grid grid-cols-2 md:grid-cols-4 auto-rows-[250px] gap-4">
+                {allWeddingImages.map((image, index) => (
+                    <AnimatedInView key={index} delay={index * 0.05} className={`group relative overflow-hidden rounded-xl shadow-lg cursor-pointer ${image.className}`}>
+                      <div onClick={() => setSelectedImage(image.src)}>
+                        <NextImage
+                            src={image.src}
+                            alt={image.alt}
+                            data-ai-hint={image.hint}
+                            fill
+                            className="object-cover transition-transform duration-500 ease-in-out group-hover:scale-110"
+                        />
+                        <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                      </div>
+                    </AnimatedInView>
+                ))}
+            </div>
+            {selectedImage && (
+              <DialogContent className="max-w-4xl p-0 border-0 bg-transparent">
+                  <div className="relative aspect-video">
+                      <NextImage src={selectedImage} alt="Enlarged wedding highlight" fill className="object-contain" />
+                  </div>
+              </DialogContent>
+            )}
+        </Dialog>
         
         <div className="text-center mt-12">
             <Button asChild size="lg" variant="outline" className="font-body text-lg group rounded-full border-primary text-primary hover:bg-primary hover:text-primary-foreground transition-all duration-300">
