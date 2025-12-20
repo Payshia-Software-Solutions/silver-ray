@@ -2,12 +2,12 @@
 'use client';
 
 import NextImage from 'next/image';
-import Link from 'next/link';
+import { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import React from 'react';
 import { AnimatedInView } from '../shared/AnimatedInView';
+import { ChevronDown } from 'lucide-react';
 
-const weddingImages = [
+const allWeddingImages = [
   {
     src: 'https://content-provider.payshia.com/silver-ray/other/IMG_6722.jpg',
     alt: 'Elegant wedding reception table setup with flowers',
@@ -38,9 +38,34 @@ const weddingImages = [
     hint: 'wedding bouquet flowers',
     className: 'md:col-span-2'
   },
+  {
+    src: 'https://content-provider.payshia.com/silver-ray/other/IMG_6747.jpg',
+    alt: 'Wedding couple during a traditional ceremony',
+    hint: 'wedding couple ceremony',
+    className: ''
+  },
+  {
+    src: 'https://content-provider.payshia.com/silver-ray/other/IMG_6748.jpg',
+    alt: 'A detailed shot of wedding decorations',
+    hint: 'wedding decorations detail',
+    className: 'md:col-span-2'
+  },
+  {
+    src: 'https://content-provider.payshia.com/silver-ray/other/IMG_6755.jpg',
+    alt: 'Guests celebrating at a wedding reception',
+    hint: 'wedding reception guests',
+    className: ''
+  },
 ];
 
+const INITIAL_VISIBLE_COUNT = 5;
+
 export function WeddingHighlightsSection() {
+    const [visibleCount, setVisibleCount] = useState(INITIAL_VISIBLE_COUNT);
+
+    const handleLoadMore = () => {
+        setVisibleCount(allWeddingImages.length);
+    };
 
   return (
     <section className="py-16 lg:py-24 bg-secondary/20">
@@ -55,8 +80,8 @@ export function WeddingHighlightsSection() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {weddingImages.map((image, index) => (
-                <AnimatedInView key={index} delay={index * 0.1} className={`group relative overflow-hidden rounded-xl shadow-lg h-64 md:h-auto aspect-[4/3] ${image.className}`}>
+            {allWeddingImages.slice(0, visibleCount).map((image, index) => (
+                <AnimatedInView key={index} delay={index * 0.05} className={`group relative overflow-hidden rounded-xl shadow-lg h-64 md:h-auto aspect-[4/3] ${image.className}`}>
                     <NextImage
                         src={image.src}
                         alt={image.alt}
@@ -69,12 +94,14 @@ export function WeddingHighlightsSection() {
             ))}
         </div>
         
-        <div className="text-center mt-12">
-            <Button asChild size="lg" className="font-body text-lg">
-                <Link href="/gallery">View Full Gallery</Link>
-            </Button>
-        </div>
-
+        {visibleCount < allWeddingImages.length && (
+            <div className="text-center mt-12">
+                <Button onClick={handleLoadMore} variant="outline" className="rounded-full text-base h-auto py-2 px-6 border-muted-foreground/50 text-muted-foreground hover:bg-muted/10 hover:text-foreground">
+                    Show More
+                    <ChevronDown className="w-4 h-4 ml-2"/>
+                </Button>
+            </div>
+        )}
       </div>
     </section>
   );
