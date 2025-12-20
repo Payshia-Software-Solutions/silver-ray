@@ -19,28 +19,21 @@ import { Skeleton } from '@/components/ui/skeleton';
 
 
 const mapApiToExperienceDetail = (apiData: ExperienceFromApi, allImages: ExperienceImage[]): ExperienceDetail => {
+    // Helper to construct a full URL from a path
+    const constructImageUrl = (path: string | null | undefined): string => {
+        if (!path) return 'https://placehold.co/1920x500.png';
+        if (path.startsWith('http')) return path;
+        return `${IMAGE_BASE_URL}${path}`;
+    };
+
     const galleryImages = allImages
-        .filter(img => String(img.experience_id) === String(apiData.id))
         .map(img => ({
-            src: img.image_url,
+            src: constructImageUrl(img.image_url),
             alt: img.alt_text,
             hint: img.alt_text || 'experience gallery',
         }));
 
-    const primaryGalleryImage = galleryImages.find(img => String(img.is_primary) === '1');
-    
-    let heroImageUrl = 'https://placehold.co/1920x500.png';
-    if (apiData.experience_image) {
-        // Correctly handle if the path is already a full URL or just a path segment
-        if (apiData.experience_image.startsWith('http')) {
-            heroImageUrl = apiData.experience_image;
-        } else {
-            heroImageUrl = `${IMAGE_BASE_URL}${apiData.experience_image}`;
-        }
-    } else if (primaryGalleryImage?.src) {
-        heroImageUrl = primaryGalleryImage.src;
-    }
-
+    const heroImageUrl = constructImageUrl(apiData.experience_image);
 
     return {
         id: String(apiData.id),

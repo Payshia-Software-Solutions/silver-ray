@@ -11,9 +11,10 @@ import { weddingVenues, weddingServices } from '@/data/weddingData';
 import { TestimonialsCarousel } from '@/components/weddings/TestimonialsCarousel';
 import type { WeddingPackageFromApi } from '@/types';
 import { getWeddingPackages } from '@/services/api/weddings';
-import { Gift } from 'lucide-react';
+import { Gift, Download } from 'lucide-react';
 import { IMAGE_BASE_URL } from '@/lib/config';
 import { AnimatedInView } from '@/components/shared/AnimatedInView';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
 function WeddingHero() {
   return (
@@ -41,6 +42,62 @@ function WeddingHero() {
     </section>
   );
 }
+
+const videoUrls = [
+    'https://content-provider.payshia.com/silver-ray/other/wedding-1.mp4',
+    'https://content-provider.payshia.com/silver-ray/other/wedding-2.mp4',
+    'https://content-provider.payshia.com/silver-ray/other/wedding-3.mp4',
+    'https://content-provider.payshia.com/silver-ray/other/wedding-4.mp4',
+];
+
+const pdfPackages = [
+    {
+        title: "Gold Menu 2026",
+        description: "Explore the exquisite offerings in our Gold wedding package.",
+        pdfUrl: "https://content-provider.payshia.com/silver-ray/packages/GOLD%20MENU%20-%202026.pdf"
+    },
+    {
+        title: "Grand Silver Ray Menu 01",
+        description: "Details of our premier wedding menu for 2026.",
+        pdfUrl: "https://content-provider.payshia.com/silver-ray/packages/GRAND%20SILVER%20RAY%20MENU%2001-2026.pdf"
+    },
+    {
+        title: "Grand Silver Ray Menu 02",
+        description: "An alternative premier menu for your special day.",
+        pdfUrl: "https://content-provider.payshia.com/silver-ray/packages/GRAND%20SILVER%20RAY%20MENU%2002%20-2026.pdf"
+    },
+    {
+        title: "Grand Silver Ray Menu 03",
+        description: "A third option for our premier wedding menu selections.",
+        pdfUrl: "https://content-provider.payshia.com/silver-ray/packages/GRAND%20SILVER%20RAY%20MENU%2003%20-2026.pdf"
+    },
+    {
+        title: "Platinum Menu 2026",
+        description: "Our most luxurious menu for an unforgettable celebration.",
+        pdfUrl: "https://content-provider.payshia.com/silver-ray/packages/PLATINUM%20MENU%20-2026.pdf"
+    },
+    {
+        title: "LKR 630,000 Package",
+        description: "A comprehensive package for a beautiful wedding celebration.",
+        pdfUrl: "https://content-provider.payshia.com/silver-ray/packages/Rs.630,000.00%20Package%20-2026.pdf"
+    },
+    {
+        title: "LKR 750,000 Package",
+        description: "An enhanced package with additional features and services.",
+        pdfUrl: "https://content-provider.payshia.com/silver-ray/packages/Rs.750,000.00%20Package%20-%202026.pdf"
+    },
+    {
+        title: "LKR 850,000 Package",
+        description: "Our premium package, designed for a truly grand affair.",
+        pdfUrl: "https://content-provider.payshia.com/silver-ray/packages/Rs.850,000.00%20Package%20-%202026.pdf"
+    },
+    {
+        title: "Silver Menu 2026",
+        description: "An elegant and affordable option for your special day.",
+        pdfUrl: "https://content-provider.payshia.com/silver-ray/packages/SILVER%20MENU-2026.pdf"
+    }
+];
+
 
 export default function WeddingsPage() {
   const [packages, setPackages] = useState<WeddingPackageFromApi[]>([]);
@@ -87,6 +144,60 @@ export default function WeddingsPage() {
       </section>
 
       <section className="py-16 lg:py-24 bg-secondary/20">
+        <div className="text-center mb-12 container mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 className="font-headline text-3xl sm:text-4xl font-bold mb-3">Wedding Moments</h2>
+            <p className="font-body text-lg text-muted-foreground max-w-xl mx-auto">
+                See the magic of weddings at Grand Silver Ray.
+            </p>
+        </div>
+        <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-0">
+            {videoUrls.map((url, index) => (
+                <AnimatedInView key={index} delay={index * 0.1}>
+                    <div className="overflow-hidden group relative">
+                        <video autoPlay loop muted playsInline width="100%" className="w-full h-full object-cover transition-transform duration-300 ease-in-out group-hover:scale-105">
+                            <source src={url} type="video/mp4" />
+                            Your browser does not support the video tag.
+                        </video>
+                        <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    </div>
+                </AnimatedInView>
+            ))}
+        </div>
+      </section>
+
+      <section className="py-16 lg:py-24">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="font-headline text-3xl sm:text-4xl font-bold mb-3">Download Our Wedding Packages</h2>
+            <p className="font-body text-lg text-muted-foreground max-w-2xl mx-auto">
+              Explore our detailed wedding packages to find the perfect fit for your celebration. Each PDF provides comprehensive information on menus, services, and pricing.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {pdfPackages.map((pkg) => (
+              <AnimatedInView key={pkg.title} delay={0.1}>
+                <Card className="bg-card text-card-foreground rounded-xl shadow-lg h-full flex flex-col p-6">
+                  <CardHeader className="p-0">
+                    <CardTitle className="font-headline text-xl mb-2">{pkg.title}</CardTitle>
+                    <CardDescription className="text-sm">{pkg.description}</CardDescription>
+                  </CardHeader>
+                  <CardContent className="p-0 flex-grow mt-4">
+                    <Button asChild className="w-full group">
+                      <a href={pkg.pdfUrl} target="_blank" rel="noopener noreferrer">
+                        Download PDF
+                        <Download className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                      </a>
+                    </Button>
+                  </CardContent>
+                </Card>
+              </AnimatedInView>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/*
+      <section className="py-16 lg:py-24 bg-background">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="font-headline text-3xl sm:text-4xl font-bold mb-3">Our Wedding Package Collection</h2>
@@ -120,8 +231,9 @@ export default function WeddingsPage() {
           )}
         </div>
       </section>
+      */}
 
-      <section className="py-16 lg:py-24 bg-background">
+      <section className="py-16 lg:py-24 bg-secondary/20">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="font-headline text-3xl sm:text-4xl font-bold mb-3">Our Wedding Services</h2>
@@ -149,7 +261,7 @@ export default function WeddingsPage() {
 
       <TestimonialsCarousel />
 
-      <section className="py-16 lg:py-20 bg-secondary/20">
+      <section className="py-16 lg:py-20 bg-background">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="font-headline text-3xl sm:text-4xl font-bold mb-4 text-foreground">
             Ready to Begin Your Forever?

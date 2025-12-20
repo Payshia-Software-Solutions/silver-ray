@@ -90,15 +90,15 @@ const DesktopFooter = () => (
                 <ul className="space-y-2 text-sm">
                 <li className="flex items-center">
                     <Phone className="w-4 h-4 mr-2 text-primary" />
-                    <span>+94 11 234 5678</span>
+                    <a href="tel:+94452274764" className="hover:text-primary transition-colors">+94 452 274 764</a>
                 </li>
                 <li className="flex items-center">
                     <Mail className="w-4 h-4 mr-2 text-primary" />
-                    <a href="mailto:info@grandsilverray.com" className="hover:text-primary transition-colors">info@grandsilverray.com</a>
+                    <a href="mailto:reservation@silverray.lk" className="hover:text-primary transition-colors">reservation@silverray.lk</a>
                 </li>
                 <li className="flex items-start">
                     <MapPin className="w-4 h-4 mr-2 text-primary mt-1 flex-shrink-0" />
-                    <span>123, Galle Road, Colombo 3, Sri Lanka</span>
+                    <span>Lellopitiya Dipitigala, Ratnapura, Sri Lanka.</span>
                 </li>
                 </ul>
                 <div className="pt-4">
@@ -188,9 +188,9 @@ const MobileFooter = () => (
         Grand Silver Ray
       </h2>
       <div className="text-sm text-slate-300 space-y-1 mb-6">
-        <p>123 Oceanfront Avenue, Silver Bay</p>
-        <a href="mailto:reservations@grandsilverray.com" className="hover:text-primary transition-colors">reservations@grandsilverray.com</a>
-        <p>+1 (555) 123-4567</p>
+        <p>Lellopitiya Dipitigala, Ratnapura, Sri Lanka.</p>
+        <a href="mailto:reservation@silverray.lk" className="hover:text-primary transition-colors">reservation@silverray.lk</a>
+        <p>+94 452 274 764</p>
       </div>
       <div className="flex space-x-6 mb-8">
         {socialLinks.map((social) => (

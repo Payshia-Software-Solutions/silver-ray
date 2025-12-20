@@ -52,28 +52,21 @@ export default function ContactPage() {
                   <Phone className="w-5 h-5 text-muted-foreground mr-3 mt-0.5 flex-shrink-0" />
                   <div>
                     <p className="text-muted-foreground/80 text-xs">Reservations</p>
-                    <a href="tel:+1234567890" className="text-foreground hover:text-primary transition-colors">+1 234 567 890</a>
-                  </div>
-                </div>
-                <div className="flex items-start">
-                  <Phone className="w-5 h-5 text-muted-foreground mr-3 mt-0.5 flex-shrink-0" />
-                  <div>
-                    <p className="text-muted-foreground/80 text-xs">General Inquiry</p>
-                    <a href="tel:+0987654321" className="text-foreground hover:text-primary transition-colors">+0 987 654 321</a>
+                    <a href="tel:+94452274764" className="text-foreground hover:text-primary transition-colors">+94 452 274 764</a>
                   </div>
                 </div>
                 <div className="flex items-start">
                   <Mail className="w-5 h-5 text-muted-foreground mr-3 mt-0.5 flex-shrink-0" />
                   <div>
                     <p className="text-muted-foreground/80 text-xs">Email</p>
-                    <a href="mailto:info@silverrayhotel.com" className="text-foreground hover:text-primary transition-colors">info@silverrayhotel.com</a>
+                    <a href="mailto:reservation@silverray.lk" className="text-foreground hover:text-primary transition-colors">reservation@silverray.lk</a>
                   </div>
                 </div>
                 <div className="flex items-start">
                   <MapPin className="w-5 h-5 text-muted-foreground mr-3 mt-0.5 flex-shrink-0" />
                   <div>
                      <p className="text-muted-foreground/80 text-xs">Address</p>
-                    <p className="text-foreground">123 Ocean Drive, Seaview City, Country</p>
+                    <p className="text-foreground">Grand Silver Ray, Lellopitiya Dipitigala, Ratnapura, Sri Lanka.</p>
                   </div>
                 </div>
               </div>
@@ -98,14 +91,14 @@ export default function ContactPage() {
                   <CarFront className="w-5 h-5 text-muted-foreground mr-3 mt-0.5 flex-shrink-0" /> 
                   <div>
                     <h3 className="font-medium text-foreground mb-0.5">Local Taxi Services</h3>
-                    <p className="text-muted-foreground/80">Taxis are readily available at the airport and downtown. Ask the driver for "Silver Ray Hotel, Ocean Drive".</p>
+                    <p className="text-muted-foreground/80">Taxis are readily available at the airport and downtown. Ask the driver for "Silver Ray Hotel".</p>
                   </div>
                 </div>
                 <div className="flex items-start">
                   <Car className="w-5 h-5 text-muted-foreground mr-3 mt-0.5 flex-shrink-0" />
                   <div>
                     <h3 className="font-medium text-foreground mb-0.5">Driving Directions</h3>
-                    <p className="text-muted-foreground/80">Take Highway 5 towards Seaview City, exit at Ocean Drive and follow signs to the hotel. Private parking available on premises.</p>
+                    <p className="text-muted-foreground/80">Located in Lellopitiya, Ratnapura. Private parking available on premises.</p>
                   </div>
                 </div>
               </div>

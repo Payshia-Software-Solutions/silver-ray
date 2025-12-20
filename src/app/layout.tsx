@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 import { Toaster } from "@/components/ui/toaster";
 import { ConditionalLayoutWrapper } from '@/components/layout/ConditionalLayoutWrapper';
+import Snowfall from '@/components/shared/Snowfall';
 
 export const metadata: Metadata = {
   title: {
@@ -26,6 +27,7 @@ export default function RootLayout({
         <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=PT+Sans:wght@400;700&display=swap" rel="stylesheet" />
       </head>
       <body className="font-body antialiased min-h-screen flex flex-col" suppressHydrationWarning={true}>
+        <Snowfall />
         <ConditionalLayoutWrapper>
           {children}
         </ConditionalLayoutWrapper>
