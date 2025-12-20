@@ -20,8 +20,8 @@ export default function HomePage() {
         <BanquetsAndWeddingsSection />
       </section>
       <EngagementSection />
-      <FeaturedRoomsSection />
       <FeaturedDiningSection />
+      <FeaturedRoomsSection />
       <TestimonialsSection />
     </>
   );
