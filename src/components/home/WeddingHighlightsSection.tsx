@@ -5,25 +5,20 @@ import NextImage from 'next/image';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { AnimatedInView } from '../shared/AnimatedInView';
-import { ChevronDown } from 'lucide-react';
+import { ArrowRight, ChevronDown } from 'lucide-react';
+import Link from 'next/link';
 
 const allWeddingImages = [
   {
     src: 'https://content-provider.payshia.com/silver-ray/other/IMG_6722.jpg',
     alt: 'Elegant wedding reception table setup with flowers',
     hint: 'wedding table flowers',
-    className: 'md:col-span-2'
+    className: 'md:col-span-2 md:row-span-2' // Main image
   },
   {
     src: 'https://content-provider.payshia.com/silver-ray/other/IMG_6752.jpg',
     alt: 'Outdoor wedding ceremony arch with floral decorations',
     hint: 'wedding ceremony arch',
-    className: ''
-  },
-  {
-    src: 'https://content-provider.payshia.com/silver-ray/other/IMG_6750.jpg',
-    alt: 'Bride and groom walking down the aisle',
-    hint: 'bride groom aisle',
     className: ''
   },
   {
@@ -33,10 +28,16 @@ const allWeddingImages = [
     className: ''
   },
   {
+    src: 'https://content-provider.payshia.com/silver-ray/other/IMG_6750.jpg',
+    alt: 'Bride and groom walking down the aisle',
+    hint: 'bride groom aisle',
+    className: ''
+  },
+  {
     src: 'https://content-provider.payshia.com/silver-ray/other/IMG_6716.jpg',
     alt: 'Close-up of a wedding bouquet',
     hint: 'wedding bouquet flowers',
-    className: 'md:col-span-2'
+    className: ''
   },
   {
     src: 'https://content-provider.payshia.com/silver-ray/other/IMG_6747.jpg',
@@ -58,14 +59,8 @@ const allWeddingImages = [
   },
 ];
 
-const INITIAL_VISIBLE_COUNT = 5;
 
 export function WeddingHighlightsSection() {
-    const [visibleCount, setVisibleCount] = useState(INITIAL_VISIBLE_COUNT);
-
-    const handleLoadMore = () => {
-        setVisibleCount(allWeddingImages.length);
-    };
 
   return (
     <section className="py-16 lg:py-24 bg-secondary/20">
@@ -79,9 +74,9 @@ export function WeddingHighlightsSection() {
             </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {allWeddingImages.slice(0, visibleCount).map((image, index) => (
-                <AnimatedInView key={index} delay={index * 0.05} className={`group relative overflow-hidden rounded-xl shadow-lg h-64 md:h-auto aspect-[4/3] ${image.className}`}>
+        <div className="grid grid-cols-2 md:grid-cols-4 auto-rows-[250px] gap-4">
+            {allWeddingImages.map((image, index) => (
+                <AnimatedInView key={index} delay={index * 0.05} className={`group relative overflow-hidden rounded-xl shadow-lg ${image.className}`}>
                     <NextImage
                         src={image.src}
                         alt={image.alt}
@@ -94,14 +89,14 @@ export function WeddingHighlightsSection() {
             ))}
         </div>
         
-        {visibleCount < allWeddingImages.length && (
-            <div className="text-center mt-12">
-                <Button onClick={handleLoadMore} variant="outline" className="rounded-full text-base h-auto py-2 px-6 border-muted-foreground/50 text-muted-foreground hover:bg-muted/10 hover:text-foreground">
-                    Show More
-                    <ChevronDown className="w-4 h-4 ml-2"/>
-                </Button>
-            </div>
-        )}
+        <div className="text-center mt-12">
+            <Button asChild size="lg" variant="outline" className="font-body text-lg group rounded-full border-primary text-primary hover:bg-primary hover:text-primary-foreground transition-all duration-300">
+                <Link href="/gallery">
+                    View Full Gallery
+                    <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform duration-300" />
+                </Link>
+            </Button>
+        </div>
       </div>
     </section>
   );
