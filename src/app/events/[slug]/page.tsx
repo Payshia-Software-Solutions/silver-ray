@@ -200,14 +200,14 @@ export default function EventDetailPage() {
           </div>
           <div className="lg:col-span-1 lg:sticky lg:top-24 h-fit">
             <div className="bg-card p-6 sm:p-8 rounded-xl shadow-2xl border">
-              <h2 className="font-headline text-2xl font-semibold mb-6">Book This Event</h2>
+              <h2 className="font-headline text-2xl font-semibold mb-6">Book Your Tickets</h2>
               <p className="font-body text-sm text-muted-foreground mb-6">
-                Interested in attending or hosting a similar event? Contact us for more details and booking information.
+                Secure your spot for this event. Tickets are available through our official partner.
               </p>
               <Button asChild size="lg" className="w-full">
-                <Link href={`/contact?subject=Inquiry about ${event.name}`}>
-                  Inquire Now
-                </Link>
+                <a href="https://gotickets.lk/" target="_blank" rel="noopener noreferrer">
+                  Book on GoTickets.lk
+                </a>
               </Button>
             </div>
           </div>
@@ -216,5 +216,3 @@ export default function EventDetailPage() {
     </div>
   );
 }
-
-    
