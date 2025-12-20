@@ -17,10 +17,10 @@ export default function HomePage() {
   return (
     <>
       <HeroSection />
-      <WeddingHighlightsSection />
       <section id="next-section">
         <BanquetsAndWeddingsSection />
       </section>
+      <WeddingHighlightsSection />
       <EngagementSection />
       <FeaturedDiningSection />
       <FeaturedRoomsSection />
