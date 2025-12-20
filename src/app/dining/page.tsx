@@ -122,7 +122,6 @@ export default function DiningPage() {
         </div>
       </section>
       
-      <ReservationSection />
       <InfoBar />
     </div>
   );
