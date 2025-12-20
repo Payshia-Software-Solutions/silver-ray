@@ -24,8 +24,8 @@ interface VenueHighlight {
 
 const venueHighlights: VenueHighlight[] = [
   {
-    id: 'crystal-hall',
-    name: 'The Crystal Hall',
+    id: 'cats-eye',
+    name: 'Cats Eye',
     description: 'A magnificent hall with classic decor, perfect for grand weddings and corporate galas.',
     imageUrl: 'http://content-provider.payshia.com/silver-ray/other/BANQUET-1.webp',
     imageHint: 'elegant banquet hall setup',
@@ -34,7 +34,7 @@ const venueHighlights: VenueHighlight[] = [
       { icon: Users, text: 'Up to 500 guests' },
       { icon: Disc, text: 'Advanced AV System' },
     ],
-    link: '/weddings/venues/crystal-hall',
+    link: '/weddings/venues/cats-eye',
   },
   {
     id: 'sapphire-hall',
