@@ -10,12 +10,14 @@ import type { GalleryApiImage } from '@/types';
 import { IMAGE_BASE_URL } from '@/lib/config';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 export default function GalleryPage() {
   const [images, setImages] = useState<GalleryApiImage[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
 
   useEffect(() => {
     const fetchImages = async () => {
@@ -32,6 +34,23 @@ export default function GalleryPage() {
     };
     fetchImages();
   }, []);
+  
+  const handleNext = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (selectedImageIndex !== null) {
+      setSelectedImageIndex((selectedImageIndex + 1) % images.length);
+    }
+  };
+
+  const handlePrev = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (selectedImageIndex !== null) {
+      setSelectedImageIndex((selectedImageIndex - 1 + images.length) % images.length);
+    }
+  };
+
+  const selectedImage = selectedImageIndex !== null ? `${IMAGE_BASE_URL}${images[selectedImageIndex].image_url}` : null;
+
 
   const renderContent = () => {
     if (isLoading) {
@@ -74,14 +93,14 @@ export default function GalleryPage() {
     const constructUrl = (url: string) => `${IMAGE_BASE_URL}${url}`;
 
     return (
-      <Dialog open={!!selectedImage} onOpenChange={(isOpen) => !isOpen && setSelectedImage(null)}>
+      <Dialog open={selectedImageIndex !== null} onOpenChange={(isOpen) => !isOpen && setSelectedImageIndex(null)}>
         {/* Mobile Carousel */}
         <div className="md:hidden">
           <Carousel className="w-full max-w-sm mx-auto">
             <CarouselContent>
               {images.map((image, index) => (
                 <CarouselItem key={image.id || index}>
-                  <Card onClick={() => setSelectedImage(constructUrl(image.image_url))}>
+                  <Card onClick={() => setSelectedImageIndex(index)}>
                     <CardContent className="relative aspect-square">
                       <NextImage
                         src={constructUrl(image.image_url)}
@@ -107,7 +126,7 @@ export default function GalleryPage() {
             <div 
               key={image.id || index} 
               className="relative w-full h-64 rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300 cursor-pointer group"
-              onClick={() => setSelectedImage(constructUrl(image.image_url))}
+              onClick={() => setSelectedImageIndex(index)}
             >
               <NextImage
                 src={constructUrl(image.image_url)}
@@ -123,10 +142,26 @@ export default function GalleryPage() {
         </div>
 
         {selectedImage && (
-          <DialogContent className="max-w-4xl p-0 border-0 bg-transparent">
+          <DialogContent className="max-w-5xl w-full p-0 border-0 bg-transparent shadow-none">
             <div className="relative aspect-video">
               <NextImage src={selectedImage} alt="Enlarged gallery image" fill className="object-contain" />
             </div>
+             <Button
+              variant="ghost"
+              size="icon"
+              onClick={handlePrev}
+              className="absolute left-2 top-1/2 -translate-y-1/2 rounded-full h-10 w-10 bg-black/50 text-white hover:bg-black/70"
+            >
+              <ChevronLeft className="h-6 w-6" />
+            </Button>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={handleNext}
+              className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full h-10 w-10 bg-black/50 text-white hover:bg-black/70"
+            >
+              <ChevronRight className="h-6 w-6" />
+            </Button>
           </DialogContent>
         )}
       </Dialog>
