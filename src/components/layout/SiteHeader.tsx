@@ -11,9 +11,9 @@ import { cn } from '@/lib/utils';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 
 const navLinks = [
-  { href: '/rooms', label: 'Rooms' },
   { href: '/weddings', label: 'Weddings' },
   { href: '/dining', label: 'Dining' },
+  { href: '/rooms', label: 'Rooms' },
   { href: '/events', label: 'Events' },
   { href: '/experiences', label: 'Experiences' },
   { href: '/gallery', label: 'Gallery' },
