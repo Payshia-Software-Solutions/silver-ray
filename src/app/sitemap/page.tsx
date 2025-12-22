@@ -53,6 +53,10 @@ export default function SitemapPage() {
       { href: '/faq', label: 'FAQs' },
   ];
 
+  const otherLinks = [
+      { href: '/sitemap', label: 'Sitemap' },
+  ]
+
   return (
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
       <div className="max-w-4xl mx-auto">
@@ -66,7 +70,12 @@ export default function SitemapPage() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
             <SitemapSection title="Main Pages" links={mainPages} />
             <SitemapSection title="Bookings & Events" links={bookingsAndEvents} />
-            <SitemapSection title="Information" links={legalPages} />
+            <div>
+              <SitemapSection title="Information" links={legalPages} />
+              <div className="mt-8">
+                 <SitemapSection title="Other" links={otherLinks} />
+              </div>
+            </div>
         </div>
       </div>
     </div>
