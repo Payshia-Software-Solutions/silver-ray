@@ -16,6 +16,13 @@ interface VenueDetailClientProps {
     images: RestaurantImage[];
 }
 
+const venuePhoneNumbers: { [key: string]: string } = {
+    'Main Restaurant': '0714040100',
+    'Curry Pot': '0712770770',
+    'Cafe 111': '0717113111',
+};
+
+
 export function VenueDetailClient({ venue, images }: VenueDetailClientProps) {
 
     // Attempt to find a menu by the numeric ID, if not found, fall back to 'main-restaurant'
@@ -30,12 +37,14 @@ export function VenueDetailClient({ venue, images }: VenueDetailClientProps) {
         { label: venue.venue_name },
     ];
 
+    const contactNumber = venuePhoneNumbers[venue.venue_name] || '+94 11 234 5678';
+
     // Dummy data until API provides it
     const details = [
         { icon: Clock, label: 'Hours', value: venue.operating_hours_id || '8AM - 10PM' }, // Placeholder
         { icon: Users, label: 'Capacity', value: venue.capacity ? `${venue.capacity} guests` : 'N/A' },
         { icon: MapPin, label: 'Location', value: 'Lobby Level' }, // Placeholder
-        { icon: Phone, label: 'Contact', value: '+94 11 234 5678' } // Placeholder
+        { icon: Phone, label: 'Contact', value: contactNumber } 
     ];
     
     const regularCategories = menuData?.categories.filter(cat => cat.id !== 'chef-specials') || [];

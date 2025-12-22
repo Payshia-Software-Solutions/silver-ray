@@ -1,16 +1,20 @@
+'use client';
 
+import { useState } from 'react';
 import { TestimonialCard } from '@/components/shared/TestimonialCard';
 import { mockTestimonials } from '@/data/mockData';
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
 import { AnimatedInView } from '../shared/AnimatedInView';
+import { Button } from '../ui/button';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '../ui/dialog';
+import { ScrollArea } from '../ui/scroll-area';
+import { Plus } from 'lucide-react';
 
 export function TestimonialsSection() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // Show first 3 testimonials on the main page
+  const featuredTestimonials = mockTestimonials.slice(0, 3);
+
   return (
     <section className="py-16 lg:py-24 bg-background">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -23,27 +27,35 @@ export function TestimonialsSection() {
           </p>
         </div>
 
-        <Carousel
-          opts={{
-            align: "start",
-            loop: mockTestimonials.length > 2, 
-          }}
-          className="w-full max-w-xs sm:max-w-xl md:max-w-3xl lg:max-w-5xl xl:max-w-6xl mx-auto"
-        >
-          <CarouselContent className="-ml-4 py-4">
-            {mockTestimonials.map((testimonial, index) => (
-              <CarouselItem key={testimonial.id} className="pl-4 basis-full sm:basis-1/2 lg:basis-1/3">
-                <AnimatedInView delay={index * 0.1} className="h-full">
-                  <div className="p-1 h-full">
-                    <TestimonialCard testimonial={testimonial} />
-                  </div>
-                </AnimatedInView>
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-          <CarouselPrevious />
-          <CarouselNext />
-        </Carousel>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {featuredTestimonials.map((testimonial, index) => (
+            <AnimatedInView key={testimonial.id} delay={index * 0.1}>
+              <TestimonialCard testimonial={testimonial} />
+            </AnimatedInView>
+          ))}
+        </div>
+
+        <div className="text-center mt-12">
+          <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
+            <DialogTrigger asChild>
+              <Button variant="outline" size="lg">
+                <Plus className="w-4 h-4 mr-2" /> Show All Reviews
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-2xl">
+              <DialogHeader>
+                <DialogTitle>All Guest Reviews</DialogTitle>
+              </DialogHeader>
+              <ScrollArea className="h-[60vh] pr-6">
+                <div className="space-y-6 py-4">
+                  {mockTestimonials.map((testimonial) => (
+                    <TestimonialCard key={`modal-${testimonial.id}`} testimonial={testimonial} isModalVersion={true} />
+                  ))}
+                </div>
+              </ScrollArea>
+            </DialogContent>
+          </Dialog>
+        </div>
       </div>
     </section>
   );

@@ -116,19 +116,19 @@ export const initialManageableWeddingServices: ManageableWeddingService[] = [
 
 export const weddingVenues: WeddingVenue[] = [
   {
-    id: 'crystal-hall',
-    name: 'The Crystal Hall',
+    id: 'cats-eye-01',
+    name: "Cat's Eye 01",
     description: 'A magnificent hall with classic decor, perfect for grand weddings and corporate galas.',
     imageUrl: 'http://content-provider.payshia.com/silver-ray/other/BANQUET-1.webp',
     imageHint: 'elegant banquet hall setup',
     features: [
-      { icon: Users, text: 'Up to 500 guests' },
+      { icon: Users, text: 'Up to 250 guests' },
       { icon: Disc, text: 'Advanced AV System' },
     ],
   },
   {
-    id: 'sapphire-hall',
-    name: 'The Sapphire Hall',
+    id: 'cats-eye-02',
+    name: "Cat's Eye 02",
     description: 'A versatile space with modern aesthetics, ideal for conferences and elegant receptions.',
     imageUrl: 'http://content-provider.payshia.com/silver-ray/other/BANQUET-2.webp',
     imageHint: 'modern banquet hall reception',
@@ -138,13 +138,13 @@ export const weddingVenues: WeddingVenue[] = [
     ],
   },
    {
-    id: 'emerald-hall',
-    name: 'The Emerald Hall',
+    id: 'cats-eye-03',
+    name: "Cat's Eye 03",
     description: 'An intimate setting with lush decor, perfect for smaller weddings, workshops, and private dinners.',
     imageUrl: 'http://content-provider.payshia.com/silver-ray/other/BANQUET-3.webp',
     imageHint: 'intimate banquet setting',
     features: [
-      { icon: Users, text: 'Up to 150 guests' },
+      { icon: Users, text: 'Up to 250 guests' },
       { icon: Disc, text: 'Cozy Ambiance' },
     ],
   },
