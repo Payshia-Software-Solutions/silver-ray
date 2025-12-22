@@ -6,49 +6,27 @@ import NextImage from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import {
-  HeartPulse, // Wellness & Spa
-  MountainSnow, // Adventure & Nature, Sunrise Peak
-  Palette, // Cultural Immersion, Heritage Museum
-  ChefHat, // Culinary Classes
-  ToyBrick, // Kids Activities
+  MountainSnow,
   Clock,
-  Users, // Using Users for price per person icon as per design
-  CalendarCheck,
-  MapPin,
-  Utensils, // Food Enthusiasm?, Local Market new
-  Leaf, // Emerald Forest
-  Waves, // Crystal Falls new
-  Landmark, // Ancient Temple new
+  Utensils, 
+  Leaf, 
+  Waves, 
+  Landmark, 
   Sparkles,
-  ChevronDown,
   Gem,
   ArrowRight,
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import React from 'react';
-import { getExperiences, getExperienceImagesByExperienceId } from '@/services/api/experiences';
-import type { ExperienceFromApi, ExperienceImage, FeaturedExperience } from '@/types';
+import Autoplay from "embla-carousel-autoplay";
+import { getExperiences } from '@/services/api/experiences';
+import type { ExperienceFromApi, ExperienceImage } from '@/types';
 import { IMAGE_BASE_URL } from '@/lib/config';
 import { AnimatedInView } from '@/components/shared/AnimatedInView';
 import { Badge } from '@/components/ui/badge';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Skeleton } from '@/components/ui/skeleton';
 
-
-interface ExperienceCategory {
-  id: string;
-  icon: LucideIcon;
-  title:string;
-  description: string;
-  imageHint: string;
-}
-
-interface CurateRecommendation {
-  id: string;
-  icon: LucideIcon;
-  title: string;
-  description: string;
-  link: string;
-  linkText: string;
-}
 
 interface NearbyAttraction {
   id: string;
@@ -58,19 +36,6 @@ interface NearbyAttraction {
   distance: string;
   icon?: LucideIcon;
 }
-
-const experienceCategories: ExperienceCategory[] = [
-  { id: 'wellness', icon: HeartPulse, title: 'Wellness & Spa', description: 'Revive mind and body with soothing spa rituals and holistic wellness journeys.', imageHint: 'spa massage therapy' },
-  { id: 'adventure', icon: MountainSnow, title: 'Adventure & Nature', description: 'Explore breathtaking landscapes with guided hikes and outdoor adventures.', imageHint: 'mountain hiking landscape' },
-  { id: 'cultural', icon: Palette, title: 'Cultural Immersion', description: 'Connect with local heritage through authentic arts, crafts, and traditions.', imageHint: 'traditional art crafts' },
-  { id: 'culinary', icon: ChefHat, title: 'Culinary Classes', description: 'Master local flavors with hands-on cooking classes guided by expert chefs.', imageHint: 'cooking class food' },
-  { id: 'kids', icon: ToyBrick, title: "Kids' Activities", description: 'Keep young guests entertained with creative and educational fun programs.', imageHint: 'children playing games' },
-];
-
-const curateRecommendations: CurateRecommendation[] = [
-  { id: 'wellness-rec', icon: Sparkles, title: 'Love Wellness?', description: 'Try our Signature Spa Ritual and Sunrise Yoga Session for total mindfulness.', link: '/contact?subject=Wellness Package Inquiry', linkText: 'Explore Wellness' },
-  { id: 'foodie-rec', icon: Utensils, title: 'Food Enthusiasm?', description: 'Join the Traditional Sri Lankan Cooking Class and taste your creations.', link: '/contact?subject=Culinary Experience Inquiry', linkText: 'Discover Culinary Arts' },
-];
 
 const nearbyAttractions: NearbyAttraction[] = [
   { id: 'udawalawe', imageUrl: 'https://content-provider.payshia.com/silver-ray/experience-images/Udawalawe%202-optimized.webp', imageHint: 'elephants in Udawalawe national park', title: 'Udawalawe Safari', distance: '60 km from hotel', icon: Users },
@@ -82,123 +47,6 @@ const nearbyAttractions: NearbyAttraction[] = [
   { id: 'bopath-ella', imageUrl: 'https://content-provider.payshia.com/silver-ray/experience-images/bopath%202-optimized.webp', imageHint: 'Bopath Ella waterfall', title: 'Bopath Ella', distance: '15 km from hotel', icon: Waves },
   { id: 'bambarakanda', imageUrl: 'https://content-provider.payshia.com/silver-ray/experience-images/Bambarakanda%202-optimized.webp', imageHint: 'Bambarakanda falls', title: 'Bambarakanda', distance: '50 km from hotel', icon: Waves },
 ];
-
-const sapphireTrailExperience: ExperienceFromApi = {
-  id: 99,
-  slug: 'sapphire-trails',
-  name: 'Sapphire Trails',
-  short_description: 'Journey into the heart of Sabaragamuwa and uncover the secrets of the world-renowned Ceylon sapphires.',
-  detailed_description: 'Explore a traditional gem mine, learn about the mining process from local experts, and witness the journey of a sapphire from deep within the earth to a sparkling gem. This is a unique cultural and geological adventure.',
-  duration: '4 Hours',
-  Price: '5000',
-  experience_image: 'https://images.unsplash.com/photo-1617063491873-1c71a3962b1a?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-  advance_booking_required: 1,
-  min_participants: 2,
-  company_id: '1',
-  meeting_Point: 'Hotel Lobby',
-  pricing_basis: 'Per Person',
-  max_participants: 8,
-  walk_in_available: 0,
-  day_of_week: 'Daily',
-  is_available: 1,
-  schedule_note: 'Morning and afternoon tours available. Includes transportation.',
-  status: 'Active',
-  time_slot: 'Morning, Afternoon',
-  created_at: new Date().toISOString(),
-  updated_at: new Date().toISOString(),
-  created_by: 'admin',
-  updated_by: null,
-};
-
-
-const FeaturedExperienceCard = ({ exp }: { exp: ExperienceFromApi }) => {
-    const [imageUrl, setImageUrl] = useState<string | null>(null);
-    const [imageHint, setImageHint] = useState<string>('experience image');
-    const [isImageLoading, setIsImageLoading] = useState(true);
-
-    useEffect(() => {
-        const fetchImage = async () => {
-            if (!exp.id || exp.id === 99) { // Handle static experience
-                setIsImageLoading(false);
-                setImageUrl(exp.experience_image || 'https://placehold.co/600x400.png');
-                setImageHint(exp.slug === 'sapphire-trails' ? 'blue sapphire gem' : 'experience image');
-                return;
-            }
-            try {
-                setIsImageLoading(true);
-                const images: ExperienceImage[] = await getExperienceImagesByExperienceId(String(exp.id));
-                const primaryImage = images.find(img => String(img.is_primary) === "1") || images[0];
-
-                if (primaryImage && primaryImage.image_url) {
-                    const finalUrl = primaryImage.image_url.startsWith('http')
-                        ? primaryImage.image_url
-                        : `${IMAGE_BASE_URL}${primaryImage.image_url.replace(/\\/g, '/').replace(/^\//, '')}`;
-                    setImageUrl(finalUrl);
-                    setImageHint(primaryImage.alt_text || 'experience image');
-                } else if (exp.experience_image) {
-                     const finalUrl = exp.experience_image.startsWith('http')
-                        ? exp.experience_image
-                        : `${IMAGE_BASE_URL}${exp.experience_image.replace(/\\/g, '/').replace(/^\//, '')}`;
-                    setImageUrl(finalUrl);
-                } else {
-                    setImageUrl('https://placehold.co/600x400.png');
-                }
-            } catch (error) {
-                console.error(`Failed to fetch image for experience ${exp.id}:`, error);
-                setImageUrl('https://placehold.co/600x400.png');
-            } finally {
-                setIsImageLoading(false);
-            }
-        };
-
-        fetchImage();
-    }, [exp.id, exp.experience_image, exp.slug]);
-
-
-    return (
-        <Card className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col bg-card rounded-xl h-full border-none">
-            <CardHeader className="p-0 relative aspect-video">
-                 {isImageLoading ? (
-                    <Skeleton className="w-full h-full" />
-                ) : (
-                    <NextImage
-                        src={imageUrl || 'https://placehold.co/600x400.png'}
-                        alt={exp.name}
-                        data-ai-hint={imageHint}
-                        fill
-                        className="object-cover"
-                        unoptimized
-                    />
-                )}
-            </CardHeader>
-            <CardContent className="p-5 flex flex-col flex-grow">
-                <CardTitle className="font-headline text-xl mb-2">{exp.name}</CardTitle>
-                <CardDescription className="font-body text-sm text-muted-foreground mb-4 flex-grow line-clamp-3">
-                {exp.short_description}
-                </CardDescription>
-                <div className="font-body text-xs text-muted-foreground space-y-1.5 mb-4 grid grid-cols-2">
-                    <div className="flex items-center"><Clock className="w-3.5 h-3.5 mr-1.5 text-primary" /> {exp.duration}</div>
-                    <div className="flex items-center"><Users className="w-3.5 h-3.5 mr-1.5 text-primary" /> LKR {parseFloat(exp.Price).toLocaleString()}</div>
-                    <div className="flex items-center col-span-2"><CalendarCheck className="w-3.5 h-3.5 mr-1.5 text-primary" /> {exp.advance_booking_required ? 'Advance Booking Required' : 'Walk-ins Welcome'}</div>
-                </div>
-                <Button asChild className="w-full mt-auto bg-primary text-primary-foreground hover:bg-primary/90 rounded-full h-11">
-                    <Link href={`/experiences/book/${exp.slug}`}>Book This Experience</Link>
-                </Button>
-            </CardContent>
-        </Card>
-    );
-};
-
-const ExperienceCategoryCard = ({ category }: { category: ExperienceCategory }) => (
-  <Card className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col bg-card rounded-xl h-full border-none text-center p-6 items-center">
-    <div className="w-24 h-24 bg-secondary/50 rounded-full flex items-center justify-center mb-4 border-2 border-primary/20">
-      <category.icon className="w-12 h-12 text-primary" />
-    </div>
-    <h3 className="font-headline text-xl font-semibold mb-2">{category.title}</h3>
-    <p className="font-body text-sm text-muted-foreground flex-grow">{category.description}</p>
-  </Card>
-);
-
 
 function ExperiencesPage() {
     const [allExperiences, setAllExperiences] = useState<ExperienceFromApi[]>([]);
@@ -215,11 +63,10 @@ function ExperiencesPage() {
             try {
                 setIsLoading(true);
                 const experiencesData = await getExperiences();
-                setAllExperiences([sapphireTrailExperience, ...experiencesData]);
+                setAllExperiences(experiencesData);
             } catch (err: any) {
                 console.error("Failed to fetch experiences:", err);
                 setError("Failed to load experiences. Please try again later.");
-                setAllExperiences([sapphireTrailExperience]); // Show static one even if API fails
             } finally {
                 setIsLoading(false);
             }
