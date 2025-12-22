@@ -101,6 +101,25 @@ const DesktopFooter = () => (
                     <span>Lellopitiya Dipitigala, Ratnapura, Sri Lanka.</span>
                 </li>
                 </ul>
+
+                <div className="pt-4">
+                  <h3 className="font-headline text-lg font-semibold text-slate-100 mb-2">Outlet Contacts</h3>
+                   <ul className="space-y-2 text-sm">
+                    <li className="flex items-center">
+                        <span className="w-16">Curry pot:</span>
+                        <a href="tel:0712770770" className="hover:text-primary transition-colors">0712770770</a>
+                    </li>
+                    <li className="flex items-center">
+                        <span className="w-16">Cafe 111:</span>
+                        <a href="tel:0717113111" className="hover:text-primary transition-colors">0717113111</a>
+                    </li>
+                    <li className="flex items-center">
+                        <span className="w-16">Main rest:</span>
+                        <a href="tel:0714040100" className="hover:text-primary transition-colors">0714040100</a>
+                    </li>
+                  </ul>
+                </div>
+
                 <div className="pt-4">
                 <h3 className="font-headline text-lg font-semibold text-slate-100 mb-3">Stay Connected</h3>
                 <div className="flex space-x-3">
@@ -191,6 +210,23 @@ const MobileFooter = () => (
         <p>Lellopitiya Dipitigala, Ratnapura, Sri Lanka.</p>
         <a href="mailto:reservation@silverray.lk" className="hover:text-primary transition-colors">reservation@silverray.lk</a>
         <p>+94 452 274 764</p>
+         <div className="pt-4 text-left">
+            <h3 className="font-headline text-base font-semibold text-slate-100 mb-2 text-center">Outlet Contacts</h3>
+             <ul className="space-y-1 text-sm">
+              <li className="flex items-center justify-center">
+                  <span className="w-24 text-right mr-2">Curry pot:</span>
+                  <a href="tel:0712770770" className="hover:text-primary transition-colors">0712770770</a>
+              </li>
+              <li className="flex items-center justify-center">
+                  <span className="w-24 text-right mr-2">Cafe 111:</span>
+                  <a href="tel:0717113111" className="hover:text-primary transition-colors">0717113111</a>
+              </li>
+              <li className="flex items-center justify-center">
+                  <span className="w-24 text-right mr-2">Main restaurant:</span>
+                  <a href="tel:0714040100" className="hover:text-primary transition-colors">0714040100</a>
+              </li>
+            </ul>
+          </div>
       </div>
       <div className="flex space-x-6 mb-8">
         {socialLinks.map((social) => (
