@@ -113,7 +113,7 @@ function ExperiencesPage() {
                 <AnimatedInView>
                     <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl">
                         <NextImage
-                            src="https://images.unsplash.com/photo-1617063491873-1c71a3962b1a?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                            src="https://sapphiretrails.lk/_next/image?url=https%3A%2F%2Fcontent-provider.payshia.com%2Fsapphire-trail%2Fimages%2Fimg35.webp&w=3840&q=75"
                             alt="A beautiful blue sapphire held by tweezers"
                             data-ai-hint="blue sapphire gem"
                             fill
