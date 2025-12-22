@@ -24,6 +24,7 @@ import {
   Sparkles,
   ChevronDown,
   Gem,
+  ArrowRight,
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
@@ -261,8 +262,46 @@ function ExperiencesPage() {
         </div>
       </section>
 
+      {/* Sapphire Trails Section */}
+      <section className="py-16 lg:py-24 bg-secondary/20">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+                <AnimatedInView>
+                    <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl">
+                        <NextImage
+                            src="https://images.unsplash.com/photo-1617063491873-1c71a3962b1a?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                            alt="A beautiful blue sapphire held by tweezers"
+                            data-ai-hint="blue sapphire gem"
+                            fill
+                            className="object-cover"
+                        />
+                    </div>
+                </AnimatedInView>
+                <AnimatedInView delay={0.1}>
+                    <div>
+                        <Badge variant="outline" className="mb-3 text-sm border-primary text-primary">Signature Experience</Badge>
+                        <h2 className="font-headline text-3xl sm:text-4xl font-bold mb-4">Sapphire Trails</h2>
+                        <p className="font-body text-lg text-muted-foreground mb-6">
+                            Journey into the heart of Sabaragamuwa, the legendary land of gems. This exclusive tour takes you to a traditional gem mine where you can witness the entire process of unearthing Ceylon’s world-renowned blue sapphires.
+                        </p>
+                        <div className="flex items-center space-x-6 mb-8 text-sm">
+                            <div className="flex items-center text-muted-foreground"><Gem className="w-5 h-5 mr-2 text-primary" /> Gemology & Culture</div>
+                            <div className="flex items-center text-muted-foreground"><Clock className="w-5 h-5 mr-2 text-primary" /> 4 Hour Tour</div>
+                        </div>
+                        <Button asChild size="lg" className="font-body text-lg group">
+                            <Link href="/experiences/book/sapphire-trails">
+                                Discover the Trail
+                                <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
+                            </Link>
+                        </Button>
+                    </div>
+                </AnimatedInView>
+            </div>
+        </div>
+      </section>
+
       {/* Explore Nearby Attractions Section */}
-      <section className="py-16 lg:py-20 bg-secondary/20">
+      <section className="py-16 lg:py-20 bg-background">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="font-headline text-3xl sm:text-4xl font-bold text-center mb-12">Explore Nearby Attractions</h2>
            {/* Mobile List View */}
