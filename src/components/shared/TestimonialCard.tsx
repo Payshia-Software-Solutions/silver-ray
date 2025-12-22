@@ -77,7 +77,7 @@ export function TestimonialCard({ testimonial, isModalVersion = false }: Testimo
           </div>
         )}
       <CardContent className="p-0 flex flex-col items-center">
-        <blockquote className="font-body text-sm text-foreground/80 mb-4 italic line-clamp-4">
+        <blockquote className="font-body text-sm text-foreground/80 mb-4 italic">
           "{testimonial.quote}"
         </blockquote>
         <div className="flex flex-col items-center">
