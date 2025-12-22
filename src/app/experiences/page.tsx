@@ -75,13 +75,16 @@ const curateRecommendations: CurateRecommendation[] = [
 ];
 
 const nearbyAttractions: NearbyAttraction[] = [
-  { id: 'crystal-falls', imageUrl: 'https://images.unsplash.com/photo-1519582149095-fe7d19b2a3d2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHx3YXRlcmZhbGwlMjBuYXR1cmV8ZW58MHx8fHwxNzQ5MTQ1NDMxfDA&ixlib=rb-4.1.0&q=80&w=1080', imageHint: 'waterfall nature', title: 'Crystal Falls', distance: '2.1 km from hotel', icon: Waves },
-  { id: 'emerald-forest', imageUrl: 'https://images.unsplash.com/photo-1640354065652-64832d9ba672?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxmb3Jlc3QlMjByZXNlcnZlJTIwdHJhaWx8ZW58MHx8fHwxNzQ5MTQ1NDMxfDA&ixlib.rb-4.1.0&q=80&w=1080', imageHint: 'forest reserve trail', title: 'Emerald Forest Reserve', distance: '4.3 km from hotel', icon: Leaf },
-  { id: 'heritage-museum', imageUrl: 'https://images.unsplash.com/photo-1743881188980-4de44e2bba56?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxtdXNldW0lMjBoaXN0b3JpY2FsJTIwYnVpbGRpbmd8ZW58MHx8fHwxNzQ5MTQ1NDMxfDA&ixlib-rb-4.1.0&q=80&w=1080', imageHint: 'museum historical building', title: 'Heritage Museum', distance: '1.8 km from hotel', icon: Palette },
-  { id: 'sunrise-peak', imageUrl: 'https://images.unsplash.com/photo-1466854076813-4aa9ac0fc347?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxtb3VudGFpbiUyMHBlYWslMjBzdW5yaXNlfGVufDB8fHx8MTc0OTE0NTQzMXww&ixlib.rb-4.1.0&q=80&w=1080', imageHint: 'mountain peak sunrise', title: 'Sunrise Peak', distance: '6.7 km from hotel', icon: MountainSnow },
-  { id: 'local-market', imageUrl: 'https://images.unsplash.com/photo-1533264533981-8aead62802fd?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxsb2NhbCUyMG1hcmtldCUyMHN0YWxsc3xlbnwwfHx8fDE3NDkxNDU0MzF8MA&ixlib.rb-4.1.0&q=80&w=1080', imageHint: 'local market stalls', title: 'Local Market', distance: '0.9 km from hotel', icon: Utensils },
-  { id: 'ancient-temple', imageUrl: 'https://images.unsplash.com/photo-1730758070932-0ad2926af54c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxhbmNpZW50JTIwdGVtcGxlJTIwcnVpbnN8ZW58MHx8fHwxNzQ5MTQ1NDMxfDA&ixlib-rb-4.1.0&q=80&w=1080', imageHint: 'ancient temple ruins', title: 'Ancient Temple', distance: '3.0 km from hotel', icon: Landmark },
+  { id: 'udawalawe', imageUrl: 'https://content-provider.payshia.com/silver-ray/experience-images/Udawalawe%202-optimized.webp', imageHint: 'elephants in Udawalawe national park', title: 'Udawalawe Safari', distance: '60 km from hotel', icon: Users },
+  { id: 'sri-pada', imageUrl: 'https://content-provider.payshia.com/silver-ray/experience-images/Sri%20pada%202-optimized.webp', imageHint: 'Sri Pada Adams Peak mountain', title: 'Sri Pada (Adam\'s Peak)', distance: '45 km from hotel', icon: MountainSnow },
+  { id: 'sinharaja', imageUrl: 'https://content-provider.payshia.com/silver-ray/experience-images/Sinharaja%202-optimized.webp', imageHint: 'Sinharaja forest reserve', title: 'Sinharaja Forest', distance: '35 km from hotel', icon: Leaf },
+  { id: 'saman-dewalaya', imageUrl: 'https://content-provider.payshia.com/silver-ray/experience-images/saman%20dewalaya%202-optimized.webp', imageHint: 'Saman Devalaya temple', title: 'Saman Devalaya', distance: '5 km from hotel', icon: Landmark },
+  { id: 'kirindi-ella', imageUrl: 'https://content-provider.payshia.com/silver-ray/experience-images/kirindi%20ella%202-optimized.webp', imageHint: 'Kirindi Ella waterfall', title: 'Kirindi Ella', distance: '20 km from hotel', icon: Waves },
+  { id: 'horton-plains', imageUrl: 'https://content-provider.payshia.com/silver-ray/experience-images/horton%20plains%202-optimized.webp', imageHint: 'Horton Plains national park', title: 'Horton Plains', distance: '70 km from hotel', icon: MountainSnow },
+  { id: 'bopath-ella', imageUrl: 'https://content-provider.payshia.com/silver-ray/experience-images/bopath%202-optimized.webp', imageHint: 'Bopath Ella waterfall', title: 'Bopath Ella', distance: '15 km from hotel', icon: Waves },
+  { id: 'bambarakanda', imageUrl: 'https://content-provider.payshia.com/silver-ray/experience-images/Bambarakanda%202-optimized.webp', imageHint: 'Bambarakanda falls', title: 'Bambarakanda', distance: '50 km from hotel', icon: Waves },
 ];
+
 
 const FeaturedExperienceCard = ({ exp }: { exp: ExperienceFromApi }) => {
     const [imageUrl, setImageUrl] = useState<string | null>(null);
@@ -358,7 +361,7 @@ function ExperiencesPage() {
             ))}
           </div>
            {/* Desktop Card View */}
-            <div className="hidden md:grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6 gap-x-6 gap-y-10 items-start">
+            <div className="hidden md:grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-4 gap-x-6 gap-y-10 items-start">
             {nearbyAttractions.map((attraction, index) => (
               <AnimatedInView key={attraction.id} delay={index * 0.05} className="flex flex-col items-center text-center group h-full">
                 {attraction.icon && <attraction.icon className="w-8 h-8 text-primary mb-2 transition-colors group-hover:text-primary/80" />}
@@ -377,6 +380,7 @@ function ExperiencesPage() {
                       data-ai-hint={attraction.imageHint}
                       fill
                       className="object-cover transition-transform duration-300 group-hover:scale-105"
+                      unoptimized
                     />
                   </div>
                 </Link>
@@ -391,3 +395,5 @@ function ExperiencesPage() {
 
 // You must export default from a page file
 export default ExperiencesPage;
+
+    
