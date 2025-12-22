@@ -12,7 +12,7 @@ import type { ExperienceDetail, BreadcrumbItem } from '@/types';
 import { Breadcrumbs } from '@/components/shared/Breadcrumbs';
 import { ExperienceBookingForm } from '@/components/experiences/booking/ExperienceBookingForm';
 import { Button } from '@/components/ui/button';
-import { Clock, Users, MapPin, ListChecks, CalendarDays, XCircle, ShoppingBag, Gem } from 'lucide-react';
+import { Clock, Users, MapPin, ListChecks, CalendarDays, XCircle, ShoppingBag, Gem, Info } from 'lucide-react';
 import { IMAGE_BASE_URL } from '@/lib/config';
 import { Skeleton } from '@/components/ui/skeleton';
 
@@ -128,13 +128,27 @@ export default function SapphireTrailsPage() {
           <div className="lg:col-span-3">
             <ExperienceContentLayout experience={experience} />
           </div>
-          <div className="lg:col-span-2 lg:sticky lg:top-24 h-fit">
+          <div className="lg:col-span-2 lg:sticky lg:top-24 h-fit space-y-6">
             <div className="bg-card p-6 sm:p-8 rounded-xl shadow-2xl">
               <h2 className="font-headline text-2xl font-semibold mb-1">Book Your Experience</h2>
               <p className="font-body text-sm text-muted-foreground mb-6">
                 Please fill out the form below to confirm your booking. Our team will contact you shortly.
               </p>
               <ExperienceBookingForm experienceId={experience.id} defaultAdults={experience.defaultAdults} />
+            </div>
+            <div className="bg-blue-50 border border-blue-200 text-blue-900 p-6 rounded-xl shadow-lg">
+                <h3 className="font-headline text-xl font-semibold mb-3 flex items-center">
+                    <Info className="w-5 h-5 mr-2 text-blue-600"/>
+                    More Information
+                </h3>
+                <p className="font-body text-sm text-blue-800/90 mb-4">
+                    For more in-depth details about the gem mining history, processes, and the cultural significance of sapphires in Sri Lanka, visit the official Sapphire Trails website.
+                </p>
+                <Button asChild size="sm" className="w-full bg-blue-600 hover:bg-blue-700 text-white">
+                    <a href="https://sapphiretrails.lk" target="_blank" rel="noopener noreferrer">
+                        Visit sapphiretrails.lk
+                    </a>
+                </Button>
             </div>
           </div>
         </div>
