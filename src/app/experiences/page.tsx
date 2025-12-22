@@ -5,8 +5,6 @@ import { useState, useEffect } from 'react';
 import NextImage from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { Checkbox } from '@/components/ui/checkbox';
 import {
   HeartPulse, // Wellness & Spa
   MountainSnow, // Adventure & Nature, Sunrise Peak
@@ -27,14 +25,12 @@ import {
   ArrowRight,
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
-import Autoplay from 'embla-carousel-autoplay';
 import React from 'react';
 import { getExperiences, getExperienceImagesByExperienceId } from '@/services/api/experiences';
 import type { ExperienceFromApi, ExperienceImage, FeaturedExperience } from '@/types';
 import { IMAGE_BASE_URL } from '@/lib/config';
-import { Skeleton } from '@/components/ui/skeleton';
 import { AnimatedInView } from '@/components/shared/AnimatedInView';
+import { Badge } from '@/components/ui/badge';
 
 
 interface ExperienceCategory {
@@ -355,3 +351,5 @@ function ExperiencesPage() {
 
 // You must export default from a page file
 export default ExperiencesPage;
+
+    
