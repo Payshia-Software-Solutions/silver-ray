@@ -24,8 +24,8 @@ interface VenueHighlight {
 
 const venueHighlights: VenueHighlight[] = [
   {
-    id: 'cats-eye',
-    name: 'Cats Eye',
+    id: 'cats-eye-01',
+    name: "Cat's Eye 01",
     description: 'A magnificent hall with classic decor, perfect for grand weddings and corporate galas.',
     imageUrl: 'http://content-provider.payshia.com/silver-ray/other/BANQUET-1.webp',
     imageHint: 'elegant banquet hall setup',
@@ -34,11 +34,11 @@ const venueHighlights: VenueHighlight[] = [
       { icon: Users, text: 'Up to 500 guests' },
       { icon: Disc, text: 'Advanced AV System' },
     ],
-    link: '/weddings/venues/cats-eye',
+    link: '/weddings/venues/cats-eye-01',
   },
   {
-    id: 'sapphire-hall',
-    name: 'The Sapphire Hall',
+    id: 'cats-eye-02',
+    name: "Cat's Eye 02",
     description: 'A versatile space with modern aesthetics, ideal for conferences and elegant receptions.',
     imageUrl: 'http://content-provider.payshia.com/silver-ray/other/BANQUET-2.webp',
     imageHint: 'modern banquet hall reception',
@@ -47,11 +47,11 @@ const venueHighlights: VenueHighlight[] = [
       { icon: Users, text: 'Up to 250 guests' },
       { icon: Trees, text: 'Adjustable Lighting' },
     ],
-    link: '/weddings/venues/sapphire-hall',
+    link: '/weddings/venues/cats-eye-02',
   },
    {
-    id: 'emerald-hall',
-    name: 'The Emerald Hall',
+    id: 'cats-eye-03',
+    name: "Cat's Eye 03",
     description: 'An intimate setting with lush decor, perfect for smaller weddings, workshops, and private dinners.',
     imageUrl: 'http://content-provider.payshia.com/silver-ray/other/BANQUET-3.webp',
     imageHint: 'intimate banquet setting',
@@ -60,7 +60,7 @@ const venueHighlights: VenueHighlight[] = [
       { icon: Users, text: 'Up to 150 guests' },
       { icon: Disc, text: 'Cozy Ambiance' },
     ],
-    link: '/weddings/venues/emerald-hall',
+    link: '/weddings/venues/cats-eye-03',
   },
 ];
 
