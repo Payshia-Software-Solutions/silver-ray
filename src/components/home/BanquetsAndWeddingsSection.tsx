@@ -92,12 +92,7 @@ const VenueHighlightCard = ({ venue }: { venue: VenueHighlight }) => (
             </div>
           ))}
         </div>
-        <Button asChild variant="link" className="font-body text-sm text-primary p-0 justify-start h-auto group mt-auto">
-          <Link href={venue.link}>
-            Learn More
-            <ArrowRight className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1" />
-          </Link>
-        </Button>
+        
       </CardContent>
     </Card>
 );
