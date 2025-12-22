@@ -22,7 +22,8 @@ import {
   Waves, // Crystal Falls new
   Landmark, // Ancient Temple new
   Sparkles,
-  ChevronDown
+  ChevronDown,
+  Gem,
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
@@ -85,6 +86,33 @@ const nearbyAttractions: NearbyAttraction[] = [
   { id: 'bambarakanda', imageUrl: 'https://content-provider.payshia.com/silver-ray/experience-images/Bambarakanda%202-optimized.webp', imageHint: 'Bambarakanda falls', title: 'Bambarakanda', distance: '50 km from hotel', icon: Waves },
 ];
 
+const sapphireTrailExperience: ExperienceFromApi = {
+  id: 99,
+  slug: 'sapphire-trails',
+  name: 'Sapphire Trails',
+  short_description: 'Journey into the heart of Sabaragamuwa and uncover the secrets of the world-renowned Ceylon sapphires.',
+  detailed_description: 'Explore a traditional gem mine, learn about the mining process from local experts, and witness the journey of a sapphire from deep within the earth to a sparkling gem. This is a unique cultural and geological adventure.',
+  duration: '4 Hours',
+  Price: '5000',
+  experience_image: 'https://images.unsplash.com/photo-1617063491873-1c71a3962b1a?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+  advance_booking_required: 1,
+  min_participants: 2,
+  company_id: '1',
+  meeting_Point: 'Hotel Lobby',
+  pricing_basis: 'Per Person',
+  max_participants: 8,
+  walk_in_available: 0,
+  day_of_week: 'Daily',
+  is_available: 1,
+  schedule_note: 'Morning and afternoon tours available. Includes transportation.',
+  status: 'Active',
+  time_slot: 'Morning, Afternoon',
+  created_at: new Date().toISOString(),
+  updated_at: new Date().toISOString(),
+  created_by: 'admin',
+  updated_by: null,
+};
+
 
 const FeaturedExperienceCard = ({ exp }: { exp: ExperienceFromApi }) => {
     const [imageUrl, setImageUrl] = useState<string | null>(null);
@@ -93,9 +121,10 @@ const FeaturedExperienceCard = ({ exp }: { exp: ExperienceFromApi }) => {
 
     useEffect(() => {
         const fetchImage = async () => {
-            if (!exp.id) {
+            if (!exp.id || exp.id === 99) { // Handle static experience
                 setIsImageLoading(false);
-                setImageUrl('https://placehold.co/600x400.png');
+                setImageUrl(exp.experience_image || 'https://placehold.co/600x400.png');
+                setImageHint(exp.slug === 'sapphire-trails' ? 'blue sapphire gem' : 'experience image');
                 return;
             }
             try {
@@ -126,7 +155,7 @@ const FeaturedExperienceCard = ({ exp }: { exp: ExperienceFromApi }) => {
         };
 
         fetchImage();
-    }, [exp.id, exp.experience_image]);
+    }, [exp.id, exp.experience_image, exp.slug]);
 
 
     return (
@@ -189,10 +218,11 @@ function ExperiencesPage() {
             try {
                 setIsLoading(true);
                 const experiencesData = await getExperiences();
-                setAllExperiences(experiencesData);
+                setAllExperiences([sapphireTrailExperience, ...experiencesData]);
             } catch (err: any) {
                 console.error("Failed to fetch experiences:", err);
                 setError("Failed to load experiences. Please try again later.");
+                setAllExperiences([sapphireTrailExperience]); // Show static one even if API fails
             } finally {
                 setIsLoading(false);
             }
@@ -395,5 +425,3 @@ function ExperiencesPage() {
 
 // You must export default from a page file
 export default ExperiencesPage;
-
-    
