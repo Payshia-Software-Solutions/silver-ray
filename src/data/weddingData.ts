@@ -122,7 +122,7 @@ export const weddingVenues: WeddingVenue[] = [
     imageUrl: 'http://content-provider.payshia.com/silver-ray/other/BANQUET-1.webp',
     imageHint: 'elegant banquet hall setup',
     features: [
-      { icon: Users, text: 'Up to 500 guests' },
+      { icon: Users, text: 'Up to 250 guests' },
       { icon: Disc, text: 'Advanced AV System' },
     ],
   },
@@ -144,7 +144,7 @@ export const weddingVenues: WeddingVenue[] = [
     imageUrl: 'http://content-provider.payshia.com/silver-ray/other/BANQUET-3.webp',
     imageHint: 'intimate banquet setting',
     features: [
-      { icon: Users, text: 'Up to 150 guests' },
+      { icon: Users, text: 'Up to 250 guests' },
       { icon: Disc, text: 'Cozy Ambiance' },
     ],
   },

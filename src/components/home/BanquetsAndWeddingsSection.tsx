@@ -31,7 +31,7 @@ const venueHighlights: VenueHighlight[] = [
     imageHint: 'elegant banquet hall setup',
     price: 'LKR 3100 + 10%',
     features: [
-      { icon: Users, text: 'Up to 500 guests' },
+      { icon: Users, text: 'Up to 250 guests' },
       { icon: Disc, text: 'Advanced AV System' },
     ],
     link: '/weddings/venues/cats-eye-01',
@@ -57,7 +57,7 @@ const venueHighlights: VenueHighlight[] = [
     imageHint: 'intimate banquet setting',
     price: 'LKR 3100 + 10%',
     features: [
-      { icon: Users, text: 'Up to 150 guests' },
+      { icon: Users, text: 'Up to 250 guests' },
       { icon: Disc, text: 'Cozy Ambiance' },
     ],
     link: '/weddings/venues/cats-eye-03',
