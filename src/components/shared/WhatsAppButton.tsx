@@ -3,6 +3,7 @@
 
 import Link from 'next/link';
 import NextImage from 'next/image';
+import { motion } from 'framer-motion';
 
 export function WhatsAppButton() {
   // Use the phone number from the footer
@@ -15,7 +16,18 @@ export function WhatsAppButton() {
       rel="noopener noreferrer"
       passHref
       legacyBehavior>
-      <a className="fixed bottom-6 right-6 z-50 flex h-16 w-16 items-center justify-center rounded-full bg-transparent text-white shadow-lg transition-transform hover:scale-110 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#25D366]">
+      <motion.a
+        className="fixed bottom-6 right-6 z-50 flex h-16 w-16 items-center justify-center rounded-full bg-transparent text-white shadow-lg transition-transform hover:scale-110 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#25D366]"
+        animate={{
+          scale: [1, 1.05, 1, 1.05, 1],
+        }}
+        transition={{
+          duration: 2,
+          ease: "easeInOut",
+          repeat: Infinity,
+          repeatDelay: 3,
+        }}
+      >
         <NextImage
           src="https://content-provider.payshia.com/silver-ray/other/whatsapp.png"
           alt="WhatsApp Icon"
@@ -24,7 +36,7 @@ export function WhatsAppButton() {
           className="rounded-full"
         />
         <span className="sr-only">Chat on WhatsApp</span>
-      </a>
+      </motion.a>
     </Link>
   );
 }
