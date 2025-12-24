@@ -6,6 +6,7 @@ import { SiteFooter } from '@/components/layout/SiteFooter';
 import { usePathname } from 'next/navigation';
 import type React from 'react';
 import { TopBar } from '@/components/layout/TopBar';
+import { WhatsAppButton } from '@/components/shared/WhatsAppButton';
 
 export function ConditionalLayoutWrapper({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -26,6 +27,7 @@ export function ConditionalLayoutWrapper({ children }: { children: React.ReactNo
       <main className="flex-grow">
         {children}
       </main>
+      <WhatsAppButton />
       <SiteFooter />
     </>
   );
