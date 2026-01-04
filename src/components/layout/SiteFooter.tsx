@@ -180,9 +180,9 @@ const DesktopFooter = () => (
                 </p>
             </div>
         </div>
-         <div className="border-t border-slate-700 pt-8 text-center text-sm">
-            <p className="mb-2">
-                &copy; {new Date().getFullYear()} Grand Silver Ray. All Rights Reserved.
+         <div className="border-t border-slate-700 pt-8 text-sm flex flex-col md:flex-row justify-between items-center text-center">
+            <p className="mb-2 md:mb-0">
+                &copy; 2026 Grand Silver Ray. All Rights Reserved.
             </p>
             <p>
                 <span className="text-slate-400">Powered by </span>
@@ -290,7 +290,7 @@ const MobileFooter = () => (
         </Button>
       </form>
         <div className="text-xs text-slate-500 space-y-2">
-            <p>&copy; {new Date().getFullYear()} Grand Silver Ray. All rights reserved.</p>
+            <p>&copy; 2026 Grand Silver Ray. All rights reserved.</p>
             <p>
                 <span className="text-slate-500">Powered by </span>
                 <a href="https://payshia.com" target="_blank" rel="noopener noreferrer" className="font-semibold text-slate-400 hover:underline hover:text-primary">
