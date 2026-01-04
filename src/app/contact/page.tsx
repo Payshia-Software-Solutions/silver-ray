@@ -66,7 +66,9 @@ export default function ContactPage() {
                   <MapPin className="w-5 h-5 text-muted-foreground mr-3 mt-0.5 flex-shrink-0" />
                   <div>
                      <p className="text-muted-foreground/80 text-xs">Address</p>
-                    <p className="text-foreground">Grand Silver Ray, Lellopitiya Dipitigala, Ratnapura, Sri Lanka.</p>
+                    <a href="https://maps.app.goo.gl/ehkeav9SFuz4xQqUA" target="_blank" rel="noopener noreferrer" className="text-foreground hover:text-primary transition-colors">
+                      Grand Silver Ray, Lellopitiya Dipitigala, Ratnapura, Sri Lanka.
+                    </a>
                   </div>
                 </div>
               </div>
