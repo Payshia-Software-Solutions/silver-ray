@@ -90,7 +90,10 @@ const DesktopFooter = () => (
                 <ul className="space-y-2 text-sm">
                 <li className="flex items-center">
                     <Phone className="w-4 h-4 mr-2 text-primary" />
-                    <a href="tel:+94452274764" className="hover:text-primary transition-colors">+94 452 274 764</a>
+                    <div>
+                      <a href="tel:+94719107700" className="hover:text-primary transition-colors block">+94 71 910 7700</a>
+                      <a href="tel:+94713626200" className="hover:text-primary transition-colors block">+94 71 362 6200</a>
+                    </div>
                 </li>
                 <li className="flex items-center">
                     <Mail className="w-4 h-4 mr-2 text-primary" />
@@ -209,7 +212,7 @@ const MobileFooter = () => (
       <div className="text-sm text-slate-300 space-y-1 mb-6">
         <p>Lellopitiya Dipitigala, Ratnapura, Sri Lanka.</p>
         <a href="mailto:reservation@silverray.lk" className="hover:text-primary transition-colors">reservation@silverray.lk</a>
-        <p>+94 452 274 764</p>
+        <p>+94 71 910 7700 / +94 71 362 6200</p>
          <div className="pt-4 text-left">
             <h3 className="font-headline text-base font-semibold text-slate-100 mb-2 text-center">Outlet Contacts</h3>
              <ul className="space-y-1 text-sm">

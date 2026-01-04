@@ -30,9 +30,9 @@ export function TopBar() {
     <div className="bg-secondary/30 text-secondary-foreground py-2 border-b border-border/60">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center text-xs">
         <div className="flex items-center gap-x-4">
-          <a href="tel:+94452274764" className="flex items-center gap-1.5 hover:text-primary transition-colors">
+          <a href="tel:+94719107700" className="flex items-center gap-1.5 hover:text-primary transition-colors">
             <Phone className="w-3.5 h-3.5" />
-            <span className="hidden sm:inline">+94 452 274 764</span>
+            <span className="hidden sm:inline">+94 71 910 7700</span>
           </a>
           <a href="mailto:reservation@silverray.lk" className="flex items-center gap-1.5 hover:text-primary transition-colors">
             <Mail className="w-3.5 h-3.5" />

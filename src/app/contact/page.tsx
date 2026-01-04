@@ -52,7 +52,8 @@ export default function ContactPage() {
                   <Phone className="w-5 h-5 text-muted-foreground mr-3 mt-0.5 flex-shrink-0" />
                   <div>
                     <p className="text-muted-foreground/80 text-xs">Reservations</p>
-                    <a href="tel:+94452274764" className="text-foreground hover:text-primary transition-colors">+94 452 274 764</a>
+                    <a href="tel:+94719107700" className="text-foreground hover:text-primary transition-colors block">+94 71 910 7700</a>
+                    <a href="tel:+94713626200" className="text-foreground hover:text-primary transition-colors block">+94 71 362 6200</a>
                   </div>
                 </div>
                 <div className="flex items-start">
