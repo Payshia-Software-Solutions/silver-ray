@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -16,6 +17,7 @@ import {
   Gem,
   ArrowRight,
   Users,
+  Phone,
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import React from 'react';
@@ -128,9 +130,13 @@ function ExperiencesPage() {
                         <p className="font-body text-lg text-muted-foreground mb-6">
                             Journey into the heart of Sabaragamuwa, the legendary land of gems. This exclusive tour takes you to a traditional gem mine where you can witness the entire process of unearthing Ceylon’s world-renowned blue sapphires.
                         </p>
-                        <div className="flex items-center space-x-6 mb-8 text-sm">
+                        <div className="flex flex-wrap items-center gap-x-6 gap-y-3 mb-8 text-sm">
                             <div className="flex items-center text-muted-foreground"><Gem className="w-5 h-5 mr-2 text-primary" /> Gemology & Culture</div>
                             <div className="flex items-center text-muted-foreground"><Clock className="w-5 h-5 mr-2 text-primary" /> 4 Hour Tour</div>
+                            <div className="flex items-center text-muted-foreground">
+                                <Phone className="w-5 h-5 mr-2 text-primary" /> 
+                                <a href="tel:0713626200" className="hover:text-primary">0713626200</a>
+                            </div>
                         </div>
                         <Button asChild size="lg" className="font-body text-lg group">
                             <Link href="/experiences/book/sapphire-trails">
@@ -203,4 +209,5 @@ export default ExperiencesPage;
     
 
     
+
 
