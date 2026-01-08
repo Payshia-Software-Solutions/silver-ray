@@ -92,12 +92,12 @@ const pdfPackages = {
         {
             title: "LKR 750,000 Package",
             description: "An enhanced package with additional features and services.",
-            pdfUrl: "https://content-provider.payshia.com/silver-ray/packages/Rs.750,000.00%20Package%20-%202026.pdf"
+            pdfUrl: "https://content-provider.payshia.com/silver-ray/packages/750k-package.pdf"
         },
         {
             title: "LKR 850,000 Package",
             description: "Our premium package, designed for a truly grand affair.",
-            pdfUrl: "https://content-provider.payshia.com/silver-ray/packages/Rs.850,000.00%20Package%20-2026.pdf"
+            pdfUrl: "https://content-provider.payshia.com/silver-ray/packages/850k-package.pdf"
         },
     ]
 };
