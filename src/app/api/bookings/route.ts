@@ -4,7 +4,11 @@ import {NextResponse} from 'next/server';
 import nodemailer from 'nodemailer';
 
 const bookingRecipients = [
-    'thilinaruwan112@gmail.com'
+    'Reservation@silverray.lk',
+    'gm@silverray.lk',
+    'pubudug@kdugroup.com',
+    'sanjayad@silverray.lk',
+    'chalanik@silverray.lk'
 ];
 
 /**
