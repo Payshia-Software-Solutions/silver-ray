@@ -1,35 +1,50 @@
-
 // src/app/api/contacts/route.ts
 import {NextResponse} from 'next/server';
+import nodemailer from 'nodemailer';
 
-const TARGET_URL = 'https://silverray-server.payshia.com/company/1/contacts';
-
-/**
- * API route to forward contact form submissions to the backend.
- * This acts as a proxy to avoid CORS issues.
- */
 export async function POST(request: Request) {
   try {
     const body = await request.json();
 
-    const response = await fetch(TARGET_URL, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(body),
-    });
-
-    if (!response.ok) {
-      // Forward the error response from the target server
-      const errorData = await response.text();
-      return new NextResponse(errorData || response.statusText, {status: response.status});
+    // Validate required fields
+    if (!body.name || !body.email || !body.message) {
+      return new NextResponse('Missing required fields', { status: 400 });
     }
 
-    const data = await response.json();
-    return NextResponse.json(data);
+    // Nodemailer transporter setup
+    const transporter = nodemailer.createTransport({
+      host: process.env.SMTP_HOST,
+      port: Number(process.env.SMTP_PORT),
+      secure: Number(process.env.SMTP_PORT) === 465, // true for 465, false for other ports
+      auth: {
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASS,
+      },
+    });
+
+    const mailOptions = {
+      from: `"${body.name}" <${process.env.SMTP_FROM_EMAIL}>`,
+      to: process.env.SMTP_TO_EMAIL,
+      replyTo: body.email,
+      subject: `New Contact Form Message: ${body.subject || 'No Subject'}`,
+      html: `
+        <h1>New Contact Message</h1>
+        <p><strong>Name:</strong> ${body.name}</p>
+        <p><strong>Email:</strong> ${body.email}</p>
+        ${body.eventType ? `<p><strong>Event Type:</strong> ${body.eventType}</p>` : ''}
+        <p><strong>Subject:</strong> ${body.subject || 'N/A'}</p>
+        <hr>
+        <p><strong>Message:</strong></p>
+        <p>${body.message.replace(/\n/g, '<br>')}</p>
+      `,
+    };
+
+    await transporter.sendMail(mailOptions);
+
+    return NextResponse.json({ message: 'Email sent successfully' });
+
   } catch (error) {
     console.error('API route error:', error);
-    return new NextResponse('Internal Server Error', {status: 500});
+    return new NextResponse('Internal Server Error', { status: 500 });
   }
 }
