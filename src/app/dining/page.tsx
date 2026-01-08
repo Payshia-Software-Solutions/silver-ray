@@ -21,11 +21,18 @@ const signatureDishes: DishProps[] = [
     imageHint: 'seared salmon dish gourmet',
   },
   {
-    id: 'molten-lava-cake',
-    name: 'Molten Chocolate Lava Cake',
-    description: 'Rich chocolate cake with a warm, gooey center, garnished with gold leaf and fresh berries.',
-    imageUrl: 'https://images.unsplash.com/photo-1514517521153-1be72277b32f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxjaG9jb2xhdGUlMjBsYXZhJTIwY2FrZSUyMGRlc3NlcnR8ZW58MHx8fHwxNzQ5MTQ1MTY0fDA&ixlib=rb-4.1.0&q=80&w=1080',
-    imageHint: 'chocolate lava cake dessert',
+    id: 'chicken-biryani',
+    name: 'Chicken Dum Biryani',
+    description: 'Fragrant basmati rice and tender chicken, slow-cooked with a blend of aromatic spices.',
+    imageUrl: 'https://images.unsplash.com/photo-1631515243349-e0cb75fb8d3a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxpbmRpYW4lMjBiaXJ5YW5pfGVufDB8fHx8MTc1MjE1NzU1NHww&ixlib=rb-4.1.0&q=80&w=1080',
+    imageHint: 'indian biryani',
+  },
+  {
+    id: 'pad-thai',
+    name: 'Pad Thai',
+    description: 'Stir-fried rice noodles with shrimp, tofu, bean sprouts, and peanuts in a tangy tamarind sauce.',
+    imageUrl: 'https://images.unsplash.com/photo-1563245372-f217244f2352?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxwYWQlMjB0aGFpfGVufDB8fHx8MTc1MjE1NzYyMHww&ixlib=rb-4.1.0&q=80&w=1080',
+    imageHint: 'pad thai noodles',
   },
   {
     id: 'prime-ribeye',
@@ -33,6 +40,20 @@ const signatureDishes: DishProps[] = [
     description: 'Juicy ribeye steak, truffle-infused mashed potatoes, and seasonal vegetables.',
     imageUrl: 'https://images.unsplash.com/photo-1625937329368-9c6e55f665ba?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxyaWJleWUlMjBzdGVhayUyMG1lYWx8ZW58MHx8fHwxNzQ5MTQ1MTY0fDA&ixlib.rb-4.1.0&q=80&w=1080',
     imageHint: 'ribeye steak meal',
+  },
+    {
+    id: 'chocolate-gateau',
+    name: 'Chocolate Fudge Gateau',
+    description: 'A decadent layered chocolate cake with rich fudge frosting, perfect for any celebration.',
+    imageUrl: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxjaG9jb2xhdGUlMjBjYWtlfGVufDB8fHx8MTc1MjE1Nzc3Nnww&ixlib=rb-4.1.0&q=80&w=1080',
+    imageHint: 'chocolate fudge cake',
+  },
+  {
+    id: 'molten-lava-cake',
+    name: 'Molten Chocolate Lava Cake',
+    description: 'Rich chocolate cake with a warm, gooey center, garnished with gold leaf and fresh berries.',
+    imageUrl: 'https://images.unsplash.com/photo-1514517521153-1be72277b32f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxjaG9jb2xhdGUlMjBsYXZhJTIwY2FrZSUyMGRlc3NlcnR8ZW58MHx8fHwxNzQ5MTQ1MTY0fDA&ixlib-rb-4.1.0&q=80&w=1080',
+    imageHint: 'chocolate lava cake dessert',
   },
 ];
 
