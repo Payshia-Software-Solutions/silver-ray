@@ -49,9 +49,9 @@ export const weddingServices: WeddingServiceDisplayInfo[] = [
     description: 'Exquisite menus tailored to your taste, from lavish buffets to fine dining, crafted by our acclaimed chefs.',
   },
   {
-    icon: Flower2,
-    title: 'Elegant Decor',
-    description: 'From floral arrangements to lighting, our creative team brings your vision to life with bespoke decor solutions.',
+    icon: Cake,
+    title: 'Cake Structures',
+    description: 'Beautiful and elaborate structures to showcase your wedding cake and create a stunning centerpiece.',
   },
   {
     icon: ClipboardCheck,
