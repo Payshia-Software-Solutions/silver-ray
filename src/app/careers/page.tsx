@@ -20,40 +20,7 @@ interface JobOpening {
   icon: React.ElementType;
 }
 
-const jobOpenings: JobOpening[] = [
-  {
-    id: 'front-desk-manager',
-    title: 'Front Desk Manager',
-    department: 'Guest Services',
-    location: 'Ratnapura',
-    type: 'Full-time',
-    icon: Users,
-  },
-  {
-    id: 'executive-chef',
-    title: 'Executive Chef',
-    department: 'Culinary',
-    location: 'Ratnapura',
-    type: 'Full-time',
-    icon: Utensils,
-  },
-  {
-    id: 'marketing-specialist',
-    title: 'Marketing Specialist',
-    department: 'Sales & Marketing',
-    location: 'Ratnapura',
-    type: 'Full-time',
-    icon: Sparkles,
-  },
-  {
-    id: 'housekeeping-supervisor',
-    title: 'Housekeeping Supervisor',
-    department: 'Operations',
-    location: 'Ratnapura',
-    type: 'Full-time',
-    icon: Building,
-  },
-];
+const jobOpenings: JobOpening[] = [];
 
 const JobCard = ({ job }: { job: JobOpening }) => (
   <Card className="hover:shadow-lg transition-shadow">
