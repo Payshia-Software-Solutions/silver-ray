@@ -6,7 +6,7 @@ import { DiningHero } from '@/components/dining/DiningHero';
 import { VenueCard } from '@/components/dining/VenueCard';
 import { DishCard, type DishProps } from '@/components/dining/DishCard';
 import { ReservationSection } from '@/components/dining/ReservationSection';
-import { InfoBar } from '@/components/dining/InfoBar';
+
 import type { RestaurantFromApi } from '@/types';
 import { getRestaurants } from '@/services/api/dining';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -122,7 +122,7 @@ export default function DiningPage() {
         </div>
       </section>
       
-      <InfoBar />
+      
     </div>
   );
 }
