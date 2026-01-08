@@ -28,12 +28,12 @@ import { AnimatedInView } from '@/components/shared/AnimatedInView';
 
 function DesktopRoomFilters() {
   return (
-    <div className="hidden md:block my-8 p-4 bg-card rounded-lg shadow-md border">
+    <div className="hidden md:block my-8 p-4 bg-card rounded-xl shadow-md border">
         <div className="flex justify-between items-center">
             <div className="flex items-center gap-4">
                 <span className="font-semibold text-foreground/80">Filter by:</span>
                 <Select>
-                    <SelectTrigger className="w-[140px]">
+                    <SelectTrigger className="w-[140px] bg-secondary/40 border-border">
                         <SelectValue placeholder="View" />
                     </SelectTrigger>
                     <SelectContent>
@@ -43,7 +43,7 @@ function DesktopRoomFilters() {
                     </SelectContent>
                 </Select>
                 <Select>
-                    <SelectTrigger className="w-[140px]">
+                    <SelectTrigger className="w-[140px] bg-secondary/40 border-border">
                         <SelectValue placeholder="Occupancy" />
                     </SelectTrigger>
                     <SelectContent>
@@ -54,7 +54,7 @@ function DesktopRoomFilters() {
                     </SelectContent>
                 </Select>
                 <Select>
-                    <SelectTrigger className="w-[140px]">
+                    <SelectTrigger className="w-[140px] bg-secondary/40 border-border">
                         <SelectValue placeholder="Amenities" />
                     </SelectTrigger>
                     <SelectContent>
@@ -64,7 +64,7 @@ function DesktopRoomFilters() {
                     </SelectContent>
                 </Select>
                 <Select>
-                    <SelectTrigger className="w-[140px]">
+                    <SelectTrigger className="w-[140px] bg-secondary/40 border-border">
                         <SelectValue placeholder="Price Range" />
                     </SelectTrigger>
                     <SelectContent>
@@ -77,7 +77,7 @@ function DesktopRoomFilters() {
             <div className="flex items-center gap-4">
                 <span className="font-semibold text-foreground/80">Sort by:</span>
                 <Select defaultValue="recommended">
-                    <SelectTrigger className="w-[180px]">
+                    <SelectTrigger className="w-[180px] bg-secondary/40 border-border">
                         <SelectValue placeholder="Sort by" />
                     </SelectTrigger>
                     <SelectContent>
