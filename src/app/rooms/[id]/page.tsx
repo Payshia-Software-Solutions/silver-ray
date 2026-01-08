@@ -8,6 +8,14 @@ import type { Room, RoomFromApi, RoomImage } from '@/types';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { 
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
+import { 
   CheckCircle, 
   Users, 
   Bed, 
@@ -28,7 +36,8 @@ import {
   Mountain,
   Ruler,
   Building,
-  Star
+  Star,
+  Phone,
 } from 'lucide-react';
 import Link from 'next/link';
 import { notFound, useParams } from 'next/navigation';
@@ -282,9 +291,33 @@ export default function RoomDetailPage() {
                                 <span className="text-muted-foreground">(127)</span>
                             </div>
                         </div>
-                        <Button asChild size="lg" className="w-full font-body text-base">
-                            <a href="tel:+94719107700">Book by Phone</a>
-                        </Button>
+                        <Dialog>
+                          <DialogTrigger asChild>
+                            <Button size="lg" className="w-full font-body text-base">Book by Phone</Button>
+                          </DialogTrigger>
+                          <DialogContent className="sm:max-w-md">
+                            <DialogHeader>
+                              <DialogTitle>Contact Reservations</DialogTitle>
+                              <DialogDescription>
+                                Please call one of our hotline numbers to book your stay.
+                              </DialogDescription>
+                            </DialogHeader>
+                            <div className="flex flex-col space-y-3 pt-4">
+                               <Button asChild size="lg" className="font-body text-base">
+                                  <a href="tel:+94719107700" className="flex items-center justify-center gap-2">
+                                    <Phone className="w-4 h-4" />
+                                    +94 71 910 7700
+                                  </a>
+                                </Button>
+                               <Button asChild size="lg" className="font-body text-base">
+                                  <a href="tel:+94713626200" className="flex items-center justify-center gap-2">
+                                    <Phone className="w-4 h-4" />
+                                    +94 71 362 6200
+                                  </a>
+                                </Button>
+                            </div>
+                          </DialogContent>
+                        </Dialog>
                     </div>
 
                     {/* --- Amenities Section --- */}
@@ -377,9 +410,33 @@ export default function RoomDetailPage() {
                  <span className="font-body text-xl font-bold text-foreground">{room.currency} {room.pricePerNight.toLocaleString()}</span>
                  <span className="text-sm text-muted-foreground">/night</span>
             </div>
-             <Button asChild size="lg" className="font-body text-base w-1/2">
-                <a href="tel:+94719107700">Book Now</a>
-            </Button>
+             <Dialog>
+                <DialogTrigger asChild>
+                    <Button size="lg" className="font-body text-base w-1/2">Book Now</Button>
+                </DialogTrigger>
+                <DialogContent className="sm:max-w-xs">
+                    <DialogHeader>
+                        <DialogTitle>Contact Reservations</DialogTitle>
+                        <DialogDescription>
+                        Please call one of our hotline numbers to book your stay.
+                        </DialogDescription>
+                    </DialogHeader>
+                    <div className="flex flex-col space-y-3 pt-4">
+                        <Button asChild size="lg" className="font-body text-base">
+                            <a href="tel:+94719107700" className="flex items-center justify-center gap-2">
+                                <Phone className="w-4 h-4" />
+                                +94 71 910 7700
+                            </a>
+                        </Button>
+                        <Button asChild size="lg" className="font-body text-base">
+                            <a href="tel:+94713626200" className="flex items-center justify-center gap-2">
+                                <Phone className="w-4 h-4" />
+                                +94 71 362 6200
+                            </a>
+                        </Button>
+                    </div>
+                </DialogContent>
+             </Dialog>
         </div>
     </div>
   );

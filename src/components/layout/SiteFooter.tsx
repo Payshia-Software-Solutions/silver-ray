@@ -182,7 +182,7 @@ const DesktopFooter = () => (
         </div>
          <div className="border-t border-slate-700 pt-8 text-sm flex flex-col md:flex-row justify-between items-center text-center">
             <p className="mb-2 md:mb-0">
-                &copy; 2026 Grand Silver Ray. All Rights Reserved.
+                © 2026 Grand Silver Ray. All Rights Reserved.
             </p>
             <p>
                 <span className="text-slate-400">Powered by </span>
