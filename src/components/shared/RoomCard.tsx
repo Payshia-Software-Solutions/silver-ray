@@ -68,7 +68,7 @@ export function RoomCard({ room }: RoomCardProps) {
       wifi: room.amenities?.includes('High-speed Wi-Fi') || room.amenities?.includes('WiFi'),
       tv: room.amenities?.includes('Smart TV'),
       coffee: room.amenities?.includes('Nespresso Machine'),
-      users: true,
+      users: room.adults_capacity > 0,
   };
 
   return (
@@ -103,7 +103,12 @@ export function RoomCard({ room }: RoomCardProps) {
             {amenities.wifi && <Wifi className="w-5 h-5" aria-label="WiFi included"/>}
             {amenities.tv && <Tv className="w-5 h-5" aria-label="Smart TV"/>}
             {amenities.coffee && <Coffee className="w-5 h-5" aria-label="Coffee Machine"/>}
-            {amenities.users && <Users className="w-5 h-5" aria-label={`Capacity: ${room.adults_capacity} guests`}/>}
+            {amenities.users && (
+              <div className="flex items-center gap-1">
+                <Users className="w-5 h-5" aria-label={`Capacity: ${room.adults_capacity} guests`}/>
+                <span className="text-sm font-medium">{room.adults_capacity}</span>
+              </div>
+            )}
           </div>
       </CardContent>
       <CardFooter className="p-4 sm:p-6 pt-0 mt-auto">
