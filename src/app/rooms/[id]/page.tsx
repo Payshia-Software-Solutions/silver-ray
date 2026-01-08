@@ -56,11 +56,9 @@ const mapRoomData = (apiRoom: RoomFromApi, roomImages: RoomImage[]): Room => {
     ? apiRoom.amenities.map(a => a.amenity_name)
     : (typeof apiRoom.amenities_id === 'string' ? apiRoom.amenities_id.split(',').map(a => a.trim()) : []);
 
-
-  const roomWidth = parseFloat(apiRoom.room_width);
-  const roomHeight = parseFloat(apiRoom.room_height);
-  const size = !isNaN(roomWidth) && !isNaN(roomHeight) && roomWidth > 0 && roomHeight > 0 ? (roomWidth * roomHeight).toFixed(0) : 'N/A';
-
+  const isSuite = apiRoom.descriptive_title.toLowerCase().includes('suite');
+  const size = isSuite ? '638' : '432';
+  const capacity = 3;
 
   return {
     ...apiRoom,
@@ -73,7 +71,7 @@ const mapRoomData = (apiRoom: RoomFromApi, roomImages: RoomImage[]): Room => {
     imageUrl: finalImageUrl,
     images: imagesForThisRoom.map(img => ({ ...img, image_url: constructImageUrl(img.image_url)})),
     amenities: amenities,
-    capacity: Number(apiRoom.adults_capacity),
+    capacity: capacity,
     beds: '1 King Bed',
     size: `${size} sqft`,
     category: apiRoom.room_type?.type_name as any || 'Standard',
@@ -182,7 +180,7 @@ export default function RoomDetailPage() {
 
   const thumbnails = imagesToShow.slice(0, 4); 
 
-  const floor = room.name.toLowerCase().includes('suite') ? '1st' : '1st';
+  const floor = '1st';
 
   return (
     <div className="bg-background md:bg-secondary/10">
@@ -332,7 +330,7 @@ export default function RoomDetailPage() {
                      <div className="flex justify-around text-center mb-6">
                         <div className="flex flex-col items-center gap-1">
                             <Ruler className="w-6 h-6 text-primary"/>
-                            <span className="text-sm font-semibold">{room.size}</span>
+                            <span className="text-sm font-semibold">{room.size.replace(' sqft','')}</span>
                             <span className="text-xs text-muted-foreground">sq ft</span>
                         </div>
                         <div className="flex flex-col items-center gap-1">
