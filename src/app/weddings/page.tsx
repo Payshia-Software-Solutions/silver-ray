@@ -11,7 +11,7 @@ import { weddingVenues, weddingServices } from '@/data/weddingData';
 import { TestimonialsCarousel } from '@/components/weddings/TestimonialsCarousel';
 import type { WeddingPackageFromApi } from '@/types';
 import { getWeddingPackages } from '@/services/api/weddings';
-import { Gift, Download, Car, Bus } from 'lucide-react';
+import { Gift, Download, Car, Bus, Phone } from 'lucide-react';
 import { IMAGE_BASE_URL } from '@/lib/config';
 import { AnimatedInView } from '@/components/shared/AnimatedInView';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -358,9 +358,20 @@ export default function WeddingsPage() {
           <p className="font-body text-lg text-muted-foreground mb-8 max-w-xl mx-auto">
             Let our expert team help you create the wedding of your dreams. Share your vision, and we'll bring it to life.
           </p>
-          <Button asChild size="lg" className="font-body text-lg px-8 py-3 bg-primary text-primary-foreground hover:bg-primary/90 transform hover:scale-105 transition-transform duration-300 rounded-full">
-            <Link href="/contact?subject=Wedding+Consultation+Inquiry">Contact Our Wedding Team</Link>
-          </Button>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Button asChild size="lg" className="font-body text-lg px-8 py-3 transform hover:scale-105 transition-transform duration-300">
+                <a href="tel:+94719107700" className="flex items-center gap-2">
+                    <Phone />
+                    Call +94 71 910 7700
+                </a>
+            </Button>
+            <Button asChild size="lg" variant="outline" className="font-body text-lg px-8 py-3 transform hover:scale-105 transition-transform duration-300">
+                <a href="tel:+94713626200" className="flex items-center gap-2">
+                    <Phone />
+                    Call +94 71 362 6200
+                </a>
+            </Button>
+          </div>
         </div>
       </section>
    
