@@ -67,21 +67,6 @@ const pdfPackages = {
             description: "A third option for our premier wedding menu selections.",
             pdfUrl: "https://content-provider.payshia.com/silver-ray/packages/GRAND%20SILVER%20RAY%20MENU%2003%20-2026.pdf"
         },
-        {
-            title: "LKR 630,000 Package",
-            description: "A comprehensive package for a beautiful wedding celebration.",
-            pdfUrl: "https://content-provider.payshia.com/silver-ray/packages/Rs.630,000.00%20Package%20-2026.pdf"
-        },
-        {
-            title: "LKR 750,000 Package",
-            description: "An enhanced package with additional features and services.",
-            pdfUrl: "https://content-provider.payshia.com/silver-ray/packages/Rs.750,000.00%20Package%20-2026.pdf"
-        },
-        {
-            title: "LKR 850,000 Package",
-            description: "Our premium package, designed for a truly grand affair.",
-            pdfUrl: "https://content-provider.payshia.com/silver-ray/packages/Rs.850,000.00%20Package%20-2026.pdf"
-        },
     ],
     silverRay: [
         {
@@ -98,7 +83,22 @@ const pdfPackages = {
             title: "Silver Menu 2026",
             description: "An elegant and affordable option for your special day.",
             pdfUrl: "https://content-provider.payshia.com/silver-ray/packages/SILVER%20MENU-2026.pdf"
-        }
+        },
+        {
+            title: "LKR 630,000 Package",
+            description: "A comprehensive package for a beautiful wedding celebration.",
+            pdfUrl: "https://content-provider.payshia.com/silver-ray/packages/Rs.630,000.00%20Package%20-2026.pdf"
+        },
+        {
+            title: "LKR 750,000 Package",
+            description: "An enhanced package with additional features and services.",
+            pdfUrl: "https://content-provider.payshia.com/silver-ray/packages/Rs.750,000.00%20Package%20-2026.pdf"
+        },
+        {
+            title: "LKR 850,000 Package",
+            description: "Our premium package, designed for a truly grand affair.",
+            pdfUrl: "https://content-provider.payshia.com/silver-ray/packages/Rs.850,000.00%20Package%20-2026.pdf"
+        },
     ]
 };
 
