@@ -4,7 +4,7 @@
 import { useState, useEffect } from 'react';
 import { RoomCard } from '@/components/shared/RoomCard';
 import { Button } from '@/components/ui/button';
-import { ChevronDown, SlidersHorizontal } from 'lucide-react';
+import { ChevronDown, SlidersHorizontal, ArrowRight } from 'lucide-react';
 import { RoomsPageHero } from '@/components/rooms/RoomsPageHero';
 import { NotificationBanner } from '@/components/rooms/NotificationBanner';
 import type { Room, RoomFromApi } from '@/types';
@@ -24,6 +24,39 @@ import {
 import { Label } from '@/components/ui/label';
 import { getRooms } from '@/services/api/rooms';
 import { AnimatedInView } from '@/components/shared/AnimatedInView';
+import { featuredExperiences } from '@/data/mockData';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import NextImage from 'next/image';
+import Link from 'next/link';
+
+
+function ExperienceHighlightCard({ experience }: { experience: (typeof featuredExperiences)[0] }) {
+  return (
+    <Card className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col h-full rounded-xl bg-card border-border">
+      <CardHeader className="p-0 relative aspect-video">
+        <NextImage
+          src={experience.imageUrl}
+          alt={experience.title}
+          data-ai-hint={experience.imageHint}
+          fill
+          className="object-cover"
+        />
+      </CardHeader>
+      <CardContent className="p-5 flex flex-col flex-grow">
+        <CardTitle className="font-headline text-xl mb-2">{experience.title}</CardTitle>
+        <p className="font-body text-sm text-muted-foreground mb-4 flex-grow line-clamp-3">
+          {experience.description}
+        </p>
+        <Button asChild variant="link" className="font-body text-sm p-0 justify-start group mt-auto text-primary">
+          <Link href={`/experiences/book/${experience.id}`}>
+            Learn More
+            <ArrowRight className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1" />
+          </Link>
+        </Button>
+      </CardContent>
+    </Card>
+  );
+}
 
 
 function DesktopRoomFilters() {
@@ -284,8 +317,35 @@ export default function RoomsPage() {
               </Button>
             </div>
           )}
-
         </div>
+        
+        <section className="py-16 lg:py-24 bg-secondary/20">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-12">
+              <h2 className="font-headline text-3xl sm:text-4xl lg:text-5xl font-bold mb-4">
+                Discover Our Experiences
+              </h2>
+              <p className="font-body text-lg text-muted-foreground max-w-2xl mx-auto">
+                Elevate your stay with unique adventures and cultural encounters curated by Grand Silver Ray.
+              </p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {featuredExperiences.slice(0, 3).map((exp, index) => (
+                <AnimatedInView key={exp.id} delay={index * 0.1}>
+                  <ExperienceHighlightCard experience={exp} />
+                </AnimatedInView>
+              ))}
+            </div>
+            <div className="text-center mt-12">
+                <Button asChild size="lg" className="font-body text-lg group">
+                    <Link href="/experiences">
+                        Explore All Experiences
+                        <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
+                    </Link>
+                </Button>
+            </div>
+          </div>
+        </section>
       </div>
     </>
   );

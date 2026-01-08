@@ -367,5 +367,3 @@ export interface EventImage {
     updated_at: string;
     is_active: number;
 }
-
-    
