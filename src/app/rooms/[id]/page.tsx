@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -38,6 +39,9 @@ import {
   Building,
   Star,
   Phone,
+  Droplets,
+  Shirt,
+  Flashlight,
 } from 'lucide-react';
 import Link from 'next/link';
 import { notFound, useParams } from 'next/navigation';
@@ -89,6 +93,12 @@ const mapRoomData = (apiRoom: RoomFromApi, roomImages: RoomImage[]): Room => {
 };
 
 const amenitiesIcons: { [key: string]: LucideIcon } = {
+  'Housekeeping': CheckCircle,
+  'Full bathroom amenities': ShowerHead,
+  'Water bottles': Droplets,
+  'Tea/Coffee making facility': Coffee,
+  'Iron & iron board': Shirt,
+  'Torch': Flashlight,
   'King-size Bed': BedDouble,
   'Rain Shower': ShowerHead,
   'Smart TV': Tv,
@@ -96,10 +106,9 @@ const amenitiesIcons: { [key: string]: LucideIcon } = {
   'Coffee Bar': Coffee,
   'Private Balcony': Mountain,
   'Nespresso Machine': Coffee,
-  'Air Conditioning': Wifi, // Using Wifi icon as a placeholder
+  'Air Conditioning': Wifi,
   'Free Wi-Fi': Wifi,
-  'Pet Friendly': Bed, // Using Bed as placeholder
-  'Housekeeping': CheckCircle, // Using Check as placeholder
+  'Pet Friendly': Bed,
 };
 
 export default function RoomDetailPage() {
