@@ -43,6 +43,7 @@ import {
   Shirt,
   Flashlight,
   PlusCircle,
+  Mail,
 } from 'lucide-react';
 import Link from 'next/link';
 import { notFound, useParams } from 'next/navigation';
@@ -312,7 +313,7 @@ export default function RoomDetailPage() {
                             <DialogHeader>
                               <DialogTitle>Contact Reservations</DialogTitle>
                               <DialogDescription>
-                                Please call one of our hotline numbers to book your stay.
+                                Please call or email us to book your stay.
                               </DialogDescription>
                             </DialogHeader>
                             <div className="flex flex-col space-y-3 pt-4">
@@ -326,6 +327,12 @@ export default function RoomDetailPage() {
                                   <a href="tel:+94713626200" className="flex items-center justify-center gap-2">
                                     <Phone className="w-4 h-4" />
                                     +94 71 362 6200
+                                  </a>
+                                </Button>
+                                <Button asChild size="lg" className="font-body text-base" variant="outline">
+                                  <a href="mailto:reservation@silverray.lk" className="flex items-center justify-center gap-2">
+                                    <Mail className="w-4 h-4" />
+                                    reservation@silverray.lk
                                   </a>
                                 </Button>
                             </div>
@@ -447,7 +454,7 @@ export default function RoomDetailPage() {
                     <DialogHeader>
                         <DialogTitle>Contact Reservations</DialogTitle>
                         <DialogDescription>
-                        Please call one of our hotline numbers to book your stay.
+                        Please call or email us to book your stay.
                         </DialogDescription>
                     </DialogHeader>
                     <div className="flex flex-col space-y-3 pt-4">
@@ -461,6 +468,12 @@ export default function RoomDetailPage() {
                             <a href="tel:+94713626200" className="flex items-center justify-center gap-2">
                                 <Phone className="w-4 h-4" />
                                 +94 71 362 6200
+                            </a>
+                        </Button>
+                         <Button asChild size="lg" className="font-body text-base" variant="outline">
+                            <a href="mailto:reservation@silverray.lk" className="flex items-center justify-center gap-2">
+                                <Mail className="w-4 h-4" />
+                                reservation@silverray.lk
                             </a>
                         </Button>
                     </div>
