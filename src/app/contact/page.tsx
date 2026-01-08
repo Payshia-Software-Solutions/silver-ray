@@ -3,7 +3,7 @@
 
 import NextImage from 'next/image';
 import { ContactForm } from '@/components/contact/ContactForm';
-import { Mail, Phone, MapPin, Instagram, Facebook, Twitter, Plane, CarFront, Car } from 'lucide-react';
+import { Mail, Phone, MapPin, Instagram, Facebook, Twitter, Plane, CarFront, Car, Youtube } from 'lucide-react';
 
 // Metadata export will be ignored in client components.
 // If metadata is crucial, consider moving this page to a server component structure

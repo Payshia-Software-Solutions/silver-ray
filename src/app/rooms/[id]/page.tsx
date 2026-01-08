@@ -43,6 +43,7 @@ import {
   Shirt,
   Flashlight,
   PlusCircle,
+  Mail,
 } from 'lucide-react';
 import Link from 'next/link';
 import { notFound, useParams } from 'next/navigation';
@@ -304,15 +305,18 @@ export default function RoomDetailPage() {
                             </div>
                         </div>
 
+                        <Button asChild size="lg" className="w-full font-body text-base mb-2">
+                          <Link href={`/booking?roomId=${room.id}`}>Book Now</Link>
+                        </Button>
                         <Dialog>
                           <DialogTrigger asChild>
-                            <Button size="lg" className="w-full font-body text-base">Book Now</Button>
+                            <Button size="lg" variant="outline" className="w-full font-body text-base">Call to Book</Button>
                           </DialogTrigger>
                           <DialogContent className="sm:max-w-md">
                             <DialogHeader>
                               <DialogTitle>Contact Reservations</DialogTitle>
                               <DialogDescription>
-                                Please call one of our hotline numbers to book your stay.
+                                Please call us to book your stay over the phone.
                               </DialogDescription>
                             </DialogHeader>
                             <div className="flex flex-col space-y-3 pt-4">
@@ -439,34 +443,12 @@ export default function RoomDetailPage() {
                  <span className="font-body text-xl font-bold text-foreground">{room.currency} {room.pricePerNight.toLocaleString()}</span>
                  <span className="text-sm text-muted-foreground">/night</span>
             </div>
-             <Dialog>
-                <DialogTrigger asChild>
-                    <Button size="lg" className="font-body text-base w-1/2">Book Now</Button>
-                </DialogTrigger>
-                <DialogContent className="sm:max-w-xs">
-                    <DialogHeader>
-                        <DialogTitle>Contact Reservations</DialogTitle>
-                        <DialogDescription>
-                        Please call one of our hotline numbers to book your stay.
-                        </DialogDescription>
-                    </DialogHeader>
-                    <div className="flex flex-col space-y-3 pt-4">
-                        <Button asChild size="lg" className="font-body text-base">
-                            <a href="tel:+94719107700" className="flex items-center justify-center gap-2">
-                                <Phone className="w-4 h-4" />
-                                +94 71 910 7700
-                            </a>
-                        </Button>
-                        <Button asChild size="lg" className="font-body text-base">
-                            <a href="tel:+94713626200" className="flex items-center justify-center gap-2">
-                                <Phone className="w-4 h-4" />
-                                +94 71 362 6200
-                            </a>
-                        </Button>
-                    </div>
-                </DialogContent>
-             </Dialog>
+             <Button asChild size="lg" className="font-body text-base w-1/2">
+                <Link href={`/booking?roomId=${room.id}`}>Book Now</Link>
+            </Button>
         </div>
     </div>
   );
 }
+
+    
