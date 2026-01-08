@@ -282,30 +282,8 @@ export default function RoomDetailPage() {
                                 <span className="text-muted-foreground">(127)</span>
                             </div>
                         </div>
-
-                        <div className="grid grid-cols-2 gap-3 mb-4">
-                            <div>
-                                <label className="font-body text-xs font-medium text-muted-foreground block mb-1">Check In</label>
-                                <div className="flex items-center p-2 h-10 rounded-md border border-input bg-background/50 text-sm">
-                                    <span>Dec 15</span>
-                                </div>
-                            </div>
-                            <div>
-                                <label className="font-body text-xs font-medium text-muted-foreground block mb-1">Check Out</label>
-                                <div className="flex items-center p-2 h-10 rounded-md border border-input bg-background/50 text-sm">
-                                    <span>Dec 18</span>
-                                </div>
-                            </div>
-                             <div className="col-span-2">
-                                <label className="font-body text-xs font-medium text-muted-foreground block mb-1">Guests</label>
-                                <div className="flex items-center p-2 h-10 rounded-md border border-input bg-background/50 text-sm">
-                                    <span>2 Guests</span>
-                                </div>
-                            </div>
-                        </div>
-                        
                         <Button asChild size="lg" className="w-full font-body text-base">
-                            <Link href={`/booking?roomId=${room.id}`}>Book This Room</Link>
+                            <a href="tel:+94719107700">Book by Phone</a>
                         </Button>
                     </div>
 
@@ -400,7 +378,7 @@ export default function RoomDetailPage() {
                  <span className="text-sm text-muted-foreground">/night</span>
             </div>
              <Button asChild size="lg" className="font-body text-base w-1/2">
-                <Link href={`/booking?roomId=${room.id}`}>Book Now</Link>
+                <a href="tel:+94719107700">Book Now</a>
             </Button>
         </div>
     </div>
