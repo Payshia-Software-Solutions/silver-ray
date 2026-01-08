@@ -1,6 +1,6 @@
 
 import type { LucideIcon } from 'lucide-react';
-import { Users, Image as ImageIcon, Sun, Mic, Disc, Speaker, Utensils, BedDouble, Flower2, Camera, Music, Gift, Wine, Trees, Waves, MapPin, ClipboardCheck, Hotel, Sparkles, ListChecks, Wrench, CheckCircle, Leaf, Guitar, Cake, Wifi, Rss, Projector, Lightbulb } from 'lucide-react';
+import { Users, Image as ImageIcon, Sun, Mic, Disc, Speaker, Utensils, BedDouble, Flower2, Camera, Music, Gift, Wine, Trees, Waves, MapPin, ClipboardCheck, Hotel, Sparkles, ListChecks, Wrench, CheckCircle, Leaf, Guitar, Cake, Wifi, Rss, Projector, Lightbulb, Car, Bus } from 'lucide-react';
 import type { Testimonial } from '@/types';
 
 
@@ -63,6 +63,16 @@ export const weddingServices: WeddingServiceDisplayInfo[] = [
     icon: BedDouble,
     title: 'Guest Accommodation',
     description: 'Luxurious rooms and suites for your guests, with special wedding rates and personalized amenities.',
+  },
+    {
+    icon: Car,
+    title: 'Wedding Car',
+    description: 'Arrive in style with our selection of luxury wedding cars, complete with chauffeurs.',
+  },
+  {
+    icon: Bus,
+    title: 'Bus Offer',
+    description: 'Convenient transportation solutions for your guests with our modern and comfortable buses.',
   },
 ];
 
