@@ -72,8 +72,9 @@ export function RoomCard({ room }: RoomCardProps) {
     { icon: Wifi, label: 'Wi-Fi' },
     { icon: Tv, label: 'Smart TV' },
     { icon: Coffee, label: 'Coffee Bar' },
-    { icon: Users, label: `${room.adults_capacity} Guests` },
   ];
+
+  const guestAmenity = { icon: Users, label: `${room.adults_capacity} Guests` };
 
   return (
     <Card className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col h-full rounded-2xl bg-card border-none">
@@ -107,7 +108,20 @@ export function RoomCard({ room }: RoomCardProps) {
             {room.short_description}
           </p>
           
-          <div className="flex items-center space-x-4 mb-4">
+          <div className="flex items-center justify-between mb-4">
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger className="flex items-center gap-2 text-muted-foreground">
+                  <guestAmenity.icon className="w-5 h-5" />
+                  <span className="text-sm">{guestAmenity.label}</span>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Up to {room.adults_capacity} guests</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+
+            <div className="flex items-center space-x-3">
               {keyAmenities.map((amenity, index) => (
                   <TooltipProvider key={index}>
                       <Tooltip>
@@ -120,6 +134,7 @@ export function RoomCard({ room }: RoomCardProps) {
                       </Tooltip>
                   </TooltipProvider>
               ))}
+            </div>
           </div>
 
           <div className="mt-auto">
