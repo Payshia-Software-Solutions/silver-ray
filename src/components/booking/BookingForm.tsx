@@ -32,6 +32,12 @@ import type { RoomFromApi } from "@/types";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import apiClient from "@/lib/apiClient";
+import { Checkbox } from "@/components/ui/checkbox";
+
+const addons = [
+  { id: 'extra_bed', label: 'Extra Bed (LKR 2,000)' },
+  { id: 'laundry_service', label: 'Laundry Service (per item)' },
+] as const;
 
 
 const bookingFormSchema = z.object({
@@ -44,6 +50,7 @@ const bookingFormSchema = z.object({
   email: z.string().email("Please enter a valid email address."),
   phone: z.string().min(10, "Phone number must be at least 10 digits.").optional(),
   specialRequests: z.string().optional(),
+  addons: z.array(z.string()).optional(),
 }).refine(data => data.checkOutDate > data.checkInDate, {
   message: "Check-out date must be after check-in date.",
   path: ["checkOutDate"],
@@ -68,6 +75,7 @@ export function BookingForm() {
       email: "",
       phone: "",
       specialRequests: "",
+      addons: [],
     },
   });
 
@@ -122,6 +130,7 @@ export function BookingForm() {
       email: data.email,
       phone_number: data.phone || '',
       special_requests: data.specialRequests || '',
+      addons: data.addons,
       total_price: selectedRoom.price_per_night, // Placeholder price
       booking_status: "Pending", // Default status
     };
@@ -354,6 +363,55 @@ export function BookingForm() {
               </FormItem>
             )}
           />
+
+        <FormField
+          control={form.control}
+          name="addons"
+          render={() => (
+            <FormItem>
+              <div className="mb-4">
+                <FormLabel className="text-base">Add-ons (Optional)</FormLabel>
+              </div>
+              <div className="space-y-2">
+              {addons.map((item) => (
+                <FormField
+                  key={item.id}
+                  control={form.control}
+                  name="addons"
+                  render={({ field }) => {
+                    return (
+                      <FormItem
+                        key={item.id}
+                        className="flex flex-row items-start space-x-3 space-y-0"
+                      >
+                        <FormControl>
+                          <Checkbox
+                            checked={field.value?.includes(item.id)}
+                            onCheckedChange={(checked) => {
+                              return checked
+                                ? field.onChange([...(field.value || []), item.id])
+                                : field.onChange(
+                                    field.value?.filter(
+                                      (value) => value !== item.id
+                                    )
+                                  )
+                            }}
+                          />
+                        </FormControl>
+                        <FormLabel className="font-normal">
+                          {item.label}
+                        </FormLabel>
+                      </FormItem>
+                    )
+                  }}
+                />
+              ))}
+              </div>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
 
         <Button type="submit" size="lg" className="w-full md:w-auto font-body text-lg transform hover:scale-105 transition-transform duration-300" disabled={isSubmitting}>
           {isSubmitting ? 'Submitting...' : 'Confirm Reservation'}

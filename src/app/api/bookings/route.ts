@@ -30,6 +30,10 @@ export async function POST(request: Request) {
       },
     });
 
+    const addonsText = body.addons && body.addons.length > 0 
+      ? body.addons.join(', ').replace(/_/g, ' ') 
+      : 'N/A';
+
     // Email to Admin
     const adminMailOptions = {
       from: `"${body.first_name} ${body.last_name}" <${process.env.SMTP_FROM_EMAIL}>`,
@@ -52,6 +56,7 @@ export async function POST(request: Request) {
               <tr style="border-bottom: 1px solid #eee;"><td style="padding: 10px 0; font-weight: bold;">Check-in:</td><td style="padding: 10px 0;">${body.check_in_date}</td></tr>
               <tr style="border-bottom: 1px solid #eee;"><td style="padding: 10px 0; font-weight: bold;">Check-out:</td><td style="padding: 10px 0;">${body.check_out_date}</td></tr>
               <tr style="border-bottom: 1px solid #eee;"><td style="padding: 10px 0; font-weight: bold;">Guests:</td><td style="padding: 10px 0;">${body.num_guests}</td></tr>
+              <tr style="border-bottom: 1px solid #eee;"><td style="padding: 10px 0; font-weight: bold;">Add-ons:</td><td style="padding: 10px 0; text-transform: capitalize;">${addonsText}</td></tr>
             </table>
             ${body.special_requests ? `
             <div style="margin-top: 20px;">
@@ -86,6 +91,7 @@ export async function POST(request: Request) {
                         <p><strong>Check-in:</strong> ${body.check_in_date}</p>
                         <p><strong>Check-out:</strong> ${body.check_out_date}</p>
                         <p><strong>Guests:</strong> ${body.num_guests}</p>
+                        <p><strong>Add-ons:</strong> <span style="text-transform: capitalize;">${addonsText}</span></p>
                     </div>
                     <p style="margin-top: 20px;">We look forward to welcoming you.</p>
                     <p>Best regards,<br/>The Grand Silver Ray Team</p>
