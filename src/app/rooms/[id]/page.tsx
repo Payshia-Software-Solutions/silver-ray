@@ -59,7 +59,7 @@ const mapRoomData = (apiRoom: RoomFromApi, roomImages: RoomImage[]): Room => {
 
   const roomWidth = parseFloat(apiRoom.room_width);
   const roomHeight = parseFloat(apiRoom.room_height);
-  const size = !isNaN(roomWidth) && !isNaN(roomHeight) && roomWidth > 0 && roomHeight > 0 ? (roomWidth * roomHeight / 10.764).toFixed(0) : 'N/A';
+  const size = !isNaN(roomWidth) && !isNaN(roomHeight) && roomWidth > 0 && roomHeight > 0 ? (roomWidth * roomHeight).toFixed(0) : 'N/A';
 
 
   return {
@@ -181,6 +181,8 @@ export default function RoomDetailPage() {
     : (room.imageUrl ? [room.imageUrl] : []);
 
   const thumbnails = imagesToShow.slice(0, 4); 
+
+  const floor = room.name.toLowerCase().includes('suite') ? '1st' : '1st';
 
   return (
     <div className="bg-background md:bg-secondary/10">
@@ -340,7 +342,7 @@ export default function RoomDetailPage() {
                         </div>
                         <div className="flex flex-col items-center gap-1">
                             <Building className="w-6 h-6 text-primary"/>
-                            <span className="text-sm font-semibold">15th</span>
+                            <span className="text-sm font-semibold">{floor}</span>
                             <span className="text-xs text-muted-foreground">floor</span>
                         </div>
                     </div>
