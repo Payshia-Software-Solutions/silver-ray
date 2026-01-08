@@ -139,10 +139,10 @@ function ExperiencesPage() {
                             </div>
                         </div>
                         <Button asChild size="lg" className="font-body text-lg group">
-                            <Link href="/experiences/book/sapphire-trails">
+                            <a href="http://sapphiretrails.lk/" target="_blank" rel="noopener noreferrer">
                                 Discover the Trail
                                 <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
-                            </Link>
+                            </a>
                         </Button>
                     </div>
                 </AnimatedInView>
@@ -209,5 +209,6 @@ export default ExperiencesPage;
     
 
     
+
 
 
