@@ -56,7 +56,7 @@ export const weddingServices: WeddingServiceDisplayInfo[] = [
   },
   {
     icon: ClipboardCheck,
-    title: 'Event Planning',
+    title: 'Reservation Representatives',
     description: 'Our experienced event planners ensure every detail is perfect, from the initial consultation to your big day.',
   },
   {
