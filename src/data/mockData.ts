@@ -188,7 +188,7 @@ export const mockRooms: Room[] = [
     description: 'A peaceful room with direct access to a private garden patio.',
     longDescription: 'The Deluxe Garden View room offers a serene escape with its own private patio leading into our lush gardens. It features a comfortable king-size bed and a relaxing ambiance, perfect for nature lovers.',
     pricePerNight: 260,
-    imageUrl: 'https://images.unsplash.com/photo-1566665797739-1674de7a421a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxob3RlbCUyMHJvb20lMjBnYXJkZW4lMjB2aWV3fGVufDB8fHx8MTc0OTIwNDE1OXww&ixlib.rb-4.1.0&q=80&w=1080',
+    imageUrl: 'https://images.unsplash.com/photo-1566665797739-1674de7a421a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxob3RlbCUyMHJvb20lMjBnYXJkZW4lMjB2aWV3fGVufDB8fHx8MTc0OTIwNDE1OXww&ixlib-rb-4.1.0&q=80&w=1080',
     imageHint: 'hotel room garden view',
     images: [],
     amenities: ['King Bed', 'Garden Patio', 'WiFi', 'Rain Shower', 'Air Conditioning'],
