@@ -1,3 +1,4 @@
+
 // src/app/api/contacts/route.ts
 import {NextResponse} from 'next/server';
 import nodemailer from 'nodemailer';
@@ -25,7 +26,7 @@ export async function POST(request: Request) {
     // Email to Admin
     const adminMailOptions = {
       from: `"${body.name}" <${process.env.SMTP_FROM_EMAIL}>`,
-      to: 'thilinaruwan112@gmail.com',
+      to: 'reservation@silverray.lk',
       replyTo: body.email,
       subject: `New Contact Form Message: ${body.subject || 'No Subject'}`,
       html: `
