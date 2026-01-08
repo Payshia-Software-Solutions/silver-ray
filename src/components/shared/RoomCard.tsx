@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import NextImage from 'next/image';
@@ -12,6 +11,12 @@ import { Badge } from '@/components/ui/badge';
 import { API_BASE_URL, IMAGE_BASE_URL } from '@/lib/config';
 import { useState, useEffect } from 'react';
 import { Skeleton } from '../ui/skeleton';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 interface RoomCardProps {
   room: Room;
@@ -30,7 +35,6 @@ export function RoomCard({ room }: RoomCardProps) {
       };
       try {
         setIsLoading(true);
-        // Using direct fetch with the correct URL structure
         const serverRoot = API_BASE_URL.split('/company/')[0];
         const response = await fetch(`${serverRoot}/room-images/company/1/room/${room.id}`);
         if (!response.ok) {
@@ -55,7 +59,7 @@ export function RoomCard({ room }: RoomCardProps) {
         }
       } catch (error) {
         console.error(`Failed to fetch image for room ${room.id}:`, error);
-        setImageUrl(null); // Fallback to no image
+        setImageUrl(null); 
       } finally {
         setIsLoading(false);
       }
@@ -63,6 +67,13 @@ export function RoomCard({ room }: RoomCardProps) {
 
     fetchImage();
   }, [room.id]);
+
+  const keyAmenities = [
+    { icon: Wifi, label: 'Wi-Fi' },
+    { icon: Tv, label: 'Smart TV' },
+    { icon: Coffee, label: 'Coffee Bar' },
+    { icon: Users, label: `${room.adults_capacity} Guests` },
+  ];
 
   return (
     <Card className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col h-full rounded-2xl bg-card border-none">
@@ -92,9 +103,23 @@ export function RoomCard({ room }: RoomCardProps) {
             </Badge>
           </div>
           
-          <div className="flex items-center text-muted-foreground mb-4">
-              <Users className="w-5 h-5 mr-2"/>
-              <span className="font-body text-base">{room.adults_capacity} Guests</span>
+          <p className="font-body text-sm text-muted-foreground mb-4 flex-grow line-clamp-2">
+            {room.short_description}
+          </p>
+          
+          <div className="flex items-center space-x-4 mb-4">
+              {keyAmenities.map((amenity, index) => (
+                  <TooltipProvider key={index}>
+                      <Tooltip>
+                          <TooltipTrigger>
+                              <amenity.icon className="w-5 h-5 text-muted-foreground" />
+                          </TooltipTrigger>
+                          <TooltipContent>
+                              <p>{amenity.label}</p>
+                          </TooltipContent>
+                      </Tooltip>
+                  </TooltipProvider>
+              ))}
           </div>
 
           <div className="mt-auto">
@@ -106,4 +131,3 @@ export function RoomCard({ room }: RoomCardProps) {
     </Card>
   );
 }
-
