@@ -1,4 +1,6 @@
 
+'use client';
+
 import NextImage from 'next/image';
 import Link from 'next/link';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -35,12 +37,6 @@ export function WeddingVenueCard({ venue }: WeddingVenueCardProps) {
             </li>
           ))}
         </ul>
-        <Button asChild variant="link" className="font-body text-sm text-primary hover:text-primary/80 p-0 justify-start h-auto group mt-auto">
-          <Link href={`/weddings/venues/${venue.id}`}>
-            More Details
-            <ArrowRight className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1" />
-          </Link>
-        </Button>
       </CardContent>
     </Card>
   );
