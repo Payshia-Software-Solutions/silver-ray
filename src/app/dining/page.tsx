@@ -6,7 +6,7 @@ import { DiningHero } from '@/components/dining/DiningHero';
 import { VenueCard } from '@/components/dining/VenueCard';
 import { DishCard, type DishProps } from '@/components/dining/DishCard';
 import { ReservationSection } from '@/components/dining/ReservationSection';
-import { InfoBar } from '@/components/dining/InfoBar';
+
 import type { RestaurantFromApi } from '@/types';
 import { getRestaurants } from '@/services/api/dining';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -14,25 +14,25 @@ import { AnimatedInView } from '@/components/shared/AnimatedInView';
 
 const signatureDishes: DishProps[] = [
   {
-    id: 'seared-salmon',
-    name: 'Seared Salmon with Lemon Beurre Blanc',
-    description: 'Perfectly cooked salmon, market vegetables, and a silky lemon butter sauce.',
-    imageUrl: 'https://images.unsplash.com/photo-1627662234966-bd65a4e21363?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxzZWFyZWQlMjBzYWxtb24lMjBkaXNoJTIwZ291cm1ldHxlbnwwfHx8fDE3NDkxNDUxNjR8MA&ixlib=rb-4.1.0&q=80&w=1080',
-    imageHint: 'seared salmon dish gourmet',
+    id: 'chicken-biryani',
+    name: 'Chicken Dum Biryani',
+    description: 'Fragrant basmati rice and tender chicken, slow-cooked with a blend of aromatic spices.',
+    imageUrl: 'https://images.unsplash.com/photo-1631515243349-e0cb75fb8d3a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxpbmRpYW4lMjBiaXJ5YW5pfGVufDB8fHx8MTc1MjE1NzU1NHww&ixlib=rb-4.1.0&q=80&w=1080',
+    imageHint: 'indian biryani',
   },
   {
-    id: 'molten-lava-cake',
-    name: 'Molten Chocolate Lava Cake',
-    description: 'Rich chocolate cake with a warm, gooey center, garnished with gold leaf and fresh berries.',
-    imageUrl: 'https://images.unsplash.com/photo-1514517521153-1be72277b32f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxjaG9jb2xhdGUlMjBsYXZhJTIwY2FrZSUyMGRlc3NlcnR8ZW58MHx8fHwxNzQ5MTQ1MTY0fDA&ixlib=rb-4.1.0&q=80&w=1080',
-    imageHint: 'chocolate lava cake dessert',
+    id: 'pad-thai',
+    name: 'Pad Thai',
+    description: 'Stir-fried rice noodles with shrimp, tofu, bean sprouts, and peanuts in a tangy tamarind sauce.',
+    imageUrl: 'https://images.unsplash.com/photo-1563245372-f217244f2352?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxwYWQlMjB0aGFpfGVufDB8fHx8MTc1MjE1NzYyMHww&ixlib=rb-4.1.0&q=80&w=1080',
+    imageHint: 'pad thai noodles',
   },
-  {
-    id: 'prime-ribeye',
-    name: 'Prime Ribeye with Truffle Mash',
-    description: 'Juicy ribeye steak, truffle-infused mashed potatoes, and seasonal vegetables.',
-    imageUrl: 'https://images.unsplash.com/photo-1625937329368-9c6e55f665ba?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxyaWJleWUlMjBzdGVhayUyMG1lYWx8ZW58MHx8fHwxNzQ5MTQ1MTY0fDA&ixlib.rb-4.1.0&q=80&w=1080',
-    imageHint: 'ribeye steak meal',
+    {
+    id: 'chocolate-gateau',
+    name: 'Chocolate Fudge Gateau',
+    description: 'A decadent layered chocolate cake with rich fudge frosting, perfect for any celebration.',
+    imageUrl: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxjaG9jb2xhdGUlMjBjYWtlfGVufDB8fHx8MTc1MjE1Nzc3Nnww&ixlib=rb-4.1.0&q=80&w=1080',
+    imageHint: 'chocolate fudge cake',
   },
 ];
 
@@ -122,7 +122,7 @@ export default function DiningPage() {
         </div>
       </section>
       
-      <InfoBar />
+      
     </div>
   );
 }

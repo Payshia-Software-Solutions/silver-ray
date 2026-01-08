@@ -1,5 +1,39 @@
 
-import type { Room, Testimonial } from '@/types';
+import type { Room, Testimonial, FeaturedExperience } from '@/types';
+
+export const featuredExperiences: FeaturedExperience[] = [
+  {
+    id: 'cultural-dance',
+    imageUrl: 'https://images.unsplash.com/photo-1510362338914-308e847c15ac?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxjZXlsb24lMjBjdWx0dXJhbCUyMGRhbmNlfGVufDB8fHx8MTc0OTE4ODY3Mnww&ixlib.rb-4.1.0&q=80&w=1080',
+    imageHint: 'ceylon cultural dance',
+    title: 'Cultural Dance Performance',
+    description: 'Immerse yourself in the vibrant traditions of Sri Lanka with a captivating evening of cultural dance and music.',
+    duration: '90 minutes',
+    pricePerPerson: 'Complimentary',
+    bookingDetails: 'Available Fridays & Saturdays in the hotel lobby.',
+  },
+  {
+    id: 'tea-tour',
+    imageUrl: 'https://images.unsplash.com/photo-1549488344-168d199c8553?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHx0ZWElMjBwbGFudGF0aW9uJTIwdG91cnxlbnwwfHx8fDE3NDkxODg2NzJ8MA&ixlib-rb-4.1.0&q=80&w=1080',
+    imageHint: 'tea plantation tour',
+    title: 'Tea Factory & Plantation Tour',
+    description: "Discover the art of Ceylon tea. Visit a local plantation, learn about the tea-making process, and enjoy a tasting session.",
+    duration: 'Approx. 2 hours',
+    pricePerPerson: 'LKR 3,500',
+    bookingDetails: 'Daily sessions available. Please book one day in advance.',
+  },
+  {
+    id: 'sapphire-trail',
+    imageUrl: 'https://images.unsplash.com/photo-1599933570115-731a65a63952?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    imageHint: 'rough blue sapphire gems',
+    title: 'Sapphire Trail Expedition',
+    description: 'Journey into the heart of Sabaragamuwa to witness traditional gem mining for world-renowned Ceylon blue sapphires.',
+    duration: '4 Hours (approx.)',
+    pricePerPerson: 'LKR 5,000',
+    bookingDetails: 'An immersive cultural and geological adventure into the sparkling underworld of Sri Lankan gems.',
+  },
+];
+
 
 export const mockRooms: Room[] = [
   {
@@ -8,13 +42,13 @@ export const mockRooms: Room[] = [
     description: 'Spacious room with a king-size bed and stunning city views.',
     longDescription: 'Our Deluxe King Room offers a luxurious retreat with a plush king-size bed, elegant furnishings, and panoramic city views. Enjoy modern amenities including a large flat-screen TV, minibar, and a spa-like bathroom. Perfect for couples or solo travelers seeking comfort and style. Located in Hatorspura, Grand Silver Ray features a garden, shared lounge and free Wifi. There is a restaurant serving Chinese cuisine, and free private parking is available. The hotel will provide guests with air-conditioned rooms offering a desk, a kettle, a fridge, a minibar, a safety deposit box, a flat-screen TV, a teerner and a private bathroom with a bidet. All units include a wardrobe.',
     pricePerNight: 250,
-    imageUrl: 'https://images.unsplash.com/photo-1557733686-3f8641465d21?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxkZWx1eGUlMjByb29tJTIwc2NlbmljJTIwdmlld3xlbnwwfHx8fDE3NDkxNDQ4MTN8MA&ixlib=rb-4.1.0&q=80&w=1080',
+    imageUrl: 'https://images.unsplash.com/photo-1557733686-3f8641465d21?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxkZWx1eGUlMjByb29tJTIwc2NlbmljJTIwdmlld3xlbnwwfHx8fDE3NDkxNDQ4MTN8MA&ixlib-rb-4.1.0&q=80&w=1080',
     imageHint: 'deluxe room scenic view',
     images: [],
     amenities: ['King-size Bed', 'High-speed Wi-Fi', 'Smart TV', 'Rain Shower', 'Nespresso Machine', 'Private Balcony', 'Luxury Linens', 'Climate Control', 'In-room Safe', 'Air Conditioning', 'Mini Bar', 'Flat-screen TV', 'Work Desk'],
     capacity: 2,
     beds: '1 King Bed',
-    size: '40 sqm',
+    size: '432 sqft',
     category: 'Deluxe',
     rating: 4.8,
     features: ['City View', 'Work Desk'],
@@ -32,15 +66,15 @@ export const mockRooms: Room[] = [
     imageHint: 'suite room scenic view',
     images: [],
     amenities: ['King Bed', 'Ocean View', 'Private Balcony', 'WiFi', 'Air Conditioning', 'Nespresso Machine', 'Soaking Tub', 'Living Area'],
-    capacity: 3,
+    capacity: 2,
     beds: '1 King Bed + Sofa Bed',
-    size: '75 sqm',
+    size: '638 sqft',
     category: 'Suite',
     rating: 4.9,
     features: ['Ocean View', 'Private Balcony', 'Living Area'],
     viewType: 'Panoramic Ocean Horizon',
     enhanceYourStay: ['Private Butler Service', 'Champagne on Arrival', 'Priority Restaurant Bookings'],
-    roomLayoutImageUrl: 'https://images.unsplash.com/photo-1608303588026-884930af2559?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxmbG9vciUyMHBsYW58ZW58MHx8fHwxNzQ5MTQ1NjQxfDA&ixlib.rb-4.1.0&q=80&w=1080',
+    roomLayoutImageUrl: 'https://images.unsplash.com/photo-1608303588026-884930af2559?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxmbG9vciUyMHBsYW58ZW58MHx8fHwxNzQ5MTQ1NjQxfDA&ixlib-rb-4.1.0&q=80&w=1080',
   },
   {
     id: 'family-room',
@@ -48,7 +82,7 @@ export const mockRooms: Room[] = [
     description: 'Comfortable room with two queen beds, perfect for families.',
     longDescription: 'Our Family Garden Room is designed for comfort and convenience, offering two queen beds and easy access to our lush gardens. Amenities include a smart TV with streaming services, a spacious bathroom, and a small seating area. A great choice for families looking for a relaxing stay.',
     pricePerNight: 320,
-    imageUrl: 'https://images.unsplash.com/photo-1536494126589-29fadf0d7e3c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxzdGFuZGFyZCUyMHJvb20lMjBzY2VuaWMlMjB2aWV3fGVufDB8fHx8MTc0OTE0NDgxM3ww&ixlib.rb-4.1.0&q=80&w=1080',
+    imageUrl: 'https://images.unsplash.com/photo-1536494126589-29fadf0d7e3c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxzdGFuZGFyZCUyMHJvb20lMjBzY2VuaWMlMjB2aWV3fGVufDB8fHx8MTc0OTE0NDgxM3ww&ixlib-rb-4.1.0&q=80&w=1080',
     imageHint: 'standard room scenic view',
     images: [],
     amenities: ['2 Queen Beds', 'Garden Access', 'WiFi', 'Air Conditioning', 'Smart TV', 'Kids Welcome Kit', 'Gaming Console (on request)'],
@@ -128,7 +162,7 @@ export const mockRooms: Room[] = [
     description: 'Elegant suite with breathtaking panoramic ocean views.',
     longDescription: 'The Premium Suite is an epitome of luxury, offering expansive space, elegant furnishings, a separate living room, and a large balcony with panoramic ocean views. Perfect for those seeking an exclusive and memorable stay with ample room to relax and entertain.',
     pricePerNight: 650,
-    imageUrl: 'https://images.unsplash.com/photo-1455792244736-3ed96c3d7f7e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxzdWl0ZSUyMHJvb20lMjBzY2VuaWMlMjB2aWV3fGVufDB8fHx8MTc0OTE0NDgxMnww&ixlib.rb-4.1.0&q=80&w=1080',
+    imageUrl: 'https://images.unsplash.com/photo-1455792244736-3ed96c3d7f7e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxzdWl0ZSUyMHJvb20lMjBzY2VuaWMlMjB2aWV3fGVufDB8fHx8MTc0OTE0NDgxMnww&ixlib-rb-4.1.0&q=80&w=1080',
     imageHint: 'suite room scenic view',
     images: [],
     amenities: ['King Bed', 'Panoramic Ocean View', 'Large Balcony', 'WiFi', 'Living Room', 'Premium Minibar', 'Walk-in Closet', 'Jacuzzi Tub'],
@@ -168,7 +202,7 @@ export const mockRooms: Room[] = [
     description: 'A comfortable room with two twin beds, ideal for friends or colleagues.',
     longDescription: 'Our Standard Twin Room offers a practical and comfortable space with two separate twin beds. It includes all essential amenities for a pleasant stay, such as a flat-screen TV, Wi-Fi, and a modern bathroom. It is a great choice for travelers sharing a room.',
     pricePerNight: 220,
-    imageUrl: 'https://images.unsplash.com/photo-1611892440504-42a792e24d32?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxob3RlbCUyMHJvb20lMjB0d2luJTIwYmVkc3xlbnwwfHx8fDE3NDkyMDQxNTl8MA&ixlib-rb-4.1.0&q=80&w=1080',
+    imageUrl: 'https://images.unsplash.com/photo-1611892440504-42a792e24d32?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxob3RlbCUyMHJvb20lMjB0d2luJTIwYmVkc3xlbnwwfHx8fDE3NDkyMDQxNTl8MA&ixlib.rb-4.1.0&q=80&w=1080',
     imageHint: 'hotel room twin beds',
     images: [],
     amenities: ['2 Twin Beds', 'WiFi', 'Air Conditioning', 'Flat-screen TV'],

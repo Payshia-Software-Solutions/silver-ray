@@ -7,7 +7,7 @@ export function EventsPageHero() {
   return (
     <section className="relative h-[40vh] min-h-[300px] md:min-h-[350px] lg:min-h-[400px] flex items-center justify-center text-center text-white overflow-hidden">
       <NextImage
-        src="https://content-provider.payshia.com/silver-ray/event-images/12/dininh6-68dd35a873378.jpg" 
+        src="https://content-provider.payshia.com/silver-ray/other/events.webp" 
         alt="Elegant event setup"
         data-ai-hint="event setup luxury"
         fill

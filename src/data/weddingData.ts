@@ -1,6 +1,6 @@
 
 import type { LucideIcon } from 'lucide-react';
-import { Users, Image as ImageIcon, Sun, Mic, Disc, Speaker, Utensils, BedDouble, Flower2, Camera, Music, Gift, Wine, Trees, Waves, MapPin, ClipboardCheck, Hotel, Sparkles, ListChecks, Wrench, CheckCircle, Leaf, Guitar, Cake } from 'lucide-react';
+import { Users, Image as ImageIcon, Sun, Mic, Disc, Speaker, Utensils, BedDouble, Flower2, Camera, Music, Gift, Wine, Trees, Waves, MapPin, ClipboardCheck, Hotel, Sparkles, ListChecks, Wrench, CheckCircle, Leaf, Guitar, Cake, Wifi, Rss, Projector, Lightbulb, Car, Bus } from 'lucide-react';
 import type { Testimonial } from '@/types';
 
 
@@ -16,6 +16,7 @@ export interface WeddingVenue {
   imageUrl: string;
   imageHint: string;
   features: WeddingFeature[];
+  brand: 'Grand Silver Ray' | 'Silver Ray';
 }
 
 export interface WeddingPackageInclusion {
@@ -49,13 +50,13 @@ export const weddingServices: WeddingServiceDisplayInfo[] = [
     description: 'Exquisite menus tailored to your taste, from lavish buffets to fine dining, crafted by our acclaimed chefs.',
   },
   {
-    icon: Flower2,
-    title: 'Elegant Decor',
-    description: 'From floral arrangements to lighting, our creative team brings your vision to life with bespoke decor solutions.',
+    icon: Cake,
+    title: 'Cake Structures',
+    description: 'Beautiful and elaborate structures to showcase your wedding cake and create a stunning centerpiece.',
   },
   {
     icon: ClipboardCheck,
-    title: 'Event Planning',
+    title: 'Reservation Representatives',
     description: 'Our experienced event planners ensure every detail is perfect, from the initial consultation to your big day.',
   },
   {
@@ -122,9 +123,13 @@ export const weddingVenues: WeddingVenue[] = [
     imageUrl: 'http://content-provider.payshia.com/silver-ray/other/BANQUET-1.webp',
     imageHint: 'elegant banquet hall setup',
     features: [
-      { icon: Users, text: 'Up to 250 guests' },
-      { icon: Disc, text: 'Advanced AV System' },
+      { icon: Users, text: 'Up to 230-300 guests' },
+      { icon: Rss, text: 'Advanced AV System' },
+      { icon: Lightbulb, text: 'RGB lights & moving heads' },
+      { icon: Projector, text: 'Projector screens' },
+      { icon: Wifi, text: 'Free Wi-Fi' },
     ],
+    brand: 'Grand Silver Ray',
   },
   {
     id: 'cats-eye-02',
@@ -133,9 +138,13 @@ export const weddingVenues: WeddingVenue[] = [
     imageUrl: 'http://content-provider.payshia.com/silver-ray/other/BANQUET-2.webp',
     imageHint: 'modern banquet hall reception',
     features: [
-      { icon: Users, text: 'Up to 250 guests' },
-      { icon: Trees, text: 'Adjustable Lighting' },
+      { icon: Users, text: 'Up to 230-300 guests' },
+      { icon: Rss, text: 'Advanced AV System' },
+      { icon: Lightbulb, text: 'RGB lights & moving heads' },
+      { icon: Projector, text: 'Projector screens' },
+      { icon: Wifi, text: 'Free Wi-Fi' },
     ],
+    brand: 'Grand Silver Ray',
   },
    {
     id: 'cats-eye-03',
@@ -144,9 +153,41 @@ export const weddingVenues: WeddingVenue[] = [
     imageUrl: 'http://content-provider.payshia.com/silver-ray/other/BANQUET-3.webp',
     imageHint: 'intimate banquet setting',
     features: [
-      { icon: Users, text: 'Up to 250 guests' },
-      { icon: Disc, text: 'Cozy Ambiance' },
+      { icon: Users, text: 'Up to 230-300 guests' },
+      { icon: Rss, text: 'Advanced AV System' },
+      { icon: Lightbulb, text: 'RGB lights & moving heads' },
+      { icon: Projector, text: 'Projector screens' },
+      { icon: Wifi, text: 'Free Wi-Fi' },
     ],
+    brand: 'Grand Silver Ray',
+  },
+  {
+    id: 'blue-sapphire',
+    name: "Blue Sapphire",
+    description: 'A modern and sleek hall, the Blue Sapphire offers a contemporary setting for stylish weddings.',
+    imageUrl: 'https://placehold.co/600x400.png',
+    imageHint: 'modern blue wedding hall',
+    features: [
+      { icon: Users, text: 'Up to 150 guests' },
+      { icon: Rss, text: 'Sound System' },
+      { icon: Lightbulb, text: 'Adjustable Lighting' },
+      { icon: Wifi, text: 'Free Wi-Fi' },
+    ],
+    brand: 'Silver Ray',
+  },
+  {
+    id: 'yellow-sapphire',
+    name: "Yellow Sapphire",
+    description: 'Bathed in warm light, the Yellow Sapphire hall provides a bright and cheerful atmosphere for daytime events.',
+    imageUrl: 'https://placehold.co/600x400.png',
+    imageHint: 'bright yellow wedding hall',
+    features: [
+      { icon: Users, text: 'Up to 120 guests' },
+      { icon: Rss, text: 'Sound System' },
+      { icon: Sun, text: 'Natural Light' },
+      { icon: Wifi, text: 'Free Wi-Fi' },
+    ],
+    brand: 'Silver Ray',
   },
 ];
 

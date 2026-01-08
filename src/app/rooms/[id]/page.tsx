@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -7,6 +8,14 @@ import { getRoomById, getRoomImagesByRoomId } from '@/services/api/rooms';
 import type { Room, RoomFromApi, RoomImage } from '@/types';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { 
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
 import { 
   CheckCircle, 
   Users, 
@@ -28,7 +37,12 @@ import {
   Mountain,
   Ruler,
   Building,
-  Star
+  Star,
+  Phone,
+  Droplets,
+  Shirt,
+  Flashlight,
+  PlusCircle,
 } from 'lucide-react';
 import Link from 'next/link';
 import { notFound, useParams } from 'next/navigation';
@@ -37,6 +51,8 @@ import { Separator } from '@/components/ui/separator';
 import { IMAGE_BASE_URL } from '@/lib/config';
 import { Skeleton } from '@/components/ui/skeleton';
 import { cn } from '@/lib/utils';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Label } from '@/components/ui/label';
 
 // Helper to map API data to our Room type
 const mapRoomData = (apiRoom: RoomFromApi, roomImages: RoomImage[]): Room => {
@@ -56,11 +72,9 @@ const mapRoomData = (apiRoom: RoomFromApi, roomImages: RoomImage[]): Room => {
     ? apiRoom.amenities.map(a => a.amenity_name)
     : (typeof apiRoom.amenities_id === 'string' ? apiRoom.amenities_id.split(',').map(a => a.trim()) : []);
 
-
-  const roomWidth = parseFloat(apiRoom.room_width);
-  const roomHeight = parseFloat(apiRoom.room_height);
-  const size = !isNaN(roomWidth) && !isNaN(roomHeight) && roomWidth > 0 && roomHeight > 0 ? (roomWidth * roomHeight / 10.764).toFixed(0) : 'N/A';
-
+  const isSuite = apiRoom.descriptive_title.toLowerCase().includes('suite');
+  const size = isSuite ? '638' : '432';
+  const capacity = 3;
 
   return {
     ...apiRoom,
@@ -73,7 +87,7 @@ const mapRoomData = (apiRoom: RoomFromApi, roomImages: RoomImage[]): Room => {
     imageUrl: finalImageUrl,
     images: imagesForThisRoom.map(img => ({ ...img, image_url: constructImageUrl(img.image_url)})),
     amenities: amenities,
-    capacity: Number(apiRoom.adults_capacity),
+    capacity: capacity,
     beds: '1 King Bed',
     size: `${size} sqft`,
     category: apiRoom.room_type?.type_name as any || 'Standard',
@@ -82,6 +96,12 @@ const mapRoomData = (apiRoom: RoomFromApi, roomImages: RoomImage[]): Room => {
 };
 
 const amenitiesIcons: { [key: string]: LucideIcon } = {
+  'Housekeeping': CheckCircle,
+  'Full bathroom amenities': ShowerHead,
+  'Water bottles': Droplets,
+  'Tea/Coffee making facility': Coffee,
+  'Iron & iron board': Shirt,
+  'Torch': Flashlight,
   'King-size Bed': BedDouble,
   'Rain Shower': ShowerHead,
   'Smart TV': Tv,
@@ -89,10 +109,9 @@ const amenitiesIcons: { [key: string]: LucideIcon } = {
   'Coffee Bar': Coffee,
   'Private Balcony': Mountain,
   'Nespresso Machine': Coffee,
-  'Air Conditioning': Wifi, // Using Wifi icon as a placeholder
+  'Air Conditioning': Wifi,
   'Free Wi-Fi': Wifi,
-  'Pet Friendly': Bed, // Using Bed as placeholder
-  'Housekeeping': CheckCircle, // Using Check as placeholder
+  'Pet Friendly': Bed,
 };
 
 export default function RoomDetailPage() {
@@ -181,6 +200,8 @@ export default function RoomDetailPage() {
     : (room.imageUrl ? [room.imageUrl] : []);
 
   const thumbnails = imagesToShow.slice(0, 4); 
+
+  const floor = '1st';
 
   return (
     <div className="bg-background md:bg-secondary/10">
@@ -283,31 +304,54 @@ export default function RoomDetailPage() {
                             </div>
                         </div>
 
-                        <div className="grid grid-cols-2 gap-3 mb-4">
-                            <div>
-                                <label className="font-body text-xs font-medium text-muted-foreground block mb-1">Check In</label>
-                                <div className="flex items-center p-2 h-10 rounded-md border border-input bg-background/50 text-sm">
-                                    <span>Dec 15</span>
-                                </div>
+                        <Dialog>
+                          <DialogTrigger asChild>
+                            <Button size="lg" className="w-full font-body text-base">Book Now</Button>
+                          </DialogTrigger>
+                          <DialogContent className="sm:max-w-md">
+                            <DialogHeader>
+                              <DialogTitle>Contact Reservations</DialogTitle>
+                              <DialogDescription>
+                                Please call one of our hotline numbers to book your stay.
+                              </DialogDescription>
+                            </DialogHeader>
+                            <div className="flex flex-col space-y-3 pt-4">
+                               <Button asChild size="lg" className="font-body text-base">
+                                  <a href="tel:+94719107700" className="flex items-center justify-center gap-2">
+                                    <Phone className="w-4 h-4" />
+                                    +94 71 910 7700
+                                  </a>
+                                </Button>
+                               <Button asChild size="lg" className="font-body text-base">
+                                  <a href="tel:+94713626200" className="flex items-center justify-center gap-2">
+                                    <Phone className="w-4 h-4" />
+                                    +94 71 362 6200
+                                  </a>
+                                </Button>
                             </div>
-                            <div>
-                                <label className="font-body text-xs font-medium text-muted-foreground block mb-1">Check Out</label>
-                                <div className="flex items-center p-2 h-10 rounded-md border border-input bg-background/50 text-sm">
-                                    <span>Dec 18</span>
-                                </div>
-                            </div>
-                             <div className="col-span-2">
-                                <label className="font-body text-xs font-medium text-muted-foreground block mb-1">Guests</label>
-                                <div className="flex items-center p-2 h-10 rounded-md border border-input bg-background/50 text-sm">
-                                    <span>2 Guests</span>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <Button asChild size="lg" className="w-full font-body text-base">
-                            <Link href={`/booking?roomId=${room.id}`}>Book This Room</Link>
-                        </Button>
+                          </DialogContent>
+                        </Dialog>
                     </div>
+
+                    {/* --- Room Stats Section --- */}
+                     <div className="flex justify-around text-center mb-6">
+                        <div className="flex flex-col items-center gap-1">
+                            <Ruler className="w-6 h-6 text-primary"/>
+                            <span className="text-sm font-semibold">{room.size.replace(' sqft','')}</span>
+                            <span className="text-xs text-muted-foreground">sq ft</span>
+                        </div>
+                        <div className="flex flex-col items-center gap-1">
+                            <Users className="w-6 h-6 text-primary"/>
+                            <span className="text-sm font-semibold">{room.capacity}</span>
+                            <span className="text-xs text-muted-foreground">max guests</span>
+                        </div>
+                        <div className="flex flex-col items-center gap-1">
+                            <Building className="w-6 h-6 text-primary"/>
+                            <span className="text-sm font-semibold">{floor}</span>
+                            <span className="text-xs text-muted-foreground">floor</span>
+                        </div>
+                    </div>
+                    <Separator className="my-6"/>
 
                     {/* --- Amenities Section --- */}
                     <div className="mb-6">
@@ -326,22 +370,18 @@ export default function RoomDetailPage() {
                     </div>
                     <Separator className="my-6"/>
 
-                    {/* --- Room Stats Section --- */}
-                     <div className="flex justify-around text-center mb-6">
-                        <div className="flex flex-col items-center gap-1">
-                            <Ruler className="w-6 h-6 text-primary"/>
-                            <span className="text-sm font-semibold">{room.size}</span>
-                            <span className="text-xs text-muted-foreground">sq ft</span>
-                        </div>
-                        <div className="flex flex-col items-center gap-1">
-                            <Users className="w-6 h-6 text-primary"/>
-                            <span className="text-sm font-semibold">{room.capacity}</span>
-                            <span className="text-xs text-muted-foreground">max guests</span>
-                        </div>
-                        <div className="flex flex-col items-center gap-1">
-                            <Building className="w-6 h-6 text-primary"/>
-                            <span className="text-sm font-semibold">15th</span>
-                            <span className="text-xs text-muted-foreground">floor</span>
+                    {/* --- Addons Section --- */}
+                    <div className="mb-6">
+                        <h2 className="font-headline text-xl font-semibold mb-4">Available Addons</h2>
+                        <div className="grid grid-cols-1 gap-x-4 gap-y-3 font-body text-foreground/90 text-sm">
+                            <div className="flex items-center">
+                                <PlusCircle className="w-5 h-5 mr-2.5 text-primary flex-shrink-0" />
+                                <span>Extra bed (LKR 2,000)</span>
+                            </div>
+                            <div className="flex items-center">
+                                <PlusCircle className="w-5 h-5 mr-2.5 text-primary flex-shrink-0" />
+                                <span>Laundry Service (per item)</span>
+                            </div>
                         </div>
                     </div>
                     <Separator className="my-6"/>
@@ -399,9 +439,33 @@ export default function RoomDetailPage() {
                  <span className="font-body text-xl font-bold text-foreground">{room.currency} {room.pricePerNight.toLocaleString()}</span>
                  <span className="text-sm text-muted-foreground">/night</span>
             </div>
-             <Button asChild size="lg" className="font-body text-base w-1/2">
-                <Link href={`/booking?roomId=${room.id}`}>Book Now</Link>
-            </Button>
+             <Dialog>
+                <DialogTrigger asChild>
+                    <Button size="lg" className="font-body text-base w-1/2">Book Now</Button>
+                </DialogTrigger>
+                <DialogContent className="sm:max-w-xs">
+                    <DialogHeader>
+                        <DialogTitle>Contact Reservations</DialogTitle>
+                        <DialogDescription>
+                        Please call one of our hotline numbers to book your stay.
+                        </DialogDescription>
+                    </DialogHeader>
+                    <div className="flex flex-col space-y-3 pt-4">
+                        <Button asChild size="lg" className="font-body text-base">
+                            <a href="tel:+94719107700" className="flex items-center justify-center gap-2">
+                                <Phone className="w-4 h-4" />
+                                +94 71 910 7700
+                            </a>
+                        </Button>
+                        <Button asChild size="lg" className="font-body text-base">
+                            <a href="tel:+94713626200" className="flex items-center justify-center gap-2">
+                                <Phone className="w-4 h-4" />
+                                +94 71 362 6200
+                            </a>
+                        </Button>
+                    </div>
+                </DialogContent>
+             </Dialog>
         </div>
     </div>
   );

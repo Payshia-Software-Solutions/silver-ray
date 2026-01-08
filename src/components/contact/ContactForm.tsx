@@ -14,6 +14,13 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/hooks/use-toast";
 import { Send } from "lucide-react";
@@ -23,6 +30,7 @@ import { useState } from "react";
 const contactFormSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters."),
   email: z.string().email("Please enter a valid email address."),
+  eventType: z.string().optional(),
   subject: z.string().min(5, "Subject must be at least 5 characters.").optional(),
   message: z.string().min(10, "Message must be at least 10 characters."),
 });
@@ -37,6 +45,7 @@ export function ContactForm() {
       name: "",
       email: "",
       subject: "",
+      eventType: "",
       message: "",
     },
   });
@@ -95,19 +104,44 @@ export function ContactForm() {
             )}
           />
         </div>
-        <FormField
-          control={form.control}
-          name="subject"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Subject</FormLabel>
-              <FormControl>
-                <Input placeholder="Subject of your message" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <FormField
+            control={form.control}
+            name="eventType"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Event Type (Optional)</FormLabel>
+                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select an event type" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectItem value="Wedding">Wedding</SelectItem>
+                    <SelectItem value="Corporate">Corporate</SelectItem>
+                    <SelectItem value="Birthday">Birthday</SelectItem>
+                    <SelectItem value="Get together">Get together</SelectItem>
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="subject"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Subject</FormLabel>
+                <FormControl>
+                  <Input placeholder="Subject of your message" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
         <FormField
           control={form.control}
           name="message"

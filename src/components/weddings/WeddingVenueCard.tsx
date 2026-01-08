@@ -1,4 +1,6 @@
 
+'use client';
+
 import NextImage from 'next/image';
 import Link from 'next/link';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -28,19 +30,13 @@ export function WeddingVenueCard({ venue }: WeddingVenueCardProps) {
           {venue.description}
         </p>
         <ul className="grid grid-cols-2 gap-x-4 gap-y-2 font-body text-xs text-muted-foreground mb-4">
-          {venue.features.slice(0, 4).map((feature, index) => ( // Show max 4 features
+          {venue.features.slice(0, 5).map((feature, index) => ( // Show max 5 features
             <li key={index} className="flex items-center">
               <feature.icon className="w-4 h-4 mr-2 text-primary flex-shrink-0" />
               {feature.text}
             </li>
           ))}
         </ul>
-        <Button asChild variant="link" className="font-body text-sm text-primary hover:text-primary/80 p-0 justify-start h-auto group mt-auto">
-          <Link href={`/weddings/venues/${venue.id}`}>
-            More Details
-            <ArrowRight className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1" />
-          </Link>
-        </Button>
       </CardContent>
     </Card>
   );

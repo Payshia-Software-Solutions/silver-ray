@@ -3,25 +3,26 @@
 
 import Link from 'next/link';
 import NextImage from 'next/image';
-import { Phone, Mail, MapPin, Facebook, Instagram, Linkedin, HelpCircle, Youtube } from 'lucide-react';
+import { Phone, Mail, MapPin, Facebook, Instagram, Linkedin, HelpCircle, Youtube, Rss } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { useIsMobile } from "@/hooks/use-mobile";
 
-// Inline SVG for Pinterest icon
-const PinterestIcon = ({ size = 20, className }: { size?: number; className?: string }) => (
-  <svg
-    className={className}
-    width={size}
-    height={size}
-    viewBox="0 0 24 24"
-    fill="currentColor"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path d="M12 1.5c-5.88 0-10.5 4.62-10.5 10.5 0 4.2 2.51 7.85 6.05 9.53.05-.37.08-.97.03-1.41-.06-.27-.38-1.62-.38-1.62s-.1-.4-.1-.98c0-.92.54-1.61 1.21-1.61.57 0 .84.42.84.93 0 .56-.36 1.4-.55 2.18-.15.61.31 1.11.91 1.11 1.1 0 1.93-1.16 1.93-2.85 0-1.53-.95-2.59-2.78-2.59-1.91 0-3.03 1.43-3.03 3.11 0 .37.12.77.27 1.02.03.05.06.1.06.16 0 .12-.04.23-.07.34-.03.08-.05.15-.08.22-.08.21-.18.39-.18.39s-.29 1.21-.36 1.49c-.16.68-.11 1.48-.11 1.48s-.58 2.42-.85 3.22c-.08.24-.01.5.2.65.22.16.5.13.7-.09.03-.03 1.29-1.26 1.72-2.3.2-.5.39-.97.39-.97s.23-.95.33-1.29c.27-.86.97-1.76 1.78-2.51.32-.3.7-.61 1.07-.9.46-.36.9-.7 1.3-.99.5-.36.98-.68 1.43-.94.48-.28.93-.52 1.34-.7.4-.18.77-.31 1.1-.39.7-.16 1.31-.22 1.82-.22 1.61 0 2.96.62 2.96 2.21 0 1.11-.56 2.29-1.43 2.94-.31.23-.63.47-.96.71-.21.15-.42.3-.63.46-.23.17-.46.34-.68.51-.15.12-.29.23-.43.35-.65.55-1.04 1.26-1.16 2.06-.07.46.09.91.19 1.33.44.09.9.15 1.37.15 4.46 0 8.27-3.28 8.27-8.27C22.5 6.12 17.88 1.5 12 1.5z" />
-  </svg>
+// Inline SVG for TikTok icon
+const TikTokIcon = ({ size = 20, className }: { size?: number; className?: string }) => (
+    <svg 
+        xmlns="http://www.w3.org/2000/svg" 
+        width={size} 
+        height={size} 
+        viewBox="0 0 24 24" 
+        fill="currentColor" 
+        className={className}
+    >
+        <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.08.97.78 1.81 1.73 1.99.78.15 1.55-.15 2.15-.66.56-.47 1-1.15 1.11-1.84.1-1.61.01-3.21.02-4.82z" />
+    </svg>
 );
+
 
 const quickLinks = [
   { href: '/', label: 'Home' },
@@ -54,10 +55,10 @@ const informationLinks = [
 ];
 
 const socialLinks = [
-  { href: '#', icon: Instagram, label: 'Instagram' },
-  { href: '#', icon: Facebook, label: 'Facebook' },
-  { href: '#', icon: Youtube, label: 'YouTube' },
-  { href: '#', icon: PinterestIcon, label: 'Pinterest' },
+  { href: 'https://www.instagram.com/grand_silver_ray/', icon: Instagram, label: 'Instagram' },
+  { href: 'https://www.facebook.com/Silverraylk', icon: Facebook, label: 'Facebook' },
+  { href: 'https://www.youtube.com/@GrandSilverRayOfficial', icon: Youtube, label: 'YouTube' },
+  { href: 'https://www.tiktok.com/@grand_silver_ray', icon: TikTokIcon, label: 'TikTok' },
 ];
 
 const FooterLinkColumn = ({ title, links }: { title: string, links: { href: string, label: string }[] }) => {
@@ -90,7 +91,10 @@ const DesktopFooter = () => (
                 <ul className="space-y-2 text-sm">
                 <li className="flex items-center">
                     <Phone className="w-4 h-4 mr-2 text-primary" />
-                    <a href="tel:+94452274764" className="hover:text-primary transition-colors">+94 452 274 764</a>
+                    <div>
+                      <a href="tel:+94719107700" className="hover:text-primary transition-colors block">+94 71 910 7700</a>
+                      <a href="tel:+94713626200" className="hover:text-primary transition-colors block">+94 71 362 6200</a>
+                    </div>
                 </li>
                 <li className="flex items-center">
                     <Mail className="w-4 h-4 mr-2 text-primary" />
@@ -129,6 +133,8 @@ const DesktopFooter = () => (
                         href={social.href}
                         aria-label={social.label}
                         className="text-slate-400 hover:text-primary transition-colors"
+                        target="_blank"
+                        rel="noopener noreferrer"
                     >
                         <social.icon size={20} />
                     </a>
@@ -177,9 +183,9 @@ const DesktopFooter = () => (
                 </p>
             </div>
         </div>
-         <div className="border-t border-slate-700 pt-8 text-center text-sm">
-            <p className="mb-2">
-                &copy; {new Date().getFullYear()} Grand Silver Ray. All Rights Reserved.
+         <div className="border-t border-slate-700 pt-8 text-sm flex flex-col md:flex-row justify-between items-center text-center">
+            <p className="mb-2 md:mb-0">
+                © 2026 Grand Silver Ray. All Rights Reserved.
             </p>
             <p>
                 <span className="text-slate-400">Powered by </span>
@@ -209,7 +215,7 @@ const MobileFooter = () => (
       <div className="text-sm text-slate-300 space-y-1 mb-6">
         <p>Lellopitiya Dipitigala, Ratnapura, Sri Lanka.</p>
         <a href="mailto:reservation@silverray.lk" className="hover:text-primary transition-colors">reservation@silverray.lk</a>
-        <p>+94 452 274 764</p>
+        <p>+94 71 910 7700 / +94 71 362 6200</p>
          <div className="pt-4 text-left">
             <h3 className="font-headline text-base font-semibold text-slate-100 mb-2 text-center">Outlet Contacts</h3>
              <ul className="space-y-1 text-sm">
@@ -230,7 +236,14 @@ const MobileFooter = () => (
       </div>
       <div className="flex space-x-6 mb-8">
         {socialLinks.map((social) => (
-          <a key={social.label} href={social.href} aria-label={social.label} className="text-slate-400 hover:text-primary transition-colors">
+          <a 
+            key={social.label} 
+            href={social.href} 
+            aria-label={social.label} 
+            className="text-slate-400 hover:text-primary transition-colors"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <social.icon size={24} />
           </a>
         ))}
@@ -287,7 +300,7 @@ const MobileFooter = () => (
         </Button>
       </form>
         <div className="text-xs text-slate-500 space-y-2">
-            <p>&copy; {new Date().getFullYear()} Grand Silver Ray. All rights reserved.</p>
+            <p>&copy; 2026 Grand Silver Ray. All rights reserved.</p>
             <p>
                 <span className="text-slate-500">Powered by </span>
                 <a href="https://payshia.com" target="_blank" rel="noopener noreferrer" className="font-semibold text-slate-400 hover:underline hover:text-primary">

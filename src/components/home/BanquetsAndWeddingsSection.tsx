@@ -5,7 +5,7 @@ import NextImage from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { ArrowRight, Users, Disc, Trees } from 'lucide-react';
+import { ArrowRight, Users, Wifi, Rss, Projector, Lightbulb } from 'lucide-react';
 import { AnimatedInView } from '../shared/AnimatedInView';
 
 interface VenueHighlight {
@@ -31,8 +31,11 @@ const venueHighlights: VenueHighlight[] = [
     imageHint: 'elegant banquet hall setup',
     price: 'LKR 3100 + 10%',
     features: [
-      { icon: Users, text: 'Up to 250 guests' },
-      { icon: Disc, text: 'Advanced AV System' },
+      { icon: Users, text: 'Up to 230-300 guests' },
+      { icon: Rss, text: 'Advanced AV System' },
+      { icon: Lightbulb, text: 'RGB lights & moving heads' },
+      { icon: Projector, text: 'Projector screens' },
+      { icon: Wifi, text: 'Free Wi-Fi' },
     ],
     link: '/weddings/venues/cats-eye-01',
   },
@@ -44,8 +47,11 @@ const venueHighlights: VenueHighlight[] = [
     imageHint: 'modern banquet hall reception',
     price: 'LKR 3100 + 10%',
     features: [
-      { icon: Users, text: 'Up to 250 guests' },
-      { icon: Trees, text: 'Adjustable Lighting' },
+      { icon: Users, text: 'Up to 230-300 guests' },
+      { icon: Rss, text: 'Advanced AV System' },
+      { icon: Lightbulb, text: 'RGB lights & moving heads' },
+      { icon: Projector, text: 'Projector screens' },
+      { icon: Wifi, text: 'Free Wi-Fi' },
     ],
     link: '/weddings/venues/cats-eye-02',
   },
@@ -57,8 +63,11 @@ const venueHighlights: VenueHighlight[] = [
     imageHint: 'intimate banquet setting',
     price: 'LKR 3100 + 10%',
     features: [
-      { icon: Users, text: 'Up to 250 guests' },
-      { icon: Disc, text: 'Cozy Ambiance' },
+      { icon: Users, text: 'Up to 230-300 guests' },
+      { icon: Rss, text: 'Advanced AV System' },
+      { icon: Lightbulb, text: 'RGB lights & moving heads' },
+      { icon: Projector, text: 'Projector screens' },
+      { icon: Wifi, text: 'Free Wi-Fi' },
     ],
     link: '/weddings/venues/cats-eye-03',
   },
@@ -103,7 +112,7 @@ export function BanquetsAndWeddingsSection() {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
           <h2 className="font-headline text-3xl sm:text-4xl lg:text-5xl font-bold mb-4">
-            Banquets & Weddings
+            Banquets <span className="font-body">&</span> Weddings
           </h2>
           <p className="font-body text-lg text-muted-foreground max-w-2xl mx-auto">
             Crafting unforgettable moments in our elegant and versatile event spaces.
