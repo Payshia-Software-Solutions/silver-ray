@@ -1,6 +1,6 @@
 
 import type { LucideIcon } from 'lucide-react';
-import { Users, Image as ImageIcon, Sun, Mic, Disc, Speaker, Utensils, BedDouble, Flower2, Camera, Music, Gift, Wine, Trees, Waves, MapPin, ClipboardCheck, Hotel, Sparkles, ListChecks, Wrench, CheckCircle, Leaf, Guitar, Cake } from 'lucide-react';
+import { Users, Image as ImageIcon, Sun, Mic, Disc, Speaker, Utensils, BedDouble, Flower2, Camera, Music, Gift, Wine, Trees, Waves, MapPin, ClipboardCheck, Hotel, Sparkles, ListChecks, Wrench, CheckCircle, Leaf, Guitar, Cake, Wifi, Rss, Projector, Lightbulb } from 'lucide-react';
 import type { Testimonial } from '@/types';
 
 
@@ -123,7 +123,10 @@ export const weddingVenues: WeddingVenue[] = [
     imageHint: 'elegant banquet hall setup',
     features: [
       { icon: Users, text: 'Up to 230-300 guests' },
-      { icon: Disc, text: 'Advanced AV System' },
+      { icon: Rss, text: 'Advanced AV System' },
+      { icon: Lightbulb, text: 'RGB lights & moving heads' },
+      { icon: Projector, text: 'Projector screens' },
+      { icon: Wifi, text: 'Free Wi-Fi' },
     ],
   },
   {
@@ -134,7 +137,10 @@ export const weddingVenues: WeddingVenue[] = [
     imageHint: 'modern banquet hall reception',
     features: [
       { icon: Users, text: 'Up to 230-300 guests' },
-      { icon: Trees, text: 'Adjustable Lighting' },
+      { icon: Rss, text: 'Advanced AV System' },
+      { icon: Lightbulb, text: 'RGB lights & moving heads' },
+      { icon: Projector, text: 'Projector screens' },
+      { icon: Wifi, text: 'Free Wi-Fi' },
     ],
   },
    {
@@ -145,7 +151,10 @@ export const weddingVenues: WeddingVenue[] = [
     imageHint: 'intimate banquet setting',
     features: [
       { icon: Users, text: 'Up to 230-300 guests' },
-      { icon: Disc, text: 'Cozy Ambiance' },
+      { icon: Rss, text: 'Advanced AV System' },
+      { icon: Lightbulb, text: 'RGB lights & moving heads' },
+      { icon: Projector, text: 'Projector screens' },
+      { icon: Wifi, text: 'Free Wi-Fi' },
     ],
   },
 ];

@@ -28,7 +28,7 @@ export function WeddingVenueCard({ venue }: WeddingVenueCardProps) {
           {venue.description}
         </p>
         <ul className="grid grid-cols-2 gap-x-4 gap-y-2 font-body text-xs text-muted-foreground mb-4">
-          {venue.features.slice(0, 4).map((feature, index) => ( // Show max 4 features
+          {venue.features.slice(0, 5).map((feature, index) => ( // Show max 5 features
             <li key={index} className="flex items-center">
               <feature.icon className="w-4 h-4 mr-2 text-primary flex-shrink-0" />
               {feature.text}

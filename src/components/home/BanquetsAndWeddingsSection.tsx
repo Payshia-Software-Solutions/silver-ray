@@ -5,7 +5,7 @@ import NextImage from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { ArrowRight, Users, Disc, Trees } from 'lucide-react';
+import { ArrowRight, Users, Wifi, Rss, Projector, Lightbulb } from 'lucide-react';
 import { AnimatedInView } from '../shared/AnimatedInView';
 
 interface VenueHighlight {
@@ -32,7 +32,10 @@ const venueHighlights: VenueHighlight[] = [
     price: 'LKR 3100 + 10%',
     features: [
       { icon: Users, text: 'Up to 230-300 guests' },
-      { icon: Disc, text: 'Advanced AV System' },
+      { icon: Rss, text: 'Advanced AV System' },
+      { icon: Lightbulb, text: 'RGB lights & moving heads' },
+      { icon: Projector, text: 'Projector screens' },
+      { icon: Wifi, text: 'Free Wi-Fi' },
     ],
     link: '/weddings/venues/cats-eye-01',
   },
@@ -45,7 +48,10 @@ const venueHighlights: VenueHighlight[] = [
     price: 'LKR 3100 + 10%',
     features: [
       { icon: Users, text: 'Up to 230-300 guests' },
-      { icon: Trees, text: 'Adjustable Lighting' },
+      { icon: Rss, text: 'Advanced AV System' },
+      { icon: Lightbulb, text: 'RGB lights & moving heads' },
+      { icon: Projector, text: 'Projector screens' },
+      { icon: Wifi, text: 'Free Wi-Fi' },
     ],
     link: '/weddings/venues/cats-eye-02',
   },
@@ -58,7 +64,10 @@ const venueHighlights: VenueHighlight[] = [
     price: 'LKR 3100 + 10%',
     features: [
       { icon: Users, text: 'Up to 230-300 guests' },
-      { icon: Disc, text: 'Cozy Ambiance' },
+      { icon: Rss, text: 'Advanced AV System' },
+      { icon: Lightbulb, text: 'RGB lights & moving heads' },
+      { icon: Projector, text: 'Projector screens' },
+      { icon: Wifi, text: 'Free Wi-Fi' },
     ],
     link: '/weddings/venues/cats-eye-03',
   },
