@@ -50,53 +50,57 @@ const videoUrls = [
     'https://content-provider.payshia.com/silver-ray/other/wedding-4.mp4',
 ];
 
-const pdfPackages = [
-    {
-        title: "Gold Menu 2026",
-        description: "Explore the exquisite offerings in our Gold wedding package.",
-        pdfUrl: "https://content-provider.payshia.com/silver-ray/packages/GOLD%20MENU%20-%202026.pdf"
-    },
-    {
-        title: "Grand Silver Ray Menu 01",
-        description: "Details of our premier wedding menu for 2026.",
-        pdfUrl: "https://content-provider.payshia.com/silver-ray/packages/GRAND%20SILVER%20RAY%20MENU%2001-2026.pdf"
-    },
-    {
-        title: "Grand Silver Ray Menu 02",
-        description: "An alternative premier menu for your special day.",
-        pdfUrl: "https://content-provider.payshia.com/silver-ray/packages/GRAND%20SILVER%20RAY%20MENU%2002%20-2026.pdf"
-    },
-    {
-        title: "Grand Silver Ray Menu 03",
-        description: "A third option for our premier wedding menu selections.",
-        pdfUrl: "https://content-provider.payshia.com/silver-ray/packages/GRAND%20SILVER%20RAY%20MENU%2003%20-2026.pdf"
-    },
-    {
-        title: "Platinum Menu 2026",
-        description: "Our most luxurious menu for an unforgettable celebration.",
-        pdfUrl: "https://content-provider.payshia.com/silver-ray/packages/PLATINUM%20MENU%20-2026.pdf"
-    },
-    {
-        title: "LKR 630,000 Package",
-        description: "A comprehensive package for a beautiful wedding celebration.",
-        pdfUrl: "https://content-provider.payshia.com/silver-ray/packages/Rs.630,000.00%20Package%20-2026.pdf"
-    },
-    {
-        title: "LKR 750,000 Package",
-        description: "An enhanced package with additional features and services.",
-        pdfUrl: "https://content-provider.payshia.com/silver-ray/packages/Rs.750,000.00%20Package%20-%202026.pdf"
-    },
-    {
-        title: "LKR 850,000 Package",
-        description: "Our premium package, designed for a truly grand affair.",
-        pdfUrl: "https://content-provider.payshia.com/silver-ray/packages/Rs.850,000.00%20Package%20-%202026.pdf"
-    },
-    {
-        title: "Silver Menu 2026",
-        description: "An elegant and affordable option for your special day.",
-        pdfUrl: "https://content-provider.payshia.com/silver-ray/packages/SILVER%20MENU-2026.pdf"
-    }
-];
+const pdfPackages = {
+    grandSilverRay: [
+        {
+            title: "Grand Silver Ray Menu 01",
+            description: "Details of our premier wedding menu for 2026.",
+            pdfUrl: "https://content-provider.payshia.com/silver-ray/packages/GRAND%20SILVER%20RAY%20MENU%2001-2026.pdf"
+        },
+        {
+            title: "Grand Silver Ray Menu 02",
+            description: "An alternative premier menu for your special day.",
+            pdfUrl: "https://content-provider.payshia.com/silver-ray/packages/GRAND%20SILVER%20RAY%20MENU%2002%20-2026.pdf"
+        },
+        {
+            title: "Grand Silver Ray Menu 03",
+            description: "A third option for our premier wedding menu selections.",
+            pdfUrl: "https://content-provider.payshia.com/silver-ray/packages/GRAND%20SILVER%20RAY%20MENU%2003%20-2026.pdf"
+        },
+        {
+            title: "LKR 630,000 Package",
+            description: "A comprehensive package for a beautiful wedding celebration.",
+            pdfUrl: "https://content-provider.payshia.com/silver-ray/packages/Rs.630,000.00%20Package%20-2026.pdf"
+        },
+        {
+            title: "LKR 750,000 Package",
+            description: "An enhanced package with additional features and services.",
+            pdfUrl: "https://content-provider.payshia.com/silver-ray/packages/Rs.750,000.00%20Package%20-2026.pdf"
+        },
+        {
+            title: "LKR 850,000 Package",
+            description: "Our premium package, designed for a truly grand affair.",
+            pdfUrl: "https://content-provider.payshia.com/silver-ray/packages/Rs.850,000.00%20Package%20-2026.pdf"
+        },
+    ],
+    silverRay: [
+        {
+            title: "Gold Menu 2026",
+            description: "Explore the exquisite offerings in our Gold wedding package.",
+            pdfUrl: "https://content-provider.payshia.com/silver-ray/packages/GOLD%20MENU%20-%202026.pdf"
+        },
+        {
+            title: "Platinum Menu 2026",
+            description: "Our most luxurious menu for an unforgettable celebration.",
+            pdfUrl: "https://content-provider.payshia.com/silver-ray/packages/PLATINUM%20MENU%20-2026.pdf"
+        },
+        {
+            title: "Silver Menu 2026",
+            description: "An elegant and affordable option for your special day.",
+            pdfUrl: "https://content-provider.payshia.com/silver-ray/packages/SILVER%20MENU-2026.pdf"
+        }
+    ]
+};
 
 
 export default function WeddingsPage() {
@@ -194,26 +198,55 @@ export default function WeddingsPage() {
               Explore our detailed wedding packages to find the perfect fit for your celebration. Each PDF provides comprehensive information on menus, services, and pricing.
             </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {pdfPackages.map((pkg) => (
-              <AnimatedInView key={pkg.title} delay={0.1}>
-                <Card className="bg-card text-card-foreground rounded-xl shadow-lg h-full flex flex-col p-6">
-                  <CardHeader className="p-0">
-                    <CardTitle className="font-headline text-xl mb-2">{pkg.title}</CardTitle>
-                    <CardDescription className="text-sm">{pkg.description}</CardDescription>
-                  </CardHeader>
-                  <CardContent className="p-0 flex-grow mt-4">
-                    <Button asChild className="w-full group">
-                      <a href={pkg.pdfUrl} target="_blank" rel="noopener noreferrer">
-                        Download PDF
-                        <Download className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
-                      </a>
-                    </Button>
-                  </CardContent>
-                </Card>
-              </AnimatedInView>
-            ))}
+          
+          <div className="mb-16">
+            <h3 className="font-headline text-2xl sm:text-3xl font-semibold mb-8 text-center">Grand Silver Ray</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {pdfPackages.grandSilverRay.map((pkg) => (
+                <AnimatedInView key={pkg.title} delay={0.1}>
+                    <Card className="bg-card text-card-foreground rounded-xl shadow-lg h-full flex flex-col p-6">
+                    <CardHeader className="p-0">
+                        <CardTitle className="font-headline text-xl mb-2">{pkg.title}</CardTitle>
+                        <CardDescription className="text-sm">{pkg.description}</CardDescription>
+                    </CardHeader>
+                    <CardContent className="p-0 flex-grow mt-4">
+                        <Button asChild className="w-full group">
+                        <a href={pkg.pdfUrl} target="_blank" rel="noopener noreferrer">
+                            Download PDF
+                            <Download className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                        </a>
+                        </Button>
+                    </CardContent>
+                    </Card>
+                </AnimatedInView>
+                ))}
+            </div>
           </div>
+          
+          <div>
+            <h3 className="font-headline text-2xl sm:text-3xl font-semibold mb-8 text-center">Silver Ray</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {pdfPackages.silverRay.map((pkg) => (
+                <AnimatedInView key={pkg.title} delay={0.1}>
+                    <Card className="bg-card text-card-foreground rounded-xl shadow-lg h-full flex flex-col p-6">
+                    <CardHeader className="p-0">
+                        <CardTitle className="font-headline text-xl mb-2">{pkg.title}</CardTitle>
+                        <CardDescription className="text-sm">{pkg.description}</CardDescription>
+                    </CardHeader>
+                    <CardContent className="p-0 flex-grow mt-4">
+                        <Button asChild className="w-full group">
+                        <a href={pkg.pdfUrl} target="_blank" rel="noopener noreferrer">
+                            Download PDF
+                            <Download className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                        </a>
+                        </Button>
+                    </CardContent>
+                    </Card>
+                </AnimatedInView>
+                ))}
+            </div>
+          </div>
+
         </div>
       </section>
 
