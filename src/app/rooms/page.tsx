@@ -30,6 +30,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import NextImage from 'next/image';
 import Link from 'next/link';
 import { Badge } from '@/components/ui/badge';
+import { Separator } from '@/components/ui/separator';
 
 
 interface ExperienceHighlightCardProps {
@@ -345,6 +346,8 @@ export default function RoomsPage() {
           )}
         </div>
         
+        <Separator className="my-16" />
+
         <section className="py-16 lg:py-24 bg-secondary/20">
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
@@ -389,22 +392,8 @@ export default function RoomsPage() {
         <section className="py-16 lg:py-20 bg-background">
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
               <h2 className="font-headline text-3xl sm:text-4xl font-bold text-center mb-12">Explore Nearby Attractions</h2>
-              <div className="max-w-lg mx-auto grid grid-cols-1 gap-y-6 md:hidden">
-                {nearbyAttractions.map((attraction) => (
-                  <Link 
-                    href={`/contact?subject=Inquiry about ${attraction.title}`} 
-                    key={`mobile-${attraction.id}`} 
-                    className="flex items-center space-x-4 group p-3 -m-3 rounded-lg hover:bg-secondary/40 transition-colors"
-                  >
-                    {attraction.icon && <attraction.icon className="w-10 h-10 text-primary flex-shrink-0" />}
-                    <div>
-                      <h3 className="font-headline text-lg font-semibold text-foreground group-hover:text-primary transition-colors">{attraction.title}</h3>
-                      <p className="font-body text-sm text-muted-foreground">{attraction.distance}</p>
-                    </div>
-                  </Link>
-                ))}
-              </div>
-                <div className="hidden md:grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-4 gap-x-6 gap-y-10 items-start">
+              
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-x-6 gap-y-10 items-start">
                 {nearbyAttractions.map((attraction, index) => (
                   <AnimatedInView key={attraction.id} delay={index * 0.05} className="flex flex-col items-center text-center group h-full">
                     {attraction.icon && <attraction.icon className="w-8 h-8 text-primary mb-2 transition-colors group-hover:text-primary/80" />}
