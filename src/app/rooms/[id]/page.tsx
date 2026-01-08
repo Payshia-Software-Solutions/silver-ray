@@ -302,7 +302,7 @@ export default function RoomDetailPage() {
                         </div>
                         <Dialog>
                           <DialogTrigger asChild>
-                            <Button size="lg" className="w-full font-body text-base">Book by Phone</Button>
+                            <Button size="lg" className="w-full font-body text-base">Book Now</Button>
                           </DialogTrigger>
                           <DialogContent className="sm:max-w-md">
                             <DialogHeader>
