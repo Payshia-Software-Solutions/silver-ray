@@ -50,6 +50,8 @@ import { Separator } from '@/components/ui/separator';
 import { IMAGE_BASE_URL } from '@/lib/config';
 import { Skeleton } from '@/components/ui/skeleton';
 import { cn } from '@/lib/utils';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Label } from '@/components/ui/label';
 
 // Helper to map API data to our Room type
 const mapRoomData = (apiRoom: RoomFromApi, roomImages: RoomImage[]): Room => {
@@ -300,6 +302,22 @@ export default function RoomDetailPage() {
                                 <span className="text-muted-foreground">(127)</span>
                             </div>
                         </div>
+
+                        {/* Addons Section */}
+                        <div className="mb-4 pt-4 border-t">
+                          <h3 className="font-headline text-md font-semibold mb-3">Addons</h3>
+                          <div className="space-y-3">
+                            <div className="flex items-center space-x-2">
+                              <Checkbox id="addon-extra-bed" />
+                              <Label htmlFor="addon-extra-bed" className="font-normal text-sm">Extra bed (LKR 2,000)</Label>
+                            </div>
+                            <div className="flex items-center space-x-2">
+                              <Checkbox id="addon-laundry" />
+                              <Label htmlFor="addon-laundry" className="font-normal text-sm">Laundry Service (per item)</Label>
+                            </div>
+                          </div>
+                        </div>
+
                         <Dialog>
                           <DialogTrigger asChild>
                             <Button size="lg" className="w-full font-body text-base">Book Now</Button>
