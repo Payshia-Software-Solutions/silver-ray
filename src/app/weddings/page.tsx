@@ -11,7 +11,7 @@ import { weddingVenues, weddingServices } from '@/data/weddingData';
 import { TestimonialsCarousel } from '@/components/weddings/TestimonialsCarousel';
 import type { WeddingPackageFromApi } from '@/types';
 import { getWeddingPackages } from '@/services/api/weddings';
-import { Gift, Download } from 'lucide-react';
+import { Gift, Download, Car, Bus } from 'lucide-react';
 import { IMAGE_BASE_URL } from '@/lib/config';
 import { AnimatedInView } from '@/components/shared/AnimatedInView';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -277,6 +277,41 @@ export default function WeddingsPage() {
               </AnimatedInView>
             ))}
           </div>
+        </div>
+      </section>
+
+      <section className="py-16 lg:py-24 bg-background">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-12">
+                <h2 className="font-headline text-3xl sm:text-4xl font-bold mb-3">Special Transportation Offers</h2>
+                <p className="font-body text-lg text-muted-foreground max-w-xl mx-auto">
+                    Arrive in style and provide convenient transport for your guests with our exclusive wedding transportation services.
+                </p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                <AnimatedInView delay={0.1}>
+                    <Card className="bg-card text-card-foreground rounded-xl shadow-lg h-full flex flex-col p-6 items-center text-center">
+                        <div className="p-4 bg-primary/10 rounded-full mb-4 inline-flex">
+                            <Car className="w-10 h-10 text-primary" />
+                        </div>
+                        <h3 className="font-headline text-2xl font-semibold mb-2">Wedding Car</h3>
+                        <p className="text-muted-foreground text-sm mb-4">
+                            Make a grand entrance with our selection of luxury wedding cars, complete with professional chauffeurs to ensure a stylish and comfortable journey on your special day.
+                        </p>
+                    </Card>
+                </AnimatedInView>
+                <AnimatedInView delay={0.2}>
+                    <Card className="bg-card text-card-foreground rounded-xl shadow-lg h-full flex flex-col p-6 items-center text-center">
+                        <div className="p-4 bg-primary/10 rounded-full mb-4 inline-flex">
+                            <Bus className="w-10 h-10 text-primary" />
+                        </div>
+                        <h3 className="font-headline text-2xl font-semibold mb-2">Bus Offer</h3>
+                        <p className="text-muted-foreground text-sm mb-4">
+                            Ensure your guests travel with ease and comfort. We offer modern, spacious buses to transport your guests to and from the venue, making the logistics seamless for everyone.
+                        </p>
+                    </Card>
+                </AnimatedInView>
+            </div>
         </div>
       </section>
 

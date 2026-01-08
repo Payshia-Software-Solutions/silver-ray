@@ -64,16 +64,6 @@ export const weddingServices: WeddingServiceDisplayInfo[] = [
     title: 'Guest Accommodation',
     description: 'Luxurious rooms and suites for your guests, with special wedding rates and personalized amenities.',
   },
-    {
-    icon: Car,
-    title: 'Wedding Car',
-    description: 'Arrive in style with our selection of luxury wedding cars, complete with chauffeurs.',
-  },
-  {
-    icon: Bus,
-    title: 'Bus Offer',
-    description: 'Convenient transportation solutions for your guests with our modern and comfortable buses.',
-  },
 ];
 
 
