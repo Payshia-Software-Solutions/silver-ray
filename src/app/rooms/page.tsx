@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { ChevronDown, SlidersHorizontal, ArrowRight } from 'lucide-react';
 import { RoomsPageHero } from '@/components/rooms/RoomsPageHero';
 import { NotificationBanner } from '@/components/rooms/NotificationBanner';
-import type { Room, RoomFromApi } from '@/types';
+import type { Room, RoomFromApi, ExperienceFromApi, FeaturedExperience } from '@/types';
 import {
   Accordion,
   AccordionContent,
@@ -23,14 +23,14 @@ import {
 } from "@/components/ui/select"
 import { Label } from '@/components/ui/label';
 import { getRooms } from '@/services/api/rooms';
+import { getExperiences } from '@/services/api/experiences';
 import { AnimatedInView } from '@/components/shared/AnimatedInView';
-import { featuredExperiences } from '@/data/mockData';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import NextImage from 'next/image';
 import Link from 'next/link';
 
 
-function ExperienceHighlightCard({ experience }: { experience: (typeof featuredExperiences)[0] }) {
+function ExperienceHighlightCard({ experience }: { experience: FeaturedExperience }) {
   return (
     <Card className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col h-full rounded-xl bg-card border-border">
       <CardHeader className="p-0 relative aspect-video">
@@ -216,8 +216,11 @@ function MobileRoomFilters() {
 
 export default function RoomsPage() {
   const [rooms, setRooms] = useState<Room[]>([]);
+  const [experiences, setExperiences] = useState<ExperienceFromApi[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isLoadingExperiences, setIsLoadingExperiences] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [experiencesError, setExperiencesError] = useState<string | null>(null);
   const [visibleCount, setVisibleCount] = useState(6);
 
   useEffect(() => {
@@ -253,7 +256,21 @@ export default function RoomsPage() {
       }
     };
 
+    const fetchExperiencesData = async () => {
+      try {
+        setIsLoadingExperiences(true);
+        const experiencesData = await getExperiences();
+        setExperiences(experiencesData);
+      } catch (err) {
+        console.error('Failed to fetch experiences:', err);
+        setExperiencesError('Failed to load experiences.');
+      } finally {
+        setIsLoadingExperiences(false);
+      }
+    };
+
     fetchRoomsData();
+    fetchExperiencesData();
   }, []);
 
   const handleLoadMore = () => {
@@ -298,6 +315,41 @@ export default function RoomsPage() {
       </div>
     );
   };
+
+  const renderExperiences = () => {
+    if (isLoadingExperiences) {
+        return [...Array(3)].map((_, i) => (
+            <div key={i} className="bg-card rounded-lg shadow animate-pulse">
+              <div className="aspect-video bg-muted rounded-t-lg"></div>
+              <div className="p-5 space-y-3">
+                <div className="h-6 bg-muted rounded w-3/4"></div>
+                <div className="h-10 bg-muted rounded w-full"></div>
+                <div className="h-4 bg-muted rounded w-1/3 mt-2"></div>
+              </div>
+            </div>
+          ));
+    }
+    if (experiencesError) {
+        return <p className="col-span-full text-center text-destructive">{experiencesError}</p>;
+    }
+    return experiences.slice(0, 3).map((exp, index) => {
+        const featuredExp: FeaturedExperience = {
+            id: String(exp.id),
+            imageUrl: exp.experience_image || 'https://placehold.co/600x400.png',
+            imageHint: exp.name,
+            title: exp.name,
+            description: exp.short_description,
+            duration: exp.duration,
+            pricePerPerson: exp.Price,
+            bookingDetails: exp.schedule_note,
+        };
+        return (
+            <AnimatedInView key={exp.id} delay={index * 0.1}>
+                <ExperienceHighlightCard experience={featuredExp} />
+            </AnimatedInView>
+        );
+    });
+  }
   
   return (
     <>
@@ -330,11 +382,7 @@ export default function RoomsPage() {
               </p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {featuredExperiences.slice(0, 3).map((exp, index) => (
-                <AnimatedInView key={exp.id} delay={index * 0.1}>
-                  <ExperienceHighlightCard experience={exp} />
-                </AnimatedInView>
-              ))}
+              {renderExperiences()}
             </div>
             <div className="text-center mt-12">
                 <Button asChild size="lg" className="font-body text-lg group">
