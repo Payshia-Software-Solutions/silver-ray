@@ -74,7 +74,8 @@ export function RoomCard({ room }: RoomCardProps) {
     { icon: Coffee, label: 'Coffee Bar' },
   ];
 
-  const guestAmenity = { icon: Users, label: `${room.adults_capacity} Guests` };
+  const guestCapacity = 2; // Set guest capacity to 2 as requested
+  const guestAmenity = { icon: Users, label: `${guestCapacity} Guests` };
 
   return (
     <Card className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col h-full rounded-2xl bg-card border-none">
@@ -116,7 +117,7 @@ export function RoomCard({ room }: RoomCardProps) {
                   <span className="text-sm">{guestAmenity.label}</span>
                 </TooltipTrigger>
                 <TooltipContent>
-                  <p>Up to {room.adults_capacity} guests</p>
+                  <p>Up to {guestCapacity} guests</p>
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
