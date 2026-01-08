@@ -16,6 +16,7 @@ export interface WeddingVenue {
   imageUrl: string;
   imageHint: string;
   features: WeddingFeature[];
+  brand: 'Grand Silver Ray' | 'Silver Ray';
 }
 
 export interface WeddingPackageInclusion {
@@ -128,6 +129,7 @@ export const weddingVenues: WeddingVenue[] = [
       { icon: Projector, text: 'Projector screens' },
       { icon: Wifi, text: 'Free Wi-Fi' },
     ],
+    brand: 'Grand Silver Ray',
   },
   {
     id: 'cats-eye-02',
@@ -142,6 +144,7 @@ export const weddingVenues: WeddingVenue[] = [
       { icon: Projector, text: 'Projector screens' },
       { icon: Wifi, text: 'Free Wi-Fi' },
     ],
+    brand: 'Grand Silver Ray',
   },
    {
     id: 'cats-eye-03',
@@ -156,6 +159,35 @@ export const weddingVenues: WeddingVenue[] = [
       { icon: Projector, text: 'Projector screens' },
       { icon: Wifi, text: 'Free Wi-Fi' },
     ],
+    brand: 'Grand Silver Ray',
+  },
+  {
+    id: 'blue-sapphire',
+    name: "Blue Sapphire",
+    description: 'A modern and sleek hall, the Blue Sapphire offers a contemporary setting for stylish weddings.',
+    imageUrl: 'https://placehold.co/600x400.png',
+    imageHint: 'modern blue wedding hall',
+    features: [
+      { icon: Users, text: 'Up to 150 guests' },
+      { icon: Rss, text: 'Sound System' },
+      { icon: Lightbulb, text: 'Adjustable Lighting' },
+      { icon: Wifi, text: 'Free Wi-Fi' },
+    ],
+    brand: 'Silver Ray',
+  },
+  {
+    id: 'yellow-sapphire',
+    name: "Yellow Sapphire",
+    description: 'Bathed in warm light, the Yellow Sapphire hall provides a bright and cheerful atmosphere for daytime events.',
+    imageUrl: 'https://placehold.co/600x400.png',
+    imageHint: 'bright yellow wedding hall',
+    features: [
+      { icon: Users, text: 'Up to 120 guests' },
+      { icon: Rss, text: 'Sound System' },
+      { icon: Sun, text: 'Natural Light' },
+      { icon: Wifi, text: 'Free Wi-Fi' },
+    ],
+    brand: 'Silver Ray',
   },
 ];
 

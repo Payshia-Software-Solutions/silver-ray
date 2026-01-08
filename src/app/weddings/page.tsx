@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import NextImage from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
@@ -104,6 +104,9 @@ export default function WeddingsPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  const grandSilverRayVenues = useMemo(() => weddingVenues.filter(v => v.brand === 'Grand Silver Ray'), []);
+  const silverRayVenues = useMemo(() => weddingVenues.filter(v => v.brand === 'Silver Ray'), []);
+
   useEffect(() => {
     const fetchWeddingData = async () => {
       try {
@@ -133,13 +136,31 @@ export default function WeddingsPage() {
               Choose from a selection of breathtaking spaces, each offering a unique backdrop for your special day.
             </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {weddingVenues.map((venue, index) => (
-              <AnimatedInView key={venue.id} delay={index * 0.1}>
-                <WeddingVenueCard venue={venue} />
-              </AnimatedInView>
-            ))}
+
+          {/* Grand Silver Ray Venues */}
+          <div className="mb-16">
+            <h3 className="font-headline text-2xl sm:text-3xl font-semibold mb-8 text-center">Grand Silver Ray</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {grandSilverRayVenues.map((venue, index) => (
+                <AnimatedInView key={venue.id} delay={index * 0.1}>
+                  <WeddingVenueCard venue={venue} />
+                </AnimatedInView>
+              ))}
+            </div>
           </div>
+
+          {/* Silver Ray Venues */}
+          <div>
+            <h3 className="font-headline text-2xl sm:text-3xl font-semibold mb-8 text-center">Silver Ray</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-center">
+              {silverRayVenues.map((venue, index) => (
+                <AnimatedInView key={venue.id} delay={index * 0.1}>
+                  <WeddingVenueCard venue={venue} />
+                </AnimatedInView>
+              ))}
+            </div>
+          </div>
+
         </div>
       </section>
 
