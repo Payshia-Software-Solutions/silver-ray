@@ -42,6 +42,7 @@ import {
   Droplets,
   Shirt,
   Flashlight,
+  PlusCircle,
 } from 'lucide-react';
 import Link from 'next/link';
 import { notFound, useParams } from 'next/navigation';
@@ -303,21 +304,6 @@ export default function RoomDetailPage() {
                             </div>
                         </div>
 
-                        {/* Addons Section */}
-                        <div className="mb-4 pt-4 border-t">
-                          <h3 className="font-headline text-md font-semibold mb-3">Addons</h3>
-                          <div className="space-y-3">
-                            <div className="flex items-center space-x-2">
-                              <Checkbox id="addon-extra-bed" />
-                              <Label htmlFor="addon-extra-bed" className="font-normal text-sm">Extra bed (LKR 2,000)</Label>
-                            </div>
-                            <div className="flex items-center space-x-2">
-                              <Checkbox id="addon-laundry" />
-                              <Label htmlFor="addon-laundry" className="font-normal text-sm">Laundry Service (per item)</Label>
-                            </div>
-                          </div>
-                        </div>
-
                         <Dialog>
                           <DialogTrigger asChild>
                             <Button size="lg" className="w-full font-body text-base">Book Now</Button>
@@ -347,6 +333,26 @@ export default function RoomDetailPage() {
                         </Dialog>
                     </div>
 
+                    {/* --- Room Stats Section --- */}
+                     <div className="flex justify-around text-center mb-6">
+                        <div className="flex flex-col items-center gap-1">
+                            <Ruler className="w-6 h-6 text-primary"/>
+                            <span className="text-sm font-semibold">{room.size.replace(' sqft','')}</span>
+                            <span className="text-xs text-muted-foreground">sq ft</span>
+                        </div>
+                        <div className="flex flex-col items-center gap-1">
+                            <Users className="w-6 h-6 text-primary"/>
+                            <span className="text-sm font-semibold">{room.capacity}</span>
+                            <span className="text-xs text-muted-foreground">max guests</span>
+                        </div>
+                        <div className="flex flex-col items-center gap-1">
+                            <Building className="w-6 h-6 text-primary"/>
+                            <span className="text-sm font-semibold">{floor}</span>
+                            <span className="text-xs text-muted-foreground">floor</span>
+                        </div>
+                    </div>
+                    <Separator className="my-6"/>
+
                     {/* --- Amenities Section --- */}
                     <div className="mb-6">
                         <h2 className="font-headline text-xl font-semibold mb-4">Room Amenities</h2>
@@ -364,22 +370,18 @@ export default function RoomDetailPage() {
                     </div>
                     <Separator className="my-6"/>
 
-                    {/* --- Room Stats Section --- */}
-                     <div className="flex justify-around text-center mb-6">
-                        <div className="flex flex-col items-center gap-1">
-                            <Ruler className="w-6 h-6 text-primary"/>
-                            <span className="text-sm font-semibold">{room.size.replace(' sqft','')}</span>
-                            <span className="text-xs text-muted-foreground">sq ft</span>
-                        </div>
-                        <div className="flex flex-col items-center gap-1">
-                            <Users className="w-6 h-6 text-primary"/>
-                            <span className="text-sm font-semibold">{room.capacity}</span>
-                            <span className="text-xs text-muted-foreground">max guests</span>
-                        </div>
-                        <div className="flex flex-col items-center gap-1">
-                            <Building className="w-6 h-6 text-primary"/>
-                            <span className="text-sm font-semibold">{floor}</span>
-                            <span className="text-xs text-muted-foreground">floor</span>
+                    {/* --- Addons Section --- */}
+                    <div className="mb-6">
+                        <h2 className="font-headline text-xl font-semibold mb-4">Available Addons</h2>
+                        <div className="grid grid-cols-1 gap-x-4 gap-y-3 font-body text-foreground/90 text-sm">
+                            <div className="flex items-center">
+                                <PlusCircle className="w-5 h-5 mr-2.5 text-primary flex-shrink-0" />
+                                <span>Extra bed (LKR 2,000)</span>
+                            </div>
+                            <div className="flex items-center">
+                                <PlusCircle className="w-5 h-5 mr-2.5 text-primary flex-shrink-0" />
+                                <span>Laundry Service (per item)</span>
+                            </div>
                         </div>
                     </div>
                     <Separator className="my-6"/>
