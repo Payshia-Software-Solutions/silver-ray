@@ -74,7 +74,7 @@ export function RoomCard({ room }: RoomCardProps) {
     { icon: Coffee, label: 'Coffee Bar' },
   ];
 
-  const guestCapacity = 2; // Set guest capacity to 2 as requested
+  const guestCapacity = 3; // Set guest capacity to 3 as requested
   const guestAmenity = { icon: Users, label: `${guestCapacity} Guests` };
 
   return (
