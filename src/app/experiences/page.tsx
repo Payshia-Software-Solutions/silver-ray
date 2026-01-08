@@ -85,7 +85,7 @@ function ExperiencesPage() {
       {/* Hero Section */}
       <section className="relative h-[60vh] min-h-[450px] md:h-[70vh] lg:h-[80vh] flex items-center justify-center text-center text-white">
         <NextImage
-          src="https://content-provider.payshia.com/silver-ray/gallery-images/1/expirincesecover-68da36409faca.jpg"
+          src="https://content-provider.payshia.com/silver-ray/other/Experiences-optimized.webp"
           alt="People enjoying a serene sunset experience, possibly yoga or meditation"
           data-ai-hint="yoga sunset wellness"
           fill
@@ -203,3 +203,4 @@ export default ExperiencesPage;
     
 
     
+
