@@ -7,6 +7,9 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ArrowRight, Users, Wifi, Rss, Projector, Lightbulb } from 'lucide-react';
 import { AnimatedInView } from '../shared/AnimatedInView';
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
+import Autoplay from "embla-carousel-autoplay";
+import React from 'react';
 
 interface VenueHighlight {
   id: string;
@@ -107,6 +110,10 @@ const VenueHighlightCard = ({ venue }: { venue: VenueHighlight }) => (
 );
 
 export function BanquetsAndWeddingsSection() {
+  const plugin = React.useRef(
+    Autoplay({ delay: 5000, stopOnInteraction: true, stopOnHover: true })
+  );
+
   return (
     <section className="py-16 lg:py-24 bg-background">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -119,7 +126,27 @@ export function BanquetsAndWeddingsSection() {
           </p>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12 max-w-7xl mx-auto">
+        {/* Mobile Carousel */}
+        <div className="md:hidden">
+            <Carousel
+                opts={{ align: "start", loop: false }}
+                plugins={[plugin.current]}
+                className="w-full"
+            >
+                <CarouselContent className="-ml-4">
+                {venueHighlights.map((venue, index) => (
+                    <CarouselItem key={venue.id} className="pl-4 basis-4/5">
+                        <div className="p-1 h-full">
+                            <VenueHighlightCard venue={venue} />
+                        </div>
+                    </CarouselItem>
+                ))}
+                </CarouselContent>
+            </Carousel>
+        </div>
+
+        {/* Desktop Grid */}
+        <div className="hidden md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12 max-w-7xl mx-auto">
           {venueHighlights.map((venue, index) => (
             <AnimatedInView key={venue.id} delay={index * 0.1}>
               <VenueHighlightCard venue={venue} />
@@ -127,7 +154,7 @@ export function BanquetsAndWeddingsSection() {
           ))}
         </div>
 
-        <div className="text-center">
+        <div className="text-center mt-12">
           <Button asChild size="lg" className="font-body text-lg group">
             <Link href="/weddings">
               Explore All Venues & Packages
