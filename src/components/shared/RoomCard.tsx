@@ -98,11 +98,11 @@ export function RoomCard({ room }: RoomCardProps) {
         )}
       </CardHeader>
       <CardContent className="p-6 flex-grow flex flex-col">
-         <div className="flex justify-between items-start mb-2">
-            <CardTitle className="font-headline text-2xl mr-2">{room.descriptive_title}</CardTitle>
-            <Badge variant="secondary" className="text-sm px-3 py-1.5 h-fit whitespace-nowrap shrink-0 bg-muted text-muted-foreground rounded-full">
+         <div className="mb-2">
+            <CardTitle className="font-headline text-2xl truncate">{room.descriptive_title}</CardTitle>
+            <p className="text-sm text-muted-foreground font-semibold pt-1">
               LKR {parseFloat(room.price_per_night).toFixed(0)}+/night
-            </Badge>
+            </p>
           </div>
           
           <p className="font-body text-sm text-muted-foreground mb-4 flex-grow line-clamp-2">
