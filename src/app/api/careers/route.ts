@@ -4,7 +4,7 @@ import {NextResponse} from 'next/server';
 import nodemailer from 'nodemailer';
 import { Readable } from 'stream';
 
-const careerRecipients = ['office@silverray.lk'];
+const careerRecipients = ['thilinaruwan112@gmail.com'];
 
 async function streamToBuffer(stream: Readable): Promise<Buffer> {
   const chunks: Buffer[] = [];
