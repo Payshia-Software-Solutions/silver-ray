@@ -119,7 +119,7 @@ export function BanquetsAndWeddingsSection() {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
           <h2 className="font-headline text-3xl sm:text-4xl lg:text-5xl font-bold mb-4">
-            Banquets <span className="font-body">&</span> Weddings
+            Banquets <span className="font-body">&amp;</span> Weddings
           </h2>
           <p className="font-body text-lg text-muted-foreground max-w-2xl mx-auto">
             Crafting unforgettable moments in our elegant and versatile event spaces.
@@ -157,7 +157,7 @@ export function BanquetsAndWeddingsSection() {
         <div className="text-center mt-12">
           <Button asChild size="lg" className="font-body text-lg group">
             <Link href="/weddings">
-              Explore All Venues & Packages
+              Explore All Venues &amp; Packages
               <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform duration-300" />
             </Link>
           </Button>
