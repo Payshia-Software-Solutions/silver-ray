@@ -121,7 +121,7 @@ export const weddingVenues: WeddingVenue[] = [
     id: 'cats-eye-01',
     name: "Cat's Eye 01",
     description: 'A magnificent hall with classic decor, perfect for grand weddings and corporate galas.',
-    imageUrl: 'http://content-provider.payshia.com/silver-ray/other/BANQUET-1.webp',
+    imageUrl: 'https://content-provider.payshia.com/silver-ray/other/Cats-eye-1-optimized.webp',
     imageHint: 'elegant banquet hall setup',
     features: [
       { icon: Users, text: 'Up to 230-300 guests' },
@@ -136,7 +136,7 @@ export const weddingVenues: WeddingVenue[] = [
     id: 'cats-eye-02',
     name: "Cat's Eye 02",
     description: 'A versatile space with modern aesthetics, ideal for conferences and elegant receptions.',
-    imageUrl: 'http://content-provider.payshia.com/silver-ray/other/BANQUET-2.webp',
+    imageUrl: 'https://content-provider.payshia.com/silver-ray/other/Cats-eye-2-optimized.webp',
     imageHint: 'modern banquet hall reception',
     features: [
       { icon: Users, text: 'Up to 230-300 guests' },
@@ -151,7 +151,7 @@ export const weddingVenues: WeddingVenue[] = [
     id: 'cats-eye-03',
     name: "Cat's Eye 03",
     description: 'An intimate setting with lush decor, perfect for smaller weddings, workshops, and private dinners.',
-    imageUrl: 'http://content-provider.payshia.com/silver-ray/other/BANQUET-3.webp',
+    imageUrl: 'https://content-provider.payshia.com/silver-ray/other/Cats-eye-3-optimized.webp',
     imageHint: 'intimate banquet setting',
     features: [
       { icon: Users, text: 'Up to 230-300 guests' },
@@ -172,7 +172,6 @@ export const weddingVenues: WeddingVenue[] = [
       { icon: Users, text: 'Up to 250 guests' },
       { icon: Rss, text: 'Sound system' },
       { icon: Projector, text: 'Projector screen' },
-      { icon: Wifi, text: 'Free Wi-Fi' },
     ],
     brand: 'Silver Ray',
   },
@@ -186,7 +185,6 @@ export const weddingVenues: WeddingVenue[] = [
       { icon: Users, text: 'Up to 250 guests' },
       { icon: Rss, text: 'Sound system' },
       { icon: Projector, text: 'Projector screen' },
-      { icon: Wifi, text: 'Free Wi-Fi' },
     ],
     brand: 'Silver Ray',
   },
