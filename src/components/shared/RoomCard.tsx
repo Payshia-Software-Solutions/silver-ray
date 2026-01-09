@@ -138,9 +138,12 @@ export function RoomCard({ room }: RoomCardProps) {
             </div>
           </div>
 
-          <div className="mt-auto">
-            <Button asChild className="w-full rounded-full font-body text-base py-3 h-auto bg-primary text-primary-foreground hover:bg-primary/90 transition-transform duration-300 hover:scale-105">
-                <Link href={`/rooms/${room.slug}`}>View Details</Link>
+          <div className="mt-auto grid grid-cols-2 gap-2">
+            <Button asChild variant="outline" className="w-full rounded-full">
+                <Link href={`/rooms/${room.slug}`}>View</Link>
+            </Button>
+            <Button asChild className="w-full rounded-full">
+                <Link href={`/booking?roomId=${room.id}`}>Book</Link>
             </Button>
           </div>
       </CardContent>
