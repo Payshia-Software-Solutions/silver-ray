@@ -4,7 +4,7 @@ import {NextResponse} from 'next/server';
 import nodemailer from 'nodemailer';
 import { Readable } from 'stream';
 
-const careerRecipients = ['thilinaruwan112@gmail.com'];
+const careerRecipients = ['office@silverray.lk'];
 
 async function streamToBuffer(stream: Readable): Promise<Buffer> {
   const chunks: Buffer[] = [];
@@ -79,7 +79,7 @@ export async function POST(request: Request) {
         to: email,
         subject: `We've Received Your Application | Grand Silver Ray`,
         html: `
-          <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 20px auto; border: 1px solid #ddd; border-radius: 8px; overflow: hidden;">
+          <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-w: 600px; margin: 20px auto; border: 1px solid #ddd; border-radius: 8px; overflow: hidden;">
             <div style="background-color: #f4f4f4; padding: 20px; text-align: center;">
               <h1 style="margin: 0; color: #333; font-size: 24px;">Thank You for Your Application!</h1>
             </div>
