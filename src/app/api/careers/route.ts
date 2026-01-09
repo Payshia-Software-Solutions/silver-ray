@@ -79,13 +79,21 @@ export async function POST(request: Request) {
         to: email,
         subject: `We've Received Your Application | Grand Silver Ray`,
         html: `
-            <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: auto;">
-                <h2>Thank You for Your Application!</h2>
-                <p>Dear ${name},</p>
-                <p>Thank you for your interest in a career at Grand Silver Ray. We have successfully received your application for the <strong>${position}</strong> position.</p>
-                <p>Our hiring team will review your qualifications and get in touch with you if your profile matches our current needs. We appreciate your patience during this process.</p>
-                <p>Best regards,<br/>The Grand Silver Ray HR Team</p>
+          <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 20px auto; border: 1px solid #ddd; border-radius: 8px; overflow: hidden;">
+            <div style="background-color: #f4f4f4; padding: 20px; text-align: center;">
+              <h1 style="margin: 0; color: #333; font-size: 24px;">Thank You for Your Application!</h1>
             </div>
+            <div style="padding: 20px;">
+              <p>Dear ${name},</p>
+              <p>Thank you for your interest in a career at Grand Silver Ray. We have successfully received your application for the <strong>${position}</strong> position.</p>
+              <p>Our hiring team will review your qualifications and get in touch with you if your profile matches our current needs. We appreciate your patience during this process.</p>
+              <p style="margin-top: 25px;">Best regards,</p>
+              <p style="margin: 0;">The Grand Silver Ray HR Team</p>
+            </div>
+            <div style="background-color: #f4f4f4; padding: 15px 20px; text-align: center; font-size: 12px; color: #888;">
+              This is an automated response. Please do not reply to this email.
+            </div>
+          </div>
         `,
     };
 
