@@ -190,7 +190,7 @@ const DesktopFooter = () => (
             <p>
                 <span className="text-slate-400">Powered by </span>
                 <a href="https://payshia.com" target="_blank" rel="noopener noreferrer" className="font-semibold text-slate-300 hover:text-primary hover:underline">
-                Payshia Software Solutions
+                Payshia Software Solutions PVT LTD
                 </a>
             </p>
         </div>
@@ -304,7 +304,7 @@ const MobileFooter = () => (
             <p>
                 <span className="text-slate-500">Powered by </span>
                 <a href="https://payshia.com" target="_blank" rel="noopener noreferrer" className="font-semibold text-slate-400 hover:underline hover:text-primary">
-                Payshia Software Solutions
+                Payshia Software Solutions PVT LTD
                 </a>
             </p>
         </div>
