@@ -5,10 +5,8 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Briefcase, MapPin, Building, Sparkles, Utensils, Users, Phone, Mail } from 'lucide-react';
-import { ApplicationForm } from '@/components/careers/ApplicationForm';
-import { useForm } from 'react-hook-form';
-import { z } from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
+import React from 'react';
+import { CareersPageClient } from '@/components/careers/CareersPageClient';
 
 interface JobOpening {
   id: string;
@@ -46,17 +44,6 @@ const jobOpenings: JobOpening[] = [
     },
 ];
 
-const applicationFormSchema = z.object({
-  name: z.string().min(2, "Name must be at least 2 characters."),
-  email: z.string().email("Please enter a valid email address."),
-  phone: z.string().min(10, "Phone number must be at least 10 digits."),
-  position: z.string().min(1, "Please select a position."),
-  cv: z.instanceof(File).refine(file => file.size > 0, "CV is required.")
-        .refine(file => file.size <= 5 * 1024 * 1024, "CV must be less than 5MB.")
-        .refine(file => ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'].includes(file.type), "Only .pdf and .doc/docx files are allowed."),
-});
-type ApplicationFormValues = z.infer<typeof applicationFormSchema>;
-
 const JobCard = ({ job, onApplyNow }: { job: JobOpening; onApplyNow: (title: string) => void }) => (
   <Card className="hover:shadow-lg transition-shadow">
     <CardContent className="p-6">
@@ -84,18 +71,13 @@ const JobCard = ({ job, onApplyNow }: { job: JobOpening; onApplyNow: (title: str
 
 export default function CareersPage() {
     
-    const form = useForm<ApplicationFormValues>({
-      resolver: zodResolver(applicationFormSchema),
-      defaultValues: {
-        position: "",
-      },
-    });
-
     const handleApplyNowClick = (jobTitle: string) => {
-        form.setValue('position', jobTitle);
         const formSection = document.getElementById('application-form');
         if (formSection) {
             formSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            // The actual setting of the value is now handled inside CareersPageClient
+            const applyNowEvent = new CustomEvent('applyNow', { detail: { jobTitle } });
+            window.dispatchEvent(applyNowEvent);
         }
     };
 
@@ -153,7 +135,9 @@ export default function CareersPage() {
            <div id="application-form" className="mt-12 bg-card p-6 sm:p-8 rounded-xl shadow-lg border">
                 <h3 className="font-headline text-2xl font-semibold mb-2 text-center">Apply Now</h3>
                 <p className="text-muted-foreground mb-6 text-center text-sm">Fill out the form below to apply for a position.</p>
-                <ApplicationForm form={form} jobTitles={jobOpenings.map(j => j.title)} />
+                 <React.Suspense fallback={<div>Loading form...</div>}>
+                   <CareersPageClient jobTitles={jobOpenings.map(j => j.title)} />
+                </React.Suspense>
             </div>
 
 
