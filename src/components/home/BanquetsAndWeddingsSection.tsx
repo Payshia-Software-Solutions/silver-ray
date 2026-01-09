@@ -87,19 +87,19 @@ const VenueHighlightCard = ({ venue }: { venue: VenueHighlight }) => (
           className="object-cover"
         />
       </CardHeader>
-      <CardContent className="p-6 flex flex-col flex-grow">
-        <CardTitle className="font-headline text-xl mb-2">{venue.name}</CardTitle>
-        <p className="font-body text-sm text-muted-foreground mb-4 flex-grow line-clamp-2">
+      <CardContent className="p-4 flex flex-col flex-grow">
+        <CardTitle className="font-headline text-lg mb-1">{venue.name}</CardTitle>
+        <p className="font-body text-xs text-muted-foreground mb-2 flex-grow line-clamp-2">
           {venue.description}
         </p>
-        <div className="mb-4">
+        <div className="mb-3">
           <p className="font-body text-xs text-muted-foreground">Per Person</p>
-          <p className="font-semibold text-lg text-primary">{venue.price}</p>
+          <p className="font-semibold text-base text-primary">{venue.price}</p>
         </div>
-        <div className="space-y-2 mb-4">
+        <div className="space-y-1.5">
           {venue.features.map(feature => (
-            <div key={feature.text} className="flex items-center text-sm text-muted-foreground">
-                <feature.icon className="w-4 h-4 mr-2 text-primary" />
+            <div key={feature.text} className="flex items-center text-xs text-muted-foreground">
+                <feature.icon className="w-3.5 h-3.5 mr-2 text-primary" />
                 <span>{feature.text}</span>
             </div>
           ))}
@@ -129,13 +129,13 @@ export function BanquetsAndWeddingsSection() {
         {/* Mobile Carousel */}
         <div className="md:hidden">
             <Carousel
-                opts={{ align: "start", loop: false }}
+                opts={{ align: "start", loop: false, dragFree: true }}
                 plugins={[plugin.current]}
                 className="w-full"
             >
                 <CarouselContent className="-ml-4">
                 {venueHighlights.map((venue, index) => (
-                    <CarouselItem key={venue.id} className="pl-4 basis-4/5">
+                    <CarouselItem key={venue.id} className="pl-4 basis-[80%]">
                         <div className="p-1 h-full">
                             <VenueHighlightCard venue={venue} />
                         </div>
