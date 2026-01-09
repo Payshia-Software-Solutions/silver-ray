@@ -62,12 +62,9 @@ export function HeroSection() {
         <p className="font-body text-lg sm:text-xl md:text-2xl mb-10 max-w-2xl mx-auto shadow-text">
           From intimate gatherings to grand celebrations, our elegant venues and dedicated team ensure a memorable occasion.
         </p>
-        <div className="space-x-4">
-          <Button asChild size="lg" className="font-body text-lg px-8 py-3 transform hover:scale-105 transition-transform duration-300">
-            <Link href="/weddings">See Venues</Link>
-          </Button>
-          <Button asChild variant="outline" size="lg" className="font-body text-lg px-8 py-3 bg-transparent border-white text-white hover:bg-white hover:text-primary transform hover:scale-105 transition-transform duration-300">
-            <Link href="/weddings/packages">Explore Packages</Link>
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <Button asChild size="lg" className="font-body text-lg px-8 py-3 w-auto transform hover:scale-105 transition-transform duration-300">
+            <Link href="/weddings">Venues and Packages</Link>
           </Button>
         </div>
       </div>

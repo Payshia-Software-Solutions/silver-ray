@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import type { Room, RoomImage } from '@/types';
-import { Wifi, Coffee, Tv, Users } from 'lucide-react';
+import { Wifi, Coffee, Tv, Users, Eye, Check } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { API_BASE_URL, IMAGE_BASE_URL } from '@/lib/config';
 import { useState, useEffect } from 'react';
@@ -98,11 +98,11 @@ export function RoomCard({ room }: RoomCardProps) {
         )}
       </CardHeader>
       <CardContent className="p-6 flex-grow flex flex-col">
-         <div className="flex justify-between items-start mb-2">
-            <CardTitle className="font-headline text-2xl mr-2">{room.descriptive_title}</CardTitle>
-            <Badge variant="secondary" className="text-sm px-3 py-1.5 h-fit whitespace-nowrap shrink-0 bg-muted text-muted-foreground rounded-full">
+         <div className="mb-2">
+            <CardTitle className="font-headline text-2xl truncate">{room.descriptive_title}</CardTitle>
+            <p className="text-sm text-muted-foreground font-semibold pt-1">
               LKR {parseFloat(room.price_per_night).toFixed(0)}+/night
-            </Badge>
+            </p>
           </div>
           
           <p className="font-body text-sm text-muted-foreground mb-4 flex-grow line-clamp-2">
@@ -138,9 +138,12 @@ export function RoomCard({ room }: RoomCardProps) {
             </div>
           </div>
 
-          <div className="mt-auto">
-            <Button asChild className="w-full rounded-full font-body text-base py-3 h-auto bg-primary text-primary-foreground hover:bg-primary/90 transition-transform duration-300 hover:scale-105">
-                <Link href={`/rooms/${room.slug}`}>View Details</Link>
+          <div className="mt-auto grid grid-cols-2 gap-2">
+            <Button asChild variant="outline" className="w-full rounded-full">
+                <Link href={`/rooms/${room.slug}`}><Eye className="mr-2 h-4 w-4" />View</Link>
+            </Button>
+            <Button asChild className="w-full rounded-full">
+                <Link href={`/booking?roomId=${room.id}`}><Check className="mr-2 h-4 w-4" />Book</Link>
             </Button>
           </div>
       </CardContent>

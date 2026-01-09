@@ -1,6 +1,7 @@
+
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { TestimonialCard } from '@/components/shared/TestimonialCard';
 import { mockTestimonials } from '@/data/mockData';
 import { AnimatedInView } from '../shared/AnimatedInView';
@@ -8,12 +9,20 @@ import { Button } from '../ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '../ui/dialog';
 import { ScrollArea } from '../ui/scroll-area';
 import { Plus } from 'lucide-react';
+import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
+import Autoplay from "embla-carousel-autoplay";
+import React from 'react';
 
 export function TestimonialsSection() {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // Show first 3 testimonials on the main page
+  // Show first 3 testimonials on the main page for desktop grid
   const featuredTestimonials = mockTestimonials.slice(0, 3);
+  
+  const plugin = React.useRef(
+    Autoplay({ delay: 5000, stopOnInteraction: true, stopOnHover: true })
+  );
+
 
   return (
     <section className="py-16 lg:py-24 bg-background">
@@ -27,7 +36,29 @@ export function TestimonialsSection() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {/* Mobile Carousel */}
+        <div className="md:hidden">
+            <Carousel
+                opts={{ align: "start", loop: true }}
+                plugins={[plugin.current]}
+                className="w-full"
+                onMouseEnter={() => plugin.current.stop()}
+                onMouseLeave={() => plugin.current.reset()}
+            >
+                <CarouselContent className="-ml-2">
+                {mockTestimonials.map((testimonial, index) => (
+                    <CarouselItem key={`carousel-${testimonial.id}`} className="pl-2 basis-[85%]">
+                        <div className="p-1 h-full">
+                          <TestimonialCard testimonial={testimonial} />
+                        </div>
+                    </CarouselItem>
+                ))}
+                </CarouselContent>
+            </Carousel>
+        </div>
+
+        {/* Desktop Grid */}
+        <div className="hidden md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {featuredTestimonials.map((testimonial, index) => (
             <AnimatedInView key={testimonial.id} delay={index * 0.1}>
               <TestimonialCard testimonial={testimonial} />

@@ -85,21 +85,19 @@ export function FeaturedRoomsSection() {
               loop: featuredRooms.length > 1,
             }}
             plugins={[plugin.current]}
-            className="w-full max-w-sm mx-auto"
+            className="w-full"
             onMouseEnter={plugin.current.stop}
             onMouseLeave={plugin.current.reset}
           >
-            <CarouselContent className="-ml-4">
+            <CarouselContent className="-ml-2">
               {featuredRooms.map((room) => (
-                <CarouselItem key={room.id} className="pl-4">
+                <CarouselItem key={room.id} className="pl-2 basis-[85%]">
                   <div className="p-1 h-full">
                     <RoomCard room={room} />
                   </div>
                 </CarouselItem>
               ))}
             </CarouselContent>
-            <CarouselPrevious />
-            <CarouselNext />
           </Carousel>
         </div>
 
