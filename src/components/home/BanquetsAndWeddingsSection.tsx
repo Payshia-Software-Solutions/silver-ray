@@ -29,7 +29,7 @@ const venueHighlights: VenueHighlight[] = [
     description: 'A magnificent hall with classic decor, perfect for grand weddings and corporate galas.',
     imageUrl: 'http://content-provider.payshia.com/silver-ray/other/BANQUET-1.webp',
     imageHint: 'elegant banquet hall setup',
-    price: 'LKR 3100 + 10%',
+    price: 'LKR 6400 + 10%',
     features: [
       { icon: Users, text: 'Up to 230-300 guests' },
       { icon: Rss, text: 'Advanced AV System' },
@@ -45,7 +45,7 @@ const venueHighlights: VenueHighlight[] = [
     description: 'A versatile space with modern aesthetics, ideal for conferences and elegant receptions.',
     imageUrl: 'http://content-provider.payshia.com/silver-ray/other/BANQUET-2.webp',
     imageHint: 'modern banquet hall reception',
-    price: 'LKR 3100 + 10%',
+    price: 'LKR 6400 + 10%',
     features: [
       { icon: Users, text: 'Up to 230-300 guests' },
       { icon: Rss, text: 'Advanced AV System' },
@@ -61,7 +61,7 @@ const venueHighlights: VenueHighlight[] = [
     description: 'An intimate setting with lush decor, perfect for smaller weddings, workshops, and private dinners.',
     imageUrl: 'http://content-provider.payshia.com/silver-ray/other/BANQUET-3.webp',
     imageHint: 'intimate banquet setting',
-    price: 'LKR 3100 + 10%',
+    price: 'LKR 6400 + 10%',
     features: [
       { icon: Users, text: 'Up to 230-300 guests' },
       { icon: Rss, text: 'Advanced AV System' },

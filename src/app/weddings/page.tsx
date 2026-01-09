@@ -143,7 +143,8 @@ export default function WeddingsPage() {
 
           {/* Grand Silver Ray Venues */}
           <div className="mb-16">
-            <h3 className="font-headline text-2xl sm:text-3xl font-semibold mb-8 text-center">Grand Silver Ray</h3>
+            <h3 className="font-headline text-2xl sm:text-3xl font-semibold mb-2 text-center">Grand Silver Ray</h3>
+            <p className="text-center text-muted-foreground mb-8">Per Person LKR 6400 + 10%</p>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {grandSilverRayVenues.map((venue, index) => (
                 <AnimatedInView key={venue.id} delay={index * 0.1}>
@@ -155,7 +156,8 @@ export default function WeddingsPage() {
 
           {/* Silver Ray Venues */}
           <div>
-            <h3 className="font-headline text-2xl sm:text-3xl font-semibold mb-8 text-center">Silver Ray</h3>
+            <h3 className="font-headline text-2xl sm:text-3xl font-semibold mb-2 text-center">Silver Ray</h3>
+            <p className="text-center text-muted-foreground mb-8">Per Person LKR 3100 + 10%</p>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-center">
               {silverRayVenues.map((venue, index) => (
                 <AnimatedInView key={venue.id} delay={index * 0.1}>
