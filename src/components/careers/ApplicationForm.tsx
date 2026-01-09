@@ -2,7 +2,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { useForm, type UseFormReturn } from "react-hook-form";
 import * as z from "zod";
 import { Button } from "@/components/ui/button";
 import {
@@ -42,24 +42,15 @@ type ApplicationFormValues = z.infer<typeof applicationFormSchema>;
 
 interface ApplicationFormProps {
     jobTitles: string[];
+    form: UseFormReturn<ApplicationFormValues>;
 }
 
-export function ApplicationForm({ jobTitles }: ApplicationFormProps) {
+export function ApplicationForm({ jobTitles, form }: ApplicationFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const searchParams = useSearchParams();
   const positionFromQuery = searchParams.get('position');
-
-  const form = useForm<ApplicationFormValues>({
-    resolver: zodResolver(applicationFormSchema),
-    defaultValues: {
-      name: "",
-      email: "",
-      phone: "",
-      position: positionFromQuery || "",
-    },
-  });
 
   useEffect(() => {
     if (positionFromQuery) {
