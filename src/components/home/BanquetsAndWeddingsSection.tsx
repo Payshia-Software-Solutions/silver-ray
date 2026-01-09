@@ -133,9 +133,9 @@ export function BanquetsAndWeddingsSection() {
                 plugins={[plugin.current]}
                 className="w-full"
             >
-                <CarouselContent className="-ml-4">
+                <CarouselContent className="-ml-2">
                 {venueHighlights.map((venue, index) => (
-                    <CarouselItem key={venue.id} className="pl-4 basis-[80%]">
+                    <CarouselItem key={venue.id} className="pl-2 basis-[85%]">
                         <div className="p-1 h-full">
                             <VenueHighlightCard venue={venue} />
                         </div>

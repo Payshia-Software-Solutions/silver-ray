@@ -89,9 +89,9 @@ export function FeaturedRoomsSection() {
             onMouseEnter={plugin.current.stop}
             onMouseLeave={plugin.current.reset}
           >
-            <CarouselContent className="-ml-4">
+            <CarouselContent className="-ml-2">
               {featuredRooms.map((room) => (
-                <CarouselItem key={room.id} className="pl-4 basis-4/5">
+                <CarouselItem key={room.id} className="pl-2 basis-[85%]">
                   <div className="p-1 h-full">
                     <RoomCard room={room} />
                   </div>

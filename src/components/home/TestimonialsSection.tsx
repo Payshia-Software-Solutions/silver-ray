@@ -45,9 +45,9 @@ export function TestimonialsSection() {
                 onMouseEnter={() => plugin.current.stop()}
                 onMouseLeave={() => plugin.current.reset()}
             >
-                <CarouselContent className="-ml-4">
+                <CarouselContent className="-ml-2">
                 {mockTestimonials.map((testimonial, index) => (
-                    <CarouselItem key={`carousel-${testimonial.id}`} className="pl-4 basis-4/5">
+                    <CarouselItem key={`carousel-${testimonial.id}`} className="pl-2 basis-[85%]">
                         <div className="p-1 h-full">
                           <TestimonialCard testimonial={testimonial} />
                         </div>
