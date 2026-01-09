@@ -63,7 +63,7 @@ export function HeroSection() {
           From intimate gatherings to grand celebrations, our elegant venues and dedicated team ensure a memorable occasion.
         </p>
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-          <Button asChild size="lg" className="font-body text-lg px-8 py-3 w-full sm:w-auto transform hover:scale-105 transition-transform duration-300">
+          <Button asChild size="lg" className="font-body text-lg px-8 py-3 w-auto transform hover:scale-105 transition-transform duration-300">
             <Link href="/weddings">Venues and Packages</Link>
           </Button>
         </div>
