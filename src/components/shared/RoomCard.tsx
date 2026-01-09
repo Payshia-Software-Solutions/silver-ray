@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import type { Room, RoomImage } from '@/types';
-import { Wifi, Coffee, Tv, Users } from 'lucide-react';
+import { Wifi, Coffee, Tv, Users, Eye, Check } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { API_BASE_URL, IMAGE_BASE_URL } from '@/lib/config';
 import { useState, useEffect } from 'react';
@@ -140,10 +140,10 @@ export function RoomCard({ room }: RoomCardProps) {
 
           <div className="mt-auto grid grid-cols-2 gap-2">
             <Button asChild variant="outline" className="w-full rounded-full">
-                <Link href={`/rooms/${room.slug}`}>View</Link>
+                <Link href={`/rooms/${room.slug}`}><Eye className="mr-2 h-4 w-4" />View</Link>
             </Button>
             <Button asChild className="w-full rounded-full">
-                <Link href={`/booking?roomId=${room.id}`}>Book</Link>
+                <Link href={`/booking?roomId=${room.id}`}><Check className="mr-2 h-4 w-4" />Book</Link>
             </Button>
           </div>
       </CardContent>
