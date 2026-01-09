@@ -178,7 +178,7 @@ export function ApplicationForm({ jobTitles }: ApplicationFormProps) {
          <FormField
             control={form.control}
             name="cv"
-            render={({ field }) => (
+            render={({ field: { value, onChange, ...fieldProps }}) => (
                 <FormItem>
                     <FormLabel>Upload CV</FormLabel>
                     <FormControl>
@@ -186,7 +186,8 @@ export function ApplicationForm({ jobTitles }: ApplicationFormProps) {
                           type="file" 
                           accept=".pdf,.doc,.docx"
                           ref={fileInputRef}
-                          onChange={(e) => field.onChange(e.target.files ? e.target.files[0] : null)} 
+                          onChange={(e) => onChange(e.target.files ? e.target.files[0] : null)}
+                          {...fieldProps}
                           className="file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20"
                         />
                     </FormControl>
