@@ -10,7 +10,7 @@ import NextImage from 'next/image';
 import { ApplicationForm } from './ApplicationForm';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { FileText, Briefcase, MapPin, type LucideIcon } from 'lucide-react';
+import { FileText, Briefcase, MapPin, type LucideIcon, DollarSign, BarChart, Smile, Heart } from 'lucide-react';
 import { AnimatedInView } from '@/components/shared/AnimatedInView';
 
 const applicationFormSchema = z.object({
@@ -37,12 +37,34 @@ interface CompanyValue {
     description: string;
 }
 
+const companyValues: CompanyValue[] = [
+    {
+        icon: DollarSign,
+        title: "Competitive Salary",
+        description: "We offer attractive compensation packages that recognize your skills and contributions."
+    },
+    {
+        icon: BarChart,
+        title: "Professional Growth",
+        description: "Opportunities for training, development, and career advancement within our growing organization."
+    },
+    {
+        icon: Smile,
+        title: "Vibrant Team Culture",
+        description: "Join a supportive and dynamic team that values collaboration, respect, and a passion for hospitality."
+    },
+    {
+        icon: Heart,
+        title: "Health & Wellness",
+        description: "We prioritize the well-being of our staff with comprehensive benefits and a healthy work environment."
+    }
+];
+
 interface CareersPageClientProps {
   jobOpenings: JobOpening[];
-  companyValues: CompanyValue[];
 }
 
-export function CareersPageClient({ jobOpenings, companyValues }: CareersPageClientProps) {
+export function CareersPageClient({ jobOpenings }: CareersPageClientProps) {
   const searchParams = useSearchParams();
   const positionFromQuery = searchParams.get('position');
   const formRef = useRef<HTMLDivElement>(null);
