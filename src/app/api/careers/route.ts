@@ -35,6 +35,12 @@ export async function POST(request: Request) {
     if (cvFile.size > 5 * 1024 * 1024) { // 5MB limit
         return new NextResponse('CV file size exceeds 5MB limit.', { status: 400 });
     }
+    
+    // Environment variable check
+    if (!process.env.SMTP_HOST || !process.env.SMTP_PORT || !process.env.SMTP_USER || !process.env.SMTP_PASS) {
+      console.error("SMTP environment variables are not set.");
+      return new NextResponse('Server configuration error: Email service is not configured.', { status: 500 });
+    }
 
     // Convert file stream to buffer
     const cvBuffer = await streamToBuffer(cvFile.stream() as any);
@@ -79,7 +85,7 @@ export async function POST(request: Request) {
         to: email,
         subject: `We've Received Your Application | Grand Silver Ray`,
         html: `
-          <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-w: 600px; margin: 20px auto; border: 1px solid #ddd; border-radius: 8px; overflow: hidden;">
+          <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 20px auto; border: 1px solid #ddd; border-radius: 8px; overflow: hidden;">
             <div style="background-color: #f4f4f4; padding: 20px; text-align: center;">
               <h1 style="margin: 0; color: #333; font-size: 24px;">Thank You for Your Application!</h1>
             </div>
@@ -106,8 +112,10 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ message: 'Application submitted successfully' });
 
-  } catch (error) {
+  } catch (error: any) {
     console.error('Careers API route error:', error);
-    return new NextResponse('Internal Server Error', { status: 500 });
+    // Return a more descriptive error
+    const errorMessage = error.message || "An unexpected error occurred.";
+    return new NextResponse(JSON.stringify({ message: 'Internal Server Error', error: errorMessage }), { status: 500 });
   }
 }
