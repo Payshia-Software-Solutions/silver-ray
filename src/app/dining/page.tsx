@@ -14,25 +14,25 @@ import { AnimatedInView } from '@/components/shared/AnimatedInView';
 
 const signatureDishes: DishProps[] = [
   {
-    id: 'chicken-biryani',
-    name: 'Chicken Dum Biryani',
-    description: 'Fragrant basmati rice and tender chicken, slow-cooked with a blend of aromatic spices.',
-    imageUrl: 'https://images.unsplash.com/photo-1631515243349-e0cb75fb8d3a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxpbmRpYW4lMjBiaXJ5YW5pfGVufDB8fHx8MTc1MjE1NzU1NHww&ixlib=rb-4.1.0&q=80&w=1080',
-    imageHint: 'indian biryani',
+    id: 'indian-food',
+    name: 'Indian Cuisine',
+    description: 'Aromatic spices and rich flavors define our authentic Indian dishes, from creamy curries to tandoori specialties.',
+    imageUrl: 'https://content-provider.payshia.com/silver-ray/other/Indian.jpg',
+    imageHint: 'assortment of indian dishes',
   },
   {
-    id: 'pad-thai',
-    name: 'Pad Thai',
-    description: 'Stir-fried rice noodles with shrimp, tofu, bean sprouts, and peanuts in a tangy tamarind sauce.',
-    imageUrl: 'https://images.unsplash.com/photo-1563245372-f217244f2352?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxwYWQlMjB0aGFpfGVufDB8fHx8MTc1MjE1NzYyMHww&ixlib=rb-4.1.0&q=80&w=1080',
-    imageHint: 'pad thai noodles',
+    id: 'thai-food',
+    name: 'Thai Cuisine',
+    description: 'Experience the perfect balance of sweet, sour, spicy, and salty with our traditional Thai food.',
+    imageUrl: 'https://content-provider.payshia.com/silver-ray/other/Thai.jpg',
+    imageHint: 'thai food platter',
   },
-    {
-    id: 'chocolate-gateau',
-    name: 'Chocolate Fudge Gateau',
-    description: 'A decadent layered chocolate cake with rich fudge frosting, perfect for any celebration.',
-    imageUrl: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxjaG9jb2xhdGUlMjBjYWtlfGVufDB8fHx8MTc1MjE1Nzc3Nnww&ixlib=rb-4.1.0&q=80&w=1080',
-    imageHint: 'chocolate fudge cake',
+  {
+    id: 'cakes',
+    name: 'Decadent Cakes',
+    description: 'Indulge in our selection of beautifully crafted cakes, perfect for any celebration or a sweet treat.',
+    imageUrl: 'https://content-provider.payshia.com/silver-ray/other/Cake.jpg',
+    imageHint: 'decorated chocolate cake',
   },
 ];
 
