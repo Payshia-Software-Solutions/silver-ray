@@ -11,6 +11,12 @@ export async function POST(request: Request) {
     if (!body.name || !body.email || !body.message) {
       return new NextResponse('Missing required fields', { status: 400 });
     }
+    
+    // Environment variable check
+    if (!process.env.SMTP_HOST || !process.env.SMTP_PORT || !process.env.SMTP_USER || !process.env.SMTP_PASS) {
+      console.error("SMTP environment variables are not set.");
+      return new NextResponse('Server configuration error: Email service is not configured.', { status: 500 });
+    }
 
     // Nodemailer transporter setup
     const transporter = nodemailer.createTransport({
@@ -103,9 +109,10 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ message: 'Emails sent successfully' });
 
-  } catch (error) {
+  } catch (error: any) {
     console.error('API route error:', error);
-    // Avoid sending detailed error messages to the client
-    return new NextResponse('Internal Server Error', { status: 500 });
+    // Return a more descriptive error
+    const errorMessage = error.message || "An unexpected error occurred.";
+    return new NextResponse(JSON.stringify({ message: 'Internal Server Error', error: errorMessage }), { status: 500 });
   }
 }
