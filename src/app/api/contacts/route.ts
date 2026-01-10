@@ -32,7 +32,7 @@ export async function POST(request: Request) {
     // Email to Admin
     const adminMailOptions = {
       from: `"${body.name}" <${process.env.SMTP_FROM_EMAIL}>`,
-      to: 'reservation@silverray.lk',
+      to: 'thilinaruwan112@gmail.com',
       replyTo: body.email,
       subject: `New Contact Form Message: ${body.subject || 'No Subject'}`,
       html: `
