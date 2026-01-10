@@ -25,7 +25,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/hooks/use-toast";
 import { Send } from "lucide-react";
 import apiClient from "@/lib/apiClient";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 
 const contactFormSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters."),
@@ -39,6 +40,8 @@ type ContactFormValues = z.infer<typeof contactFormSchema>;
 
 export function ContactForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const searchParams = useSearchParams();
+  
   const form = useForm<ContactFormValues>({
     resolver: zodResolver(contactFormSchema),
     defaultValues: {
@@ -49,6 +52,14 @@ export function ContactForm() {
       message: "",
     },
   });
+
+  useEffect(() => {
+    const subjectFromQuery = searchParams.get('subject');
+    if (subjectFromQuery) {
+      form.setValue('subject', subjectFromQuery);
+    }
+  }, [searchParams, form]);
+
 
   async function onSubmit(data: ContactFormValues) {
     setIsSubmitting(true);
