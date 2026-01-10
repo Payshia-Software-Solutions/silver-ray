@@ -27,6 +27,11 @@ export async function POST(request: Request) {
         user: process.env.SMTP_USER,
         pass: process.env.SMTP_PASS,
       },
+      tls: {
+        // This is for testing in environments with self-signed certificates.
+        // Do not use in a production environment with a valid certificate.
+        rejectUnauthorized: false
+      }
     });
 
     // Email to Admin
