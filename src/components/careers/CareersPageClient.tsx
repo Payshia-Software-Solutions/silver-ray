@@ -96,9 +96,9 @@ export function CareersPageClient({ jobOpenings }: CareersPageClientProps) {
     <>
       <section className="relative h-[50vh] min-h-[300px] md:h-[60vh] lg:h-[350px] flex items-center justify-center text-center text-white">
         <NextImage
-          src="https://content-provider.payshia.com/silver-ray/other/careers-694939b72a089-optimized.webp"
-          alt="Grand Silver Ray Hotel staff"
-          data-ai-hint="hotel staff group photo"
+          src="https://content-provider.payshia.com/silver-ray/gallery-images/1/contact-68dd6a5542ad8.jpg"
+          alt="Grand Silver Ray Hotel Entrance"
+          data-ai-hint="hotel entrance night"
           fill
           className="object-cover"
           priority
