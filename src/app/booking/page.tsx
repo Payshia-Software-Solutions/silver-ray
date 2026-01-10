@@ -4,8 +4,13 @@ import { BookingForm } from '@/components/booking/BookingForm';
 import React from 'react'; // Import React for Suspense
 
 export const metadata: Metadata = {
-  title: 'Book Your Stay',
-  description: 'Reserve your room at LuxeStay. Easy and secure online booking.',
+  title: 'Book Your Stay | Grand Silver Ray',
+  description: 'Secure your room at Grand Silver Ray with our easy and secure online booking form. Choose your room, select your dates, and confirm your luxury stay in Ratnapura.',
+  openGraph: {
+    title: 'Book Your Stay | Grand Silver Ray',
+    description: 'Reserve your luxury room at Grand Silver Ray. Quick, easy, and secure online booking.',
+    images: ['https://content-provider.payshia.com/silver-ray/gallery-images/1/Roomcover-68dd4bf5ca125.jpg'],
+  },
 };
 
 export default function BookingPage() {
@@ -18,7 +23,7 @@ export default function BookingPage() {
               Reserve Your Stay
             </h1>
             <p className="font-body text-lg text-muted-foreground">
-              We're excited to welcome you to LuxeStay. Please fill out the form below to complete your booking.
+              We're excited to welcome you. Please fill out the form below to complete your booking.
             </p>
           </div>
           <React.Suspense fallback={<div className="text-center font-body text-muted-foreground p-8">Loading booking form...</div>}>

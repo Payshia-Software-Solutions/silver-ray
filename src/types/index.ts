@@ -337,17 +337,18 @@ export interface RestaurantImage {
 export interface EventFromApi {
     id: string;
     slug: string;
-    event_name: string;
-    event_type: string;
-    event_date: string;
-    start_time: string;
-    end_time: string;
-    hall_id: string;
-    guest_count: string;
-    booking_status: string;
-    created_by: string;
-    short_description?: string;
-    detailed_description?: string;
+    name: string;
+    date: string;
+    location: string;
+    description: string;
+    category: string;
+    imageUrl: string;
+    venueName: string;
+    venueAddress: string;
+    organizerId: string;
+    createdAt: string;
+    updatedAt: string;
+    accept_booking: string;
 }
 
 

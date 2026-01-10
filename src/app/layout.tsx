@@ -6,12 +6,26 @@ import { ConditionalLayoutWrapper } from '@/components/layout/ConditionalLayoutW
 import Snowfall from '@/components/shared/Snowfall';
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://grandsilverray.com'),
   title: {
-    default: 'Grand Silver Ray | Luxury Hotel & Resort',
-    template: '%s | Grand Silver Ray',
+    default: 'Grand Silver Ray | Luxury Hotel, Wedding & Banquet Hall in Ratnapura',
+    template: '%s | Grand Silver Ray | Luxury Hotel, Wedding & Banquet Hall in Ratnapura',
   },
-  description: 'Experience unparalleled luxury and comfort at Grand Silver Ray. Book your dream getaway today at the finest resort.',
-  keywords: ['luxury hotel', 'resort', 'dining', 'events', 'experiences', 'gallery', 'booking', 'vacation', 'travel', 'Grand Silver Ray'],
+  description: 'Experience unparalleled luxury at Grand Silver Ray, Ratnapura. Offering elegant accommodations, luxury banquet halls, diverse dining, and premium hospitality for leisure and business.',
+  keywords: ['luxury hotel ratnapura', 'sri lanka resort', 'grand silver ray', 'banquet halls ratnapura', 'wedding venues sri lanka', 'fine dining ratnapura', 'ratnapura hotels', 'gem capital hotel'],
+  openGraph: {
+    title: 'Grand Silver Ray | Luxury Hotel & Resort in Ratnapura',
+    description: 'Discover elegance and comfort in the heart of Sri Lanka\'s gem capital. Book your stay, event, or dining experience at Grand Silver Ray.',
+    images: ['https://content-provider.payshia.com/silver-ray/other/IMG_6722-6947156a07530-optimized.webp'],
+    type: 'website',
+    locale: 'en_US',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Grand Silver Ray | Luxury Hotel & Resort in Ratnapura',
+    description: 'Experience luxury and top-tier hospitality at Grand Silver Ray. Your perfect destination for weddings, dining, and relaxing stays.',
+    images: ['https://content-provider.payshia.com/silver-ray/other/IMG_6722-6947156a07530-optimized.webp'],
+  },
 };
 
 export default function RootLayout({

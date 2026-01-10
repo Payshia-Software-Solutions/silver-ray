@@ -4,8 +4,12 @@ import { Button } from '@/components/ui/button';
 import { PlusCircle } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Manage Weddings',
-  description: 'Admin tools for wedding management.',
+  title: 'Wedding Management | Grand Silver Ray Admin',
+  description: 'Admin tools for managing wedding packages, venues, and inquiries at Grand Silver Ray.',
+  robots: {
+    index: false,
+    follow: false,
+  }
 };
 
 export default function ManageWeddingsPage() {

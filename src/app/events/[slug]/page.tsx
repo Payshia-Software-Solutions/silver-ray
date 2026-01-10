@@ -50,9 +50,9 @@ function EventContentLayout({ event }: { event: EventDetail }) {
   return (
     <div className="bg-card p-6 sm:p-8 rounded-xl shadow-xl">
       <h2 className="font-headline text-2xl text-primary font-semibold mb-4">About The Event</h2>
-      <p className="font-body text-foreground/80 mb-8">{event.description}</p>
+      <div className="prose max-w-none" dangerouslySetInnerHTML={{ __html: event.description }} />
       
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-6 mb-8 font-body text-sm">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-6 my-8 font-body text-sm">
         {event.details.map((detail, index) => (
           <div key={index} className="flex items-start">
             <detail.icon className="w-6 h-6 text-primary mr-4 mt-1 flex-shrink-0" />
@@ -101,42 +101,31 @@ export default function EventDetailPage() {
     const fetchEventData = async () => {
       try {
         setIsLoading(true);
-        const apiEvent = await getEventBySlug(slug);
+        // This function does not exist in the new API, so we comment it out.
+        // const apiEvent = await getEventBySlug(slug);
+        const allEvents = await fetch('/api/events').then(res => res.json());
+        const apiEvent = allEvents.find((e: EventFromApi) => e.slug === slug);
+
 
         if (!apiEvent) {
           notFound();
           return;
         }
 
-        const allImages = await getEventImagesByEventId(String(apiEvent.id));
-
-        const galleryImages = allImages
-          .filter(img => String(img.is_primary) !== '1') // Exclude primary image from gallery
-          .map(img => ({
-              src: `${IMAGE_BASE_URL}${img.image_url}`,
-              alt: img.alt_text,
-              hint: img.alt_text || 'event gallery',
-          }));
-
-        const primaryImage = allImages.find(img => String(img.is_primary) === '1');
-        const heroImageUrl = primaryImage ? `${IMAGE_BASE_URL}${primaryImage.image_url}` : 'https://placehold.co/1920x500.png';
+        const imageContentProviderBaseUrl = 'https://content-provider.gotickets.lk';
+        const heroImageUrl = `${imageContentProviderBaseUrl}${apiEvent.imageUrl}`;
 
         const mappedEvent: EventDetail = {
             id: String(apiEvent.id),
-            name: apiEvent.event_name,
-            description: apiEvent.detailed_description || apiEvent.short_description || 'No description available.',
+            name: apiEvent.name,
+            description: apiEvent.description,
             heroImageUrl: heroImageUrl,
-            heroImageHint: primaryImage?.alt_text || 'event main image',
-            galleryImages: galleryImages,
+            heroImageHint: apiEvent.name,
+            galleryImages: [], // The new API does not seem to provide a gallery per event
             details: [
-                { icon: Calendar, label: 'Date', value: new Date(apiEvent.event_date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) },
-                { icon: Clock, label: 'Time', value: `${apiEvent.start_time} - ${apiEvent.end_time}` },
-                { icon: MapPin, label: 'Venue ID', value: apiEvent.hall_id },
-                { icon: Tag, label: 'Event Type', value: <Badge variant="outline" className="text-sm">{apiEvent.event_type}</Badge> },
-                { icon: Users, label: 'Guests', value: `${apiEvent.guest_count} Attendees` },
-                { icon: Ticket, label: 'Tickets', value: apiEvent.booking_status === 'Confirmed' ? 'Available' : 'Unavailable' },
-                { icon: Info, label: 'Status', value: <Badge className={apiEvent.booking_status === 'Confirmed' ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'}>{apiEvent.booking_status}</Badge> },
-                { icon: Edit, label: 'Contact', value: apiEvent.created_by },
+                { icon: Calendar, label: 'Date', value: new Date(apiEvent.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' }) },
+                { icon: MapPin, label: 'Venue', value: apiEvent.venueName },
+                { icon: Tag, label: 'Category', value: <Badge variant="outline" className="text-sm">{apiEvent.category}</Badge> },
             ]
         };
 
@@ -204,8 +193,8 @@ export default function EventDetailPage() {
               <p className="font-body text-sm text-muted-foreground mb-6">
                 Secure your spot for this event. Tickets are available through our official partner.
               </p>
-              <Button asChild size="lg" className="w-full">
-                <a href="https://gotickets.lk/" target="_blank" rel="noopener noreferrer">
+              <Button asChild size="lg" className="w-full" disabled={!event.id}>
+                <a href={`https://gotickets.silverray.lk/events/${slug}`} target="_blank" rel="noopener noreferrer">
                   Book on GoTickets.lk
                 </a>
               </Button>

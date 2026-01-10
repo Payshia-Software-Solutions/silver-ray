@@ -8,10 +8,15 @@ import { EngagementSection } from '@/components/home/EngagementSection';
 import { FeaturedDiningSection } from '@/components/home/FeaturedDiningSection';
 import { WeddingHighlightsSection } from '@/components/home/WeddingHighlightsSection';
 import { FaqSection } from '@/components/home/FaqSection';
+import { FeaturedEventsSection } from '@/components/home/FeaturedEventsSection';
 
 export const metadata: Metadata = {
-  title: 'Grand Silver Ray | Your Ultimate Luxury Hotel Experience',
-  description: 'Discover unparalleled luxury and comfort at Grand Silver Ray. Book your dream getaway today at the finest resort in Paradise City.',
+  description: 'Welcome to Grand Silver Ray, the premier luxury hotel in Ratnapura. Specializing in elegant weddings, grand banquets, fine dining, and exquisite accommodations.',
+  openGraph: {
+    title: 'Grand Silver Ray | Luxury Hotel, Wedding & Banquet Hall in Ratnapura',
+    description: 'Discover the perfect venue for your wedding, event, or luxury stay in the gem capital of Sri Lanka. Explore our banquet halls, dining, and rooms.',
+    images: ['https://content-provider.payshia.com/silver-ray/other/IMG_6722-6947156a07530-optimized.webp'],
+  },
 };
 
 export default function HomePage() {
@@ -25,6 +30,7 @@ export default function HomePage() {
       <EngagementSection />
       <FeaturedDiningSection />
       <FeaturedRoomsSection />
+      <FeaturedEventsSection />
       <TestimonialsSection />
       <FaqSection />
     </>
