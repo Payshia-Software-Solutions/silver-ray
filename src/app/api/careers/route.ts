@@ -45,10 +45,12 @@ export async function POST(request: Request) {
     // Convert file stream to buffer
     const cvBuffer = await streamToBuffer(cvFile.stream() as any);
 
+    const port = Number(process.env.SMTP_PORT);
+
     const transporter = nodemailer.createTransport({
       host: process.env.SMTP_HOST,
-      port: Number(process.env.SMTP_PORT),
-      secure: Number(process.env.SMTP_PORT) === 465,
+      port: port,
+      secure: port === 465, // Use true for 465, false for other ports (like 587)
       auth: {
         user: process.env.SMTP_USER,
         pass: process.env.SMTP_PASS,
@@ -126,3 +128,5 @@ export async function POST(request: Request) {
     return new NextResponse(JSON.stringify({ message: 'Internal Server Error', error: errorMessage }), { status: 500 });
   }
 }
+
+    

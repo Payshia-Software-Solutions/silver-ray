@@ -3,6 +3,14 @@
 import {NextResponse} from 'next/server';
 import nodemailer from 'nodemailer';
 
+const contactRecipients = [
+    'Reservation@silverray.lk',
+    'gm@silverray.lk',
+    'pubudug@kdugroup.com',
+    'sanjayad@silverray.lk',
+    'chalanik@silverray.lk'
+];
+
 export async function POST(request: Request) {
   try {
     const body = await request.json();
@@ -18,11 +26,13 @@ export async function POST(request: Request) {
       return new NextResponse('Server configuration error: Email service is not configured.', { status: 500 });
     }
 
+    const port = Number(process.env.SMTP_PORT);
+
     // Nodemailer transporter setup
     const transporter = nodemailer.createTransport({
       host: process.env.SMTP_HOST,
-      port: Number(process.env.SMTP_PORT),
-      secure: Number(process.env.SMTP_PORT) === 465, // true for 465, false for other ports
+      port: port,
+      secure: port === 465, // true for 465, false for other ports
       auth: {
         user: process.env.SMTP_USER,
         pass: process.env.SMTP_PASS,
@@ -37,7 +47,7 @@ export async function POST(request: Request) {
     // Email to Admin
     const adminMailOptions = {
       from: `"${body.name}" <${process.env.SMTP_FROM_EMAIL}>`,
-      to: 'thilinaruwan112@gmail.com',
+      to: contactRecipients.join(','),
       replyTo: body.email,
       subject: `New Contact Form Message: ${body.subject || 'No Subject'}`,
       html: `
@@ -84,7 +94,7 @@ export async function POST(request: Request) {
         to: body.email,
         subject: `We've Received Your Message | Grand Silver Ray`,
         html: `
-            <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 20px auto; border: 1px solid #ddd; border-radius: 8px; overflow: hidden;">
+            <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-w: 600px; margin: 20px auto; border: 1px solid #ddd; border-radius: 8px; overflow: hidden;">
                 <div style="background-color: #f4f4f4; padding: 20px; text-align: center;">
                     <h1 style="margin: 0; color: #333; font-size: 24px;">Thank You for Contacting Us!</h1>
                 </div>
@@ -123,3 +133,5 @@ export async function POST(request: Request) {
     return new NextResponse(JSON.stringify({ message: 'Internal Server Error', error: errorMessage }), { status: 500 });
   }
 }
+
+    
