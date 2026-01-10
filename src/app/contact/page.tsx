@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import NextImage from 'next/image';
 import { ContactForm } from '@/components/contact/ContactForm';
 import { Mail, Phone, MapPin, Instagram, Facebook, Twitter, Plane, CarFront, Car, Youtube } from 'lucide-react';
+import React from 'react';
 
 export const metadata: Metadata = {
   title: 'Contact Us',
@@ -45,7 +46,9 @@ export default function ContactPage() {
           {/* Contact Form Card (Left) */}
           <div className="lg:col-span-3 bg-card p-6 sm:p-8 rounded-xl shadow-xl">
             <h2 className="font-headline text-2xl text-primary font-semibold mb-6">Send Us a Message</h2>
-            <ContactForm />
+            <React.Suspense fallback={<div className="text-center font-body text-muted-foreground p-8">Loading form...</div>}>
+              <ContactForm />
+            </React.Suspense>
           </div>
           
           {/* Contact Information & How to Reach Us Card (Right) */}
@@ -117,3 +120,5 @@ export default function ContactPage() {
     </div>
   );
 }
+
+    
