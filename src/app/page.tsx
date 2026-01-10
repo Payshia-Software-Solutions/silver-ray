@@ -28,9 +28,9 @@ export default function HomePage() {
       </section>
       <WeddingHighlightsSection />
       <EngagementSection />
-      <FeaturedEventsSection />
       <FeaturedDiningSection />
       <FeaturedRoomsSection />
+      <FeaturedEventsSection />
       <TestimonialsSection />
       <FaqSection />
     </>
