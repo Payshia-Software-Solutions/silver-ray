@@ -9,11 +9,19 @@ import { AnimatedInView } from '@/components/shared/AnimatedInView';
 import { ChevronRight } from 'lucide-react';
 import { getEvents } from '@/services/api/events';
 import { Skeleton } from '@/components/ui/skeleton';
+import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
+import Autoplay from "embla-carousel-autoplay";
+import React from 'react';
+
 
 export function FeaturedEventsSection() {
   const [events, setEvents] = useState<EventFromApi[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  const plugin = React.useRef(
+    Autoplay({ delay: 4000, stopOnInteraction: true, stopOnHover: true })
+  );
 
   useEffect(() => {
     const fetchAndSetEvents = async () => {
@@ -60,13 +68,37 @@ export function FeaturedEventsSection() {
     }
 
     return (
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {events.map((event, index) => (
-          <AnimatedInView key={event.id} delay={index * 0.1}>
-            <EventCard event={event} />
-          </AnimatedInView>
-        ))}
-      </div>
+      <>
+        {/* Mobile Carousel */}
+        <div className="md:hidden">
+            <Carousel
+                opts={{ align: "start", loop: events.length > 1 }}
+                plugins={[plugin.current]}
+                className="w-full"
+                onMouseEnter={() => plugin.current.stop()}
+                onMouseLeave={() => plugin.current.reset()}
+            >
+                <CarouselContent className="-ml-2">
+                {events.map((event) => (
+                    <CarouselItem key={event.id} className="pl-2 basis-[85%] sm:basis-1/2">
+                        <div className="p-1 h-full">
+                          <EventCard event={event} />
+                        </div>
+                    </CarouselItem>
+                ))}
+                </CarouselContent>
+            </Carousel>
+        </div>
+        
+        {/* Desktop Grid */}
+        <div className="hidden md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {events.map((event, index) => (
+            <AnimatedInView key={event.id} delay={index * 0.1}>
+              <EventCard event={event} />
+            </AnimatedInView>
+          ))}
+        </div>
+      </>
     );
   };
 
