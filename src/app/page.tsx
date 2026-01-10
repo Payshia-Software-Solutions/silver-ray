@@ -10,7 +10,7 @@ import { WeddingHighlightsSection } from '@/components/home/WeddingHighlightsSec
 import { FaqSection } from '@/components/home/FaqSection';
 
 export const metadata: Metadata = {
-  title: 'Grand Silver Ray | Luxury Hotel, Wedding & Banquet Hall in Ratnapura',
+  title: 'Home',
   description: 'Welcome to Grand Silver Ray, the premier luxury hotel in Ratnapura. Specializing in elegant weddings, grand banquets, fine dining, and exquisite accommodations.',
   openGraph: {
     title: 'Grand Silver Ray | Luxury Hotel, Wedding & Banquet Hall in Ratnapura',

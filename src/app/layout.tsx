@@ -8,8 +8,8 @@ import Snowfall from '@/components/shared/Snowfall';
 export const metadata: Metadata = {
   metadataBase: new URL('https://grandsilverray.com'),
   title: {
-    default: 'Grand Silver Ray | Luxury Hotel & Resort in Ratnapura',
-    template: '%s | Grand Silver Ray',
+    default: 'Grand Silver Ray | Luxury Hotel, Wedding & Banquet Hall in Ratnapura',
+    template: '%s | Grand Silver Ray | Luxury Hotel, Wedding & Banquet Hall in Ratnapura',
   },
   description: 'Experience unparalleled luxury at Grand Silver Ray, Ratnapura. Offering elegant accommodations, luxury banquet halls, diverse dining, and premium hospitality for leisure and business.',
   keywords: ['luxury hotel ratnapura', 'sri lanka resort', 'grand silver ray', 'banquet halls ratnapura', 'wedding venues sri lanka', 'fine dining ratnapura', 'ratnapura hotels', 'gem capital hotel'],
