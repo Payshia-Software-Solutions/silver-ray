@@ -7,7 +7,7 @@ import { motion } from 'framer-motion';
 
 export function WhatsAppButton() {
   // Use the phone number from the footer
-  const phoneNumber = "94452274764";
+  const phoneNumber = "94719107700";
 
   return (
     <Link

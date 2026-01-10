@@ -49,14 +49,6 @@ export function ApplicationForm({ jobTitles, form }: ApplicationFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const searchParams = useSearchParams();
-  const positionFromQuery = searchParams.get('position');
-
-  useEffect(() => {
-    if (positionFromQuery) {
-        form.setValue('position', positionFromQuery);
-    }
-  }, [positionFromQuery, form]);
 
   async function onSubmit(data: ApplicationFormValues) {
     setIsSubmitting(true);

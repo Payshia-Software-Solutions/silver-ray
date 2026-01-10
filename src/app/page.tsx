@@ -7,6 +7,7 @@ import { BanquetsAndWeddingsSection } from '@/components/home/BanquetsAndWedding
 import { EngagementSection } from '@/components/home/EngagementSection';
 import { FeaturedDiningSection } from '@/components/home/FeaturedDiningSection';
 import { WeddingHighlightsSection } from '@/components/home/WeddingHighlightsSection';
+import { FaqSection } from '@/components/home/FaqSection';
 
 export const metadata: Metadata = {
   title: 'Grand Silver Ray | Your Ultimate Luxury Hotel Experience',
@@ -25,6 +26,7 @@ export default function HomePage() {
       <FeaturedDiningSection />
       <FeaturedRoomsSection />
       <TestimonialsSection />
+      <FaqSection />
     </>
   );
 }
