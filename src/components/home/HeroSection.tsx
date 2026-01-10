@@ -8,7 +8,7 @@ import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from "@/com
 import Autoplay from "embla-carousel-autoplay";
 import React from "react";
 import { cn } from '@/lib/utils';
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, Gift } from 'lucide-react';
 
 export function HeroSection() {
     const [api, setApi] = React.useState<CarouselApi>()
@@ -41,7 +41,7 @@ export function HeroSection() {
 
 
   return (
-    <section className="relative h-[calc(100vh-5rem)] min-h-[500px] md:min-h-[600px] lg:min-h-[700px] flex items-center justify-center text-center text-white overflow-hidden">
+    <section className="relative h-[calc(100vh-6.75rem)] min-h-[500px] md:min-h-[600px] lg:min-h-[700px] flex items-center justify-center text-center text-white overflow-hidden">
         <video
             autoPlay
             loop
@@ -64,7 +64,10 @@ export function HeroSection() {
         </p>
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
           <Button asChild size="lg" className="font-body text-lg px-8 py-3 w-auto transform hover:scale-105 transition-transform duration-300">
-            <Link href="/weddings">Venues and Packages</Link>
+            <Link href="/weddings">
+                <Gift className="mr-2 h-5 w-5" />
+                Venues and Packages
+            </Link>
           </Button>
         </div>
       </div>
