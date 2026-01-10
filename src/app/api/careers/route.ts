@@ -114,7 +114,9 @@ export async function POST(request: Request) {
 
   } catch (error: any) {
     console.error('Careers API route error:', error);
-    // Return a more descriptive error
+    // Log the full error for server-side debugging
+    console.error(error);
+    // Return a more descriptive error in the response
     const errorMessage = error.message || "An unexpected error occurred.";
     return new NextResponse(JSON.stringify({ message: 'Internal Server Error', error: errorMessage }), { status: 500 });
   }

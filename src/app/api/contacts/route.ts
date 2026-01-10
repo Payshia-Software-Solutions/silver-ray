@@ -110,8 +110,10 @@ export async function POST(request: Request) {
     return NextResponse.json({ message: 'Emails sent successfully' });
 
   } catch (error: any) {
-    console.error('API route error:', error);
-    // Return a more descriptive error
+    console.error('Contacts API route error:', error);
+    // Log the full error for server-side debugging
+    console.error(error);
+    // Return a more descriptive error in the response
     const errorMessage = error.message || "An unexpected error occurred.";
     return new NextResponse(JSON.stringify({ message: 'Internal Server Error', error: errorMessage }), { status: 500 });
   }
