@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -12,6 +11,17 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import type { Metadata } from 'next';
+
+// export const metadata: Metadata = {
+//   title: 'Gallery | Grand Silver Ray',
+//   description: 'Explore the stunning photo gallery of Grand Silver Ray. A glimpse into the elegance, luxury, and breathtaking views that await you at our hotel in Ratnapura.',
+//   openGraph: {
+//     title: 'Grand Silver Ray Photo Gallery',
+//     description: 'Browse images of our luxurious rooms, elegant event halls, exquisite dining, and scenic surroundings.',
+//     images: ['https://content-provider.payshia.com/silver-ray/gallery-images/1/weddingcover-68dd4bf6634a3.jpg'],
+//   },
+// };
 
 export default function GalleryPage() {
   const [images, setImages] = useState<GalleryApiImage[]>([]);

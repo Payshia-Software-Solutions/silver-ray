@@ -1,5 +1,3 @@
-
-
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -29,6 +27,17 @@ import { AnimatedInView } from '@/components/shared/AnimatedInView';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
+import type { Metadata } from 'next';
+
+// export const metadata: Metadata = {
+//   title: 'Experiences at Grand Silver Ray',
+//   description: 'Discover a world of curated experiences at Grand Silver Ray. From cultural dance performances to sapphire mine tours, create unforgettable moments in Ratnapura.',
+//   openGraph: {
+//     title: 'Unforgettable Experiences Await | Grand Silver Ray',
+//     description: 'Explore curated journeys designed to inspire, rejuvenate, and delight during your stay with us.',
+//     images: ['https://content-provider.payshia.com/silver-ray/other/Experiences-optimized.webp'],
+//   },
+// };
 
 
 interface NearbyAttraction {
@@ -209,6 +218,7 @@ export default ExperiencesPage;
     
 
     
+
 
 
 

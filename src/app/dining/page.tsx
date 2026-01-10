@@ -1,16 +1,21 @@
-
-'use client';
-
-import { useState, useEffect } from 'react';
+import type { Metadata } from 'next';
 import { DiningHero } from '@/components/dining/DiningHero';
 import { VenueCard } from '@/components/dining/VenueCard';
 import { DishCard, type DishProps } from '@/components/dining/DishCard';
 import { ReservationSection } from '@/components/dining/ReservationSection';
-
 import type { RestaurantFromApi } from '@/types';
 import { getRestaurants } from '@/services/api/dining';
-import { Skeleton } from '@/components/ui/skeleton';
 import { AnimatedInView } from '@/components/shared/AnimatedInView';
+
+export const metadata: Metadata = {
+  title: 'Dining at Grand Silver Ray',
+  description: 'Explore a world of culinary delights at Grand Silver Ray. From lavish buffets to rooftop cocktails, discover unique dining experiences in Ratnapura.',
+  openGraph: {
+    title: 'Exquisite Dining Experiences | Grand Silver Ray',
+    description: 'Discover the unforgettable flavors and exquisite settings of our celebrated restaurants and bars.',
+    images: ['https://content-provider.payshia.com/silver-ray/gallery-images/1/dining8-68dd3625346e6.jpg'],
+  },
+};
 
 const signatureDishes: DishProps[] = [
   {
@@ -36,43 +41,19 @@ const signatureDishes: DishProps[] = [
   },
 ];
 
-export default function DiningPage() {
-  const [diningVenues, setDiningVenues] = useState<RestaurantFromApi[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+export default async function DiningPage() {
+  let diningVenues: RestaurantFromApi[] = [];
+  let error: string | null = null;
 
-  useEffect(() => {
-    const fetchDiningData = async () => {
-      try {
-        setIsLoading(true);
-        const restaurantsData = await getRestaurants();
-        // Ensure the data is always an array before setting state
-        const venues = Array.isArray(restaurantsData) ? restaurantsData : [restaurantsData];
-        setDiningVenues(venues);
-      } catch (err: any) {
-        console.error("Failed to fetch dining venues:", err);
-        setError("Failed to load dining venues. Please try again later.");
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchDiningData();
-  }, []);
+  try {
+    const restaurantsData = await getRestaurants();
+    diningVenues = Array.isArray(restaurantsData) ? restaurantsData : [restaurantsData];
+  } catch (err: any) {
+    console.error("Failed to fetch dining venues:", err);
+    error = "Failed to load dining venues. Please try again later.";
+  }
   
   const renderVenues = () => {
-    if (isLoading) {
-      return [...Array(3)].map((_, i) => (
-         <div key={i} className="bg-card rounded-xl shadow-lg animate-pulse">
-            <div className="aspect-[4/3] bg-muted rounded-t-xl"></div>
-            <div className="p-6 space-y-3">
-              <div className="h-6 bg-muted rounded w-3/4"></div>
-              <div className="h-4 bg-muted rounded w-full"></div>
-              <div className="h-4 bg-muted rounded w-1/2"></div>
-            </div>
-        </div>
-      ));
-    }
     if (error) {
       return <p className="col-span-full text-center text-destructive">{error}</p>;
     }

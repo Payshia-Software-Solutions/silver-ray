@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useEffect, useMemo } from 'react';
@@ -15,6 +14,18 @@ import { Gift, Download, Car, Bus, Phone } from 'lucide-react';
 import { IMAGE_BASE_URL } from '@/lib/config';
 import { AnimatedInView } from '@/components/shared/AnimatedInView';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import type { Metadata } from 'next';
+
+// export const metadata: Metadata = {
+//   title: 'Wedding Venues & Packages | Grand Silver Ray',
+//   description: 'Discover the perfect wedding venues and packages at Grand Silver Ray in Ratnapura. From elegant ballrooms to intimate garden settings, we make your dream wedding a reality.',
+//   openGraph: {
+//     title: 'Your Dream Wedding at Grand Silver Ray',
+//     description: 'Explore stunning venues, comprehensive packages, and exceptional services for your unforgettable day.',
+//     images: ['https://content-provider.payshia.com/silver-ray/gallery-images/1/weddingcover-68dd4bf6634a3.jpg'],
+//   },
+// };
+
 
 function WeddingHero() {
   return (

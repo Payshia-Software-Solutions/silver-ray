@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -11,7 +10,17 @@ import { EventCard, type EventCardProps } from '@/components/events/EventCard';
 import { IMAGE_BASE_URL } from '@/lib/config';
 import { EventsPageHero } from '@/components/events/EventsPageHero';
 import { AnimatedInView } from '@/components/shared/AnimatedInView';
+import type { Metadata } from 'next';
 
+// export const metadata: Metadata = {
+//   title: 'Events at Grand Silver Ray',
+//   description: 'Discover upcoming events at Grand Silver Ray. From corporate meetings to grand celebrations, find the perfect venue and services for your next event in Ratnapura.',
+//   openGraph: {
+//     title: 'Host Your Next Event With Us | Grand Silver Ray',
+//     description: 'Explore our versatile event spaces and dedicated team to ensure a seamless and memorable occasion.',
+//     images: ['https://content-provider.payshia.com/silver-ray/other/events.webp'],
+//   },
+// };
 
 export default function EventsPage() {
     const [events, setEvents] = useState<EventFromApi[]>([]);
