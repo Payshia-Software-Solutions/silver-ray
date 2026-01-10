@@ -2,6 +2,7 @@
 import type { Metadata } from 'next';
 import { CareersPageClient } from '@/components/careers/CareersPageClient';
 import React from 'react';
+import { DollarSign, BarChart, Smile, Heart, Briefcase } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'Careers',
@@ -31,10 +32,34 @@ const jobOpenings = [
     },
 ];
 
+const companyValues = [
+    {
+        icon: DollarSign,
+        title: "Competitive Salary",
+        description: "We offer attractive compensation packages that recognize your skills and contributions."
+    },
+    {
+        icon: BarChart,
+        title: "Professional Growth",
+        description: "Opportunities for training, development, and career advancement within our growing organization."
+    },
+    {
+        icon: Smile,
+        title: "Vibrant Team Culture",
+        description: "Join a supportive and dynamic team that values collaboration, respect, and a passion for hospitality."
+    },
+    {
+        icon: Heart,
+        title: "Health & Wellness",
+        description: "We prioritize the well-being of our staff with comprehensive benefits and a healthy work environment."
+    }
+];
+
+
 export default function CareersPage() {
   return (
     <React.Suspense fallback={<div>Loading...</div>}>
-      <CareersPageClient jobOpenings={jobOpenings} />
+      <CareersPageClient jobOpenings={jobOpenings} companyValues={companyValues} />
     </React.Suspense>
   );
 }

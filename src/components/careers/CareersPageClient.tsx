@@ -10,7 +10,7 @@ import NextImage from 'next/image';
 import { ApplicationForm } from './ApplicationForm';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { FileText, Briefcase, MapPin } from 'lucide-react';
+import { FileText, Briefcase, MapPin, type LucideIcon } from 'lucide-react';
 import { AnimatedInView } from '@/components/shared/AnimatedInView';
 
 const applicationFormSchema = z.object({
@@ -31,11 +31,18 @@ interface JobOpening {
     description: string;
 }
 
-interface CareersPageClientProps {
-  jobOpenings: JobOpening[];
+interface CompanyValue {
+    icon: LucideIcon;
+    title: string;
+    description: string;
 }
 
-export function CareersPageClient({ jobOpenings }: CareersPageClientProps) {
+interface CareersPageClientProps {
+  jobOpenings: JobOpening[];
+  companyValues: CompanyValue[];
+}
+
+export function CareersPageClient({ jobOpenings, companyValues }: CareersPageClientProps) {
   const searchParams = useSearchParams();
   const positionFromQuery = searchParams.get('position');
   const formRef = useRef<HTMLDivElement>(null);
@@ -86,6 +93,27 @@ export function CareersPageClient({ jobOpenings }: CareersPageClientProps) {
       </section>
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
+        
+        <section id="why-join-us" className="mb-16">
+            <div className="text-center mb-12">
+                <h2 className="font-headline text-3xl font-bold mb-4">Why Join Grand Silver Ray?</h2>
+                <p className="text-lg text-muted-foreground max-w-2xl mx-auto">We believe in nurturing talent and fostering a supportive environment where our team can thrive.</p>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 max-w-5xl mx-auto">
+                {companyValues.map((value, index) => (
+                    <AnimatedInView key={index} delay={index * 0.1}>
+                        <div className="text-center p-6">
+                            <div className="inline-flex items-center justify-center p-4 bg-primary/10 rounded-full mb-4">
+                                <value.icon className="w-8 h-8 text-primary" />
+                            </div>
+                            <h3 className="font-headline text-xl font-semibold mb-2">{value.title}</h3>
+                            <p className="text-sm text-muted-foreground">{value.description}</p>
+                        </div>
+                    </AnimatedInView>
+                ))}
+            </div>
+        </section>
+
         <div className="lg:grid lg:grid-cols-1 lg:gap-12 lg:items-start">
             <div id="job-openings">
               <h2 className="font-headline text-3xl font-bold mb-8 text-center">Current Openings</h2>
