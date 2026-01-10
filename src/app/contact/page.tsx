@@ -1,13 +1,18 @@
 
-"use client";
-
+import type { Metadata } from 'next';
 import NextImage from 'next/image';
 import { ContactForm } from '@/components/contact/ContactForm';
 import { Mail, Phone, MapPin, Instagram, Facebook, Twitter, Plane, CarFront, Car, Youtube } from 'lucide-react';
 
-// Metadata export will be ignored in client components.
-// If metadata is crucial, consider moving this page to a server component structure
-// or defining metadata in a parent layout.
+export const metadata: Metadata = {
+  title: 'Contact Us',
+  description: 'Get in touch with Grand Silver Ray. Find our contact details, address, and location in Ratnapura. We are here to assist you with bookings, inquiries, and events.',
+  openGraph: {
+    title: 'Contact Grand Silver Ray',
+    description: 'We are here to help. Contact us for reservations, event planning, or any inquiries.',
+    images: ['https://content-provider.payshia.com/silver-ray/gallery-images/1/contact-68dd6a5542ad8.jpg'],
+  },
+};
 
 export default function ContactPage() {
   return (
