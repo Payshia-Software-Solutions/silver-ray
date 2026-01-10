@@ -66,9 +66,13 @@ export function EventCard({ event }: EventCardProps) {
                 {category}
             </div>
         </div>
-        {accept_booking === "1" && (
+        {accept_booking === "1" ? (
             <Button asChild className="w-full mt-auto bg-primary text-primary-foreground hover:bg-primary/90 rounded-full h-11">
                 <Link href={detailUrl} target="_blank" rel="noopener noreferrer">Book Now</Link>
+            </Button>
+        ) : (
+             <Button disabled variant="outline" className="w-full mt-auto rounded-full h-11">
+                Sold Out
             </Button>
         )}
       </CardContent>
