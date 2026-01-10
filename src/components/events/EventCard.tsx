@@ -16,7 +16,7 @@ export interface EventCardProps {
 }
 
 export function EventCard({ event }: EventCardProps) {
-  const { id, name, date, category, slug, imageUrl: rawImageUrl } = event;
+  const { id, name, date, category, slug, imageUrl: rawImageUrl, accept_booking } = event;
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -66,9 +66,11 @@ export function EventCard({ event }: EventCardProps) {
                 {category}
             </div>
         </div>
-        <Button asChild className="w-full mt-auto bg-primary text-primary-foreground hover:bg-primary/90 rounded-full h-11">
-          <Link href={detailUrl} target="_blank" rel="noopener noreferrer">Book Now</Link>
-        </Button>
+        {accept_booking === "1" && (
+            <Button asChild className="w-full mt-auto bg-primary text-primary-foreground hover:bg-primary/90 rounded-full h-11">
+                <Link href={detailUrl} target="_blank" rel="noopener noreferrer">Book Now</Link>
+            </Button>
+        )}
       </CardContent>
     </Card>
   );
