@@ -7,7 +7,7 @@ import { handleApiResponse, cleanImageUrl } from '@/lib/apiClient';
 
 export async function getEvents(): Promise<EventFromApi[]> {
   try {
-    const response = await fetch(`${API_BASE_URL}/events`, {
+    const response = await fetch(`/api/events`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -104,5 +104,3 @@ export async function getEventImagesByEventId(eventId: string): Promise<EventIma
     return [];
   }
 }
-
-    
