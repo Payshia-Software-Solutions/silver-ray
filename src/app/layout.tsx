@@ -26,6 +26,10 @@ export const metadata: Metadata = {
     description: 'Experience luxury and top-tier hospitality at Grand Silver Ray. Your perfect destination for weddings, dining, and relaxing stays.',
     images: ['https://content-provider.payshia.com/silver-ray/other/IMG_6722-6947156a07530-optimized.webp'],
   },
+  icons: {
+    icon: 'https://content-provider.payshia.com/silver-ray/favicon/favicon.ico',
+    apple: 'https://content-provider.payshia.com/silver-ray/favicon/apple-touch-icon.png',
+  },
 };
 
 export default function RootLayout({
@@ -39,10 +43,6 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=PT+Sans:wght@400;700&display=swap" rel="stylesheet" />
-        <link rel="apple-touch-icon" sizes="180x180" href="https://content-provider.payshia.com/silver-ray/favicon/apple-touch-icon.png" />
-        <link rel="icon" type="image/png" sizes="32x32" href="https://content-provider.payshia.com/silver-ray/favicon/favicon-32x32.png" />
-        <link rel="icon" type="image/png" sizes="16x16" href="https://content-provider.payshia.com/silver-ray/favicon/favicon-16x16.png" />
-        <link rel="icon" href="https://content-provider.payshia.com/silver-ray/favicon/favicon.ico" sizes="any" />
       </head>
       <body className="font-body antialiased min-h-screen flex flex-col" suppressHydrationWarning={true}>
         <Snowfall />
