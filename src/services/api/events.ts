@@ -13,7 +13,9 @@ export async function getEvents(): Promise<EventFromApi[]> {
             'Content-Type': 'application/json',
         },
     });
-    return handleApiResponse<EventFromApi[]>(response);
+    const data = await handleApiResponse<EventFromApi[]>(response);
+    // Ensure the response is always an array
+    return Array.isArray(data) ? data : [data];
   } catch (error) {
     console.error('Failed to fetch events:', error);
     throw error;
@@ -42,12 +44,7 @@ export async function getEventById(id: string): Promise<EventFromApi | null> {
 
 export async function getEventBySlug(slug: string): Promise<EventFromApi | null> {
     try {
-        const response = await fetch(`${API_BASE_URL}/events/${slug}`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
+        const response = await fetch(`/api/events?slug=${slug}`);
         if (response.status === 404) {
             return null;
         }
