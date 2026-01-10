@@ -1,6 +1,7 @@
 
 import type { Metadata } from 'next';
 import { CareersPageClient } from '@/components/careers/CareersPageClient';
+import React from 'react';
 
 export const metadata: Metadata = {
   title: 'Careers',
@@ -20,5 +21,9 @@ export default function CareersPage() {
   ];
   const jobTitles = jobOpenings.map(j => j.title);
 
-  return <CareersPageClient jobTitles={jobTitles} />;
+  return (
+    <React.Suspense fallback={<div>Loading...</div>}>
+      <CareersPageClient jobTitles={jobTitles} />
+    </React.Suspense>
+  );
 }

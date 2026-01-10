@@ -35,6 +35,7 @@ function EventHero({ title, imageUrl, imageHint }: { title: string, imageUrl: st
         fill
         className="object-cover"
         priority
+        unoptimized
       />
       <div className="absolute inset-0 bg-black/60" />
       <div className="relative z-10 p-6 max-w-4xl">
@@ -76,6 +77,7 @@ function EventContentLayout({ event }: { event: EventDetail }) {
                   data-ai-hint={image.hint}
                   fill
                   className="object-cover transition-transform duration-300 group-hover:scale-105"
+                  unoptimized
                 />
               </div>
             ))}
@@ -92,6 +94,7 @@ export default function EventDetailPage() {
   const slug = params.slug as string;
 
   const [event, setEvent] = useState<EventDetail | null>(null);
+  const [apiEvent, setApiEvent] = useState<EventFromApi | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -101,31 +104,29 @@ export default function EventDetailPage() {
     const fetchEventData = async () => {
       try {
         setIsLoading(true);
-        // This function does not exist in the new API, so we comment it out.
-        // const apiEvent = await getEventBySlug(slug);
-        const allEvents = await fetch('/api/events').then(res => res.json());
-        const apiEvent = allEvents.find((e: EventFromApi) => e.slug === slug);
+        const apiEventData = await getEventBySlug(slug);
 
-
-        if (!apiEvent) {
+        if (!apiEventData) {
           notFound();
           return;
         }
 
+        setApiEvent(apiEventData);
+
         const imageContentProviderBaseUrl = 'https://content-provider.gotickets.lk';
-        const heroImageUrl = `${imageContentProviderBaseUrl}${apiEvent.imageUrl}`;
+        const heroImageUrl = `${imageContentProviderBaseUrl}${apiEventData.imageUrl}`;
 
         const mappedEvent: EventDetail = {
-            id: String(apiEvent.id),
-            name: apiEvent.name,
-            description: apiEvent.description,
+            id: String(apiEventData.id),
+            name: apiEventData.name,
+            description: apiEventData.description,
             heroImageUrl: heroImageUrl,
-            heroImageHint: apiEvent.name,
+            heroImageHint: apiEventData.name,
             galleryImages: [], // The new API does not seem to provide a gallery per event
             details: [
-                { icon: Calendar, label: 'Date', value: new Date(apiEvent.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' }) },
-                { icon: MapPin, label: 'Venue', value: apiEvent.venueName },
-                { icon: Tag, label: 'Category', value: <Badge variant="outline" className="text-sm">{apiEvent.category}</Badge> },
+                { icon: Calendar, label: 'Date', value: new Date(apiEventData.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' }) },
+                { icon: MapPin, label: 'Venue', value: apiEventData.venueName },
+                { icon: Tag, label: 'Category', value: <Badge variant="outline" className="text-sm">{apiEventData.category}</Badge> },
             ]
         };
 
@@ -166,7 +167,7 @@ export default function EventDetailPage() {
     return <div className="container text-center py-20 text-destructive">{error}</div>;
   }
   
-  if (!event) {
+  if (!event || !apiEvent) {
     return null;
   }
 
@@ -193,11 +194,17 @@ export default function EventDetailPage() {
               <p className="font-body text-sm text-muted-foreground mb-6">
                 Secure your spot for this event. Tickets are available through our official partner.
               </p>
-              <Button asChild size="lg" className="w-full" disabled={!event.id}>
-                <a href={`https://gotickets.silverray.lk/events/${slug}`} target="_blank" rel="noopener noreferrer">
-                  Book on GoTickets.lk
-                </a>
-              </Button>
+                {apiEvent.accept_booking === "1" ? (
+                    <Button asChild size="lg" className="w-full">
+                        <a href={`https://gotickets.silverray.lk/events/${slug}`} target="_blank" rel="noopener noreferrer">
+                        Book on GoTickets.lk
+                        </a>
+                    </Button>
+                ) : (
+                    <Button size="lg" className="w-full" disabled>
+                        Sold Out
+                    </Button>
+                )}
             </div>
           </div>
         </div>
