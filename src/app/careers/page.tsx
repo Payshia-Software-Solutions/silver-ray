@@ -13,17 +13,28 @@ export const metadata: Metadata = {
   },
 };
 
-export default function CareersPage() {
-  const jobOpenings = [
-    { id: 'concierge', title: 'Concierge' },
-    { id: 'restaurant-supervisor', title: 'Restaurant Supervisor' },
-    { id: 'stores-assistant', title: 'Stores Assistant' },
-  ];
-  const jobTitles = jobOpenings.map(j => j.title);
+const jobOpenings = [
+    { 
+        id: 'concierge', 
+        title: 'Concierge',
+        description: 'Be the first point of contact for our guests, providing exceptional service and local recommendations to ensure a memorable stay.'
+    },
+    { 
+        id: 'restaurant-supervisor', 
+        title: 'Restaurant Supervisor',
+        description: 'Oversee daily restaurant operations, lead the service team, and ensure guests enjoy an outstanding dining experience.'
+    },
+    { 
+        id: 'stores-assistant', 
+        title: 'Stores Assistant',
+        description: 'Manage inventory, receive and organize supplies, and maintain stock levels to support smooth hotel operations.'
+    },
+];
 
+export default function CareersPage() {
   return (
     <React.Suspense fallback={<div>Loading...</div>}>
-      <CareersPageClient jobTitles={jobTitles} />
+      <CareersPageClient jobOpenings={jobOpenings} />
     </React.Suspense>
   );
 }
