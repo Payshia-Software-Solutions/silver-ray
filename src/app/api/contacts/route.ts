@@ -3,6 +3,14 @@
 import {NextResponse} from 'next/server';
 import nodemailer from 'nodemailer';
 
+const contactRecipients = [
+    'Reservation@silverray.lk',
+    'gm@silverray.lk',
+    'pubudug@kdugroup.com',
+    'sanjayad@silverray.lk',
+    'chalanik@silverray.lk'
+];
+
 export async function POST(request: Request) {
   try {
     const body = await request.json();
@@ -39,7 +47,7 @@ export async function POST(request: Request) {
     // Email to Admin
     const adminMailOptions = {
       from: `"${body.name}" <${process.env.SMTP_FROM_EMAIL}>`,
-      to: 'thilinaruwan112@gmail.com',
+      to: contactRecipients.join(','),
       replyTo: body.email,
       subject: `New Contact Form Message: ${body.subject || 'No Subject'}`,
       html: `
@@ -86,7 +94,7 @@ export async function POST(request: Request) {
         to: body.email,
         subject: `We've Received Your Message | Grand Silver Ray`,
         html: `
-            <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 20px auto; border: 1px solid #ddd; border-radius: 8px; overflow: hidden;">
+            <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-w: 600px; margin: 20px auto; border: 1px solid #ddd; border-radius: 8px; overflow: hidden;">
                 <div style="background-color: #f4f4f4; padding: 20px; text-align: center;">
                     <h1 style="margin: 0; color: #333; font-size: 24px;">Thank You for Contacting Us!</h1>
                 </div>
