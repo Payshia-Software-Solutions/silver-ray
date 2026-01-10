@@ -31,8 +31,12 @@ import {
 } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Admin Dashboard',
-  description: 'Overview of hotel management at Grand Silver Ray.',
+  title: 'Admin Dashboard | Grand Silver Ray',
+  description: 'Admin dashboard for managing hotel operations at Grand Silver Ray, including bookings, rooms, and guest messages.',
+  robots: {
+    index: false,
+    follow: false,
+  }
 };
 
 interface StatCardProps {

@@ -9,8 +9,13 @@ import {
 import Link from 'next/link';
 
 export const metadata: Metadata = {
-  title: 'Frequently Asked Questions',
-  description: 'Find answers to common questions about Grand Silver Ray hotel, including location, amenities, and booking information.',
+  title: 'Frequently Asked Questions | Grand Silver Ray',
+  description: 'Find answers to common questions about Grand Silver Ray hotel, including location, amenities, dining, events, and booking information in Ratnapura.',
+  openGraph: {
+    title: 'FAQs | Grand Silver Ray',
+    description: 'Get answers to your questions about our hotel, services, and policies. Plan your visit to Ratnapura with confidence.',
+    images: ['https://content-provider.payshia.com/silver-ray/other/contact-68dd6a5542ad8.jpg'],
+  },
 };
 
 const faqItems = [

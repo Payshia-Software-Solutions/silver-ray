@@ -4,8 +4,12 @@ import Link from 'next/link';
 import { ChevronRight } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Sitemap',
-  description: 'Website sitemap for Grand Silver Ray.',
+  title: 'Sitemap | Grand Silver Ray',
+  description: 'Navigate the Grand Silver Ray website with our sitemap. Find links to all our pages including rooms, dining, weddings, contact, and more.',
+  openGraph: {
+    title: 'Sitemap | Grand Silver Ray',
+    description: 'Find all pages and sections of the Grand Silver Ray hotel website.',
+  },
 };
 
 interface SitemapSectionProps {

@@ -1,8 +1,13 @@
+
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Privacy Policy',
-  description: 'Privacy Policy for LuxeStay.',
+  title: 'Privacy Policy | Grand Silver Ray',
+  description: 'Read the privacy policy for Grand Silver Ray. We are committed to protecting your personal information and your right to privacy when using our services.',
+  openGraph: {
+    title: 'Privacy Policy | Grand Silver Ray',
+    description: 'Understand how we collect, use, and protect your data at Grand Silver Ray.',
+  },
 };
 
 export default function PrivacyPolicyPage() {
@@ -18,10 +23,10 @@ export default function PrivacyPolicyPage() {
 
           <h2 className="font-headline">Introduction</h2>
           <p>
-            Welcome to LuxeStay ("us", "we", or "our"). We are committed to protecting your personal information and your right to privacy. If you have any questions or concerns about our policy, or our practices with regards to your personal information, please contact us at privacy@luxestay.com.
+            Welcome to Grand Silver Ray ("us", "we", or "our"). We are committed to protecting your personal information and your right to privacy. If you have any questions or concerns about our policy, or our practices with regards to your personal information, please contact us at reservation@silverray.lk.
           </p>
           <p>
-            When you visit our website luxestay.com (the "Website"), and use our services, you trust us with your personal information. We take your privacy very seriously. In this privacy notice, we describe our privacy policy. We seek to explain to you in the clearest way possible what information we collect, how we use it and what rights you have in relation to it. We hope you take some time to read through it carefully, as it is important. If there are any terms in this privacy policy that you do not agree with, please discontinue use of our Sites and our services.
+            When you visit our website and use our services, you trust us with your personal information. We take your privacy very seriously. In this privacy notice, we describe our privacy policy. We seek to explain to you in the clearest way possible what information we collect, how we use it and what rights you have in relation to it. We hope you take some time to read through it carefully, as it is important. If there are any terms in this privacy policy that you do not agree with, please discontinue use of our Sites and our services.
           </p>
 
           <h2 className="font-headline">Information We Collect</h2>
@@ -56,12 +61,12 @@ export default function PrivacyPolicyPage() {
 
           <h2 className="font-headline">Contact Us</h2>
           <p>
-            If you have questions or comments about this policy, you may email us at privacy@luxestay.com or by post to:
+            If you have questions or comments about this policy, you may email us at reservation@silverray.lk or by post to:
           </p>
           <p>
-            LuxeStay<br />
+            Grand Silver Ray<br />
             Attn: Privacy Officer<br />
-            123 Luxury Lane, Paradise City, PC 12345
+            Lellopitiya Dipitigala, Ratnapura, Sri Lanka.
           </p>
         </div>
       </div>
