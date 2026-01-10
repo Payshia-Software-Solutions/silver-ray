@@ -8,6 +8,7 @@ import { EngagementSection } from '@/components/home/EngagementSection';
 import { FeaturedDiningSection } from '@/components/home/FeaturedDiningSection';
 import { WeddingHighlightsSection } from '@/components/home/WeddingHighlightsSection';
 import { FaqSection } from '@/components/home/FaqSection';
+import { FeaturedEventsSection } from '@/components/home/FeaturedEventsSection';
 
 export const metadata: Metadata = {
   description: 'Welcome to Grand Silver Ray, the premier luxury hotel in Ratnapura. Specializing in elegant weddings, grand banquets, fine dining, and exquisite accommodations.',
@@ -27,6 +28,7 @@ export default function HomePage() {
       </section>
       <WeddingHighlightsSection />
       <EngagementSection />
+      <FeaturedEventsSection />
       <FeaturedDiningSection />
       <FeaturedRoomsSection />
       <TestimonialsSection />
