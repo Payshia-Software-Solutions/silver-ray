@@ -86,48 +86,48 @@ export function CareersPageClient({ jobOpenings }: CareersPageClientProps) {
       </section>
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 items-start">
-          <div className="lg:col-span-2">
-            <h2 className="font-headline text-3xl font-bold mb-8">Current Openings</h2>
-            <div className="space-y-6">
-              {jobOpenings.map((job, index) => (
-                <AnimatedInView key={job.id} delay={index * 0.1}>
-                    <Card className="shadow-lg hover:shadow-xl transition-shadow">
-                        <CardContent className="p-6 flex flex-col sm:flex-row sm:items-center sm:justify-between">
-                            <div className="flex-1 mb-4 sm:mb-0">
-                                <h3 className="font-headline text-xl font-semibold text-primary">{job.title}</h3>
-                                <p className="text-sm text-muted-foreground mt-1 mb-3">{job.description}</p>
-                                <div className="flex items-center text-xs text-muted-foreground gap-x-4">
-                                    <span className="flex items-center"><MapPin className="w-3.5 h-3.5 mr-1" /> Ratnapura, Sri Lanka</span>
-                                    <span className="flex items-center"><Briefcase className="w-3.5 h-3.5 mr-1" /> Full-time</span>
-                                </div>
-                            </div>
-                            <Button onClick={() => handleApplyClick(job.title)} className="w-full sm:w-auto shrink-0">
-                                Apply Now
-                            </Button>
-                        </CardContent>
-                    </Card>
-                </AnimatedInView>
-              ))}
+        <div className="lg:grid lg:grid-cols-1 lg:gap-12 lg:items-start">
+            <div id="job-openings">
+              <h2 className="font-headline text-3xl font-bold mb-8 text-center">Current Openings</h2>
+              <div className="space-y-6 max-w-3xl mx-auto">
+                {jobOpenings.map((job, index) => (
+                  <AnimatedInView key={job.id} delay={index * 0.1}>
+                      <Card className="shadow-lg hover:shadow-xl transition-shadow">
+                          <CardContent className="p-6 flex flex-col sm:flex-row sm:items-center sm:justify-between">
+                              <div className="flex-1 mb-4 sm:mb-0">
+                                  <h3 className="font-headline text-xl font-semibold text-primary">{job.title}</h3>
+                                  <p className="text-sm text-muted-foreground mt-1 mb-3">{job.description}</p>
+                                  <div className="flex items-center text-xs text-muted-foreground gap-x-4">
+                                      <span className="flex items-center"><MapPin className="w-3.5 h-3.5 mr-1" /> Ratnapura, Sri Lanka</span>
+                                      <span className="flex items-center"><Briefcase className="w-3.5 h-3.5 mr-1" /> Full-time</span>
+                                  </div>
+                              </div>
+                              <Button onClick={() => handleApplyClick(job.title)} className="w-full sm:w-auto shrink-0">
+                                  Apply Now
+                              </Button>
+                          </CardContent>
+                      </Card>
+                  </AnimatedInView>
+                ))}
+              </div>
             </div>
-          </div>
 
-          <div className="lg:sticky lg:top-24" ref={formRef}>
-            <Card className="shadow-xl">
-              <CardHeader>
-                <div className="flex items-center gap-3 mb-2">
-                    <FileText className="w-7 h-7 text-primary"/>
-                    <CardTitle className="font-headline text-2xl">Submit Your Application</CardTitle>
-                </div>
-                <CardDescription>
-                  Don't see a role for you? Send us your resume for future opportunities.
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <ApplicationForm form={form} jobTitles={jobTitles} />
-              </CardContent>
-            </Card>
-          </div>
+            <div className="mt-16 lg:mt-24" ref={formRef}>
+              <Card className="shadow-xl max-w-3xl mx-auto">
+                <CardHeader className="text-center">
+                  <div className="flex items-center justify-center gap-3 mb-2">
+                      <FileText className="w-7 h-7 text-primary"/>
+                      <CardTitle className="font-headline text-2xl">Submit Your Application</CardTitle>
+                  </div>
+                  <CardDescription>
+                    Don't see a role for you? Send us your resume for future opportunities.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <ApplicationForm form={form} jobTitles={jobTitles} />
+                </CardContent>
+              </Card>
+            </div>
         </div>
       </div>
     </>
