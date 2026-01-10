@@ -40,7 +40,7 @@ export function EventCard({ event }: EventCardProps) {
 
   return (
     <Card className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col h-full rounded-xl bg-card border-none">
-      <CardHeader className="p-0 relative aspect-video">
+      <CardHeader className="p-0 relative aspect-square">
         {isLoading ? (
           <Skeleton className="w-full h-full rounded-t-xl" />
         ) : (
