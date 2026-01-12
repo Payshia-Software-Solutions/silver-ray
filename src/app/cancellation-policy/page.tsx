@@ -23,10 +23,7 @@ export default function CancellationPolicyPage() {
             <p>
                 Our cancellation terms vary depending on the service booked. We aim to be as fair as possible while accounting for the commitments we make to reserve our spaces and services for you.
             </p>
-            <p>
-                All cancellation requests must be submitted in writing via email or another official communication channel to be considered valid.
-            </p>
-
+            
             <h2 className="font-headline">Banquet / Event Bookings</h2>
             <ul>
                 <li><strong>More than 3 months before the event date:</strong> A full refund of any payments made will be provided, excluding the initial non-refundable deposit.</li>
@@ -40,10 +37,12 @@ export default function CancellationPolicyPage() {
                 <li><strong>Less than 1 week before the check-in date:</strong> No refund will be provided.</li>
             </ul>
 
-            <h2 className="font-headline">Processing Refunds</h2>
-            <p>
-                Refunds, if applicable according to the terms above, will be processed within 14-21 working days from the date of the cancellation confirmation.
-            </p>
+            <h2 className="font-headline">General Terms</h2>
+            <ul>
+                <li>All cancellation requests must be submitted in writing (via email or other official communication) to be considered valid.</li>
+                <li>Refunds, if applicable according to the terms above, will be processed within 14-21 working days from the date of the cancellation confirmation.</li>
+            </ul>
+            
             <p className="mt-6 border-t pt-6 text-sm text-muted-foreground">
                 For a complete overview of our policies, please refer to our full <Link href="/terms" className="underline hover:text-primary">Terms and Conditions</Link>. If you have any questions, please do not hesitate to <Link href="/contact" className="underline hover:text-primary">contact us</Link>.
             </p>
