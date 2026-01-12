@@ -10,65 +10,117 @@ export const metadata: Metadata = {
   },
 };
 
+const Section = ({ title, children }: { title: string, children: React.ReactNode }) => (
+  <div className="mb-8">
+    <h2 className="font-headline text-2xl font-bold text-foreground mb-4 pb-2 border-b border-border">
+      {title}
+    </h2>
+    <div className="space-y-4 text-foreground/80">
+      {children}
+    </div>
+  </div>
+);
+
+const ListItem = ({ children }: { children: React.ReactNode }) => (
+  <li className="flex">
+    <span className="text-primary mr-3 mt-1.5 flex-shrink-0">•</span>
+    <span>{children}</span>
+  </li>
+);
+
 export default function PrivacyPolicyPage() {
   return (
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
-      <div className="max-w-3xl mx-auto bg-card p-6 sm:p-8 md:p-10 rounded-xl shadow-xl">
-        <h1 className="font-headline text-3xl sm:text-4xl font-bold mb-8 text-center">
-          Privacy Policy
-        </h1>
-        
-        <div className="prose prose-lg max-w-none font-body text-foreground/90">
-          <p>Last updated: {new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
+      <div className="max-w-3xl mx-auto bg-card p-6 sm:p-8 md:p-10 rounded-xl shadow-xl font-body">
+        <header className="text-center mb-10">
+          <h1 className="font-headline text-3xl sm:text-4xl font-bold mb-2">
+            Privacy Policy
+          </h1>
+          <p className="text-muted-foreground text-sm">Silver Ray Grand Pvt Ltd | Effective Date: 2026.01.01</p>
+        </header>
 
-          <h2 className="font-headline">Introduction</h2>
-          <p>
-            Welcome to Grand Silver Ray ("us", "we", or "our"). We are committed to protecting your personal information and your right to privacy. If you have any questions or concerns about our policy, or our practices with regards to your personal information, please contact us at reservation@silverray.lk.
-          </p>
-          <p>
-            When you visit our website and use our services, you trust us with your personal information. We take your privacy very seriously. In this privacy notice, we describe our privacy policy. We seek to explain to you in the clearest way possible what information we collect, how we use it and what rights you have in relation to it. We hope you take some time to read through it carefully, as it is important. If there are any terms in this privacy policy that you do not agree with, please discontinue use of our Sites and our services.
+        <main>
+          <p className="mb-8 text-foreground/80">
+            Silver Ray Grand Pvt Ltd is committed to protecting and respecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our services, including our Banquet halls, Rooms, and Restaurant services.
           </p>
 
-          <h2 className="font-headline">Information We Collect</h2>
-          <p>
-            We collect personal information that you voluntarily provide to us when registering at the Website, expressing an interest in obtaining information about us or our products and services, when participating in activities on the Website or otherwise contacting us.
-          </p>
-          <p>
-            The personal information that we collect depends on the context of your interactions with us and the Website, the choices you make and the products and features you use. The personal information we collect can include the following: Name and Contact Data, Credentials, Payment Data.
-          </p>
+          <Section title="1. Company Information">
+            <ul className="space-y-2">
+              <ListItem><strong>Company Name:</strong> Silver Ray Grand Pvt Ltd</ListItem>
+              <ListItem><strong>Address:</strong> Dippitigala, Lellopitiya</ListItem>
+              <ListItem><strong>Contact Number:</strong> 0452 274 764</ListItem>
+            </ul>
+          </Section>
 
-          <h2 className="font-headline">How We Use Your Information</h2>
-          <p>
-            We use personal information collected via our Website for a variety of business purposes described below. We process your personal information for these purposes in reliance on our legitimate business interests, in order to enter into or perform a contract with you, with your consent, and/or for compliance with our legal obligations.
-          </p>
-          <ul>
-            <li>To facilitate account creation and logon process.</li>
-            <li>To send administrative information to you.</li>
-            <li>To fulfill and manage your orders/bookings.</li>
-            <li>To post testimonials.</li>
-            <li>Request Feedback.</li>
-          </ul>
-
-          <h2 className="font-headline">Will Your Information Be Shared With Anyone?</h2>
-          <p>
-            We only share information with your consent, to comply with laws, to provide you with services, to protect your rights, or to fulfill business obligations.
-          </p>
+          <Section title="2. Information We Collect">
+            <p>We may collect the following types of information:</p>
+            <h3 className="font-semibold text-lg text-foreground mt-4 mb-2">a. Personal Information</h3>
+            <ul className="space-y-2">
+              <ListItem>Name</ListItem>
+              <ListItem>Contact number</ListItem>
+              <ListItem>Email address</ListItem>
+              <ListItem>Address</ListItem>
+              <ListItem>Identification details (if required for room bookings or legal purposes)</ListItem>
+            </ul>
+            <h3 className="font-semibold text-lg text-foreground mt-4 mb-2">b. Booking and Service Information</h3>
+            <ul className="space-y-2">
+              <ListItem>Reservation details (banquet halls, rooms, restaurant bookings)</ListItem>
+              <ListItem>Event details</ListItem>
+              <ListItem>Payment-related information (processed securely through authorized payment providers)</ListItem>
+            </ul>
+            <h3 className="font-semibold text-lg text-foreground mt-4 mb-2">c. Automatically Collected Information</h3>
+            <ul className="space-y-2">
+              <ListItem>Date and time of inquiries</ListItem>
+              <ListItem>Communication records (calls, messages, emails)</ListItem>
+            </ul>
+          </Section>
           
-          <h2 className="font-headline">Changes to This Policy</h2>
-          <p>
-            We may update this privacy policy from time to time. The updated version will be indicated by an updated "Last updated" date and the updated version will be effective as soon as it is accessible. We encourage you to review this privacy policy frequently to be informed of how we are protecting your information.
-          </p>
+          <Section title="3. How We Use Your Information">
+            <p>We use your information to:</p>
+            <ul className="space-y-2">
+                <ListItem>Process reservations and bookings</ListItem>
+                <ListItem>Provide hospitality and customer services</ListItem>
+                <ListItem>Communicate with you regarding inquiries, confirmations, or changes</ListItem>
+                <ListItem>Improve our services and customer experience</ListItem>
+                <ListItem>Comply with legal and regulatory requirements</ListItem>
+            </ul>
+          </Section>
 
-          <h2 className="font-headline">Contact Us</h2>
-          <p>
-            If you have questions or comments about this policy, you may email us at reservation@silverray.lk or by post to:
-          </p>
-          <p>
-            Grand Silver Ray<br />
-            Attn: Privacy Officer<br />
-            Lellopitiya Dipitigala, Ratnapura, Sri Lanka.
-          </p>
-        </div>
+          <Section title="4. Sharing of Information">
+            <p>We do not sell, rent, or trade your personal information. We may share information only:</p>
+            <ul className="space-y-2">
+                <ListItem>With trusted service providers involved in payment processing or service delivery</ListItem>
+                <ListItem>When required by law, regulation, or legal process</ListItem>
+                <ListItem>To protect the rights, property, or safety of Silver Ray Grand Pvt Ltd, our customers, or others</ListItem>
+            </ul>
+          </Section>
+
+          <Section title="5. Data Security">
+            <p>We take reasonable administrative, technical, and physical measures to protect your personal information from unauthorized access, misuse, or disclosure.</p>
+          </Section>
+
+          <Section title="6. Data Retention">
+            <p>We retain personal information only for as long as necessary to fulfill the purposes outlined in this policy or as required by law.</p>
+          </Section>
+
+          <Section title="7. Your Rights">
+            <p>You have the right to:</p>
+            <ul className="space-y-2">
+                <ListItem>Request access to your personal information</ListItem>
+                <ListItem>Request correction of inaccurate information</ListItem>
+                <ListItem>Request deletion of your data, subject to legal obligations</ListItem>
+            </ul>
+            <p className="mt-4">To exercise these rights, please contact us using the details provided.</p>
+          </Section>
+
+          <Section title="8. Third-Party Links">
+             <p>Our services may include links to third-party websites or services. We are not responsible for the privacy practices of those third parties.</p>
+          </Section>
+
+          <Section title="9. Changes to This Privacy Policy">
+            <p>We may update this Privacy Policy from time to time. Any changes will be effective immediately upon posting.</p>
+          </Section>
+        </main>
       </div>
     </div>
   );
